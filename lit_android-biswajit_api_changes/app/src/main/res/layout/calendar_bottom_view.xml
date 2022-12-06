@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:weightSum="2">
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/tv_active"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/futura_std_condensed"
+            android:text="Active Days"
+            android:textAllCaps="true"
+            android:textColor="@color/mono_grey_60"
+            android:textSize="@dimen/_12ssp" />
+
+        <TextView
+            android:id="@+id/tv_active_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_active"
+            android:fontFamily="@font/futura_std_condensed_bold"
+            android:textAllCaps="true"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_17ssp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/tv_class_taken"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/futura_std_condensed"
+            android:text="Classes Taken"
+            android:textAllCaps="true"
+            android:textColor="@color/mono_grey_60"
+            android:textSize="@dimen/_12ssp" />
+
+        <TextView
+            android:id="@+id/tv_class_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_class_taken"
+            android:fontFamily="@font/futura_std_condensed_bold"
+            android:textAllCaps="true"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_17ssp" />
+    </RelativeLayout>
+</LinearLayout>

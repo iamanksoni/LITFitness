@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <!-- Your fitness level-->
+    <LinearLayout
+        android:id="@+id/ll_fitness_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="1.3">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/_5sdp"
+            android:layout_weight="1"
+            android:fontFamily="@font/futura_std_condensed_extra_bd"
+            android:singleLine="true"
+            android:text="Your fitness level"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_13ssp" />
+
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_fitness"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ll_fitness_header"
+        android:layout_marginTop="@dimen/_15sdp"
+        android:textAllCaps="true" />
+
+    <View
+        android:id="@+id/vw_3"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_1sdp"
+        android:layout_below="@+id/rv_fitness"
+        android:layout_marginTop="@dimen/_18sdp"
+        android:layout_marginBottom="@dimen/_18sdp"
+        android:background="#338F92A1" />
+
+    <!-- Your interests-->
+    <LinearLayout
+        android:id="@+id/ll_interests_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@id/vw_3"
+        android:weightSum="1.3">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/_5sdp"
+            android:layout_weight="1"
+            android:fontFamily="@font/futura_std_condensed_extra_bd"
+            android:singleLine="true"
+            android:text="Your interests"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_13ssp" />
+
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_interest"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ll_interests_header"
+        android:layout_marginTop="@dimen/_15sdp"
+        android:textAllCaps="true" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_change_intesert"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_50sdp"
+        android:layout_below="@+id/rv_interest"
+        android:layout_marginTop="@dimen/_8sdp"
+        android:fontFamily="@font/futura_std_condensed_extra_bd"
+        android:lineSpacingExtra="4sp"
+        android:singleLine="true"
+        android:text="Change Interest"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_10ssp"
+        android:visibility="visible"
+        app:cornerRadius="@dimen/_6sdp"
+        app:elevation="@dimen/_5sdp"
+        app:strokeColor="@color/mono_grey_100"
+        app:strokeWidth="1dp" />
+
+    <View
+        android:id="@+id/vw_2"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_1sdp"
+        android:layout_below="@+id/btn_change_intesert"
+        android:layout_marginTop="@dimen/_18sdp"
+        android:layout_marginBottom="@dimen/_18sdp"
+        android:background="#338F92A1" />
+
+    <!-- Your equipment-->
+    <LinearLayout
+        android:id="@+id/ll_equipment_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@id/vw_2"
+        android:weightSum="1.3">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/_5sdp"
+            android:layout_weight="1"
+            android:fontFamily="@font/futura_std_condensed_extra_bd"
+            android:singleLine="true"
+            android:text="Your equipment"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_13ssp" />
+
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_equipment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ll_equipment_header"
+        android:layout_marginTop="@dimen/_15sdp"
+        android:textAllCaps="true" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_change_equipment"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_50sdp"
+        android:layout_below="@+id/rv_equipment"
+        android:layout_marginTop="@dimen/_8sdp"
+        android:fontFamily="@font/futura_std_condensed_extra_bd"
+        android:lineSpacingExtra="4sp"
+        android:singleLine="true"
+        android:text="Change Equipment"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_10ssp"
+        android:visibility="visible"
+        app:cornerRadius="@dimen/_6sdp"
+        app:elevation="@dimen/_5sdp"
+        app:strokeColor="@color/mono_grey_100"
+        app:strokeWidth="1dp" />
+
+    <View
+        android:id="@+id/vw_1"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_1sdp"
+        android:layout_below="@+id/btn_change_equipment"
+        android:layout_marginTop="@dimen/_18sdp"
+        android:layout_marginBottom="@dimen/_18sdp"
+        android:background="#338F92A1" />
+
+</RelativeLayout>

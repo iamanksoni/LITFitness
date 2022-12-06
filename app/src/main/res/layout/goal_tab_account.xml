@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <!-- Change Goals -->
+    <LinearLayout
+        android:id="@+id/ll_workout_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="1.3">
+
+        <TextView
+            android:id="@+id/tv_work_goal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/_5sdp"
+            android:layout_weight="1"
+            android:fontFamily="@font/futura_std_condensed_extra_bd"
+            android:singleLine="true"
+            android:text="Your Goals"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_13ssp" />
+
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_goal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ll_workout_header"
+        android:layout_marginTop="@dimen/_15sdp"
+        android:textAllCaps="true" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_change_goal"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_50sdp"
+        android:layout_below="@+id/rv_goal"
+        android:layout_marginTop="@dimen/_8sdp"
+        android:fontFamily="@font/futura_std_condensed_extra_bd"
+        android:lineSpacingExtra="4sp"
+        android:singleLine="true"
+        android:text="Change Goals"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_10ssp"
+        android:visibility="visible"
+        app:cornerRadius="@dimen/_6sdp"
+        app:elevation="@dimen/_5sdp"
+        app:strokeColor="@color/mono_grey_100"
+        app:strokeWidth="1dp" />
+
+    <View
+        android:id="@+id/vw_3"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_1sdp"
+        android:layout_below="@+id/btn_change_goal"
+        android:layout_marginTop="@dimen/_18sdp"
+        android:layout_marginBottom="@dimen/_18sdp"
+        android:background="#338F92A1" />
+
+<!--    <androidx.recyclerview.widget.RecyclerView-->
+<!--        android:id="@+id/rv_class_milestone"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_below="@+id/vw_3"-->
+<!--        android:layout_marginTop="@dimen/_15sdp"-->
+<!--        android:textAllCaps="true" />-->
+
+    <RelativeLayout
+        android:id="@+id/rl_card_1"
+        android:layout_below="@+id/vw_3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/ll_workout_header_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="1.3">
+
+            <TextView
+                android:id="@+id/tv_work_goal_1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/_5sdp"
+                android:layout_weight="1"
+                android:fontFamily="@font/futura_std_condensed_extra_bd"
+                android:singleLine="true"
+                android:text="CLASS MILESTONES"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_13ssp" />
+
+
+
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_home_workout_child"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ll_workout_header_1"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:textAllCaps="true" />
+
+        <View
+            android:id="@+id/vw_4"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_1sdp"
+            android:layout_below="@+id/rv_home_workout_child"
+            android:layout_marginTop="@dimen/_18sdp"
+            android:layout_marginBottom="@dimen/_18sdp"
+            android:background="#338F92A1" />
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/rl_card_2"
+        android:layout_below="@+id/rl_card_1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/ll_workout_header_2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="1.3">
+
+            <TextView
+                android:id="@+id/tv_work_goal_2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/_5sdp"
+                android:layout_weight="1"
+                android:fontFamily="@font/futura_std_condensed_extra_bd"
+                android:singleLine="true"
+                android:text="DAILY STREAKS"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_13ssp" />
+
+
+
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_home_workout_child2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ll_workout_header_2"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:textAllCaps="true" />
+
+        <View
+            android:id="@+id/vw_5"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_1sdp"
+            android:layout_below="@+id/rv_home_workout_child2"
+            android:layout_marginTop="@dimen/_18sdp"
+            android:layout_marginBottom="@dimen/_18sdp"
+            android:background="#338F92A1" />
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/rl_card_3"
+        android:layout_below="@+id/rl_card_2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/ll_workout_header_3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="1.3">
+
+            <TextView
+                android:id="@+id/tv_work_goal_3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/_5sdp"
+                android:layout_weight="1"
+                android:fontFamily="@font/futura_std_condensed_extra_bd"
+                android:singleLine="true"
+                android:text="WEEKLY STREAKS"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_13ssp" />
+
+
+
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_home_workout_child3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ll_workout_header_3"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:textAllCaps="true" />
+
+        <View
+            android:id="@+id/vw_6"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_1sdp"
+            android:layout_below="@+id/rv_home_workout_child3"
+            android:layout_marginTop="@dimen/_18sdp"
+            android:layout_marginBottom="@dimen/_18sdp"
+            android:background="#338F92A1" />
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/rl_card_4"
+        android:layout_below="@+id/rl_card_3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/ll_workout_header_4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="1.3">
+
+            <TextView
+                android:id="@+id/tv_work_goal_4"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/_5sdp"
+                android:layout_weight="1"
+                android:fontFamily="@font/futura_std_condensed_extra_bd"
+                android:singleLine="true"
+                android:text="CALORIES BURNED"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_13ssp" />
+
+
+
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_home_workout_child4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ll_workout_header_4"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:textAllCaps="true" />
+
+        <View
+            android:id="@+id/vw_7"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_1sdp"
+            android:layout_below="@+id/rv_home_workout_child4"
+            android:layout_marginTop="@dimen/_18sdp"
+            android:layout_marginBottom="@dimen/_18sdp"
+            android:background="#338F92A1" />
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/rl_card_5"
+        android:layout_below="@+id/rl_card_4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/ll_workout_header_5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="1.3">
+
+            <TextView
+                android:id="@+id/tv_work_goal_5"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/_5sdp"
+                android:layout_weight="1"
+                android:fontFamily="@font/futura_std_condensed_extra_bd"
+                android:singleLine="true"
+                android:text="WEIGHT LIFTED"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_13ssp" />
+
+<!--            <TextView-->
+<!--                android:id="@+id/tv_show_all5"-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_weight="0.3"-->
+<!--                android:background="?attr/selectableItemBackground"-->
+<!--                android:fontFamily="@font/sf_pro_display_medium"-->
+<!--                android:gravity="right"-->
+<!--                android:singleLine="true"-->
+<!--                android:text="Show all"-->
+<!--                android:textColor="@color/red"-->
+<!--                android:textSize="@dimen/_13ssp" />-->
+
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_home_workout_child5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ll_workout_header_5"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:textAllCaps="true" />
+
+        <View
+            android:id="@+id/vw_8"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_1sdp"
+            android:layout_below="@+id/rv_home_workout_child5"
+            android:layout_marginTop="@dimen/_18sdp"
+            android:layout_marginBottom="@dimen/_18sdp"
+            android:background="#338F92A1" />
+    </RelativeLayout>
+
+</RelativeLayout>

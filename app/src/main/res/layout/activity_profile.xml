@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.Onboarding.ProfileScreen.ProfileActivity">
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/nestedScrollView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            android:scrollbars="none"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/mono_black_5">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="@dimen/_15sdp">
+
+                    <ImageButton
+                        android:id="@+id/ib_back_button"
+                        android:layout_width="@dimen/_39sdp"
+                        android:layout_height="@dimen/_37sdp"
+                        android:background="@drawable/ic_back_arrow"
+                        android:contentDescription="back_button"
+                        android:padding="@dimen/_5sdp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <carbon.widget.RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="@dimen/_40sdp"
+                        android:gravity="center"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/ib_back_button">
+
+                        <TextView
+                            android:id="@+id/tv_header1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/futura_std_condensed_extra_bd"
+                            android:lineSpacingExtra="2sp"
+                            android:singleLine="true"
+                            android:text="Welcome to LIT"
+                            android:textAllCaps="true"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/_25ssp"
+                            android:translationY="-1.2sp" />
+
+                        <TextView
+                            android:id="@+id/tv_sub_header"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/tv_header1"
+                            android:layout_marginTop="@dimen/_3sdp"
+                            android:fontFamily="@font/futura_std_condensed"
+                            android:lineSpacingExtra="4sp"
+                            android:singleLine="false"
+                            android:text="Let’s get your profile set up."
+                            android:textAllCaps="true"
+                            android:textColor="@color/grey"
+                            android:textSize="@dimen/_17ssp"
+                            android:translationY="-2.2sp" />
+
+                        <carbon.widget.LinearLayout
+                            android:id="@+id/ll_fn_ln"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_120sdp"
+                            android:layout_below="@+id/tv_sub_header"
+                            android:layout_marginTop="@dimen/_30sdp"
+                            android:weightSum="1.5">
+
+                            <carbon.widget.LinearLayout
+                                android:layout_width="0dp"
+                                android:id="@+id/ll_image"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="@dimen/_5sdp"
+                                android:layout_weight="0.5">
+
+                                <androidx.cardview.widget.CardView
+                                    android:layout_width="@dimen/_90sdp"
+                                    android:layout_height="@dimen/_120sdp"
+                                    app:cardBackgroundColor="@color/mono_slate_10"
+                                    app:cardCornerRadius="@dimen/_11sdp"
+                                    app:cardElevation="@dimen/_5sdp"
+                                    app:cardPreventCornerOverlap="true">
+
+                                    <ImageView
+                                        android:layout_width="@dimen/_20sdp"
+                                        android:layout_height="@dimen/_20sdp"
+                                        android:layout_gravity="center"
+                                        android:contentDescription="cameraview"
+                                        android:scaleType="center"
+                                        android:src="@drawable/ic_camera" />
+
+                                    <ImageView
+                                        android:layout_width="match_parent"
+                                        android:id="@+id/iv_chooseimg"
+                                        android:layout_height="match_parent"
+                                        android:contentDescription="useriamge"
+                                        android:scaleType="fitXY" />
+                                </androidx.cardview.widget.CardView>
+                            </carbon.widget.LinearLayout>
+
+                            <carbon.widget.RelativeLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/_5sdp"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <carbon.widget.EditText
+                                    android:id="@+id/first_name"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="@dimen/_52sdp"
+                                    android:layout_marginTop="@dimen/_2sdp"
+                                    android:background="@color/mono_slate_10"
+                                    android:clickable="true"
+                                    android:fontFamily="@font/futura_std_condensed"
+                                    android:hint="FIRST NAME"
+                                    android:inputType="textCapSentences"
+                                    android:lineSpacingExtra="4sp"
+                                    android:maxLines="1"
+                                    android:maxLength="20"
+                                    android:paddingLeft="@dimen/_8sdp"
+                                    android:paddingRight="@dimen/_8sdp"
+                                    android:singleLine="true"
+                                    android:textColor="@color/white"
+                                    android:textColorHint="@color/grey"
+                                    android:textCursorDrawable="@null"
+                                    android:textSize="@dimen/_14ssp"
+                                    android:translationY="-2.2sp"
+                                    app:carbon_backgroundTint="@color/mono_slate_10"
+                                    app:carbon_cornerRadius="@dimen/_11sdp"
+                                    app:carbon_cursorColor="@color/red"
+                                    app:carbon_elevation="@dimen/_2sdp"/>
+
+                                <carbon.widget.EditText
+                                    android:id="@+id/last_name"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="@dimen/_52sdp"
+                                    android:layout_alignParentBottom="true"
+                                    android:background="@color/mono_slate_10"
+                                    android:fontFamily="@font/futura_std_condensed"
+                                    android:hint="LAST NAME"
+                                    android:inputType="textCapSentences"
+                                    android:lineSpacingExtra="4sp"
+                                    android:maxLines="1"
+                                    android:maxLength="20"
+                                    android:paddingLeft="@dimen/_8sdp"
+                                    android:paddingRight="@dimen/_8sdp"
+                                    android:singleLine="true"
+                                    android:textColor="@color/white"
+                                    android:textColorHint="@color/grey"
+                                    android:textCursorDrawable="@null"
+                                    android:textSize="@dimen/_14ssp"
+                                    android:translationY="-2.2sp"
+                                    app:carbon_backgroundTint="@color/mono_slate_10"
+                                    app:carbon_cornerRadius="@dimen/_11sdp"
+                                    app:carbon_cursorColor="@color/red"
+                                    app:carbon_elevation="@dimen/_2sdp"/>
+                            </carbon.widget.RelativeLayout>
+                        </carbon.widget.LinearLayout>
+
+                        <carbon.widget.EditText
+                            android:id="@+id/user_name"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_52sdp"
+                            android:layout_below="@+id/ll_fn_ln"
+                            android:layout_marginTop="@dimen/_23sdp"
+                            android:background="@color/mono_slate_10"
+                            android:fontFamily="@font/futura_std_condensed"
+                            android:hint="USERNAME"
+                            android:inputType="textCapSentences"
+                            android:lineSpacingExtra="4sp"
+                            android:maxLines="1"
+                            android:maxLength="40"
+                            android:paddingLeft="@dimen/_8sdp"
+                            android:paddingRight="@dimen/_8sdp"
+                            android:singleLine="true"
+                            android:textColor="@color/white"
+                            android:textColorHint="@color/grey"
+                            android:textCursorDrawable="@null"
+                            android:textSize="@dimen/_14ssp"
+                            android:translationY="-2.2sp"
+                            app:carbon_backgroundTint="@color/mono_slate_10"
+                            app:carbon_cornerRadius="@dimen/_11sdp"
+                            app:carbon_cursorColor="@color/red"
+                            app:carbon_elevation="@dimen/_2sdp" />
+
+                        <carbon.widget.EditText
+                            android:id="@+id/et_dob"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_52sdp"
+                            android:layout_below="@+id/user_name"
+                            android:layout_marginTop="@dimen/_23sdp"
+                            android:background="@color/mono_slate_10"
+                            android:focusable="false"
+                            android:fontFamily="@font/futura_std_condensed"
+                            android:hint="DATE OF BIRTH"
+                            android:inputType="date"
+                            android:lineSpacingExtra="4sp"
+                            android:maxLines="1"
+                            android:paddingLeft="@dimen/_8sdp"
+                            android:paddingRight="@dimen/_8sdp"
+                            android:singleLine="true"
+                            android:textColor="@color/white"
+                            android:textColorHint="@color/grey"
+                            android:textCursorDrawable="@null"
+                            android:textSize="@dimen/_14ssp"
+                            android:translationY="-2.2sp"
+                            app:carbon_backgroundTint="@color/mono_slate_10"
+                            app:carbon_cornerRadius="@dimen/_11sdp"
+                            app:carbon_cursorColor="@color/red"
+                            app:carbon_elevation="@dimen/_2sdp" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btn_next"
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_50sdp"
+                            android:layout_below="@+id/et_dob"
+                            android:layout_marginTop="@dimen/_18sdp"
+                            android:clickable="false"
+                            android:enabled="false"
+                            android:fontFamily="@font/futura_std_condensed_extra_bd"
+                            android:lineSpacingExtra="4sp"
+                            android:singleLine="true"
+                            android:text="NEXT"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/_10ssp"
+                            android:visibility="visible"
+                            app:cornerRadius="@dimen/_6sdp"
+                            app:elevation="@dimen/_5sdp"
+                            app:strokeColor="@color/red"
+                            app:strokeWidth="1dp" />
+                    </carbon.widget.RelativeLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </RelativeLayout>
+        </androidx.core.widget.NestedScrollView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">LIT</string>
+    <string name="don_t_have_an_account_sign_up"><font color='#FFFFFFFF'>Don’t have an account? </font><font color="#ED2124">Sign up</font></string>
+    <string name="have_an_account_login"><font color='#FFFFFFFF'>Have an account? </font><font color="#ED2124">Login</font></string>
+    <string name="read_more"><u>Read more</u></string>
+    <string name="during_week_one_you_will_learn_the_four_fundamentals_of_resistance_rowing_pull_push_power_and_strength">During week one, you will learn the four fundamentals of Resistance Rowing: <b>Pull, Push, Power</b> and <b>strength.</b></string>
+</resources>

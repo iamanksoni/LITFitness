@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <carbon.widget.RelativeLayout
+        android:id="@+id/rl_level_second"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_74sdp"
+        android:backgroundTintMode="add"
+        android:gravity="center"
+        android:layout_marginBottom="@dimen/_9sdp"
+        app:carbon_cornerRadius="@dimen/_11sdp">
+        <carbon.widget.LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_84sdp"
+            android:weightSum="2">
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:padding="@dimen/_10sdp">
+
+                <TextView
+                    android:id="@+id/tv_header1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/futura_std_condensed_extra_bd"
+                    android:lineSpacingExtra="4sp"
+                    android:singleLine="true"
+                    android:text="Lit strength machine"
+                    android:textAllCaps="true"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_12ssp"
+                    android:translationY="-2.2sp" />
+
+                <TextView
+                    android:id="@+id/tv_sub_header"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_header1"
+                    android:layout_marginTop="@dimen/_4sdp"
+                    android:fontFamily="@font/futura_std_medium"
+                    android:lineSpacingExtra="3sp"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:text=""
+                    android:textAllCaps="true"
+                    android:textColor="@color/mono_grey_60"
+                    android:textSize="@dimen/_11ssp"
+                    android:translationY="-1.69sp" />
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:id="@+id/iv_level"
+                    android:layout_width="@dimen/_150sdp"
+                    android:layout_height="@dimen/_80sdp"
+                    android:contentDescription="equipmentImage"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_equpment" />
+            </RelativeLayout>
+        </carbon.widget.LinearLayout>
+    </carbon.widget.RelativeLayout>
+</RelativeLayout>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_stack"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginRight="@dimen/_9sdp">
+    <carbon.widget.RelativeLayout
+        android:id="@+id/rl_stack_second"
+        android:layout_width="@dimen/_65sdp"
+        android:layout_height="@dimen/_85sdp"
+        android:background="@drawable/view_background_grey"
+        android:backgroundTintMode="add"
+        android:gravity="center">
+
+        <ImageView
+            android:id="@+id/iv_stack_image"
+            android:layout_width="@dimen/_30sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_centerHorizontal="true"
+            android:contentDescription="stack"
+            android:src="@drawable/ic_circuit_classes" />
+
+        <TextView
+            android:id="@+id/tv_stack_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/iv_stack_image"
+            android:layout_marginLeft="@dimen/_5sdp"
+            android:layout_marginTop="@dimen/_7sdp"
+            android:layout_marginRight="@dimen/_5sdp"
+            android:fontFamily="@font/futura_std_condensed_bold"
+            android:gravity="center"
+            android:text="Chest"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_10ssp" />
+
+    </carbon.widget.RelativeLayout>
+</RelativeLayout>

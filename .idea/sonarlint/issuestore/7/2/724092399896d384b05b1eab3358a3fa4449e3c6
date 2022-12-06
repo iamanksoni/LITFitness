@@ -1,0 +1,23 @@
+
+o
+java:S2293"YReplace the type specification in this constructor call with the diamond operator ("<>").(ßéÈÚ
+E
+java:S1066."/Merge this if statement with the enclosing one.(Š ÓÎ
+Œ
+java:S1319""qThe type of "progressItemsList" should be an interface such as "List" rather than the implementation "ArrayList".(¿÷Åÿÿÿÿÿ
+W
+java:S2184A"ACast one of the operands of this division operation to a "float".(³İŠœ
+_
+java:S2184B"DCast one of the operands of this subtraction operation to a "float".(œ¼”Èşÿÿÿÿ
+C
+java:S1185'"(Remove this method to simply inherit it.(ñ•´´ûÿÿÿÿ
+U
+java:S1161,":Add the "@Override" annotation above this method signature(ÕÆ¾ùıÿÿÿÿ
+d
+java:S3551,"IMake this method "synchronized" to match the parent class implementation.(ÕÆ¾ùıÿÿÿÿ
+i
+java:S16593"NDeclare "progressItemRight" and all following declarations on a separate line.(ÆÖˆúÿÿÿÿ
+F
+java:S1874:"0Remove this use of "getColor"; it is deprecated.(±øà¢
+<
+java:S1905F"&Remove this unnecessary cast to "int".(£³ ¢

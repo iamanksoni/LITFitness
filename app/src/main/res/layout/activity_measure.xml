@@ -1,0 +1,421 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:animateLayoutChanges="true"
+        android:background="@color/mono_black_5"
+        tools:context=".ui.Onboarding.MeasureScreen.MeasureActivity">
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/nestedScrollView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            android:scrollbars="none"
+            android:layout_above="@+id/btn_next">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="@dimen/_15sdp">
+
+                    <ImageButton
+                        android:id="@+id/ib_back_button"
+                        android:layout_width="@dimen/_39sdp"
+                        android:layout_height="@dimen/_37sdp"
+                        android:background="@drawable/ic_back_arrow"
+                        android:contentDescription="back_button"
+                        android:padding="@dimen/_5sdp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <carbon.widget.RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="@dimen/_40sdp"
+                        android:gravity="center"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/ib_back_button">
+
+                        <TextView
+                            android:id="@+id/tv_header1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/futura_std_condensed_extra_bd"
+                            android:lineSpacingExtra="2sp"
+                            android:singleLine="true"
+                            android:text="About you"
+                            android:textAllCaps="true"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/_25ssp"
+                            android:translationY="-1.2sp" />
+
+                        <TextView
+                            android:id="@+id/tv_sub_header"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/tv_header1"
+                            android:layout_marginTop="@dimen/_3sdp"
+                            android:fontFamily="@font/futura_std_condensed"
+                            android:lineSpacingExtra="4sp"
+                            android:singleLine="false"
+                            android:text="let’s personalize your workouts to you."
+                            android:textAllCaps="true"
+                            android:textColor="@color/grey"
+                            android:textSize="@dimen/_17ssp"
+                            android:translationY="-2.2sp" />
+
+                        <RadioGroup
+                            android:id="@+id/rg_gender"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_52sdp"
+                            android:layout_below="@+id/tv_sub_header"
+                            android:layout_marginTop="@dimen/_35sdp"
+                            android:background="@drawable/radiobutton_out_line"
+                            android:checkedButton="@+id/offer"
+                            android:orientation="horizontal"
+                            android:weightSum="3"
+                            android:elevation="@dimen/_2sdp"
+                            android:clipToOutline="true">
+
+                            <RadioButton
+                                android:id="@+id/rb_male"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_marginLeft="1dp"
+                                android:layout_marginTop="1dp"
+                                android:layout_marginBottom="1dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/toggle_widget_background"
+                                android:button="@null"
+                                android:fontFamily="@font/futura_std_condensed"
+                                android:gravity="center"
+                                android:text="Male"
+                                android:textAllCaps="true"
+                                android:textColor="@drawable/radio_text_selected" />
+
+                            <RadioButton
+                                android:id="@+id/rb_female"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_marginTop="1dp"
+                                android:layout_marginRight="1dp"
+                                android:layout_marginBottom="1dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/toggle_widget_background"
+                                android:button="@null"
+                                android:fontFamily="@font/futura_std_condensed"
+                                android:gravity="center"
+                                android:text="Female"
+                                android:textAllCaps="true"
+                                android:textColor="@drawable/radio_text_selected" />
+
+                            <RadioButton
+                                android:id="@+id/rb_other"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_marginTop="1dp"
+                                android:layout_marginRight="1dp"
+                                android:layout_marginBottom="1dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/toggle_widget_background"
+                                android:button="@null"
+                                android:fontFamily="@font/futura_std_condensed"
+                                android:gravity="center"
+                                android:text="Other"
+                                android:textAllCaps="true"
+                                android:textColor="@drawable/radio_text_selected" />
+                        </RadioGroup>
+
+                        <LinearLayout
+                            android:id="@+id/rl_hight"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/rg_gender"
+                            android:layout_marginTop="@dimen/_20sdp"
+                            android:weightSum="2">
+
+                            <RelativeLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="@dimen/_5sdp"
+                                android:layout_weight="1">
+                                <!--- for cm-->
+                                <carbon.widget.EditText
+                                    android:id="@+id/et_hight_cm"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="@dimen/_52sdp"
+                                    android:layout_marginTop="@dimen/_5sdp"
+                                    android:background="@color/mono_slate_10"
+                                    android:fontFamily="@font/futura_std_condensed"
+                                    android:hint="HEIGHT"
+                                    android:inputType="numberDecimal"
+                                    android:lineSpacingExtra="4sp"
+                                    android:maxLines="1"
+                                    android:maxLength="10"
+                                    android:paddingLeft="@dimen/_8sdp"
+                                    android:paddingRight="@dimen/_8sdp"
+                                    android:singleLine="true"
+                                    android:textColor="@color/white"
+                                    android:textColorHint="@color/grey"
+                                    android:textCursorDrawable="@null"
+                                    android:textSize="@dimen/_14ssp"
+                                    android:translationY="-2.2sp"
+                                    android:visibility="gone"
+                                    app:carbon_backgroundTint="@color/mono_slate_10"
+                                    app:carbon_cornerRadius="@dimen/_11sdp"
+                                    app:carbon_cursorColor="@color/red"
+                                    app:carbon_elevation="@dimen/_2sdp"/>
+                                <!--- for ft-->
+                                <carbon.widget.LinearLayout
+                                    android:id="@+id/ll_hight_feet_inch"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal"
+                                    android:weightSum="2"
+                                    android:visibility="visible">
+
+                                    <carbon.widget.EditText
+                                        android:id="@+id/et_hight_ft"
+                                        android:layout_width="0dp"
+                                        android:layout_height="@dimen/_52sdp"
+                                        android:layout_marginTop="@dimen/_5sdp"
+                                        android:layout_marginRight="@dimen/_3sdp"
+                                        android:layout_weight="1"
+                                        android:maxLength="5"
+                                        android:background="@color/mono_slate_10"
+                                        android:fontFamily="@font/futura_std_condensed"
+                                        android:hint="FEET"
+                                        android:inputType="numberDecimal"
+                                        android:lineSpacingExtra="4sp"
+                                        android:maxLines="1"
+                                        android:paddingLeft="@dimen/_12sdp"
+                                        android:paddingRight="@dimen/_8sdp"
+                                        android:singleLine="true"
+                                        android:textColor="@color/white"
+                                        android:textColorHint="@color/grey"
+                                        android:textCursorDrawable="@null"
+                                        android:textSize="@dimen/_14ssp"
+                                        android:translationY="-2.2sp"
+                                        app:carbon_backgroundTint="@color/mono_slate_10"
+                                        app:carbon_cornerRadius="@dimen/_11sdp"
+                                        app:carbon_cursorColor="@color/red"
+                                        app:carbon_elevation="@dimen/_2sdp"/>
+
+                                    <carbon.widget.EditText
+                                        android:id="@+id/et_hight_in"
+                                        android:layout_width="0dp"
+                                        android:layout_height="@dimen/_52sdp"
+                                        android:layout_marginLeft="@dimen/_3sdp"
+                                        android:layout_weight="1"
+                                        android:maxLength="5"
+                                        android:layout_marginTop="@dimen/_5sdp"
+                                        android:background="@color/mono_slate_10"
+                                        android:fontFamily="@font/futura_std_condensed"
+                                        android:hint="INCHES"
+                                        android:inputType="numberDecimal"
+                                        android:lineSpacingExtra="4sp"
+                                        android:maxLines="1"
+                                        android:paddingLeft="@dimen/_12sdp"
+                                        android:paddingRight="@dimen/_8sdp"
+                                        android:singleLine="true"
+                                        android:textColor="@color/white"
+                                        android:textColorHint="@color/grey"
+                                        android:textCursorDrawable="@null"
+                                        android:textSize="@dimen/_14ssp"
+                                        android:translationY="-2.2sp"
+                                        app:carbon_backgroundTint="@color/mono_slate_10"
+                                        app:carbon_cornerRadius="@dimen/_11sdp"
+                                        app:carbon_cursorColor="@color/red"
+                                        app:carbon_elevation="@dimen/_2sdp"/>
+                                </carbon.widget.LinearLayout>
+                            </RelativeLayout>
+
+                            <RelativeLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/_5sdp"
+                                android:layout_weight="1">
+
+                                <RadioGroup
+                                    android:id="@+id/rg_ft_cm"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="@dimen/_52sdp"
+                                    android:layout_marginTop="@dimen/_5sdp"
+                                    android:background="@drawable/radiobutton_out_line"
+                                    android:checkedButton="@+id/offer"
+                                    android:orientation="horizontal"
+                                    android:weightSum="2"
+                                    android:elevation="@dimen/_2sdp">
+
+                                    <RadioButton
+                                        android:id="@+id/rb_ft"
+                                        android:layout_width="0dp"
+                                        android:layout_height="match_parent"
+                                        android:layout_marginLeft="1dp"
+                                        android:layout_marginTop="1dp"
+                                        android:layout_marginBottom="1dp"
+                                        android:layout_weight="1"
+                                        android:background="@drawable/toggle_widget_background"
+                                        android:button="@null"
+                                        android:fontFamily="@font/futura_std_condensed"
+                                        android:gravity="center"
+                                        android:text="feet"
+                                        android:textAllCaps="true"
+                                        android:textColor="@drawable/radio_text_selected" />
+
+                                    <RadioButton
+                                        android:id="@+id/rb_cm"
+                                        android:layout_width="0dp"
+                                        android:layout_height="match_parent"
+                                        android:layout_marginTop="1dp"
+                                        android:layout_marginRight="1dp"
+                                        android:layout_marginBottom="1dp"
+                                        android:layout_weight="1"
+                                        android:background="@drawable/toggle_widget_background"
+                                        android:button="@null"
+                                        android:fontFamily="@font/futura_std_condensed"
+                                        android:gravity="center"
+                                        android:text="CM"
+                                        android:textAllCaps="true"
+                                        android:textColor="@drawable/radio_text_selected" />
+
+                                </RadioGroup>
+
+                            </RelativeLayout>
+                        </LinearLayout>
+
+                        <carbon.widget.LinearLayout
+                            android:id="@+id/rl_lbs_kg"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/rl_hight"
+                            android:layout_marginTop="@dimen/_20sdp"
+                            android:weightSum="2">
+
+                            <carbon.widget.RelativeLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="@dimen/_5sdp"
+                                android:layout_weight="1">
+
+                                <carbon.widget.EditText
+                                    android:id="@+id/et_weight"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="@dimen/_52sdp"
+                                    android:maxLength="10"
+                                    android:layout_centerInParent="true"
+                                    android:layout_marginTop="@dimen/_5sdp"
+                                    android:background="@color/mono_slate_10"
+                                    android:fontFamily="@font/futura_std_condensed"
+                                    android:hint="WEIGHT"
+                                    android:inputType="numberDecimal"
+                                    android:lineSpacingExtra="4sp"
+                                    android:maxLines="1"
+                                    android:paddingLeft="@dimen/_12sdp"
+                                    android:paddingRight="@dimen/_8sdp"
+                                    android:singleLine="true"
+                                    android:textColor="@color/white"
+                                    android:textColorHint="@color/grey"
+                                    android:textCursorDrawable="@null"
+                                    android:textSize="@dimen/_14ssp"
+                                    android:translationY="-2.2sp"
+                                    app:carbon_backgroundTint="@color/mono_slate_10"
+                                    app:carbon_cornerRadius="@dimen/_11sdp"
+                                    app:carbon_cursorColor="@color/red"
+                                    app:carbon_elevation="@dimen/_2sdp" />
+                            </carbon.widget.RelativeLayout>
+
+                            <RelativeLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/_5sdp"
+                                android:layout_weight="1">
+
+                                <RadioGroup
+                                    android:id="@+id/rg_lbs_kg"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="@dimen/_52sdp"
+                                    android:layout_marginTop="@dimen/_5sdp"
+                                    android:background="@drawable/radiobutton_out_line"
+                                    android:checkedButton="@+id/offer"
+                                    android:orientation="horizontal"
+                                    android:weightSum="2"
+                                    android:elevation="@dimen/_2sdp">
+
+                                    <RadioButton
+                                        android:id="@+id/rb_lbs"
+                                        android:layout_width="0dp"
+                                        android:layout_height="match_parent"
+                                        android:layout_marginLeft="1dp"
+                                        android:layout_marginTop="1dp"
+                                        android:layout_marginBottom="1dp"
+                                        android:layout_weight="1"
+                                        android:background="@drawable/toggle_widget_background"
+                                        android:button="@null"
+                                        android:fontFamily="@font/futura_std_condensed"
+                                        android:gravity="center"
+                                        android:text="lbs"
+                                        android:textAllCaps="true"
+                                        android:textColor="@drawable/radio_text_selected" />
+
+                                    <RadioButton
+                                        android:id="@+id/rb_kg"
+                                        android:layout_width="0dp"
+                                        android:layout_height="match_parent"
+                                        android:layout_marginTop="1dp"
+                                        android:layout_marginRight="1dp"
+                                        android:layout_marginBottom="1dp"
+                                        android:layout_weight="1"
+                                        android:background="@drawable/toggle_widget_background"
+                                        android:button="@null"
+                                        android:fontFamily="@font/futura_std_condensed"
+                                        android:gravity="center"
+                                        android:text="kgs"
+                                        android:textAllCaps="true"
+                                        android:textColor="@drawable/radio_text_selected" />
+
+                                </RadioGroup>
+
+                            </RelativeLayout>
+                        </carbon.widget.LinearLayout>
+
+
+                    </carbon.widget.RelativeLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </RelativeLayout>
+        </androidx.core.widget.NestedScrollView>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_next"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_50sdp"
+            android:clickable="false"
+            android:enabled="false"
+            android:fontFamily="@font/futura_std_condensed_extra_bd"
+            android:lineSpacingExtra="4sp"
+            android:singleLine="true"
+            android:text="NEXT"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_10ssp"
+            android:visibility="visible"
+            app:cornerRadius="@dimen/_6sdp"
+            app:elevation="@dimen/_5sdp"
+            app:strokeColor="@color/red"
+            app:strokeWidth="1dp"
+            android:layout_marginLeft="@dimen/_15sdp"
+            android:layout_marginRight="@dimen/_15sdp"
+            android:layout_marginBottom="@dimen/_15sdp"
+            android:layout_alignParentBottom="true"/>
+    </RelativeLayout>
+</layout>

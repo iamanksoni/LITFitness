@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/legendLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="horizontal"
+    tools:ignore="HardcodedText">
+
+    <TextView
+        android:id="@+id/legendText1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="Sun"
+        android:fontFamily="@font/futura_std_condensed_light"
+        android:textColor="@color/mono_grey_60"
+        android:textSize="@dimen/_12ssp"/>
+
+    <TextView
+        android:id="@+id/legendText2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="Mon"
+        android:fontFamily="@font/futura_std_condensed_light"
+        android:textColor="@color/mono_grey_60"
+        android:textSize="@dimen/_12ssp"/>
+
+    <TextView
+        android:id="@+id/legendText3"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="Tue"
+        android:fontFamily="@font/futura_std_condensed_light"
+        android:textColor="@color/mono_grey_60"
+        android:textSize="@dimen/_12ssp"/>
+
+    <TextView
+        android:id="@+id/legendText4"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="Wed"
+        android:fontFamily="@font/futura_std_condensed_light"
+        android:textColor="@color/mono_grey_60"
+        android:textSize="@dimen/_12ssp"/>
+
+    <TextView
+        android:id="@+id/legendText5"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="Thu"
+        android:fontFamily="@font/futura_std_condensed_light"
+        android:textColor="@color/mono_grey_60"
+        android:textSize="@dimen/_12ssp"/>
+
+    <TextView
+        android:id="@+id/legendText6"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="Fri"
+        android:fontFamily="@font/futura_std_condensed_light"
+        android:textColor="@color/mono_grey_60"
+        android:textSize="@dimen/_12ssp"/>
+
+    <TextView
+        android:id="@+id/legendText7"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="Sat"
+        android:fontFamily="@font/futura_std_condensed_light"
+        android:textColor="@color/mono_grey_60"
+        android:textSize="@dimen/_12ssp" />
+</LinearLayout>

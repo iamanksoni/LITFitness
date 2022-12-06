@@ -1,0 +1,21 @@
+
+Xkotlin:S11726"4Use "_" instead of this unused lambda parameter "b".(º‹”èıÿÿÿÿ8¨¸ÑáÌ0
+Xkotlin:S1172A"4Use "_" instead of this unused lambda parameter "b".(‘¡…æøÿÿÿÿ8¨¸ÑáÌ0
+Skotlin:S1172L"4Use "_" instead of this unused lambda parameter "b".(€øùµ8ª¸ÑáÌ0
+9kotlin:S1128"Remove this unused import.( ¯–8£‚ÒáÌ0
+9kotlin:S1128"Remove this unused import.(ğè©›8º¸ÑáÌ0
+Ckotlin:S1874¯"#Deprecated code should not be used.(¬Üª8Ä¸ÑáÌ0
+Hkotlin:S1874º"#Deprecated code should not be used.(Òòëşÿÿÿÿ8Ä¸ÑáÌ0
+Hkotlin:S1874¼"#Deprecated code should not be used.(İÚæºıÿÿÿÿ8Å¸ÑáÌ0
+rkotlin:S117Û"NRename this parameter to match the regular expression ^`?[_a-z][a-zA-Z0-9]*`?$(œÉÂÔüÿÿÿÿ8Ê¸ÑáÌ0
+rkotlin:S117Û"NRename this parameter to match the regular expression ^`?[_a-z][a-zA-Z0-9]*`?$(œÉÂÔüÿÿÿÿ8Ë¸ÑáÌ0
+rkotlin:S117Û"NRename this parameter to match the regular expression ^`?[_a-z][a-zA-Z0-9]*`?$(œÉÂÔüÿÿÿÿ8Ë¸ÑáÌ0
+rkotlin:S117Û"NRename this parameter to match the regular expression ^`?[_a-z][a-zA-Z0-9]*`?$(œÉÂÔüÿÿÿÿ8Ë¸ÑáÌ0
+wkotlin:S1186X"ZAdd a nested comment explaining why this function is empty or complete the implementation.(Åçëìÿÿÿÿÿ
+qkotlin:S1186["ZAdd a nested comment explaining why this function is empty or complete the implementation.(€Äçn
+wkotlin:S1186i"ZAdd a nested comment explaining why this function is empty or complete the implementation.(Åçëìÿÿÿÿÿ
+qkotlin:S1186l"ZAdd a nested comment explaining why this function is empty or complete the implementation.(€Äçn
+wkotlin:S1186y"ZAdd a nested comment explaining why this function is empty or complete the implementation.(Åçëìÿÿÿÿÿ
+qkotlin:S1186|"ZAdd a nested comment explaining why this function is empty or complete the implementation.(€Äçn
+xkotlin:S1186‰"ZAdd a nested comment explaining why this function is empty or complete the implementation.(Åçëìÿÿÿÿÿ
+rkotlin:S1186Œ"ZAdd a nested comment explaining why this function is empty or complete the implementation.(€Äçn
