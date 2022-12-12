@@ -16,14 +16,14 @@ import com.litmethod.android.ui.Onboarding.InjuryScreen.InjuryActivity
 import com.litmethod.android.ui.Onboarding.MeasureScreen.Util.UntiConvert
 import com.litmethod.android.utlis.UiDataObject
 
-class MeasureActivity : BaseActivity(),View.OnClickListener{
+class MeasureActivity : BaseActivity(), View.OnClickListener {
     lateinit var binding: ActivityMeasureBinding
-    var gender2:String = "Male"
-    val convert=  UntiConvert()
-    var meter:String = ""
-    var meter2:String = ""
-    var lbs:String = ""
-    var weightUnit="lbs"
+    var gender2: String = "Male"
+    val convert = UntiConvert()
+    var meter: String = ""
+    var meter2: String = ""
+    var lbs: String = ""
+    var weightUnit = "lbs"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_measure)
@@ -42,19 +42,19 @@ class MeasureActivity : BaseActivity(),View.OnClickListener{
                         binding.rbMale.typeface = typeFacebold
                         binding.rbFemale.typeface = typeFace
                         binding.rbOther.typeface = typeFace
-                        gender2 ="Male"
+                        gender2 = "Male"
                     }
                     R.id.rb_female -> {
                         binding.rbMale.typeface = typeFace
                         binding.rbFemale.typeface = typeFacebold
                         binding.rbOther.typeface = typeFace
-                        gender2 ="Female"
+                        gender2 = "Female"
                     }
                     R.id.rb_other -> {
                         binding.rbMale.typeface = typeFace
                         binding.rbFemale.typeface = typeFace
                         binding.rbOther.typeface = typeFacebold
-                        gender2 ="Other"
+                        gender2 = "Other"
                     }
                 }
             }
@@ -92,14 +92,14 @@ class MeasureActivity : BaseActivity(),View.OnClickListener{
                         binding.rbLbs.typeface = typeFacebold
                         binding.rbKg.typeface = typeFace
                         setDataKgTLbsUi()
-                        weightUnit="lbs"
-                        Log.d("thekg","the kf $lbs")
+                        weightUnit = "lbs"
+                        Log.d("thekg", "the kf $lbs")
                     }
                     R.id.rb_kg -> {
                         binding.rbLbs.typeface = typeFace
                         binding.rbKg.typeface = typeFacebold
                         setDatalbsTokg()
-                        weightUnit="kgs"
+                        weightUnit = "kgs"
                     }
                 }
             }
@@ -185,7 +185,7 @@ class MeasureActivity : BaseActivity(),View.OnClickListener{
 
             override fun afterTextChanged(s: Editable) {
                 meter = binding.etHightCm.text.toString().trim()
-                Log.d("textChnged","metr is $meter")
+                Log.d("textChnged", "metr is $meter")
                 fromValidate()
             }
         })
@@ -203,12 +203,12 @@ class MeasureActivity : BaseActivity(),View.OnClickListener{
         })
     }
 
-    private fun clickListener(){
+    private fun clickListener() {
         binding.ibBackButton.setOnClickListener(this)
         binding.btnNext.setOnClickListener(this)
     }
 
-    private fun fromValidate(){
+    private fun fromValidate() {
         editTextValueCheckIng(
             binding.etHightFt.text.toString(),
             binding.etHightIn.text.toString(),
@@ -256,17 +256,65 @@ class MeasureActivity : BaseActivity(),View.OnClickListener{
 
     }
 
+    private fun checkForAllValues(
+        et_hight_ft: String,
+        et_hight_in: String,
+        et_hight_cm: String,
+        et_weight: String
+    ): Boolean {
+        if (binding.rbFt.isChecked) {
+            when {
+                et_hight_ft.isEmpty() -> {
+                    toastMessageShow("Please enter height in feet")
+                    binding.etHightFt.requestFocus()
+                    return false
+                }
+                et_hight_in.isEmpty() -> {
+                    toastMessageShow("Please enter height in inch")
+                    binding.etHightIn.requestFocus()
+                    return false
+                }
+                et_weight.isEmpty() -> {
+                    toastMessageShow("Please enter weight")
+                    binding.etWeight.requestFocus()
+                    return false
+                }
+                else -> {
+                    // Do Nothing
+                }
+            }
+        } else if (binding.rbCm.isChecked) {
+            when {
+                et_hight_cm.isEmpty() -> {
+                    toastMessageShow("Please enter height in cm")
+                    binding.etHightCm.requestFocus()
+                    return false
+                }
+
+                et_weight.isEmpty() -> {
+                    toastMessageShow("Please enter weight")
+                    binding.etWeight.requestFocus()
+                    return false
+                }
+                else -> {
+                    // Do Nothing
+                }
+            }
+        }
+        return true
+    }
+
     private fun nextButtonInactive() {
         binding.btnNext.backgroundTintList = null
-        binding.btnNext.isEnabled = false
-        binding.btnNext.isClickable = false
+//        binding.btnNext.isEnabled = false
+//        binding.btnNext.isClickable = false
     }
 
     private fun nextButtonactive() {
         val colorInt = resources.getColor(R.color.red)
         binding.btnNext.backgroundTintList = ColorStateList.valueOf(colorInt)
-        binding.btnNext.isEnabled = true
-        binding.btnNext.isClickable = true
+//        binding.btnNext.isEnabled = true
+//        binding.btnNext.isClickable = true
     }
 
     override fun onClick(p0: View?) {
@@ -274,29 +322,37 @@ class MeasureActivity : BaseActivity(),View.OnClickListener{
             R.id.ib_back_button -> {
                 finish()
             }
-            R.id.btn_next ->{
+            R.id.btn_next -> {
                 binding.etHightFt.clearFocus()
                 binding.etHightIn.clearFocus()
                 binding.etHightCm.clearFocus()
                 binding.etWeight.clearFocus()
-                nextScreen()
+                if (checkForAllValues(
+                        binding.etHightFt.text.toString(),
+                        binding.etHightIn.text.toString(),
+                        binding.etHightCm.text.toString(),
+                        binding.etWeight.text.toString()
+                    )
+                ) {
+                    nextScreen()
+                }
 //                intentActivity(this@MeasureActivity, InjuryActivity::class.java,"")
             }
         }
     }
 
 
-    fun nextScreen(){
-        if (weightUnit=="kgs"){
+    fun nextScreen() {
+        if (weightUnit == "kgs") {
             setDataKgTLbs()
-        }else{
+        } else {
             lbs = binding.etWeight.text.toString()
         }
-        UiDataObject.gender =gender2
-        UiDataObject.HightFt =binding.etHightFt.text.toString().trim().toFloat().toInt()
-        UiDataObject.HightIn =binding.etHightIn.text.toString().trim().toFloat().toInt()
+        UiDataObject.gender = gender2
+        UiDataObject.HightFt = binding.etHightFt.text.toString().trim().toFloat().toInt()
+        UiDataObject.HightIn = binding.etHightIn.text.toString().trim().toFloat().toInt()
         UiDataObject.unitHeight = "Feet"
-        UiDataObject.unitWeight =weightUnit
+        UiDataObject.unitWeight = weightUnit
         UiDataObject.Weight = lbs.toFloat().toInt()
 
 
@@ -305,10 +361,13 @@ class MeasureActivity : BaseActivity(),View.OnClickListener{
         startActivity(intent)
 
     }
-    fun setDataFeetToMeter(){
 
-        if (binding.etHightFt.text.toString().trim().isNotEmpty() || binding.etHightIn.text.toString().trim().isNotEmpty() ) {
-         var heightInMeter =   convert.convertFeetToMeters(
+    fun setDataFeetToMeter() {
+
+        if (binding.etHightFt.text.toString().trim()
+                .isNotEmpty() || binding.etHightIn.text.toString().trim().isNotEmpty()
+        ) {
+            var heightInMeter = convert.convertFeetToMeters(
                 binding.etHightFt.text.toString().trim(),
                 binding.etHightIn.text.toString().trim()
             )
@@ -318,11 +377,12 @@ class MeasureActivity : BaseActivity(),View.OnClickListener{
         }
     }
 
-    fun setDataMeterToFeet(){
-        Log.d("meterData","meter is $meter and meter2 is $meter2")
-        if (meter != meter2){
-            if (binding.etHightCm.text.toString().trim().isNotEmpty() ) {
-                val feetAndInches = convert.convertMetersToFeet(binding.etHightCm.text.toString().toDouble())
+    fun setDataMeterToFeet() {
+        Log.d("meterData", "meter is $meter and meter2 is $meter2")
+        if (meter != meter2) {
+            if (binding.etHightCm.text.toString().trim().isNotEmpty()) {
+                val feetAndInches =
+                    convert.convertMetersToFeet(binding.etHightCm.text.toString().toDouble())
                 binding.etHightFt.text = feetAndInches.feet
                 binding.etHightIn.text = feetAndInches.inches
 
@@ -331,7 +391,7 @@ class MeasureActivity : BaseActivity(),View.OnClickListener{
 
     }
 
-    private fun setDatalbsTokg(){
+    private fun setDatalbsTokg() {
         if (binding.etWeight.text.toString().trim().isNotEmpty()) {
             var kg = convert.converlbsTokg(binding.etWeight.text.toString().trim())
             binding.etWeight.text = kg
@@ -339,16 +399,16 @@ class MeasureActivity : BaseActivity(),View.OnClickListener{
         }
     }
 
-    private fun setDataKgTLbsUi(){
-        if ( binding.etWeight.text.toString().trim().isNotEmpty()) {
+    private fun setDataKgTLbsUi() {
+        if (binding.etWeight.text.toString().trim().isNotEmpty()) {
             var tempLbs = convert.convertkgTolbs(binding.etWeight.text.toString().trim())
             binding.etWeight.text = tempLbs
             lbs = tempLbs
         }
     }
 
-    private fun setDataKgTLbs(){
-        if ( binding.etWeight.text.toString().trim().isNotEmpty()) {
+    private fun setDataKgTLbs() {
+        if (binding.etWeight.text.toString().trim().isNotEmpty()) {
             var tempLbs = convert.convertkgTolbs(binding.etWeight.text.toString().trim())
             lbs = tempLbs
         }

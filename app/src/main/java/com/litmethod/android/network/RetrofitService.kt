@@ -358,7 +358,7 @@ interface RetrofitService {
         fun getInstance(): RetrofitService {
             if (retrofitService == null) {
                 val retrofit = Retrofit.Builder()
-                    .baseUrl(AppConstants.baseUrl)
+                    .baseUrl(AppConstants.baseUrlOld)
                     .addConverterFactory(GsonConverterFactory.create())
                     .client(ApiWorker.client)
                     .build()

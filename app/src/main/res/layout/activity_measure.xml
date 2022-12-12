@@ -400,8 +400,6 @@
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_50sdp"
-            android:clickable="false"
-            android:enabled="false"
             android:fontFamily="@font/futura_std_condensed_extra_bd"
             android:lineSpacingExtra="4sp"
             android:singleLine="true"

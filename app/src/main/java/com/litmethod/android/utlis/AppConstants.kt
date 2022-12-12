@@ -3,7 +3,7 @@ package com.litmethod.android.utlis
 interface AppConstants {
     companion object {
         var recyclerview_horizantolspace: Int = 0
-        var baseUrlOld: String = "https://litmdev.wpengine.com/app/"
+        var baseUrlOld: String = "https://api.litmethod.com/app/"
         var baseUrl: String = "https://dev.api.litmethod.com/app/"
         var OSType: String = "Android"
         var actionTypeSignIn: String = "signIn"

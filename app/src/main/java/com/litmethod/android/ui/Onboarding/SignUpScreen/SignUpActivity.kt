@@ -10,6 +10,7 @@ import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -31,11 +32,11 @@ import kotlinx.coroutines.launch
 
 
 class SignUpActivity : BaseActivity(), View.OnClickListener {
-    lateinit var binding:ActivitySignUpBinding
+    lateinit var binding: ActivitySignUpBinding
     lateinit var viewModel: SignUpViewModell
     private val retrofitService = RetrofitService.getInstance()
     lateinit var dataPereREnceObject: DataPreferenceObject
-    var hidePass:Boolean = true
+    var hidePass: Boolean = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,8 +49,6 @@ class SignUpActivity : BaseActivity(), View.OnClickListener {
 
     private fun setUpUi() {
         dataPereREnceObject = DataPreferenceObject(this)
-        val typeFace = Typeface.createFromAsset(assets, "futura_std_condensed.otf")
-
         binding.signupEtPassword.transformationMethod = PasswordTransformationMethod()
         binding.signupEtEmail.setOnFocusChangeListener { view, b ->
             if (view.isFocused) {
@@ -86,55 +85,60 @@ class SignUpActivity : BaseActivity(), View.OnClickListener {
                 binding.signupRlPhoneNo.stroke = ColorStateList.valueOf(colorInt)
             }
         }
-        binding.signupEtPassword.addTextChangedListener(object : TextWatcher {
+        binding.signupEtEmail.addTextChangedListener(object : TextWatcher {
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-
+                // Do Nothing
             }
 
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
+                // Do Nothing
             }
 
             override fun afterTextChanged(s: Editable) {
-//                editTextValueCheckIng(
-//                    binding.signupEtEmail.text.toString(),
-//                    binding.signupEtPassword.text.toString(),
-//                    binding.signupEtPhoneNo.text.toString()
-//                )
+                editTextValueCheckIng(
+                    binding.signupEtEmail.text.toString(),
+                    binding.signupEtPassword.text.toString(),
+                    binding.signupEtPhoneNo.text.toString()
+                )
             }
         })
 
         binding.signupEtPassword.addTextChangedListener(object : TextWatcher {
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                // Do Nothing
             }
 
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
+                // Do Nothing
             }
 
             override fun afterTextChanged(s: Editable) {
-//                editTextValueCheckIng(
-//                    binding.signupEtEmail.text.toString(),
-//                    binding.signupEtPassword.text.toString(),
-//                    binding.signupEtPhoneNo.text.toString()
-//                )
+                editTextValueCheckIng(
+                    binding.signupEtEmail.text.toString(),
+                    binding.signupEtPassword.text.toString(),
+                    binding.signupEtPhoneNo.text.toString()
+                )
             }
         })
 
         binding.signupEtPhoneNo.addTextChangedListener(object : TextWatcher {
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                // Do Nothing
             }
 
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
+                // Do Nothing
             }
 
             override fun afterTextChanged(s: Editable) {
-//                editTextValueCheckIng(
-//                    binding.signupEtEmail.text.toString(),
-//                    binding.signupEtPassword.text.toString(),
-//                    binding.signupEtPhoneNo.text.toString()
-//                )
+                editTextValueCheckIng(
+                    binding.signupEtEmail.text.toString(),
+                    binding.signupEtPassword.text.toString(),
+                    binding.signupEtPhoneNo.text.toString()
+                )
             }
         })
-        binding.cbSignup.setOnClickListener{
+        binding.cbSignup.setOnClickListener {
             binding.signupEtEmail.clearFocus()
             binding.signupEtPassword.clearFocus()
             binding.signupRlPhoneNo.clearFocus()
@@ -145,24 +149,33 @@ class SignUpActivity : BaseActivity(), View.OnClickListener {
             )
         }
     }
+
     private fun viewModelSetup() {
         viewModel =
-            ViewModelProvider(this, SignUpViewModelFactory(SignUpRepository(retrofitService),this)).get(
+            ViewModelProvider(
+                this,
+                SignUpViewModelFactory(SignUpRepository(retrofitService), this)
+            ).get(
                 SignUpViewModell::class.java
             )
         loginResponse()
     }
 
-    private fun loginResponse(){
+    private fun loginResponse() {
         viewModel.signUpUserData.observe(this, Observer {
             binding.spLoading.visibility = View.GONE
-            AllClassesDataObject.accessToken= it.result.profileDetails.accessToken.accessToken
-            lifecycleScope.launch {
-                dataPereREnceObject.save("userToken", it.result.profileDetails.accessToken.accessToken)
+            if (it.serverResponse.statusCode == 200) {
+                AllClassesDataObject.accessToken = it.result.profileDetails.accessToken.accessToken
+                lifecycleScope.launch {
+                    dataPereREnceObject.save(
+                        "userToken",
+                        it.result.profileDetails.accessToken.accessToken
+                    )
+                }
+                intentActivityWithFinish(this@SignUpActivity, ProfileActivity::class.java)
+            } else {
+                toastMessageShow(it.serverResponse.message)
             }
-            Log.d("signUpresponse","the signup response ${it}")
-            intentActivityWithFinish(this@SignUpActivity, ProfileActivity::class.java)
-
         })
 
         viewModel.errorMessage.observe(this, Observer {
@@ -176,7 +189,7 @@ class SignUpActivity : BaseActivity(), View.OnClickListener {
         binding.ibBackButton.setOnClickListener(this)
         binding.ibPasswordIcon.setOnClickListener {
 
-            if(hidePass) {
+            if (hidePass) {
                 binding.ibPasswordIcon.setImageResource(R.drawable.ic_show)
                 binding.signupEtPassword.setTransformationMethod(null)
                 binding.signupEtPassword.setSelection(binding.signupEtPassword.getText().length)
@@ -198,9 +211,13 @@ class SignUpActivity : BaseActivity(), View.OnClickListener {
             R.id.ib_back_button -> {
                 finish()
             }
-            R.id.btn_join_us ->{
-                if(editTextValueCheckIng(binding.signupEtEmail.text.toString(),
-                    binding.signupEtPassword.text.toString(), binding.signupEtPhoneNo.text.toString())) {
+            R.id.btn_join_us -> {
+                if (checkForAllValues(
+                        binding.signupEtEmail.text.toString(),
+                        binding.signupEtPassword.text.toString(),
+                        binding.signupEtPhoneNo.text.toString()
+                    )
+                ) {
                     binding.signupEtEmail.clearFocus()
                     binding.signupEtPassword.clearFocus()
                     binding.signupEtPhoneNo.clearFocus()
@@ -212,9 +229,8 @@ class SignUpActivity : BaseActivity(), View.OnClickListener {
                         binding.signupEtPhoneNo.text.toString().trim()
                     )
                 }
-
             }
-            R.id.tv_login ->{
+            R.id.tv_login -> {
                 binding.signupEtEmail.clearFocus()
                 binding.signupEtPassword.clearFocus()
                 intentActivityWithFinish(this@SignUpActivity, LoginActivity::class.java)
@@ -222,64 +238,50 @@ class SignUpActivity : BaseActivity(), View.OnClickListener {
         }
     }
 
-    private fun editTextValueCheckIng(email: String,pass: String, phoneNo: String): Boolean {
-        when {
-            email.isEmpty() -> {
-                joinUsButtonInactive()
-                binding.errorEmail.visibility = View.VISIBLE
-                binding.errorPassword.visibility = View.GONE
-                binding.errorPhoneNo.visibility = View.GONE
-                return false
-            }
-            !checkEmail(email) -> {
-                joinUsButtonInactive()
-                binding.errorEmail.visibility = View.VISIBLE
-                binding.errorPassword.visibility = View.GONE
-                binding.errorPhoneNo.visibility = View.GONE
-                return false
-            }
-            pass.isEmpty() ->{
-                joinUsButtonInactive()
-                binding.errorEmail.visibility = View.GONE
-                binding.errorPassword.visibility = View.VISIBLE
-                binding.errorPhoneNo.visibility = View.GONE
-                return false
-            }
-            phoneNo.isEmpty() ->{
-                joinUsButtonInactive()
-                binding.errorEmail.visibility = View.GONE
-                binding.errorPassword.visibility = View.GONE
-                binding.errorPhoneNo.visibility = View.VISIBLE
-                return false
-            }
-            !binding.cbSignup.isChecked ->{
-                joinUsButtonInactive()
-                binding.errorEmail.visibility = View.GONE
-                binding.errorPassword.visibility = View.GONE
-                binding.errorPhoneNo.visibility = View.GONE
-                Toast.makeText(this, "Please accept the email updates, news", Toast.LENGTH_SHORT).show()
-                return false
-            }
-            else -> {
-                joinUsButtonactive()
-                binding.errorEmail.visibility = View.GONE
-                binding.errorPassword.visibility = View.GONE
-                binding.errorPhoneNo.visibility = View.GONE
-                return true
-            }
+
+    private fun checkForAllValues(email: String, pass: String, phoneNo: String): Boolean {
+        if (email.isEmpty() || !checkEmail(email)) {
+            binding.errorEmail.visibility = View.VISIBLE
         }
+        if (pass.isEmpty()) {
+            binding.errorPassword.visibility = View.VISIBLE
+        }
+        if (phoneNo.isEmpty()) {
+            binding.errorPhoneNo.visibility = View.VISIBLE
+        }
+        if (!binding.cbSignup.isChecked) {
+            toastMessageShow("Please accept the email updates, news")
+        }
+        if (!email.isEmpty() && checkEmail(email) && !pass.isEmpty() && !phoneNo.isEmpty() && binding.cbSignup.isChecked) {
+            return true
+        }
+        return false
+    }
+
+    private fun editTextValueCheckIng(email: String, pass: String, phoneNo: String): Boolean {
+        if (checkEmail(email)) {
+            binding.errorEmail.visibility = View.GONE
+        }
+        if (!pass.isEmpty()) {
+            binding.errorPassword.visibility = View.GONE
+        }
+        if (!phoneNo.isEmpty()) {
+            binding.errorPhoneNo.visibility = View.GONE
+        }
+        if (!email.isEmpty() && checkEmail(email) && !pass.isEmpty() && !phoneNo.isEmpty() && binding.cbSignup.isChecked) {
+            joinUsButtonactive()
+            return true
+        }
+        joinUsButtonInactive()
+        return false
     }
 
     private fun joinUsButtonInactive() {
         binding.btnJoinUs.backgroundTintList = null
-//        binding.btnJoinUs.isEnabled = false
-//        binding.btnJoinUs.isClickable = false
     }
 
     private fun joinUsButtonactive() {
-        val colorInt = resources.getColor(R.color.red)
+        val colorInt = ContextCompat.getColor(this, R.color.red)
         binding.btnJoinUs.backgroundTintList = ColorStateList.valueOf(colorInt)
-//        binding.btnJoinUs.isEnabled = true
-//        binding.btnJoinUs.isClickable = true
     }
 }

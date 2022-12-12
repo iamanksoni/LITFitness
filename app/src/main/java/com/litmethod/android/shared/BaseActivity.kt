@@ -174,7 +174,7 @@ abstract class BaseActivity: AppCompatActivity(), ConnectionReceiver.ReceiverLis
         val month = cal.get(Calendar.MONTH)
         val day = cal.get(Calendar.DAY_OF_MONTH)
         datePickerDialog = DatePickerDialog(thisActivity,R.style.MyDatePickerStyle,DatePickerDialog.OnDateSetListener { view, myear, mmonth, mdayOfMonth ->
-            dateTv.setText("$mdayOfMonth/$mmonth/$myear")
+            dateTv.setText("$mdayOfMonth/${mmonth+1}/$myear")
         }, year, month, day)
         datePickerDialog.datePicker.maxDate = System.currentTimeMillis()
         datePickerDialog.show()

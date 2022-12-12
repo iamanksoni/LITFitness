@@ -5,9 +5,8 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.text.method.PasswordTransformationMethod
-import android.util.Log
-import android.view.MotionEvent
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -20,7 +19,6 @@ import com.litmethod.android.shared.BaseActivity
 import com.litmethod.android.ui.Dashboard.AllClassTabScreen.ClassesFragmentScreen.Util.AllClassesDataObject
 import com.litmethod.android.ui.Dashboard.DashBoardActivity
 import com.litmethod.android.ui.Onboarding.ForgotPasswordScreen.ForgotPasswordActivity
-import com.litmethod.android.ui.Onboarding.ProfileScreen.ProfileActivity
 import com.litmethod.android.ui.Onboarding.SignUpScreen.SignUpActivity
 import com.litmethod.android.utlis.DataPreferenceObject
 import kotlinx.coroutines.launch
@@ -31,7 +29,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
     lateinit var viewModel: LoginViewModel
     private val retrofitService = RetrofitService.getInstance()
     lateinit var dataPereREnceObject: DataPreferenceObject
-    var hidePass:Boolean = true
+    var hidePass: Boolean = true
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login)
@@ -41,14 +39,14 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
         viewModelSetup()
     }
 
-private fun   checkIntentData(){
-  val checkbackButton=  intent.getStringExtra("showBackButton")
-    if (checkbackButton!=null){
-        if (checkbackButton=="showbackbutton"){
-            binding.ibBackButton.visibility = View.GONE
+    private fun checkIntentData() {
+        val checkbackButton = intent.getStringExtra("showBackButton")
+        if (checkbackButton != null) {
+            if (checkbackButton == "showbackbutton") {
+                binding.ibBackButton.visibility = View.GONE
+            }
         }
     }
-}
 
 
     private fun setUpUi() {
@@ -78,9 +76,11 @@ private fun   checkIntentData(){
         binding.loginEtPassword.transformationMethod = PasswordTransformationMethod()
         binding.loginEtEmail.addTextChangedListener(object : TextWatcher {
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                // Do Nothing
             }
 
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
+                // Do Nothing
             }
 
             override fun afterTextChanged(s: Editable) {
@@ -92,9 +92,11 @@ private fun   checkIntentData(){
         })
         binding.loginEtPassword.addTextChangedListener(object : TextWatcher {
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                // Do Nothing
             }
 
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
+                // Do Nothing
             }
 
             override fun afterTextChanged(s: Editable) {
@@ -110,7 +112,7 @@ private fun   checkIntentData(){
         binding.ibBackButton.setOnClickListener(this)
         binding.ibPasswordIcon.setOnClickListener {
 
-            if(hidePass) {
+            if (hidePass) {
                 binding.ibPasswordIcon.setImageResource(R.drawable.ic_show)
                 binding.loginEtPassword.setTransformationMethod(null)
                 binding.loginEtPassword.setSelection(binding.loginEtPassword.getText().length)
@@ -123,20 +125,6 @@ private fun   checkIntentData(){
 
                 hidePass = true
             }
-//            when (event?.action) {
-//                MotionEvent.ACTION_DOWN -> {
-//                    binding.loginRlPassword.requestFocus()
-//                    binding.loginEtPassword.transformationMethod = null
-//                    binding.loginEtPassword.setSelection(binding.loginEtPassword.text.length)
-//                }
-//                MotionEvent.ACTION_UP -> {
-//                    binding.loginRlPassword.clearFocus()
-//                    binding.loginEtPassword.transformationMethod = PasswordTransformationMethod()
-//                    binding.loginEtPassword.setSelection(binding.loginEtPassword.text.length)
-//                }
-//            }
-
-
         }
         binding.mbForgotPassword.setOnClickListener(this)
         binding.tvSignup.setOnClickListener(this)
@@ -146,7 +134,7 @@ private fun   checkIntentData(){
     override fun onClick(p0: View?) {
         when (p0!!.id) {
             R.id.ib_back_button -> {
-               finish()
+                finish()
             }
             R.id.mb_forgot_password -> {
                 binding.loginEtEmail.clearFocus()
@@ -158,12 +146,13 @@ private fun   checkIntentData(){
                 binding.loginRlPassword.clearFocus()
                 intentActivity(this@LoginActivity, SignUpActivity::class.java, "")
             }
-            R.id.btn_log_in ->{
+            R.id.btn_log_in -> {
                 closeKeyBoard()
-                if(editTextValueCheckIng(
+                if (checkForAllValues(
                         binding.loginEtEmail.text.toString(),
                         binding.loginEtPassword.text.toString()
-                    )) {
+                    )
+                ) {
                     binding.loginEtEmail.clearFocus()
                     binding.loginRlPassword.clearFocus()
                     binding.spLoading.visibility = View.VISIBLE
@@ -176,46 +165,41 @@ private fun   checkIntentData(){
         }
     }
 
-    private fun editTextValueCheckIng(email: String, pass: String): Boolean {
-        when {
-            email.isEmpty() -> {
-                loginButtonInactive()
-                binding.errorEmailLogin.visibility = View.VISIBLE
-                binding.errorPasswordLogin.visibility = View.GONE
-                return false
-            }
-            !checkEmail(email) -> {
-                loginButtonInactive()
-                binding.errorEmailLogin.visibility = View.VISIBLE
-                binding.errorPasswordLogin.visibility = View.GONE
-                return false
-            }
-            pass.isEmpty() -> {
-                loginButtonInactive()
-                binding.errorEmailLogin.visibility = View.GONE
-                binding.errorPasswordLogin.visibility = View.VISIBLE
-                return false
-            }
-            else -> {
-                loginButtonActive()
-                binding.errorEmailLogin.visibility = View.GONE
-                binding.errorPasswordLogin.visibility = View.GONE
-                return true
-            }
+    private fun checkForAllValues(email: String, pass: String): Boolean {
+        if (email.isEmpty() || !checkEmail(email)) {
+            binding.errorEmailLogin.visibility = View.VISIBLE
         }
+        if (pass.isEmpty()) {
+            binding.errorPasswordLogin.visibility = View.VISIBLE
+        }
+        if (!email.isEmpty() && checkEmail(email) && !pass.isEmpty()) {
+            return true
+        }
+        return false
+    }
+
+    private fun editTextValueCheckIng(email: String, pass: String): Boolean {
+        if (checkEmail(email)) {
+            binding.errorEmailLogin.visibility = View.GONE
+        }
+        if (!pass.isEmpty()) {
+            binding.errorPasswordLogin.visibility = View.GONE
+        }
+        if (!email.isEmpty() && checkEmail(email) && !pass.isEmpty()) {
+            loginButtonActive()
+            return true
+        }
+        loginButtonInactive()
+        return false
     }
 
     private fun loginButtonInactive() {
         binding.btnLogIn.backgroundTintList = null
-//        binding.btnLogIn.isEnabled = false
-//        binding.btnLogIn.isClickable = false
     }
 
     private fun loginButtonActive() {
-        val colorInt = resources.getColor(R.color.red)
+        val colorInt = ContextCompat.getColor(this, R.color.red)
         binding.btnLogIn.backgroundTintList = ColorStateList.valueOf(colorInt)
-//        binding.btnLogIn.isEnabled = true
-//        binding.btnLogIn.isClickable = true
     }
 
     override fun onBackPressed() {
@@ -225,26 +209,31 @@ private fun   checkIntentData(){
 
     private fun viewModelSetup() {
         viewModel =
-            ViewModelProvider(this, LoginViewModelFactory(SignInRepository(retrofitService),this)).get(
+            ViewModelProvider(
+                this,
+                LoginViewModelFactory(SignInRepository(retrofitService), this)
+            ).get(
                 LoginViewModel::class.java
             )
         loginResponse()
     }
 
 
-    private fun loginResponse(){
+    private fun loginResponse() {
         viewModel.signInUserData.observe(this, Observer {
-            Log.d("signUpresponse","the signup response ${it}")
-            if (it.serverResponse.statusCode ==200){
+            if (it.serverResponse.statusCode == 200) {
                 lifecycleScope.launch {
-                    dataPereREnceObject.save("userToken", it.result.profileDetails.accessToken.accessToken)
+                    dataPereREnceObject.save(
+                        "userToken",
+                        it.result.profileDetails.accessToken.accessToken
+                    )
                 }
                 AllClassesDataObject.accessToken = it.result.profileDetails.accessToken.accessToken
                 AllClassesDataObject.token = it.result.profileDetails.accessToken.accessToken
                 AllClassesDataObject.profilePageData = it.result.profileDetails
                 binding.spLoading.visibility = View.GONE
                 intentActivityWithFinish(this@LoginActivity, DashBoardActivity::class.java)
-            } else{
+            } else {
                 binding.spLoading.visibility = View.GONE
                 toastMessageShow(it.serverResponse.message.toString())
             }
