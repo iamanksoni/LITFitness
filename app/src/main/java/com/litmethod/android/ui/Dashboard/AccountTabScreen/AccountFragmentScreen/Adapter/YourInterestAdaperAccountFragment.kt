@@ -54,7 +54,7 @@ class YourInterestAdaperAccountFragment (
                 val colorInt1 = context.getColor(R.color.yellow)
                 holder.iv_level.imageTintList = ColorStateList.valueOf(colorInt1)
                 holder.tv_header1.setTextColor(colorInt1)
-                holder.rl_level_second.strokeWidth = 1.0f
+                holder.rl_level_second.strokeWidth = 2.0f
                 val colorInt = context.resources.getColor(R.color.yellow)
                 holder.rl_level_second.stroke = ColorStateList.valueOf(colorInt)
                 holder.rl_level_second.alpha = 1f

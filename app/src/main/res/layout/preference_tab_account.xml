@@ -19,7 +19,7 @@
             android:layout_weight="1"
             android:fontFamily="@font/futura_std_condensed_extra_bd"
             android:singleLine="true"
-            android:text="Your fitness level"
+            android:text="YOUR FITNESS LEVEL"
             android:textColor="@color/white"
             android:textSize="@dimen/_13ssp" />
 
@@ -58,7 +58,7 @@
             android:layout_weight="1"
             android:fontFamily="@font/futura_std_condensed_extra_bd"
             android:singleLine="true"
-            android:text="Your interests"
+            android:text="YOUR INTERESTS"
             android:textColor="@color/white"
             android:textSize="@dimen/_13ssp" />
 
@@ -78,18 +78,17 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/_50sdp"
         android:layout_below="@+id/rv_interest"
-        android:layout_marginTop="@dimen/_8sdp"
         android:fontFamily="@font/futura_std_condensed_extra_bd"
         android:lineSpacingExtra="4sp"
         android:singleLine="true"
-        android:text="Change Interest"
+        android:text="CHANGE INTERESTS"
         android:textColor="@color/white"
         android:textSize="@dimen/_10ssp"
         android:visibility="visible"
         app:cornerRadius="@dimen/_6sdp"
         app:elevation="@dimen/_5sdp"
         app:strokeColor="@color/mono_grey_100"
-        app:strokeWidth="1dp" />
+        app:strokeWidth="0dp" />
 
     <View
         android:id="@+id/vw_2"
@@ -116,7 +115,7 @@
             android:layout_weight="1"
             android:fontFamily="@font/futura_std_condensed_extra_bd"
             android:singleLine="true"
-            android:text="Your equipment"
+            android:text="YOUR EQUIPMENT"
             android:textColor="@color/white"
             android:textSize="@dimen/_13ssp" />
 
@@ -136,18 +135,17 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/_50sdp"
         android:layout_below="@+id/rv_equipment"
-        android:layout_marginTop="@dimen/_8sdp"
         android:fontFamily="@font/futura_std_condensed_extra_bd"
         android:lineSpacingExtra="4sp"
         android:singleLine="true"
-        android:text="Change Equipment"
+        android:text="CHANGE EQUIPMENT"
         android:textColor="@color/white"
         android:textSize="@dimen/_10ssp"
         android:visibility="visible"
         app:cornerRadius="@dimen/_6sdp"
         app:elevation="@dimen/_5sdp"
         app:strokeColor="@color/mono_grey_100"
-        app:strokeWidth="1dp" />
+        app:strokeWidth="0dp" />
 
     <View
         android:id="@+id/vw_1"

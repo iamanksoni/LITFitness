@@ -73,7 +73,7 @@
                             android:singleLine="false"
                             android:text="LiT provides personalized workouts and programs targetted to the goals that matter to you."
                             android:textAllCaps="true"
-                            android:textColor="@color/grey"
+                            android:textColor="@color/mono_grey_60"
                             android:textSize="17sp"
                             android:translationY="-2.2sp" />
 
@@ -120,13 +120,14 @@
             android:fontFamily="@font/futura_std_condensed_extra_bd"
             android:lineSpacingExtra="4sp"
             android:singleLine="true"
-            android:text="NEXT"
+            android:text="DONE"
             android:textColor="@color/white"
             android:textSize="@dimen/_10ssp"
             android:visibility="visible"
             app:cornerRadius="@dimen/_6sdp"
             app:elevation="@dimen/_5sdp"
             app:strokeColor="@color/red"
+            app:backgroundTint="@color/red"
             app:strokeWidth="1dp" />
     </RelativeLayout>
     <com.github.ybq.android.spinkit.SpinKitView

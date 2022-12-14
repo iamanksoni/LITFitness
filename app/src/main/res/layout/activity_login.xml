@@ -100,7 +100,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/_52sdp"
                             android:layout_below="@+id/login_et_email"
-                            android:layout_marginTop="@dimen/_23sdp"
                             app:carbon_cornerRadius="@dimen/_11sdp"
                             app:carbon_elevation="@dimen/_2sdp">
 

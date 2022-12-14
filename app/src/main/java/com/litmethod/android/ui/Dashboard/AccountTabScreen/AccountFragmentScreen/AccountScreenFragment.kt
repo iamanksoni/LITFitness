@@ -194,20 +194,31 @@ class AccountScreenFragment : BaseFragment(), AllTabItemAdapter.AllTabItemAdapte
               val delim = "."
         val decimalPartInweignt = kgs.split(delim)
            val   finalkg= decimalPartInweignt[0]
-              binding.tvWeight.text = "${finalkg} KG"
+              binding.tvWeight.text = "${finalkg}"
+              binding.tvWeightUnit.text="KGS"
 
           } else{
-              binding.tvWeight.text = "${AllClassesDataObject.profilePageData.weight.toInt()}LB"
+              binding.tvWeight.text = "${AllClassesDataObject.profilePageData.weight.toInt()}"
+              binding.tvWeightUnit.text="LBS"
           }
 
         if (AllClassesDataObject.profilePageData.heightUnit == "Feet"){
-            binding.tvHeight.text = "${AllClassesDataObject.profilePageData.heightValueFeet}.${AllClassesDataObject.profilePageData.heightValueInches} inch"
+            binding.tvHeightFeet.text = "${AllClassesDataObject.profilePageData.heightValueFeet}"
+            binding.tvHeightFeetUnit.text="Ft"
+            binding.tvHeightInch.text="${AllClassesDataObject.profilePageData.heightValueInches}"
+            binding.tvHeightInchUnit.text="inch"
+            binding.tvWeightUnit.visibility=View.VISIBLE
+            binding.tvHeightInchUnit.visibility=View.VISIBLE
+
         }else{
             val height= convert.convertFeetToMeters(AllClassesDataObject.profilePageData.heightValueFeet.toString(),AllClassesDataObject.profilePageData.heightValueInches.toString())
             val delim = "."
             val decimalPartInweignt = height.split(delim)
             val   finaheight= decimalPartInweignt[0]
-            binding.tvHeight.text = "${finaheight}CM"
+            binding.tvHeightFeet.text = "${finaheight}CM"
+            binding.tvWeightUnit.visibility=View.GONE
+            binding.tvHeightInchUnit.visibility=View.GONE
+
             Log.d("totalheight","the total height $height")
         }
 
@@ -950,7 +961,12 @@ class AccountScreenFragment : BaseFragment(), AllTabItemAdapter.AllTabItemAdapte
             (view as TextView).apply {
                 text = daysOfWeek[index].getDisplayName(TextStyle.SHORT, Locale.ENGLISH)
                     .toUpperCase(Locale.ENGLISH)
-                setTextColorRes(R.color.white)
+
+                if(daysOfWeek[index].name==LocalDate.now().getDayOfWeek().name){
+                    setTextColorRes(R.color.white)
+                }else{
+                    setTextColorRes(R.color.mono_grey_60)
+                }
             }
         }
 
@@ -974,12 +990,12 @@ class AccountScreenFragment : BaseFragment(), AllTabItemAdapter.AllTabItemAdapte
             init {
                 view.setOnClickListener {
                     if (day.owner == DayOwner.THIS_MONTH) {
-                        if (selectedDates.contains(day.date)) {
-                            selectedDates.remove(day.date)
-                        } else {
-                            selectedDates.add(day.date)
-                        }
-                        binding.workoutTab1.calenderFullView.exOneCalendar.notifyDayChanged(day)
+//                        if (selectedDates.contains(day.date)) {
+//                            selectedDates.remove(day.date)
+//                        } else {
+//                            selectedDates.add(day.date)
+//                        }
+//                        binding.workoutTab1.calenderFullView.exOneCalendar.notifyDayChanged(day)
                     }
                 }
             }

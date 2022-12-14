@@ -43,6 +43,8 @@ import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
 import java.util.*
 
@@ -666,7 +668,7 @@ class EditProfileFragment : Fragment(), View.OnClickListener {
 
                 if (heightUnit=="meter"){
                  val feetObj=   convert.convertMetersToFeet(binding.etHightCm.text.toString().trim().toDouble())
-                    heightValueFeet = feetObj.feet
+                    heightValueFeet = feetObj.feet.toFloat().toInt().toString()
                     heightValueInches = feetObj.inches
                 }else{
                     heightValueFeet = binding.etHightFt.text.toString().trim()
@@ -679,9 +681,9 @@ class EditProfileFragment : Fragment(), View.OnClickListener {
                     weight = binding.etWeight.text.toString()
                 }
 
-                Log.d("weghtis","the height is in feet $heightValueFeet and feet ${heightValueInches.toString().toInt()} and height unit $heightUnit and weight $unit")
+                Log.d("weghtis","the height is in feet $heightValueFeet and feet ${heightValueInches.toString().toFloat().toInt()} and height unit $heightUnit and weight $unit")
                 viewModel.checkeeditUserRequestNullable(AllClassesDataObject.accessToken,
-                    EditUserRequestNullable("editUser", dob = dob,first_name,gender2,heightUnit,heightValueFeet.toInt(),heightValueInches.toString().toInt(),last_name, unit = unit
+                    EditUserRequestNullable("editUser", dob = dob,first_name,gender2,heightUnit,heightValueFeet.toInt(),heightValueInches.toString().toFloat().toInt(),last_name, unit = unit
                         , weight.toFloat().toInt())
 
                 )
@@ -707,7 +709,7 @@ class EditProfileFragment : Fragment(), View.OnClickListener {
             )
 
             meter2 = heightInMeter
-            binding.etHightCm.text = heightInMeter
+            binding.etHightCm.text = "${heightInMeter.toFloat().toInt()}"
         }
     }
 
@@ -717,7 +719,8 @@ class EditProfileFragment : Fragment(), View.OnClickListener {
             if (binding.etHightCm.text.toString().trim().isNotEmpty() ) {
                 val feetAndInches = convert.convertMetersToFeet(binding.etHightCm.text.toString().toDouble())
                 binding.etHightFt.text = feetAndInches.feet
-                binding.etHightIn.text = feetAndInches.inches
+                binding.etHightIn.text = "${feetAndInches.inches.toFloat().toInt()}"
+
             }
 //        floor(feetAndInches.feet.toFloat()).toString()
 
@@ -726,7 +729,7 @@ class EditProfileFragment : Fragment(), View.OnClickListener {
     private fun setDatalbsTokg(){
         if (binding.etWeight.text.toString().trim().isNotEmpty()) {
             var kg = convert.converlbsTokg(binding.etWeight.text.toString().trim())
-            binding.etWeight.text = kg
+            binding.etWeight.text = "${kg.toFloat().toInt()}"
 
         }
     }
@@ -734,7 +737,7 @@ class EditProfileFragment : Fragment(), View.OnClickListener {
     private fun setDataKgTLbsUi(){
         if ( binding.etWeight.text.toString().trim().isNotEmpty()) {
             var tempLbs = convert.convertkgTolbs(binding.etWeight.text.toString().trim())
-            binding.etWeight.text = tempLbs
+            binding.etWeight.text = "${tempLbs.toFloat().toInt()}"
             lbs = tempLbs
         }
     }
@@ -824,24 +827,24 @@ class EditProfileFragment : Fragment(), View.OnClickListener {
     private fun calltoChangeAvatar() {
         val file = File(path)
 
-//        val reqFile = RequestBody.create("multipart/form-data".toMediaTypeOrNull(),file)
-//        val body = MultipartBody.Part.createFormData("image",file.name,reqFile)
-//        val action: RequestBody =    RequestBody.create("multipart/form-data".toMediaTypeOrNull(), "avtarImage")
-////        val action2: RequestBody = create("multipart/form-data".toMediaTypeOrNull(), "avtarImage")
+        val reqFile = RequestBody.create("multipart/form-data".toMediaTypeOrNull(),file)
+        val body = MultipartBody.Part.createFormData("image",file.name,reqFile)
+        val action: RequestBody =    RequestBody.create("multipart/form-data".toMediaTypeOrNull(), "avtarImage")
+//        val action2: RequestBody = create("multipart/form-data".toMediaTypeOrNull(), "avtarImage")
 //        Log.d("check","the action data is $action")
 
 
 
-        val requestBody = RequestBody.create("image/*".toMediaTypeOrNull(), file);
-       val parts = MultipartBody.Part.createFormData("image", file.name, requestBody);
-        val someData = RequestBody.create("text/plain".toMediaTypeOrNull(), "avtarImage");
+//        val requestBody = file.asRequestBody("image/*".toMediaTypeOrNull());
+//       val parts = MultipartBody.Part.createFormData("image", file.name, requestBody);
+//        val someData = "avtarImage".toRequestBody("text/plain".toMediaTypeOrNull());
 
-        Log.d("theeris","the action data is ${someData.contentLength()}")
+//        Log.d("theeris","the action data is ${someData.contentLength()}")
 
-        viewModel.checkSetImage(AllClassesDataObject.accessToken, parts, someData)
+        viewModel.checkSetImage(AllClassesDataObject.accessToken, body, action)
 //        UiDataObject.body = body
 //        UiDataObject.action = action
-//        Log.d("SighUpResponse37","body is $body and req file is $action")
+        Log.d("SighUpResponse37","body is ${body.body} and req file is $action")
     }
 
 }

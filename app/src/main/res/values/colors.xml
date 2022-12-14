@@ -49,4 +49,16 @@
     <color name="intermediate">#f95a01</color>
     <color name="Advanced">#ed2124</color>
 
+    <color name="lbs_value_color">#5D5FE6</color>
+    <color name="lbs_unit_color">#3E3F90</color>
+
+    <color name="calories_value">#E6652B</color>
+    <color name="calories_unit">#8F421B</color>
+
+    <color name="weeks_unit">#872622</color>
+    <color name="weeks_value">#AC2F28</color>
+
+
+
+
 </resources>

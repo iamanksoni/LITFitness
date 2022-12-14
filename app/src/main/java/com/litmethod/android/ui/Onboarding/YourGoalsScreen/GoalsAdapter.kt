@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
@@ -41,7 +42,7 @@ class GoalsAdapter(
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onBindViewHolder(holder: GoalsAdapterViewHolder, position: Int) {
         var item:Data?=null
-
+        holder.rl_arrow.visibility=View.INVISIBLE
         if (position==result.size-1){
             holder.tv_header1.text ="All of the above"
             holder.tv_sub_header.text="I want the full Lit experience."
@@ -62,7 +63,7 @@ class GoalsAdapter(
                 val colorInt1 = context.getColor(R.color.yellow)
                 holder.iv_level.imageTintList = ColorStateList.valueOf(colorInt1)
                 holder.tv_header1.setTextColor(colorInt1)
-                holder.rl_level_second.strokeWidth = 1.0f
+                holder.rl_level_second.strokeWidth = 3.0f
                 val colorInt =  context.resources.getColor(R.color.yellow)
                 holder.rl_level_second.stroke = ColorStateList.valueOf(colorInt)
                 holder.rl_level_second.alpha = 1f
@@ -106,5 +107,6 @@ class GoalsAdapterViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     val tv_header1: TextView = view.findViewById(R.id.tv_header1)
     val rl_level_second: carbon.widget.RelativeLayout = view.findViewById(R.id.rl_level_second)
     val tv_sub_header: TextView = view.findViewById(R.id.tv_sub_header)
+    val rl_arrow: RelativeLayout = view.findViewById(R.id.rl_arrow)
 
 }

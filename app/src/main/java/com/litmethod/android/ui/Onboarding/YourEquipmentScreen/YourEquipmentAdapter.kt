@@ -55,7 +55,7 @@ class YourEquipmentAdapter(
         if (result[position].selectedItem) {
             val colorInt1 = context.getColor(R.color.black)
             holder.tv_header1.setTextColor(colorInt1)
-            holder.rl_level_second.strokeWidth = 1.0f
+            holder.rl_level_second.strokeWidth = 3.0f
             val colorInt = context.resources.getColor(R.color.red)
             holder.rl_level_second.stroke = ColorStateList.valueOf(colorInt)
             holder.rl_level_second.alpha = 1f
@@ -63,7 +63,7 @@ class YourEquipmentAdapter(
             holder.rl_level_second.background = context.getDrawable(R.drawable.view_background_grey)
             holder.rl_level_second.backgroundTintList = ColorStateList.valueOf(colorInt2)
             val colorInt3 = context.resources.getColor(R.color.red)
-            holder.tv_sub_header.text = "SELECTED"
+            holder.tv_sub_header.text = ""
             holder.tv_sub_header.setTextColor(colorInt3)
         } else {
             holder.rl_level_second.strokeWidth = 0.5f

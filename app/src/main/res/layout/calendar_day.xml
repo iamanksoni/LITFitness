@@ -15,7 +15,7 @@
             <RelativeLayout
                 android:id="@+id/fl_day_selected"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_40sdp"
+                android:layout_height="@dimen/_35sdp"
                 android:background="@drawable/example_1_today_bg">
                 <TextView
                     android:id="@+id/exOneDayText"
