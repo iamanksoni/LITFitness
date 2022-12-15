@@ -75,7 +75,7 @@ class EditProfileViewModel  constructor(private val repository: EditProfileRepos
     val errorMessage4 = MutableLiveData<String>()
 
 
-    private fun setImage(auth:String, fileName: MultipartBody.Part,action: RequestBody) {
+    private fun setImage(auth:String, fileName: MultipartBody.Part,action: MultipartBody.Part) {
         val response = repository.setImage(auth,fileName,action)
         response.enqueue(object : Callback<SetImageResponse> {
             override fun onResponse(
@@ -97,7 +97,7 @@ class EditProfileViewModel  constructor(private val repository: EditProfileRepos
         })
     }
 
-    fun checkSetImage(auth:String, fileName: MultipartBody.Part,action:RequestBody) {
+    fun checkSetImage(auth:String, fileName: MultipartBody.Part,action:MultipartBody.Part) {
         when {
             !NetworkHelper.instance.isNetworkAvailable(context) ->
                 DialogueBox.showMsg(

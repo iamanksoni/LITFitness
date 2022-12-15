@@ -26,8 +26,10 @@ import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
+import com.google.gson.Gson
 import com.litmethod.android.R
 import com.litmethod.android.databinding.FragmentEditProfileBinding
+import com.litmethod.android.models.EditProfileRequest
 import com.litmethod.android.models.EditUserRequestNullable.EditUserRequestNullable
 import com.litmethod.android.models.GetCountries.Result
 import com.litmethod.android.network.EditProfileRepository
@@ -287,11 +289,11 @@ class EditProfileFragment : Fragment(), View.OnClickListener {
                 }
             }
         }
-        when(AllClassesDataObject.profilePageData.gender){
-             "Male" -> binding.rbMale.isChecked = true
-            "Female" ->binding.rbFemale.isChecked = true
-            "Other" -> binding.rbOther.isChecked = true
-        }
+//        when(AllClassesDataObject.profilePageData.gender){
+//             "Male" -> binding.rbMale.isChecked = true
+//            "Female" ->binding.rbFemale.isChecked = true
+//            "Other" -> binding.rbOther.isChecked = true
+//        }
 
         binding.rgFtCm.setOnCheckedChangeListener { radioGroup, optionId ->
             run {
@@ -824,21 +826,22 @@ class EditProfileFragment : Fragment(), View.OnClickListener {
     private fun calltoChangeAvatar() {
         val file = File(path)
 
-//        val reqFile = RequestBody.create("multipart/form-data".toMediaTypeOrNull(),file)
-//        val body = MultipartBody.Part.createFormData("image",file.name,reqFile)
-//        val action: RequestBody =    RequestBody.create("multipart/form-data".toMediaTypeOrNull(), "avtarImage")
-////        val action2: RequestBody = create("multipart/form-data".toMediaTypeOrNull(), "avtarImage")
-//        Log.d("check","the action data is $action")
+        val reqFile = RequestBody.create("multipart/form-data".toMediaTypeOrNull(),file)
+        val body = MultipartBody.Part.createFormData("image",file.name,reqFile)
+        val action: RequestBody =    RequestBody.create("text/plain".toMediaTypeOrNull(), "avtarImage")
+//        val action2: RequestBody = create("multipart/form-data".toMediaTypeOrNull(), "avtarImage")
+        Log.d("check","the action data is $action")
+
+        val editProfileRequest = EditProfileRequest("avtarImage")
+        val gson = Gson()
+        val data = MultipartBody.Part
+            .createFormData(
+                "action",
+                gson.toJson(editProfileRequest)
+            )
 
 
-
-        val requestBody = RequestBody.create("image/*".toMediaTypeOrNull(), file);
-       val parts = MultipartBody.Part.createFormData("image", file.name, requestBody);
-        val someData = RequestBody.create("text/plain".toMediaTypeOrNull(), "avtarImage");
-
-        Log.d("theeris","the action data is ${someData.contentLength()}")
-
-        viewModel.checkSetImage(AllClassesDataObject.accessToken, parts, someData)
+        viewModel.checkSetImage(AllClassesDataObject.accessToken, body, data)
 //        UiDataObject.body = body
 //        UiDataObject.action = action
 //        Log.d("SighUpResponse37","body is $body and req file is $action")

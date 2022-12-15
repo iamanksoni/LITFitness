@@ -117,7 +117,7 @@ interface RetrofitService {
     fun setImage(
         @Header("AUTHTOKEN") authorizationKey: String,
         @Part file: MultipartBody.Part,
-        @Part("action") action: RequestBody
+        @Part action: MultipartBody.Part
     ): Call<SetImageResponse>
 
     @Headers("Content-Type: application/json")

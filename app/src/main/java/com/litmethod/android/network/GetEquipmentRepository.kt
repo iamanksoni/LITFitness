@@ -9,6 +9,6 @@ import okhttp3.RequestBody
 class GetEquipmentRepository constructor(private val retrofitService: RetrofitService){
     fun getEquipment(auth:String,injuryRequest: InjuryRequest) = retrofitService.getEquipment(auth,injuryRequest)
     fun editUser(auth:String,editUserRequest: EditUserRequest) = retrofitService.editUser(auth,editUserRequest)
-    fun setImage(auth:String, fileName: MultipartBody.Part, action: RequestBody) = retrofitService.setImage(auth, fileName,action)
+    fun setImage(auth:String, fileName: MultipartBody.Part, action: RequestBody) = retrofitService.setImage(auth, fileName,"avtarImage")
     fun editUserForEquipment(auth:String,editUserEquipmentRequest: EditUserEquipmentRequest) = retrofitService.editUserForEquipment(auth,editUserEquipmentRequest)
 }

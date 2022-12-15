@@ -10,5 +10,5 @@ import okhttp3.RequestBody
 
 class EditProfileRepository constructor(private val retrofitService: RetrofitService) {
     fun editUserRequestNullable(auth:String,editUserRequestNullable: EditUserRequestNullable) = retrofitService.editUserNullable(auth,editUserRequestNullable)
-    fun setImage(auth:String, fileName: MultipartBody.Part, action: RequestBody) = retrofitService.setImage(auth, fileName,action)
+    fun setImage(auth:String, fileName: MultipartBody.Part, action: MultipartBody.Part) = retrofitService.setImage(auth, fileName,action)
 }
