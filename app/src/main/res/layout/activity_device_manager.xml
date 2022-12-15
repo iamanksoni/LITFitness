@@ -3,10 +3,63 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="@color/mono_dark_100"
     android:layout_height="match_parent"
+    android:layout_gravity="center_vertical"
+    android:background="@color/mono_dark_100"
+    android:orientation="vertical"
+    android:padding="@dimen/_15sdp"
     tools:context=".devicemanager.DeviceManagerActivity">
 
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:background="@color/mono_dark_100"
+        tools:context=".devicemanager.DeviceManagerActivity">
 
+
+        <ImageButton
+            android:id="@+id/ib_back_button"
+            android:layout_width="@dimen/_39sdp"
+            android:layout_height="@dimen/_37sdp"
+            android:background="@drawable/ic_back_arrow"
+            android:contentDescription="back_button"
+            android:padding="@dimen/_5sdp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_38sdp"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginEnd="@dimen/_39sdp"
+            android:fontFamily="@font/futura_std_condensed_extra_bd"
+            android:gravity="center_vertical"
+            android:lineSpacingExtra="2sp"
+            android:text="@string/manage_devices"
+            android:textAlignment="center"
+            android:textAllCaps="true"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_15ssp"
+            android:translationY="-1sp"
+            app:layout_constraintBottom_toBottomOf="@+id/ib_back_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/ib_back_button"
+            tools:ignore="RtlCompat" />
+
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        tools:itemCount="3"
+        android:layout_marginTop="@dimen/_15sdp"
+        android:id="@+id/rv_device_list"
+        android:layout_height="wrap_content"
+        tools:listitem="@layout/list_item_workout_device" />
 
 </LinearLayout>
