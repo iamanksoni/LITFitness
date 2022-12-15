@@ -1,15 +1,11 @@
 package com.litmethod.android.ui.Onboarding.SignUpScreen
 
 import android.content.res.ColorStateList
-import android.graphics.Typeface
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.text.method.PasswordTransformationMethod
-import android.util.Log
-import android.view.MotionEvent
 import android.view.View
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -17,15 +13,11 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.litmethod.android.R
 import com.litmethod.android.databinding.ActivitySignUpBinding
-import com.litmethod.android.network.RetrofitService
-import com.litmethod.android.network.RetrofitService.Companion.retrofitService
-import com.litmethod.android.network.SignInRepository
+import com.litmethod.android.network.RetrofitDataSourceService
 import com.litmethod.android.network.SignUpRepository
 import com.litmethod.android.shared.BaseActivity
-import com.litmethod.android.ui.Dashboard.AllClassTabScreen.ClassesFragmentScreen.Util.AllClassesDataObject
+import com.litmethod.android.ui.root.AllClassTabScreen.ClassesFragmentScreen.Util.BaseResponseDataObject
 import com.litmethod.android.ui.Onboarding.LoginScreen.LoginActivity
-import com.litmethod.android.ui.Onboarding.LoginScreen.LoginViewModel
-import com.litmethod.android.ui.Onboarding.LoginScreen.LoginViewModelFactory
 import com.litmethod.android.ui.Onboarding.ProfileScreen.ProfileActivity
 import com.litmethod.android.utlis.DataPreferenceObject
 import kotlinx.coroutines.launch
@@ -34,7 +26,7 @@ import kotlinx.coroutines.launch
 class SignUpActivity : BaseActivity(), View.OnClickListener {
     lateinit var binding: ActivitySignUpBinding
     lateinit var viewModel: SignUpViewModell
-    private val retrofitService = RetrofitService.getInstance()
+    private val retrofitService = RetrofitDataSourceService.getInstance()
     lateinit var dataPereREnceObject: DataPreferenceObject
     var hidePass: Boolean = true
 
@@ -165,7 +157,7 @@ class SignUpActivity : BaseActivity(), View.OnClickListener {
         viewModel.signUpUserData.observe(this, Observer {
             binding.spLoading.visibility = View.GONE
             if (it.serverResponse.statusCode == 200) {
-                AllClassesDataObject.accessToken = it.result.profileDetails.accessToken.accessToken
+                BaseResponseDataObject.accessToken = it.result.profileDetails.accessToken.accessToken
                 lifecycleScope.launch {
                     dataPereREnceObject.save(
                         "userToken",

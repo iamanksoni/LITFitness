@@ -5,39 +5,28 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import android.widget.Toast
-import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
-import androidx.lifecycle.lifecycleScope
 import com.litmethod.android.R
-import com.litmethod.android.databinding.ActivityLoginBinding
 import com.litmethod.android.databinding.ActivitySplashScreenBinding
-import com.litmethod.android.models.GetAllAccessCatagory.GetAllAccessCatagoryRequest
 import com.litmethod.android.models.GetCustomers.GetCutomerRequest
-import com.litmethod.android.models.GetProgram.GetProgramsRequest
-import com.litmethod.android.network.RetrofitService
-import com.litmethod.android.network.SignInRepository
+import com.litmethod.android.network.RetrofitDataSourceService
 import com.litmethod.android.network.SplashScreenRepository
-import com.litmethod.android.ui.Dashboard.AllClassTabScreen.ClassesFragmentScreen.Util.AllClassesDataObject
-import com.litmethod.android.ui.Dashboard.DashBoardActivity
-import com.litmethod.android.ui.Onboarding.LoginScreen.LoginActivity
-import com.litmethod.android.ui.Onboarding.LoginScreen.LoginViewModel
-import com.litmethod.android.ui.Onboarding.LoginScreen.LoginViewModelFactory
+import com.litmethod.android.ui.root.AllClassTabScreen.ClassesFragmentScreen.Util.BaseResponseDataObject
+import com.litmethod.android.ui.root.DashBoardActivity
 import com.litmethod.android.ui.Onboarding.ProfileScreen.ProfileActivity
 import com.litmethod.android.ui.Onboarding.SplashScreen.ViewmModel.SpalshScreenViewModelFactory
 import com.litmethod.android.ui.Onboarding.SplashScreen.ViewmModel.SplashScreenViewModel
 import com.litmethod.android.ui.Onboarding.WelcomeScreen.WelcomeActivity
 import com.litmethod.android.utlis.AppConstants
 import com.litmethod.android.utlis.DataPreferenceObject
-import kotlinx.coroutines.launch
 
 class SplashScreenActivity : AppCompatActivity() {
     lateinit var binding: ActivitySplashScreenBinding
     lateinit var viewModel: SplashScreenViewModel
-    private val retrofitService = RetrofitService.getInstance()
+    private val retrofitService = RetrofitDataSourceService.getInstance()
     lateinit var dataPereREnceObject: DataPreferenceObject
     var token =""
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -83,14 +72,14 @@ class SplashScreenActivity : AppCompatActivity() {
             Log.d("singetoneobject","thr object is ${it}")
             if (it.serverResponse.statusCode == 200){
                 if (it.result.profileDetails.onbordingStatus ==true){
-                    AllClassesDataObject.profilePageData=it.result.profileDetails
-                    AllClassesDataObject.accessToken = token
+                    BaseResponseDataObject.profilePageData=it.result.profileDetails
+                    BaseResponseDataObject.accessToken = token
 
                     intentActivityWithFinish(this@SplashScreenActivity, DashBoardActivity::class.java)
 
                 }else{
-                    AllClassesDataObject.profilePageData=it.result.profileDetails
-                    AllClassesDataObject.accessToken = token
+                    BaseResponseDataObject.profilePageData=it.result.profileDetails
+                    BaseResponseDataObject.accessToken = token
                     intentActivityWithFinish(this@SplashScreenActivity, ProfileActivity::class.java)
                 }
 

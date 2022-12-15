@@ -16,10 +16,10 @@
         android:layout_marginTop="@dimen/_5sdp"
         android:layout_marginEnd="@dimen/_5sdp"
         android:layout_marginBottom="@dimen/_5sdp"
-        android:background="#00000000"
         android:gravity="center"
         app:carbon_cornerRadius="@dimen/_6sdp"
         app:carbon_stroke="#1AFFFFFF"
+        android:background="@color/white"
         app:carbon_strokeWidth="@dimen/_1sdp">
 
         <ImageView

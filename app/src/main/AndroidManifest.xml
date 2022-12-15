@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.litmethod.android">
 
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
@@ -19,12 +20,17 @@
         android:theme="@style/Theme.LIT"
         tools:targetApi="31">
         <activity
-            android:name=".ui.VideoPlayer.VideoPlayerActivity"
-            android:exported="false" >
-
+            android:name=".devicemanager.DeviceManagerActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
         </activity>
         <activity
-            android:name=".ui.Dashboard.WorkOut.WorkoutActivity"
+            android:name=".ui.VideoPlayer.VideoPlayerActivity"
+            android:exported="false"/>
+        <activity
+            android:name=".ui.root.WorkOut.WorkoutActivity"
             android:exported="false" />
         <activity
             android:name=".ui.WorkoutHistory.WorkoutHistoryActivity"
@@ -34,52 +40,55 @@
         <activity
             android:name=".ui.Onboarding.SplashScreen.SplashScreenActivity"
             android:exported="true">
-               <intent-filter>
-                   <action android:name="android.intent.action.MAIN" />
-
-                   <category android:name="android.intent.category.LAUNCHER" />
-               </intent-filter>
-        </activity>
-        <activity
-            android:name=".ui.Dashboard.HomeTabScreen.PerformanceDetailsScreen.PerformanceDetailsActivity"
-            android:configChanges="keyboardHidden|screenSize"
-            android:exported="true"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
-        <activity
-            android:name=".ui.Dashboard.ShowAllScreen.ShowAllActivity"
-            android:configChanges="keyboardHidden|screenSize"
-            android:exported="true"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
-        <activity
-            android:name="com.litmethod.android.ui.Dashboard.AllClassTabScreen.CoverScreen.ProgramsCoverScreen.ProgramsCoverActivity"
-            android:configChanges="keyboardHidden|screenSize"
-            android:exported="false"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
-        <activity
-            android:name="com.litmethod.android.ui.Dashboard.AllClassTabScreen.CoverScreen.TrainerProfileScreen.TrainerProfileScreenActivity"
-            android:configChanges="keyboardHidden|screenSize"
-            android:exported="false"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
-        <activity
-            android:name="com.litmethod.android.ui.Dashboard.AllClassTabScreen.FilterScreen.FilterActivity"
-            android:configChanges="keyboardHidden|screenSize"
-            android:exported="false"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
-        <activity
-            android:name="com.litmethod.android.ui.Dashboard.AllClassTabScreen.CoverScreen.ClassesCoverScreen.ClassesCoverActivity"
-            android:configChanges="keyboardHidden|screenSize"
-            android:exported="false"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
-        <activity
-            android:name=".ui.Dashboard.DashBoardActivity"
-            android:configChanges="keyboardHidden|screenSize"
-            android:exported="true"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustResize">
-           <!-- <intent-filter>
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>-->
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ui.root.HomeTabScreen.PerformanceDetailsScreen.PerformanceDetailsActivity"
+            android:configChanges="keyboardHidden|screenSize"
+            android:exported="true"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
+        <activity
+            android:name=".ui.root.ShowAllScreen.ShowAllActivity"
+            android:configChanges="keyboardHidden|screenSize"
+            android:exported="true"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
+        <activity
+            android:name="com.litmethod.android.ui.root.AllClassTabScreen.CoverScreen.ProgramsCoverScreen.ProgramsCoverActivity"
+            android:configChanges="keyboardHidden|screenSize"
+            android:exported="false"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
+        <activity
+            android:name="com.litmethod.android.ui.root.AllClassTabScreen.CoverScreen.TrainerProfileScreen.TrainerProfileScreenActivity"
+            android:configChanges="keyboardHidden|screenSize"
+            android:exported="false"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
+        <activity
+            android:name="com.litmethod.android.ui.root.AllClassTabScreen.FilterScreen.FilterActivity"
+            android:configChanges="keyboardHidden|screenSize"
+            android:exported="false"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
+        <activity
+            android:name="com.litmethod.android.ui.root.AllClassTabScreen.CoverScreen.ClassesCoverScreen.ClassesCoverActivity"
+            android:configChanges="keyboardHidden|screenSize"
+            android:exported="false"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
+        <activity
+            android:name=".ui.root.DashBoardActivity"
+            android:configChanges="keyboardHidden|screenSize"
+            android:exported="true"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize">
+
+            <!--
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            -->
         </activity>
         <activity
             android:name=".ui.Onboarding.LitMembershipScreen.LitMembershipActivity"
@@ -110,7 +119,7 @@
             android:name=".ui.Onboarding.InjuryScreen.InjuryActivity"
             android:configChanges="keyboardHidden|screenSize"
             android:exported="true"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"/>
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
         <activity
             android:name=".ui.Onboarding.MeasureScreen.MeasureActivity"
             android:configChanges="keyboardHidden|screenSize"
@@ -120,7 +129,7 @@
             android:name=".ui.Onboarding.ProfileScreen.ProfileActivity"
             android:configChanges="keyboardHidden|screenSize"
             android:exported="true"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"/>
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
         <activity
             android:name=".ui.Onboarding.SignUpScreen.SignUpActivity"
             android:configChanges="keyboardHidden|screenSize"
@@ -146,6 +155,7 @@
             android:configChanges="keyboardHidden|screenSize"
             android:exported="true"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
+
         <receiver android:name=".utlis.ConnectionReceiver" />
     </application>
 

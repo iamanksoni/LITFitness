@@ -13,11 +13,11 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.litmethod.android.R
 import com.litmethod.android.databinding.ActivityLoginBinding
-import com.litmethod.android.network.RetrofitService
+import com.litmethod.android.network.RetrofitDataSourceService
 import com.litmethod.android.network.SignInRepository
 import com.litmethod.android.shared.BaseActivity
-import com.litmethod.android.ui.Dashboard.AllClassTabScreen.ClassesFragmentScreen.Util.AllClassesDataObject
-import com.litmethod.android.ui.Dashboard.DashBoardActivity
+import com.litmethod.android.ui.root.AllClassTabScreen.ClassesFragmentScreen.Util.BaseResponseDataObject
+import com.litmethod.android.ui.root.DashBoardActivity
 import com.litmethod.android.ui.Onboarding.ForgotPasswordScreen.ForgotPasswordActivity
 import com.litmethod.android.ui.Onboarding.SignUpScreen.SignUpActivity
 import com.litmethod.android.utlis.DataPreferenceObject
@@ -27,7 +27,7 @@ import kotlinx.coroutines.launch
 class LoginActivity : BaseActivity(), View.OnClickListener {
     lateinit var binding: ActivityLoginBinding
     lateinit var viewModel: LoginViewModel
-    private val retrofitService = RetrofitService.getInstance()
+    private val retrofitService = RetrofitDataSourceService.getInstance()
     lateinit var dataPereREnceObject: DataPreferenceObject
     var hidePass: Boolean = true
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,7 +53,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
         dataPereREnceObject = DataPreferenceObject(this)
         binding.loginEtEmail.setOnFocusChangeListener { view, b ->
             if (view.isFocused) {
-                binding.loginEtEmail.strokeWidth = 1.0f
+                binding.loginEtEmail.strokeWidth = 3.0f
                 val colorInt = resources.getColor(R.color.red)
                 binding.loginEtEmail.stroke = ColorStateList.valueOf(colorInt)
             } else {
@@ -64,7 +64,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
         }
         binding.loginEtPassword.setOnFocusChangeListener { view, b ->
             if (view.isFocused) {
-                binding.loginEtPassword.strokeWidth = 1.0f
+                binding.loginEtPassword.strokeWidth = 3.0f
                 val colorInt = resources.getColor(R.color.red)
                 binding.loginEtPassword.stroke = ColorStateList.valueOf(colorInt)
             } else {
@@ -228,9 +228,9 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
                         it.result.profileDetails.accessToken.accessToken
                     )
                 }
-                AllClassesDataObject.accessToken = it.result.profileDetails.accessToken.accessToken
-                AllClassesDataObject.token = it.result.profileDetails.accessToken.accessToken
-                AllClassesDataObject.profilePageData = it.result.profileDetails
+                BaseResponseDataObject.accessToken = it.result.profileDetails.accessToken.accessToken
+                BaseResponseDataObject.token = it.result.profileDetails.accessToken.accessToken
+                BaseResponseDataObject.profilePageData = it.result.profileDetails
                 binding.spLoading.visibility = View.GONE
                 intentActivityWithFinish(this@LoginActivity, DashBoardActivity::class.java)
             } else {

@@ -7,7 +7,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.litmethod.android.R
 import com.litmethod.android.databinding.ActivityWelcomeBinding
 import com.litmethod.android.shared.BaseActivity
-import com.litmethod.android.ui.Dashboard.DashBoardActivity
+import com.litmethod.android.ui.root.DashBoardActivity
 import com.litmethod.android.ui.Onboarding.LoginScreen.LoginActivity
 import com.litmethod.android.ui.Onboarding.SignUpScreen.SignUpActivity
 import com.zhpan.indicator.enums.IndicatorSlideMode

@@ -8,7 +8,7 @@
         android:layout_height="match_parent"
         android:animateLayoutChanges="true"
         android:background="@color/mono_dark_100"
-        tools:context=".ui.Dashboard.AllClassTabScreen.FilterScreen.FilterActivity">
+        tools:context=".ui.root.AllClassTabScreen.FilterScreen.FilterActivity">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/app_bar"

@@ -10,9 +10,8 @@ import com.litmethod.android.R
 import com.litmethod.android.databinding.ActivityPasswordResetBinding
 import com.litmethod.android.models.ForgetPasswordModel.ForgetPasswordRequest
 import com.litmethod.android.network.ForgetPasswordRepository
-import com.litmethod.android.network.RetrofitService
+import com.litmethod.android.network.RetrofitDataSourceService
 import com.litmethod.android.shared.BaseActivity
-import com.litmethod.android.ui.Dashboard.AllClassTabScreen.ClassesFragmentScreen.Util.AllClassesDataObject
 import com.litmethod.android.ui.Onboarding.ForgotPasswordScreen.viewmodel.ForgetPasswordViewModel
 import com.litmethod.android.ui.Onboarding.ForgotPasswordScreen.viewmodel.ForgetPasswordViewModelFactory
 import com.litmethod.android.ui.Onboarding.LoginScreen.LoginActivity
@@ -41,7 +40,7 @@ class PasswordResetActivity : BaseActivity(), View.OnClickListener {
             ViewModelProvider(
                 this, ForgetPasswordViewModelFactory(
                     ForgetPasswordRepository(
-                        RetrofitService.retrofitService!!
+                        RetrofitDataSourceService.retrofitService!!
                     ), this
                 )
             ).get(
@@ -68,7 +67,7 @@ class PasswordResetActivity : BaseActivity(), View.OnClickListener {
                 viewModel.getForgetPassword(
                     ForgetPasswordRequest(
                         binding.loginEtEmail.text.toString(),
-                        AppConstants.forgetPassword
+                        AppConstants.ACTION_FORGOT_PASSWORD
                     )
                 )
             }

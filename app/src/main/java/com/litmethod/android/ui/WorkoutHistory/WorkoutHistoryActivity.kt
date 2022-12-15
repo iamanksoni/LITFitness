@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.litmethod.android.R
 import com.litmethod.android.databinding.ActivityWorkoutHistoryBinding
 import com.litmethod.android.shared.BaseActivity
-import com.litmethod.android.ui.Dashboard.HomeTabScreen.HomeTabFragmentScreen.WorkoutGoalHeaderAdapter
+import com.litmethod.android.ui.root.HomeTabScreen.HomeTabFragmentScreen.WorkoutGoalHeaderAdapter
 import com.litmethod.android.utlis.SpacesItemDecoration
 
 class WorkoutHistoryActivity : BaseActivity() {

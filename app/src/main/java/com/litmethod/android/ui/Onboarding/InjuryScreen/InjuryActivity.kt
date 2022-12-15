@@ -1,6 +1,5 @@
 package com.litmethod.android.ui.Onboarding.InjuryScreen
 
-import android.R.attr.key
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Typeface
@@ -15,14 +14,12 @@ import com.litmethod.android.R
 import com.litmethod.android.databinding.ActivityInjuryBinding
 import com.litmethod.android.models.InjuryResponse.Data
 import com.litmethod.android.network.InjuryRepository
-import com.litmethod.android.network.RetrofitService
+import com.litmethod.android.network.RetrofitDataSourceService
 import com.litmethod.android.shared.BaseActivity
-import com.litmethod.android.ui.Dashboard.AllClassTabScreen.ClassesFragmentScreen.Util.AllClassesDataObject
+import com.litmethod.android.ui.root.AllClassTabScreen.ClassesFragmentScreen.Util.BaseResponseDataObject
 import com.litmethod.android.ui.Onboarding.InjuryScreen.ViewModel.InjuryViewModel
 import com.litmethod.android.ui.Onboarding.InjuryScreen.ViewModel.InjuryViewModelFactory
 import com.litmethod.android.ui.Onboarding.LevelScreen.LevelActivity
-import com.litmethod.android.ui.Onboarding.LevelScreen.LevelData
-import com.litmethod.android.ui.Onboarding.YourGoalsScreen.YourGoalsActivity
 import com.litmethod.android.utlis.MarginItemDecoration
 import com.litmethod.android.utlis.UiDataObject
 
@@ -32,7 +29,7 @@ class InjuryActivity : BaseActivity(),InjuryAdapter.InjuryAdapterListener, View.
     private var injuryAdapter: InjuryAdapter? = null
     lateinit var viewModel: InjuryViewModel
 
-    private val retrofitService = RetrofitService.getInstance()
+    private val retrofitService = RetrofitDataSourceService.getInstance()
     val dataList: ArrayList<InjuryData> = ArrayList<InjuryData>()
     var injuryList: List<Data> = ArrayList<Data>()
     val injuryLevel: ArrayList<String> = ArrayList<String>()
@@ -45,7 +42,7 @@ class InjuryActivity : BaseActivity(),InjuryAdapter.InjuryAdapterListener, View.
 
         viewModelSetup()
         clickListener()
-        viewModel.checkgetInjury(AllClassesDataObject.accessToken)
+        viewModel.checkgetInjury(BaseResponseDataObject.accessToken)
         Log.d("textChnged","metr is ${UiDataObject.Weight}")
     }
 

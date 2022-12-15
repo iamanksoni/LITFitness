@@ -1,6 +1,5 @@
 package com.litmethod.android.ui.Onboarding.YourGoalsScreen
 
-import android.R.attr.key
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.os.Bundle
@@ -15,13 +14,12 @@ import com.litmethod.android.databinding.ActivityYourGoalsBinding
 import com.litmethod.android.models.AcountScreenFragment.EditUserGoal.EditUserGoalRequest
 import com.litmethod.android.models.GetYourGoalResponse.Data
 import com.litmethod.android.network.GetGoalRepository
-import com.litmethod.android.network.RetrofitService
+import com.litmethod.android.network.RetrofitDataSourceService
 import com.litmethod.android.shared.BaseActivity
-import com.litmethod.android.ui.Dashboard.AllClassTabScreen.ClassesFragmentScreen.Util.AllClassesDataObject
+import com.litmethod.android.ui.root.AllClassTabScreen.ClassesFragmentScreen.Util.BaseResponseDataObject
 import com.litmethod.android.ui.Onboarding.YourGoalsScreen.ViewModel.GetGoalViewModel
 import com.litmethod.android.ui.Onboarding.YourGoalsScreen.ViewModel.GetGoalViewModelFactory
 import com.litmethod.android.ui.Onboarding.YourInterestScreen.YourInterestActivity
-import com.litmethod.android.ui.Onboarding.YourInterestScreen.YourInterestData
 import com.litmethod.android.utlis.MarginItemDecoration
 import com.litmethod.android.utlis.UiDataObject
 
@@ -30,7 +28,7 @@ class YourGoalsActivity : BaseActivity(),GoalsAdapter.GoalsAdapterListener,View.
     lateinit var binding: ActivityYourGoalsBinding
     val dataList: ArrayList<GoalsData> = ArrayList<GoalsData>()
     lateinit var viewModel: GetGoalViewModel
-    private val retrofitService = RetrofitService.getInstance()
+    private val retrofitService = RetrofitDataSourceService.getInstance()
     var getGoalList: List<Data> = ArrayList<Data>()
     val goalLevel: ArrayList<String> = ArrayList<String>()
     var checkintentData:String? =null
@@ -51,7 +49,7 @@ class YourGoalsActivity : BaseActivity(),GoalsAdapter.GoalsAdapterListener,View.
 //        setUpAdapter()
         viewModelSetup()
         clickListener()
-        viewModel.checkgetGoal(AllClassesDataObject.accessToken)
+        viewModel.checkgetGoal(BaseResponseDataObject.accessToken)
     }
 
 
@@ -66,7 +64,7 @@ class YourGoalsActivity : BaseActivity(),GoalsAdapter.GoalsAdapterListener,View.
         getGoalList.map {
             val userid=it.id
             var isAddDAta= false
-         AllClassesDataObject.profilePageData.goal.map {
+         BaseResponseDataObject.profilePageData.goal.map {
              if (it.id==userid){
                  isAddDAta = true
                  count++
@@ -176,7 +174,7 @@ class YourGoalsActivity : BaseActivity(),GoalsAdapter.GoalsAdapterListener,View.
             }
             R.id.btn_next ->{
                 if (switchActivity=="AccountFrag"){
-                   viewModel.checkEditUserForGoal(AllClassesDataObject.accessToken,
+                   viewModel.checkEditUserForGoal(BaseResponseDataObject.accessToken,
                        EditUserGoalRequest("editUser",goalLevel)
                    )
 
@@ -216,7 +214,7 @@ class YourGoalsActivity : BaseActivity(),GoalsAdapter.GoalsAdapterListener,View.
         })
 
             viewModel.editUserForGoalResponse.observe(this, Observer {
-           AllClassesDataObject.profilePageData = it.result.profileDetails
+           BaseResponseDataObject.profilePageData = it.result.profileDetails
                 finish()
 
             })

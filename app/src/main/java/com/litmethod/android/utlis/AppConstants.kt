@@ -30,9 +30,27 @@ interface AppConstants {
         var beginner = "beginner"
         var intermediate = "intermediate"
         var advanced = "advanced"
+        const val AUTH_TOKEN = "AUTHTOKEN"
+        const val APP_HEADER = "Content-Type: application/json"
+        const val API_END_POINT = "/app/action.php"
         var beginner_value = 0
         var intermediate_value = 1
         var advanced_value = 2
-        var forgetPassword: String = "forgetPassword"
+
+
+        var MULTIPART_FORM_DATA = "multipart/form-data"
+        var IMAGE = "image"
+        var TEXT_PLAIN = "text/plain"
+        var AVATAR_IMAGE = "avtarImage"
+        var ACTION_GET_CALENDAR_TRACK = "getcalanderTrack"
+        var ACTION_FORGOT_PASSWORD: String = "forgetPassword"
+        var ACTION_BOOK_MARK_CLASS: String = "bookmarkClass"
+        var ACTION_GET_CLASS_STATISTICS: String = "getClassStatistics"
+        var ACTION_GET_ACHIEVEMENTS_CLASS: String = "getAchievementsClass"
+        var ACTION_GET_ACHIEVEMENTS_DAYILY_STREAK: String = "getAchievementsdayStreak"
+        var ACTION_GET_ACHIEVEMENTS_WEEKLY_STREAK: String = "getAchievementsweeklyStreak"
+        var ACTION_GET_CALORIES: String = "getCalories"
+        var ACTION_GET_WEIGHT: String = "getLbs"
+
     }
 }
