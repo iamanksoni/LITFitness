@@ -1,0 +1,17 @@
+package com.litmethod.android.BluetoothConnection
+
+import java.util.*
+
+
+object LitDeviceConstants {
+
+    val LIT_AXIS_WEIGHT_SCALE_ = UUID.fromString("0000181d-0000-1000-8000-00805f9b34fb")
+    val LIT_AXIS_GENERIC_ATTTR = UUID.fromString("00001801-0000-1000-8000-00805f9b34fb")
+    val LIT_AXIS_GENERIC_ACCESS = UUID.fromString("00001800-0000-1000-8000-00805f9b34fb")
+    val LIT_AXIS_BATTERY_SERVICE = UUID.fromString("0000180f-0000-1000-8000-00805f9b34fb")
+    val LIT_AXIS_DEVICE_INFO_SERVICE = UUID.fromString("0000180a-0000-1000-8000-00805f9b34fb")
+
+    val LIT_HEART_RATE_SERVICE = UUID.fromString("0000180d-0000-1000-8000-00805f9b34fb")
+    val LIT_STRENGTH_MACHINE_SERVICE = UUID.fromString("00001826-0000-1000-8000-00805f9b34fb")
+
+}
