@@ -33,7 +33,7 @@
                         android:layout_width="@dimen/_39sdp"
                         android:layout_height="@dimen/_37sdp"
                         android:background="@drawable/ic_back_arrow"
-                        android:contentDescription="back_button"
+                        android:contentDescription="@string/back_button"
                         android:padding="@dimen/_5sdp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -54,7 +54,7 @@
                             android:fontFamily="@font/futura_std_condensed_extra_bd"
                             android:lineSpacingExtra="2sp"
                             android:singleLine="true"
-                            android:text="Welcome to LIT"
+                            android:text="@string/welcome_to_lit"
                             android:textAllCaps="true"
                             android:textColor="@color/white"
                             android:textSize="@dimen/_25ssp"
@@ -69,7 +69,7 @@
                             android:fontFamily="@font/futura_std_condensed"
                             android:lineSpacingExtra="4sp"
                             android:singleLine="false"
-                            android:text="Let’s get your profile set up."
+                            android:text="@string/profile_setup_message"
                             android:textAllCaps="true"
                             android:textColor="@color/grey"
                             android:textSize="@dimen/_17ssp"
@@ -87,7 +87,7 @@
                                 android:layout_width="0dp"
                                 android:id="@+id/ll_image"
                                 android:layout_height="wrap_content"
-                                android:layout_marginRight="@dimen/_5sdp"
+                                android:layout_marginEnd="@dimen/_5sdp"
                                 android:layout_weight="0.5">
 
                                 <androidx.cardview.widget.CardView
@@ -102,7 +102,7 @@
                                         android:layout_width="@dimen/_20sdp"
                                         android:layout_height="@dimen/_20sdp"
                                         android:layout_gravity="center"
-                                        android:contentDescription="cameraview"
+                                        android:contentDescription="@string/cameraview"
                                         android:scaleType="center"
                                         android:src="@drawable/ic_camera" />
 
@@ -110,7 +110,7 @@
                                         android:layout_width="match_parent"
                                         android:id="@+id/iv_chooseimg"
                                         android:layout_height="match_parent"
-                                        android:contentDescription="useriamge"
+                                        android:contentDescription="@string/userimage"
                                         android:scaleType="fitXY" />
                                 </androidx.cardview.widget.CardView>
                             </carbon.widget.LinearLayout>
@@ -118,7 +118,7 @@
                             <carbon.widget.RelativeLayout
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="@dimen/_5sdp"
+                                android:layout_marginStart="@dimen/_5sdp"
                                 android:layout_weight="1"
                                 android:orientation="vertical">
 
@@ -130,7 +130,7 @@
                                     android:background="@color/mono_slate_10"
                                     android:clickable="true"
                                     android:fontFamily="@font/futura_std_condensed"
-                                    android:hint="FIRST NAME"
+                                    android:hint="@string/first_name"
                                     android:inputType="textCapSentences"
                                     android:lineSpacingExtra="4sp"
                                     android:maxLines="1"
@@ -152,7 +152,7 @@
                                     android:id="@+id/errorFirstName"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="Please enter first name"
+                                    android:text="@string/please_enter_first_name"
                                     android:layout_below="@id/first_name"
                                     android:textColor="@color/red"
                                     android:visibility="gone"/>
@@ -164,7 +164,7 @@
                                     android:layout_alignParentBottom="true"
                                     android:background="@color/mono_slate_10"
                                     android:fontFamily="@font/futura_std_condensed"
-                                    android:hint="LAST NAME"
+                                    android:hint="@string/last_name"
                                     android:inputType="textCapSentences"
                                     android:lineSpacingExtra="4sp"
                                     android:maxLines="1"
@@ -192,7 +192,7 @@
                             android:layout_marginTop="@dimen/_23sdp"
                             android:background="@color/mono_slate_10"
                             android:fontFamily="@font/futura_std_condensed"
-                            android:hint="USERNAME"
+                            android:hint="@string/username"
                             android:inputType="textCapSentences"
                             android:lineSpacingExtra="4sp"
                             android:maxLines="1"
@@ -214,7 +214,7 @@
                             android:id="@+id/errorUserName"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Please enter user name"
+                            android:text="@string/please_enter_user_name"
                             android:layout_below="@id/user_name"
                             android:textColor="@color/red"
                             android:visibility="gone"/>
@@ -228,7 +228,7 @@
                             android:background="@color/mono_slate_10"
                             android:focusable="false"
                             android:fontFamily="@font/futura_std_condensed"
-                            android:hint="DATE OF BIRTH"
+                            android:hint="@string/date_of_birth"
                             android:inputType="date"
                             android:lineSpacingExtra="4sp"
                             android:maxLines="1"
@@ -249,7 +249,7 @@
                             android:id="@+id/errorDateOfBirth"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Please select DOB"
+                            android:text="@string/please_select_dob"
                             android:layout_below="@id/et_dob"
                             android:textColor="@color/red"
                             android:visibility="gone"/>
@@ -264,7 +264,7 @@
                             android:fontFamily="@font/futura_std_condensed_extra_bd"
                             android:lineSpacingExtra="4sp"
                             android:singleLine="true"
-                            android:text="NEXT"
+                            android:text="@string/next"
                             android:textColor="@color/white"
                             android:textSize="@dimen/_10ssp"
                             android:visibility="visible"
