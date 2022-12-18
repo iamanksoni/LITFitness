@@ -1,56 +1,0 @@
-
-Fkotlin:S108¸")Either remove or fill this block of code.(äÍ¯¤úÿÿÿÿ
-Rkotlin:S1172¿"4Use "_" instead of this unused lambda parameter "b".(º‹”èýÿÿÿÿ
-Rkotlin:S1172Ê"4Use "_" instead of this unused lambda parameter "b".(‘¡…æøÿÿÿÿ
-Mkotlin:S1172Õ"4Use "_" instead of this unused lambda parameter "b".(€øùµ
-Mkotlin:S1172á"4Use "_" instead of this unused lambda parameter "b".(Øñó­
-Rkotlin:S1172ì"4Use "_" instead of this unused lambda parameter "b".(È‡®Üøÿÿÿÿ
-Mkotlin:S1172÷"4Use "_" instead of this unused lambda parameter "b".(³æËè
-Mkotlin:S1172‚"4Use "_" instead of this unused lambda parameter "b".(èíéµ
-[kotlin:S1172"=Use "_" instead of this unused lambda parameter "radioGroup".(ŸÆÚýÿÿÿÿ
-Vkotlin:S1172®"=Use "_" instead of this unused lambda parameter "radioGroup".(ëžƒ
-Vkotlin:S1172ç"=Use "_" instead of this unused lambda parameter "radioGroup".(ý‰þÅ
-Ukotlin:S1172ý"7Use "_" instead of this unused lambda parameter "view".(‰ËÔïúÿÿÿÿ
->kotlin:S1128"Remove this unused import.(’—ÄÑùÿÿÿÿ8±ÑÌ¬Ò0
-<kotlin:S1874–"#Deprecated code should not be used.(•–‡Í
-Akotlin:S1874¡"#Deprecated code should not be used.(ß€ª˜üÿÿÿÿ
-;kotlin:S1874¦"#Deprecated code should not be used.(¬à­r
-<kotlin:S1874§"#Deprecated code should not be used.(…æÞ¥
-Akotlin:S1874Â"#Deprecated code should not be used.(ß€ª˜üÿÿÿÿ
-Akotlin:S1874Æ"#Deprecated code should not be used.(òÔ¤Æþÿÿÿÿ
-Akotlin:S1874Í"#Deprecated code should not be used.(ß€ª˜üÿÿÿÿ
-Akotlin:S1874Ñ"#Deprecated code should not be used.(òÔ¤Æþÿÿÿÿ
-Akotlin:S1874Ø"#Deprecated code should not be used.(ß€ª˜üÿÿÿÿ
-Akotlin:S1874Ü"#Deprecated code should not be used.(òÔ¤Æþÿÿÿÿ
-Akotlin:S1874ä"#Deprecated code should not be used.(ß€ª˜üÿÿÿÿ
-Akotlin:S1874è"#Deprecated code should not be used.(òÔ¤Æþÿÿÿÿ
-Akotlin:S1874ï"#Deprecated code should not be used.(ß€ª˜üÿÿÿÿ
-Akotlin:S1874ó"#Deprecated code should not be used.(òÔ¤Æþÿÿÿÿ
-Akotlin:S1874ú"#Deprecated code should not be used.(ß€ª˜üÿÿÿÿ
-Akotlin:S1874þ"#Deprecated code should not be used.(òÔ¤Æþÿÿÿÿ
-Akotlin:S1874…"#Deprecated code should not be used.(ß€ª˜üÿÿÿÿ
-Akotlin:S1874‰"#Deprecated code should not be used.(òÔ¤Æþÿÿÿÿ
-Akotlin:S1874ò"#Deprecated code should not be used.(ß€ª˜üÿÿÿÿ
-<kotlin:S1874…"#Deprecated code should not be used.(•–‡Í
-Akotlin:S1874Ž"#Deprecated code should not be used.(ß€ª˜üÿÿÿÿ
-Akotlin:S1874"#Deprecated code should not be used.(ˆ†ü½üÿÿÿÿ
-<kotlin:S1874"#Deprecated code should not be used.(„Ðÿ‰
-Akotlin:S1874¢"#Deprecated code should not be used.(´¾ø½ýÿÿÿÿ
-<kotlin:S1874´"#Deprecated code should not be used.(‚´Ã¬
-Akotlin:S1874Á"#Deprecated code should not be used.(Òžòëþÿÿÿÿ
-<kotlin:S1874Ã"#Deprecated code should not be used.(ù”éª
-kkotlin:S3776¼"RRefactor this method to reduce its Cognitive Complexity from 43 to the 15 allowed.(çó‘Ã
-xkotlin:S1186Œ"ZAdd a nested comment explaining why this function is empty or complete the implementation.(Åçëìÿÿÿÿÿ
-rkotlin:S1186"ZAdd a nested comment explaining why this function is empty or complete the implementation.(€Äçn
-xkotlin:S1186¤"ZAdd a nested comment explaining why this function is empty or complete the implementation.(Åçëìÿÿÿÿÿ
-rkotlin:S1186¨"ZAdd a nested comment explaining why this function is empty or complete the implementation.(€Äçn
-xkotlin:S1186»"ZAdd a nested comment explaining why this function is empty or complete the implementation.(Åçëìÿÿÿÿÿ
-rkotlin:S1186¿"ZAdd a nested comment explaining why this function is empty or complete the implementation.(€Äçn
-xkotlin:S1186Ò"ZAdd a nested comment explaining why this function is empty or complete the implementation.(Åçëìÿÿÿÿÿ
-rkotlin:S1186Õ"ZAdd a nested comment explaining why this function is empty or complete the implementation.(€Äçn
-xkotlin:S1186é"ZAdd a nested comment explaining why this function is empty or complete the implementation.(Åçëìÿÿÿÿÿ
-rkotlin:S1186ì"ZAdd a nested comment explaining why this function is empty or complete the implementation.(€Äçn
-xkotlin:S1186ÿ"ZAdd a nested comment explaining why this function is empty or complete the implementation.(Åçëìÿÿÿÿÿ
-rkotlin:S1186‚"ZAdd a nested comment explaining why this function is empty or complete the implementation.(€Äçn
-xkotlin:S1186–"ZAdd a nested comment explaining why this function is empty or complete the implementation.(Åçëìÿÿÿÿÿ
-rkotlin:S1186™"ZAdd a nested comment explaining why this function is empty or complete the implementation.(€Äçn
