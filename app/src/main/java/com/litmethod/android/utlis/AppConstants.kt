@@ -51,5 +51,12 @@ interface AppConstants {
         const val ACTION_GET_WEIGHT: String = "getLbs"
         const val USER_TOKEN: String = "userToken"
 
+        const val DEVICE_LIT_AXIS="lit_axis"
+        const val DEVICE_HEART_RATE="heart_rate"
+        const val DEVICE_STRENGTH_MACHINE="strength_machine"
+        const val DEVICE_NAME="device_name"
+        const val LIT_AXIS_DEVICE_ID="cl8etkso120560i5p08mc6rq08"
+        const val LIT_STRENGTH_DEVICE_ID="cl8etjfrr20509i5p09s7975ox"
+
     }
 }

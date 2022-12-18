@@ -24,4 +24,6 @@
     <string name="password_eye">password_eye</string>
     <string name="applogo">applogo</string>
     <string name="start_free_trial">Start free trial</string>
+    <string name="manage_devices">MANAGE DEVICES</string>
+    <string name="settings">Settings</string>
 </resources>
