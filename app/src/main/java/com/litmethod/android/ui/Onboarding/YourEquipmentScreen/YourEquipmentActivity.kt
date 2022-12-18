@@ -1,6 +1,5 @@
 package com.litmethod.android.ui.Onboarding.YourEquipmentScreen
 
-import android.content.Intent
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.util.Log
@@ -13,19 +12,14 @@ import carbon.widget.RecyclerView
 import com.litmethod.android.R
 import com.litmethod.android.databinding.ActivityYourEquipmentBinding
 import com.litmethod.android.models.AcountScreenFragment.EditUserEquipment.EditUserEquipmentRequest
-import com.litmethod.android.models.AcountScreenFragment.EditUserInterest.EditUserInterestRequest
 import com.litmethod.android.models.GetEquipment.Data
 import com.litmethod.android.network.GetEquipmentRepository
-import com.litmethod.android.network.InjuryRepository
-import com.litmethod.android.network.RetrofitService
+import com.litmethod.android.network.RetrofitDataSourceService
 import com.litmethod.android.shared.BaseActivity
-import com.litmethod.android.ui.Dashboard.AllClassTabScreen.ClassesFragmentScreen.Util.AllClassesDataObject
-import com.litmethod.android.ui.Onboarding.InjuryScreen.ViewModel.InjuryViewModel
-import com.litmethod.android.ui.Onboarding.InjuryScreen.ViewModel.InjuryViewModelFactory
+import com.litmethod.android.ui.root.AllClassTabScreen.ClassesFragmentScreen.Util.BaseResponseDataObject
 import com.litmethod.android.ui.Onboarding.LitMembershipScreen.LitMembershipActivity
 import com.litmethod.android.ui.Onboarding.YourEquipmentScreen.ViewModel.GetEquipmentViewModel
 import com.litmethod.android.ui.Onboarding.YourEquipmentScreen.ViewModel.GetEquipmentViewModelFactory
-import com.litmethod.android.ui.Onboarding.YourInterestScreen.YourInterestData
 import com.litmethod.android.utlis.DataPreferenceObject
 import com.litmethod.android.utlis.MarginItemDecoration
 import com.litmethod.android.utlis.UiDataObject
@@ -34,7 +28,7 @@ class YourEquipmentActivity :  BaseActivity(),YourEquipmentAdapter.YourEquipment
     lateinit var binding: ActivityYourEquipmentBinding
     val dataList: ArrayList<YourEquipmentData> = ArrayList<YourEquipmentData>()
     lateinit var viewModel: GetEquipmentViewModel
-    private val retrofitService = RetrofitService.getInstance()
+    private val retrofitService = RetrofitDataSourceService.getInstance()
     var equipmentList: List<Data> = ArrayList<Data>()
     private var yourEquipmentAdapter:YourEquipmentAdapter? = null
     val eqipLevel: ArrayList<String> = ArrayList<String>()
@@ -60,7 +54,7 @@ class YourEquipmentActivity :  BaseActivity(),YourEquipmentAdapter.YourEquipment
 //        setUpAdapter()
           viewModelSetup()
         clickListener()
-        viewModel.checkgetEquipment(AllClassesDataObject.accessToken)
+        viewModel.checkgetEquipment(BaseResponseDataObject.accessToken)
     }
 
     private fun  getTheAccessToken(){
@@ -79,7 +73,7 @@ class YourEquipmentActivity :  BaseActivity(),YourEquipmentAdapter.YourEquipment
             equipmentList.map {
                 val userid=it.id
                 var isAddDAta= false
-                AllClassesDataObject.profilePageData.equipment.map {
+                BaseResponseDataObject.profilePageData.equipment.map {
                     if (it.id==userid){
                         isAddDAta = true
                         eqipLevel.add(it.id)
@@ -163,18 +157,18 @@ class YourEquipmentActivity :  BaseActivity(),YourEquipmentAdapter.YourEquipment
 
 
                 if (switchActivity=="AccountFrag"){
-                    viewModel.checkEditUserForEquipment(AllClassesDataObject.accessToken,
+                    viewModel.checkEditUserForEquipment(BaseResponseDataObject.accessToken,
                         EditUserEquipmentRequest("editUser",eqipLevel)
                     )
 
                 }else{
 
-                    Log.d("theuser","equip ${UiDataObject.eqipLevel} interest ${UiDataObject.interestData} goal ${UiDataObject.goalLevel} the token ${AllClassesDataObject.accessToken}, username ${UiDataObject.username} "+
+                    Log.d("theuser","equip ${UiDataObject.eqipLevel} interest ${UiDataObject.interestData} goal ${UiDataObject.goalLevel} the token ${BaseResponseDataObject.accessToken}, username ${UiDataObject.username} "+
                           "injuryy level ${UiDataObject.injuryLevel} has injury ${UiDataObject.has_injury} first name ${UiDataObject.firstName} and dob ${UiDataObject.etDob} and last name ${UiDataObject.lastName}" )
                     Log.d("theInterEsdata","equiptdata $eqipLevel")
 //                    viewModel.checkSetImage(acceessToken,UiDataObject.body,UiDataObject.action)
 
-                            viewModel.checkgetEditUser(AllClassesDataObject.accessToken,UiDataObject.etDob,UiDataObject.username,eqipLevel,UiDataObject.firstName,UiDataObject.gender,UiDataObject.goalLevel,UiDataObject.unitHeight,UiDataObject.HightFt,UiDataObject.HightIn.toFloat().toInt(),
+                            viewModel.checkgetEditUser(BaseResponseDataObject.accessToken,UiDataObject.etDob,UiDataObject.username,eqipLevel,UiDataObject.firstName,UiDataObject.gender,UiDataObject.goalLevel,UiDataObject.unitHeight,UiDataObject.HightFt,UiDataObject.HightIn.toFloat().toInt(),
                                 UiDataObject.interestData,UiDataObject.lastName,UiDataObject.unitWeight,UiDataObject.Weight.toFloat().toInt(),
                               UiDataObject.injuryLevel,
                                 UiDataObject.has_injury,UiDataObject.level,)
@@ -234,7 +228,7 @@ class YourEquipmentActivity :  BaseActivity(),YourEquipmentAdapter.YourEquipment
             }
         })
         viewModel.editUserForEquipmenttResponse.observe(this, Observer {
-            AllClassesDataObject.profilePageData = it.result.profileDetails
+            BaseResponseDataObject.profilePageData = it.result.profileDetails
             finish()
         })
         viewModel.errorMessage4.observe(this, Observer {

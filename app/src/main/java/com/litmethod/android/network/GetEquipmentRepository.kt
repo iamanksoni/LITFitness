@@ -6,9 +6,9 @@ import com.litmethod.android.models.InjuryRequest
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 
-class GetEquipmentRepository constructor(private val retrofitService: RetrofitService){
+class GetEquipmentRepository constructor(private val retrofitService: RetrofitDataSourceService){
     fun getEquipment(auth:String,injuryRequest: InjuryRequest) = retrofitService.getEquipment(auth,injuryRequest)
     fun editUser(auth:String,editUserRequest: EditUserRequest) = retrofitService.editUser(auth,editUserRequest)
-    fun setImage(auth:String, fileName: MultipartBody.Part, action: RequestBody) = retrofitService.setImage(auth, fileName,"avtarImage")
+    fun setImage(auth:String, fileName: MultipartBody.Part, action: RequestBody) = retrofitService.setImage(auth, fileName,action)
     fun editUserForEquipment(auth:String,editUserEquipmentRequest: EditUserEquipmentRequest) = retrofitService.editUserForEquipment(auth,editUserEquipmentRequest)
 }

@@ -5,6 +5,4 @@ data class SignUpRequest(
     val email: String,
     val newsLetterSelected: Boolean,
     val password: String,
-    val phone: String,
-    val dialCode: String
 )

@@ -36,7 +36,7 @@
                         android:layout_width="@dimen/_39sdp"
                         android:layout_height="@dimen/_37sdp"
                         android:background="@drawable/ic_back_arrow"
-                        android:contentDescription="back_button"
+                        android:contentDescription="@string/back_button"
                         android:padding="@dimen/_5sdp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -56,7 +56,7 @@
                             android:fontFamily="@font/futura_std_condensed_extra_bd"
                             android:lineSpacingExtra="2sp"
                             android:singleLine="true"
-                            android:text="Sign up for LIT"
+                            android:text="@string/sign_up_for_list_heading"
                             android:textAllCaps="true"
                             android:textColor="@color/white"
                             android:textSize="@dimen/_25ssp"
@@ -71,7 +71,7 @@
                             android:fontFamily="@font/futura_std_condensed"
                             android:lineSpacingExtra="4sp"
                             android:singleLine="false"
-                            android:text="Create your LIT account and join us to a fitter, healthier, stronger you. "
+                            android:text="@string/sign_up_below_heading_message"
                             android:textAllCaps="true"
                             android:textColor="@color/grey"
                             android:textSize="@dimen/_17ssp"
@@ -87,7 +87,7 @@
                             android:drawableStart="@drawable/email"
                             android:drawablePadding="@dimen/_10sdp"
                             android:fontFamily="@font/futura_std_condensed"
-                            android:hint="EMAIL ADDRESS..."
+                            android:hint="@string/email_address_hint"
                             android:inputType="textEmailAddress"
                             android:lineSpacingExtra="4sp"
                             android:maxLines="1"
@@ -108,81 +108,16 @@
                             android:id="@+id/errorEmail"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Enter the valid email address"
+                            android:text="@string/error_email_message"
                             android:layout_below="@id/signup_et_email"
                             android:textColor="@color/red"
                             android:visibility="gone"/>
 
                         <carbon.widget.RelativeLayout
-                            android:id="@+id/signup_rl_phone_no"
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/_52sdp"
-                            android:layout_below="@+id/signup_et_email"
-                            android:layout_marginTop="@dimen/_23sdp"
-                            app:carbon_cornerRadius="@dimen/_11sdp"
-                            app:carbon_elevation="@dimen/_2sdp">
-
-                            <ImageView
-                                android:id="@+id/imageOfFlag"
-                                android:layout_width="40dp"
-                                android:layout_height="40dp"
-                                android:layout_alignParentStart="true"
-                                android:layout_marginStart="10dp"
-                                android:layout_centerVertical="true"
-                                android:src="@drawable/index"/>
-
-                            <TextView
-                                android:id="@+id/idOfContact"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="10dp"
-                                android:text="+1"
-                                android:textSize="@dimen/_14ssp"
-                                android:layout_centerVertical="true"
-                                android:textColor="@color/mono_grey_60"
-                                android:layout_toEndOf="@id/imageOfFlag"/>
-
-                            <carbon.widget.EditText
-                                android:id="@+id/signup_et_phone_no"
-                                android:layout_width="match_parent"
-                                android:layout_toEndOf="@id/idOfContact"
-                                android:layout_height="match_parent"
-                                android:background="@color/mono_slate_10"
-                                android:drawablePadding="@dimen/_10sdp"
-                                android:fontFamily="@font/futura_std_condensed"
-                                android:hint=" XXX-XXX-XXXX"
-                                android:maxLength="10"
-                                android:inputType="number"
-                                android:lineSpacingExtra="4sp"
-                                android:maxLines="1"
-                                android:paddingLeft="@dimen/_8sdp"
-                                android:paddingRight="@dimen/_20sdp"
-                                android:singleLine="true"
-                                android:textColor="@color/white"
-                                android:textColorHint="@color/mono_grey_60"
-                                android:textCursorDrawable="@null"
-                                android:textSize="@dimen/_14ssp"
-                                app:carbon_backgroundTint="@color/mono_slate_10"
-                                app:carbon_cornerRadius="@dimen/_11sdp"
-                                app:carbon_cursorColor="@color/red" />
-
-                        </carbon.widget.RelativeLayout>
-
-                        <TextView
-                            android:id="@+id/errorPhoneNo"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Enter the valid phone no"
-                            android:layout_below="@id/signup_rl_phone_no"
-                            android:textColor="@color/red"
-                            android:visibility="gone"/>
-
-
-                        <carbon.widget.RelativeLayout
                             android:id="@+id/signup_rl_password"
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/_52sdp"
-                            android:layout_below="@+id/signup_rl_phone_no"
+                            android:layout_below="@+id/signup_et_email"
                             android:layout_marginTop="@dimen/_23sdp"
                             app:carbon_cornerRadius="@dimen/_11sdp"
                             app:carbon_elevation="@dimen/_2sdp">
@@ -192,15 +127,15 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:background="@color/mono_slate_10"
-                                android:drawableLeft="@drawable/password"
+                                android:drawableStart="@drawable/password"
                                 android:drawablePadding="@dimen/_10sdp"
                                 android:fontFamily="@font/futura_std_condensed"
-                                android:hint="YOUR PASSWORD"
+                                android:hint="@string/password_hint"
                                 android:inputType="textPassword"
                                 android:lineSpacingExtra="4sp"
                                 android:maxLines="1"
-                                android:paddingLeft="@dimen/_8sdp"
-                                android:paddingRight="@dimen/_20sdp"
+                                android:paddingStart="@dimen/_8sdp"
+                                android:paddingEnd="@dimen/_20sdp"
                                 android:singleLine="true"
                                 android:textColor="@color/white"
                                 android:textColorHint="@color/mono_grey_60"
@@ -214,17 +149,18 @@
                                 android:id="@+id/ib_password_icon"
                                 android:layout_width="@dimen/_16sdp"
                                 android:layout_height="@dimen/_16sdp"
-                                android:layout_alignParentRight="true"
+                                android:layout_alignParentEnd="true"
                                 android:layout_centerVertical="true"
-                                android:layout_marginRight="@dimen/_8sdp"
-                                android:src="@drawable/eye_slash" />
+                                android:layout_marginEnd="@dimen/_8sdp"
+                                android:src="@drawable/eye_slash"
+                                android:contentDescription="@string/password_icon_content_description" />
                         </carbon.widget.RelativeLayout>
 
                         <TextView
                             android:id="@+id/errorPassword"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Password cannot be empty"
+                            android:text="@string/password_error_message"
                             android:layout_below="@id/signup_rl_password"
                             android:textColor="@color/red"
                             android:visibility="gone"/>
@@ -235,7 +171,6 @@
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/signup_rl_password"
                             android:layout_alignParentStart="true"
-                            android:layout_alignParentLeft="true"
                             android:layout_marginTop="@dimen/_20sdp"
                             android:buttonTint="@color/red"
                             android:drawablePadding="@dimen/_5sdp"
@@ -243,7 +178,7 @@
                             android:lineSpacingExtra="5sp"
                             android:scaleX="1"
                             android:scaleY="1"
-                            android:text="Sign up for email updates from LIT Method, news, promos and member benefits."
+                            android:text="@string/sign_up_checkbox_message"
                             android:textColor="@color/white"
                             android:textSize="@dimen/_12ssp"
                             android:translationY="-2.74sp" />
@@ -258,7 +193,7 @@
                             android:fontFamily="@font/futura_std_condensed_extra_bd"
                             android:lineSpacingExtra="4sp"
                             android:singleLine="true"
-                            android:text="Join us"
+                            android:text="@string/join_us"
                             android:textColor="@color/white"
                             android:textSize="@dimen/_10ssp"
                             android:visibility="visible"
@@ -277,7 +212,7 @@
                             android:gravity="center"
                             android:lineSpacingExtra="4sp"
                             android:singleLine="false"
-                            android:text="By creating an account, you agree to our Privacy Policy and Terms of Use"
+                            android:text="@string/privacy_policy_tnc_message"
                             android:textColor="@color/grey"
                             android:textSize="@dimen/_8ssp"
                             android:translationY="-2.2sp" />

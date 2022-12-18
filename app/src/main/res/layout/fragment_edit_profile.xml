@@ -7,7 +7,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.Dashboard.AllClassTabScreen.EditProfile.EditProfileFragment">
+        tools:context=".ui.root.AllClassTabScreen.EditProfile.EditProfileFragment">
 
 
         <androidx.core.widget.NestedScrollView
@@ -229,7 +229,7 @@
                         <RadioGroup
                             android:id="@+id/rg_gender"
                             android:layout_width="match_parent"
-                            android:layout_height="@dimen/_52sdp"
+                            android:layout_height="52dp"
                             android:layout_below="@+id/tv_header1"
                             android:layout_marginTop="@dimen/_20sdp"
                             android:background="@drawable/radiobutton_out_line"
@@ -434,7 +434,7 @@
                                         android:button="@null"
                                         android:fontFamily="@font/futura_std_condensed"
                                         android:gravity="center"
-                                        android:text="Meters"
+                                        android:text="CM"
                                         android:textAllCaps="true"
                                         android:textColor="@drawable/radio_text_selected" />
 

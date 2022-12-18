@@ -1,15 +1,11 @@
 package com.litmethod.android.ui.Onboarding.SignUpScreen
 
 import android.content.res.ColorStateList
-import android.graphics.Typeface
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.text.method.PasswordTransformationMethod
-import android.util.Log
-import android.view.MotionEvent
 import android.view.View
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -17,16 +13,13 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.litmethod.android.R
 import com.litmethod.android.databinding.ActivitySignUpBinding
-import com.litmethod.android.network.RetrofitService
-import com.litmethod.android.network.RetrofitService.Companion.retrofitService
-import com.litmethod.android.network.SignInRepository
+import com.litmethod.android.network.RetrofitDataSourceService
 import com.litmethod.android.network.SignUpRepository
 import com.litmethod.android.shared.BaseActivity
-import com.litmethod.android.ui.Dashboard.AllClassTabScreen.ClassesFragmentScreen.Util.AllClassesDataObject
+import com.litmethod.android.ui.root.AllClassTabScreen.ClassesFragmentScreen.Util.BaseResponseDataObject
 import com.litmethod.android.ui.Onboarding.LoginScreen.LoginActivity
-import com.litmethod.android.ui.Onboarding.LoginScreen.LoginViewModel
-import com.litmethod.android.ui.Onboarding.LoginScreen.LoginViewModelFactory
 import com.litmethod.android.ui.Onboarding.ProfileScreen.ProfileActivity
+import com.litmethod.android.utlis.AppConstants
 import com.litmethod.android.utlis.DataPreferenceObject
 import kotlinx.coroutines.launch
 
@@ -34,7 +27,7 @@ import kotlinx.coroutines.launch
 class SignUpActivity : BaseActivity(), View.OnClickListener {
     lateinit var binding: ActivitySignUpBinding
     lateinit var viewModel: SignUpViewModell
-    private val retrofitService = RetrofitService.getInstance()
+    private val retrofitService = RetrofitDataSourceService.getInstance()
     lateinit var dataPereREnceObject: DataPreferenceObject
     var hidePass: Boolean = true
 
@@ -52,7 +45,7 @@ class SignUpActivity : BaseActivity(), View.OnClickListener {
         binding.signupEtPassword.transformationMethod = PasswordTransformationMethod()
         binding.signupEtEmail.setOnFocusChangeListener { view, b ->
             if (view.isFocused) {
-                binding.signupEtEmail.strokeWidth = 1.0f
+                binding.signupEtEmail.strokeWidth = 3.0f
                 val colorInt = resources.getColor(R.color.red)
                 binding.signupEtEmail.stroke = ColorStateList.valueOf(colorInt)
             } else {
@@ -64,25 +57,13 @@ class SignUpActivity : BaseActivity(), View.OnClickListener {
 
         binding.signupEtPassword.setOnFocusChangeListener { view, b ->
             if (view.isFocused) {
-                binding.signupEtPassword.strokeWidth = 1.0f
+                binding.signupEtPassword.strokeWidth = 3.0f
                 val colorInt = resources.getColor(R.color.red)
                 binding.signupEtPassword.stroke = ColorStateList.valueOf(colorInt)
             } else {
                 binding.signupEtPassword.strokeWidth = 0.0f
                 val colorInt = resources.getColor(R.color.mono_slate_10)
                 binding.signupEtPassword.stroke = ColorStateList.valueOf(colorInt)
-            }
-        }
-
-        binding.signupEtPhoneNo.setOnFocusChangeListener { view, b ->
-            if (view.isFocused) {
-                binding.signupRlPhoneNo.strokeWidth = 1.0f
-                val colorInt = resources.getColor(R.color.red)
-                binding.signupRlPhoneNo.stroke = ColorStateList.valueOf(colorInt)
-            } else {
-                binding.signupRlPhoneNo.strokeWidth = 0.0f
-                val colorInt = resources.getColor(R.color.mono_slate_10)
-                binding.signupRlPhoneNo.stroke = ColorStateList.valueOf(colorInt)
             }
         }
         binding.signupEtEmail.addTextChangedListener(object : TextWatcher {
@@ -97,8 +78,7 @@ class SignUpActivity : BaseActivity(), View.OnClickListener {
             override fun afterTextChanged(s: Editable) {
                 editTextValueCheckIng(
                     binding.signupEtEmail.text.toString(),
-                    binding.signupEtPassword.text.toString(),
-                    binding.signupEtPhoneNo.text.toString()
+                    binding.signupEtPassword.text.toString()
                 )
             }
         })
@@ -115,37 +95,17 @@ class SignUpActivity : BaseActivity(), View.OnClickListener {
             override fun afterTextChanged(s: Editable) {
                 editTextValueCheckIng(
                     binding.signupEtEmail.text.toString(),
-                    binding.signupEtPassword.text.toString(),
-                    binding.signupEtPhoneNo.text.toString()
+                    binding.signupEtPassword.text.toString()
                 )
             }
         })
 
-        binding.signupEtPhoneNo.addTextChangedListener(object : TextWatcher {
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                // Do Nothing
-            }
-
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
-                // Do Nothing
-            }
-
-            override fun afterTextChanged(s: Editable) {
-                editTextValueCheckIng(
-                    binding.signupEtEmail.text.toString(),
-                    binding.signupEtPassword.text.toString(),
-                    binding.signupEtPhoneNo.text.toString()
-                )
-            }
-        })
         binding.cbSignup.setOnClickListener {
             binding.signupEtEmail.clearFocus()
             binding.signupEtPassword.clearFocus()
-            binding.signupRlPhoneNo.clearFocus()
             editTextValueCheckIng(
                 binding.signupEtEmail.text.toString(),
-                binding.signupEtPassword.text.toString(),
-                binding.signupEtPhoneNo.text.toString()
+                binding.signupEtPassword.text.toString()
             )
         }
     }
@@ -165,10 +125,10 @@ class SignUpActivity : BaseActivity(), View.OnClickListener {
         viewModel.signUpUserData.observe(this, Observer {
             binding.spLoading.visibility = View.GONE
             if (it.serverResponse.statusCode == 200) {
-                AllClassesDataObject.accessToken = it.result.profileDetails.accessToken.accessToken
+                BaseResponseDataObject.accessToken = it.result.profileDetails.accessToken.accessToken
                 lifecycleScope.launch {
                     dataPereREnceObject.save(
-                        "userToken",
+                        AppConstants.USER_TOKEN,
                         it.result.profileDetails.accessToken.accessToken
                     )
                 }
@@ -214,19 +174,15 @@ class SignUpActivity : BaseActivity(), View.OnClickListener {
             R.id.btn_join_us -> {
                 if (checkForAllValues(
                         binding.signupEtEmail.text.toString(),
-                        binding.signupEtPassword.text.toString(),
-                        binding.signupEtPhoneNo.text.toString()
+                        binding.signupEtPassword.text.toString()
                     )
                 ) {
                     binding.signupEtEmail.clearFocus()
                     binding.signupEtPassword.clearFocus()
-                    binding.signupEtPhoneNo.clearFocus()
                     binding.spLoading.visibility = View.VISIBLE
-
                     viewModel.checkLogin(
                         binding.signupEtEmail.text.toString().trim(),
-                        binding.signupEtPassword.text.toString().trim(),
-                        binding.signupEtPhoneNo.text.toString().trim()
+                        binding.signupEtPassword.text.toString().trim()
                     )
                 }
             }
@@ -239,36 +195,30 @@ class SignUpActivity : BaseActivity(), View.OnClickListener {
     }
 
 
-    private fun checkForAllValues(email: String, pass: String, phoneNo: String): Boolean {
+    private fun checkForAllValues(email: String, pass: String): Boolean {
         if (email.isEmpty() || !checkEmail(email)) {
             binding.errorEmail.visibility = View.VISIBLE
         }
         if (pass.isEmpty()) {
             binding.errorPassword.visibility = View.VISIBLE
         }
-        if (phoneNo.isEmpty()) {
-            binding.errorPhoneNo.visibility = View.VISIBLE
-        }
         if (!binding.cbSignup.isChecked) {
-            toastMessageShow("Please accept the email updates, news")
+            toastMessageShow(getString(R.string.accept_email_updates_message))
         }
-        if (!email.isEmpty() && checkEmail(email) && !pass.isEmpty() && !phoneNo.isEmpty() && binding.cbSignup.isChecked) {
+        if (email.isNotEmpty() && checkEmail(email) && pass.isNotEmpty() && binding.cbSignup.isChecked) {
             return true
         }
         return false
     }
 
-    private fun editTextValueCheckIng(email: String, pass: String, phoneNo: String): Boolean {
+    private fun editTextValueCheckIng(email: String, pass: String): Boolean {
         if (checkEmail(email)) {
             binding.errorEmail.visibility = View.GONE
         }
-        if (!pass.isEmpty()) {
+        if (pass.isNotEmpty()) {
             binding.errorPassword.visibility = View.GONE
         }
-        if (!phoneNo.isEmpty()) {
-            binding.errorPhoneNo.visibility = View.GONE
-        }
-        if (!email.isEmpty() && checkEmail(email) && !pass.isEmpty() && !phoneNo.isEmpty() && binding.cbSignup.isChecked) {
+        if (email.isNotEmpty() && checkEmail(email) && pass.isNotEmpty() && binding.cbSignup.isChecked) {
             joinUsButtonactive()
             return true
         }

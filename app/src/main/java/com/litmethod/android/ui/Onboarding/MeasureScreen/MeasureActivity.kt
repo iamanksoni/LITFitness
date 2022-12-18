@@ -108,7 +108,7 @@ class MeasureActivity : BaseActivity(), View.OnClickListener {
 
         binding.etHightCm.setOnFocusChangeListener { view, b ->
             if (view.isFocused) {
-                binding.etHightCm.strokeWidth = 1.0f
+                binding.etHightCm.strokeWidth = 3.0f
                 val colorInt = resources.getColor(R.color.red)
                 binding.etHightCm.stroke = ColorStateList.valueOf(colorInt)
             } else {
@@ -119,7 +119,7 @@ class MeasureActivity : BaseActivity(), View.OnClickListener {
         }
         binding.etHightFt.setOnFocusChangeListener { view, b ->
             if (view.isFocused) {
-                binding.etHightFt.strokeWidth = 1.0f
+                binding.etHightFt.strokeWidth = 3.0f
                 val colorInt = resources.getColor(R.color.red)
                 binding.etHightFt.stroke = ColorStateList.valueOf(colorInt)
             } else {
@@ -130,7 +130,7 @@ class MeasureActivity : BaseActivity(), View.OnClickListener {
         }
         binding.etWeight.setOnFocusChangeListener { view, b ->
             if (view.isFocused) {
-                binding.etWeight.strokeWidth = 1.0f
+                binding.etWeight.strokeWidth = 3.0f
                 val colorInt = resources.getColor(R.color.red)
                 binding.etWeight.stroke = ColorStateList.valueOf(colorInt)
             } else {
@@ -141,7 +141,7 @@ class MeasureActivity : BaseActivity(), View.OnClickListener {
         }
         binding.etHightIn.setOnFocusChangeListener { view, b ->
             if (view.isFocused) {
-                binding.etHightIn.strokeWidth = 1.0f
+                binding.etHightIn.strokeWidth = 3.0f
                 val colorInt = resources.getColor(R.color.red)
                 binding.etHightIn.stroke = ColorStateList.valueOf(colorInt)
             } else {

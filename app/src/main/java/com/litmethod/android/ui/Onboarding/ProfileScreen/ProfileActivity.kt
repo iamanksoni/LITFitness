@@ -53,7 +53,7 @@ class ProfileActivity : BaseActivity(), View.OnClickListener {
     private fun setUpUi() {
         binding.firstName.setOnFocusChangeListener { view, b ->
             if (view.isFocused) {
-                binding.firstName.strokeWidth = 1.0f
+                binding.firstName.strokeWidth = 3.0f
                 val colorInt = resources.getColor(R.color.red)
                 binding.firstName.stroke = ColorStateList.valueOf(colorInt)
             } else {
@@ -64,7 +64,7 @@ class ProfileActivity : BaseActivity(), View.OnClickListener {
         }
         binding.lastName.setOnFocusChangeListener { view, b ->
             if (view.isFocused) {
-                binding.lastName.strokeWidth = 1.0f
+                binding.lastName.strokeWidth = 3.0f
                 val colorInt = resources.getColor(R.color.red)
                 binding.lastName.stroke = ColorStateList.valueOf(colorInt)
             } else {
@@ -75,7 +75,7 @@ class ProfileActivity : BaseActivity(), View.OnClickListener {
         }
         binding.userName.setOnFocusChangeListener { view, b ->
             if (view.isFocused) {
-                binding.userName.strokeWidth = 1.0f
+                binding.userName.strokeWidth = 3.0f
                 val colorInt = resources.getColor(R.color.red)
                 binding.userName.stroke = ColorStateList.valueOf(colorInt)
             } else {
@@ -95,7 +95,6 @@ class ProfileActivity : BaseActivity(), View.OnClickListener {
             override fun afterTextChanged(s: Editable) {
                 editTextValueCheckIng(
                     binding.firstName.text.toString(),
-                    binding.lastName.text.toString(),
                     binding.userName.text.toString(),
                     binding.etDob.text.toString()
                 )
@@ -111,7 +110,6 @@ class ProfileActivity : BaseActivity(), View.OnClickListener {
             override fun afterTextChanged(s: Editable) {
                 editTextValueCheckIng(
                     binding.firstName.text.toString(),
-                    binding.lastName.text.toString(),
                     binding.userName.text.toString(),
                     binding.etDob.text.toString()
                 )
@@ -127,7 +125,6 @@ class ProfileActivity : BaseActivity(), View.OnClickListener {
             override fun afterTextChanged(s: Editable) {
                 editTextValueCheckIng(
                     binding.firstName.text.toString(),
-                    binding.lastName.text.toString(),
                     binding.userName.text.toString(),
                     binding.etDob.text.toString()
                 )
@@ -144,7 +141,6 @@ class ProfileActivity : BaseActivity(), View.OnClickListener {
                 datePickClearFocus()
                 editTextValueCheckIng(
                     binding.firstName.text.toString(),
-                    binding.lastName.text.toString(),
                     binding.userName.text.toString(),
                     binding.etDob.text.toString()
                 )
@@ -168,7 +164,7 @@ class ProfileActivity : BaseActivity(), View.OnClickListener {
                 binding.firstName.clearFocus()
                 binding.lastName.clearFocus()
                 binding.userName.clearFocus()
-                binding.etDob.strokeWidth = 1.0f
+                binding.etDob.strokeWidth = 3.0f
                 val colorInt = resources.getColor(R.color.red)
                 binding.etDob.stroke = ColorStateList.valueOf(colorInt)
              CalenderDialog(this@ProfileActivity,binding.etDob)
@@ -190,24 +186,60 @@ class ProfileActivity : BaseActivity(), View.OnClickListener {
         }
     }
 
+    private fun editTextValueCheckIng(firstName: String, userName: String, dob: String): Boolean {
+        if (firstName.isNotEmpty()) {
+            binding.errorFirstName.visibility = View.GONE
+        }
+        if (userName.isNotEmpty()) {
+            binding.errorUserName.visibility = View.GONE
+        }
+        if (dob.isNotEmpty()) {
+            binding.errorDateOfBirth.visibility = View.GONE
+        }
+        if (firstName.isNotEmpty() && userName.isNotEmpty() && dob.isNotEmpty()) {
+            nextButtonactive()
+            return true
+        }
+        nextButtonInactive()
+        return false
+    }
+
+    private fun checkForAllValues(firstName: String, userName: String, dob: String): Boolean {
+        if (firstName.isEmpty()) {
+            binding.errorFirstName.visibility = View.VISIBLE
+        }
+        if (userName.isEmpty()) {
+            binding.errorUserName.visibility = View.VISIBLE
+        }
+        if (dob.isEmpty()) {
+            binding.errorDateOfBirth.visibility = View.VISIBLE
+        }
+        if (firstName.isNotEmpty() && userName.isNotEmpty() && dob.isNotEmpty()) {
+            return true
+        }
+        return false
+    }
+
 
     fun nextScreen(){
 
-      UiDataObject.firstName =binding.firstName.text.toString()
-        UiDataObject.lastName =binding.lastName.text.toString()
-        UiDataObject.username = binding.userName.text.toString().trim()
-        val originalFormat: DateFormat = SimpleDateFormat("d/m/yyyy")
-        val targetFormat: DateFormat = SimpleDateFormat("dd-mm-yyyy")
-        val date: Date = originalFormat.parse(binding.etDob.text.toString())
-        val formattedDate: String = targetFormat.format(date)
-        UiDataObject.etDob = formattedDate
-        Log.d("SighUpResponse37","body is $formattedDate")
+
+        if (checkForAllValues(binding.firstName.text.toString(), binding.userName.text.toString(), binding.etDob.text.toString())) {
+            UiDataObject.firstName = binding.firstName.text.toString()
+            UiDataObject.lastName = binding.lastName.text.toString().ifEmpty { "" }
+            UiDataObject.username = binding.userName.text.toString().trim()
+            val originalFormat: DateFormat = SimpleDateFormat("d/m/yyyy")
+            val targetFormat: DateFormat = SimpleDateFormat("dd-mm-yyyy")
+            val date: Date = originalFormat.parse(binding.etDob.text.toString())
+            val formattedDate: String = targetFormat.format(date)
+            UiDataObject.etDob = formattedDate
+            Log.d("SighUpResponse37", "body is $formattedDate")
 
 
-        val intent = Intent(this@ProfileActivity, MeasureActivity::class.java)
-        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP)
-        startActivity(intent)
-
+            val intent = Intent(this@ProfileActivity, MeasureActivity::class.java)
+            intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            startActivity(intent)
+        }
     }
 
     private fun datePickClearFocus(){
@@ -216,37 +248,13 @@ class ProfileActivity : BaseActivity(), View.OnClickListener {
         binding.etDob.stroke = ColorStateList.valueOf(colorInt)
     }
 
-    private fun editTextValueCheckIng(first_name: String,last_name:String,user_name: String,et_dob: String) {
-        when {
-            first_name.isEmpty() -> {
-                nextButtonInactive()
-            }
-            last_name.isEmpty() ->{
-                nextButtonInactive()
-            }
-            user_name.isEmpty() ->{
-                nextButtonInactive()
-            }
-            et_dob.isEmpty() ->{
-                nextButtonInactive()
-            }
-            else -> {
-                nextButtonactive()
-            }
-        }
-    }
-
     private fun nextButtonInactive() {
         binding.btnNext.backgroundTintList = null
-        binding.btnNext.isEnabled = false
-        binding.btnNext.isClickable = false
     }
 
     private fun nextButtonactive() {
         val colorInt = resources.getColor(R.color.red)
         binding.btnNext.backgroundTintList = ColorStateList.valueOf(colorInt)
-        binding.btnNext.isEnabled = true
-        binding.btnNext.isClickable = true
     }
 
     private  fun getImage(){

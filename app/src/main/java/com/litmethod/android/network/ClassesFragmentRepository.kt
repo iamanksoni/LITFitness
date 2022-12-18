@@ -8,7 +8,7 @@ import com.litmethod.android.models.GetClassCatagoryById.GetClassCatagoryByIDReq
 import com.litmethod.android.models.GetProgram.GetProgramsRequest
 import com.litmethod.android.models.GetProgramById.GetProgramByIdRequest
 
-class ClassesFragmentRepository constructor(private val retrofitService: RetrofitService){
+class ClassesFragmentRepository constructor(private val retrofitService: RetrofitDataSourceService){
     fun getCatagory(auth:String,getCatagoryRequest: GetCatagoryRequest) = retrofitService.getCategory(auth,getCatagoryRequest)
     fun getClassCategoryById(auth:String,getClassCatagoryByIDRequest: GetClassCatagoryByIDRequest) = retrofitService.getClassCategoryById(auth,getClassCatagoryByIDRequest)
     fun getPrograms(auth:String,getProgramsRequest: GetProgramsRequest) = retrofitService.getPrograms(auth,getProgramsRequest)

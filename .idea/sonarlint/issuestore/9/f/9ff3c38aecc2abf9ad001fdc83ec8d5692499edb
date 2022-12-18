@@ -1,6 +1,0 @@
-
-gkotlin:S11922"PDefine a constant instead of duplicating this literal "Sesison Timeout" 8 times.(ºÙg
-gkotlin:S1192G"JDefine a constant instead of duplicating this literal "Home Page" 4 times.(ˆÄ–ûûÿÿÿÿ
-kotlin:S1192H"gDefine a constant instead of duplicating this literal "Please check your internet connection." 7 times.(ŒÆÔ®
-nkotlin:S1192ê"PDefine a constant instead of duplicating this literal "Sign in failed!" 3 times.(í«§¥ùÿÿÿÿ
-okotlin:S3776"RRefactor this method to reduce its Cognitive Complexity from 35 to the 15 allowed.(äƒ¨ûÿÿÿÿ

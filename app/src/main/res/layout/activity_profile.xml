@@ -148,6 +148,15 @@
                                     app:carbon_cursorColor="@color/red"
                                     app:carbon_elevation="@dimen/_2sdp"/>
 
+                                <TextView
+                                    android:id="@+id/errorFirstName"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Please enter first name"
+                                    android:layout_below="@id/first_name"
+                                    android:textColor="@color/red"
+                                    android:visibility="gone"/>
+
                                 <carbon.widget.EditText
                                     android:id="@+id/last_name"
                                     android:layout_width="match_parent"
@@ -201,6 +210,15 @@
                             app:carbon_cursorColor="@color/red"
                             app:carbon_elevation="@dimen/_2sdp" />
 
+                        <TextView
+                            android:id="@+id/errorUserName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Please enter user name"
+                            android:layout_below="@id/user_name"
+                            android:textColor="@color/red"
+                            android:visibility="gone"/>
+
                         <carbon.widget.EditText
                             android:id="@+id/et_dob"
                             android:layout_width="match_parent"
@@ -227,6 +245,15 @@
                             app:carbon_cursorColor="@color/red"
                             app:carbon_elevation="@dimen/_2sdp" />
 
+                        <TextView
+                            android:id="@+id/errorDateOfBirth"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Please select DOB"
+                            android:layout_below="@id/et_dob"
+                            android:textColor="@color/red"
+                            android:visibility="gone"/>
+
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/btn_next"
                             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
@@ -234,8 +261,6 @@
                             android:layout_height="@dimen/_50sdp"
                             android:layout_below="@+id/et_dob"
                             android:layout_marginTop="@dimen/_18sdp"
-                            android:clickable="false"
-                            android:enabled="false"
                             android:fontFamily="@font/futura_std_condensed_extra_bd"
                             android:lineSpacingExtra="4sp"
                             android:singleLine="true"

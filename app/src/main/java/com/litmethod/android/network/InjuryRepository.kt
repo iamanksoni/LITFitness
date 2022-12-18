@@ -1,8 +1,7 @@
 package com.litmethod.android.network
 
 import com.litmethod.android.models.InjuryRequest
-import com.litmethod.android.models.SignInRequest
 
-class InjuryRepository constructor(private val retrofitService: RetrofitService) {
+class InjuryRepository constructor(private val retrofitService: RetrofitDataSourceService) {
     fun getInjury(auth:String,injuryRequest: InjuryRequest) = retrofitService.getInjury(auth,injuryRequest)
 }

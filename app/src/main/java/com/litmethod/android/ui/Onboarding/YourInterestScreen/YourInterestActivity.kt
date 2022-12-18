@@ -11,19 +11,13 @@ import androidx.lifecycle.ViewModelProvider
 import carbon.widget.RecyclerView
 import com.litmethod.android.R
 import com.litmethod.android.databinding.ActivityYourInterestBinding
-import com.litmethod.android.models.AcountScreenFragment.EditUserGoal.EditUserGoalRequest
 import com.litmethod.android.models.AcountScreenFragment.EditUserInterest.EditUserInterestRequest
 import com.litmethod.android.models.GetInterest.Data
 import com.litmethod.android.network.GetInterestRepository
-import com.litmethod.android.network.InjuryRepository
-import com.litmethod.android.network.RetrofitService
+import com.litmethod.android.network.RetrofitDataSourceService
 import com.litmethod.android.shared.BaseActivity
-import com.litmethod.android.ui.Dashboard.AllClassTabScreen.ClassesFragmentScreen.Util.AllClassesDataObject
-import com.litmethod.android.ui.Onboarding.InjuryScreen.ViewModel.InjuryViewModel
-import com.litmethod.android.ui.Onboarding.InjuryScreen.ViewModel.InjuryViewModelFactory
+import com.litmethod.android.ui.root.AllClassTabScreen.ClassesFragmentScreen.Util.BaseResponseDataObject
 import com.litmethod.android.ui.Onboarding.YourEquipmentScreen.YourEquipmentActivity
-import com.litmethod.android.ui.Onboarding.YourEquipmentScreen.YourEquipmentData
-import com.litmethod.android.ui.Onboarding.YourGoalsScreen.GoalsData
 import com.litmethod.android.ui.Onboarding.YourInterestScreen.ViewModel.GetInterestViewModel
 import com.litmethod.android.ui.Onboarding.YourInterestScreen.ViewModel.GetInterestViewModelFactory
 import com.litmethod.android.utlis.MarginItemDecoration
@@ -34,7 +28,7 @@ class YourInterestActivity : BaseActivity(),YourInterestAdapter.LevelAdapterList
     val dataList: ArrayList<YourInterestData> = ArrayList<YourInterestData>()
     private var yourInterestAdapter: YourInterestAdapter? = null
     lateinit var viewModel: GetInterestViewModel
-    private val retrofitService = RetrofitService.getInstance()
+    private val retrofitService = RetrofitDataSourceService.getInstance()
     var interestList: List<Data> = ArrayList<Data>()
     val interestData: ArrayList<String> = ArrayList<String>()
     var checkintentData:String? =null
@@ -54,7 +48,7 @@ class YourInterestActivity : BaseActivity(),YourInterestAdapter.LevelAdapterList
 //        setUpAdapter()
         viewModelSetup()
         clickListener()
-        viewModel.checkgetInterest(AllClassesDataObject.accessToken)
+        viewModel.checkgetInterest(BaseResponseDataObject.accessToken)
     }
 
 
@@ -68,7 +62,7 @@ class YourInterestActivity : BaseActivity(),YourInterestAdapter.LevelAdapterList
             interestList.map {
                 val userid=it.id
                 var isAddDAta= false
-                AllClassesDataObject.profilePageData.interest.map {
+                BaseResponseDataObject.profilePageData.interest.map {
                     if (it.id==userid){
                         isAddDAta = true
                         count++
@@ -188,7 +182,7 @@ class YourInterestActivity : BaseActivity(),YourInterestAdapter.LevelAdapterList
             R.id.btn_next ->{
 
                 if (switchActivity=="AccountFrag"){
-                    viewModel.checkEditUserForInterest(AllClassesDataObject.accessToken,
+                    viewModel.checkEditUserForInterest(BaseResponseDataObject.accessToken,
                         EditUserInterestRequest("editUser",interestData)
                     )
 
@@ -233,7 +227,7 @@ class YourInterestActivity : BaseActivity(),YourInterestAdapter.LevelAdapterList
         })
 
         viewModel.editUserForInterestResponse.observe(this, Observer {
-            AllClassesDataObject.profilePageData = it.result.profileDetails
+            BaseResponseDataObject.profilePageData = it.result.profileDetails
             finish()
 
         })

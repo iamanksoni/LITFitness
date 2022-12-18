@@ -2,12 +2,12 @@ package com.litmethod.android.ui.Onboarding.WelcomeScreen
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.viewpager2.widget.ViewPager2
 import com.litmethod.android.R
 import com.litmethod.android.databinding.ActivityWelcomeBinding
 import com.litmethod.android.shared.BaseActivity
-import com.litmethod.android.ui.Dashboard.DashBoardActivity
 import com.litmethod.android.ui.Onboarding.LoginScreen.LoginActivity
 import com.litmethod.android.ui.Onboarding.SignUpScreen.SignUpActivity
 import com.zhpan.indicator.enums.IndicatorSlideMode
@@ -29,12 +29,12 @@ class WelcomeActivity : BaseActivity(), View.OnClickListener {
         binding.viewpager.adapter = welcomeViewPagerAdapter
 
         binding.indicatorView.apply {
-            setSliderColor(resources.getColor(R.color.grey), resources.getColor(R.color.red))
+            setSliderColor(ContextCompat.getColor(context, R.color.grey), ContextCompat.getColor(context, R.color.red))
             setSliderWidth(resources.getDimension(R.dimen.dp_30))
             setSliderHeight(resources.getDimension(R.dimen.dp_4))
             setSlideMode(IndicatorSlideMode.SMOOTH)
             setIndicatorStyle(IndicatorStyle.ROUND_RECT)
-            setPageSize(binding.viewpager!!.adapter!!.itemCount)
+            setPageSize(binding.viewpager.adapter!!.itemCount)
             notifyDataChanged()
         }
         binding.viewpager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
@@ -62,7 +62,6 @@ class WelcomeActivity : BaseActivity(), View.OnClickListener {
     override fun onClick(p0: View?) {
         when (p0!!.id) {
             R.id.btn_log_in ->{
-                //intentActivityWithFinish(this@WelcomeActivity, LoginActivity::class.java)
                 intentActivityWithFinish(this@WelcomeActivity, LoginActivity::class.java)
             }
             R.id.btn_free_trial ->{

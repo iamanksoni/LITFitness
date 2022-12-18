@@ -4,6 +4,24 @@
     <string name="have_an_account_login"><font color='#FFFFFFFF'>Have an account? </font><font color="#ED2124">Login</font></string>
     <string name="read_more"><u>Read more</u></string>
     <string name="during_week_one_you_will_learn_the_four_fundamentals_of_resistance_rowing_pull_push_power_and_strength">During week one, you will learn the four fundamentals of Resistance Rowing: <b>Pull, Push, Power</b> and <b>strength.</b></string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="accept_email_updates_message">Please accept the email updates, news…</string>
+    <string name="back_button">back_button</string>
+    <string name="sign_up_for_list_heading">Sign up for LIT</string>
+    <string name="sign_up_below_heading_message">Create your LIT account and join us to a fitter, healthier, stronger you.</string>
+    <string name="email_address_hint">EMAIL ADDRESS…</string>
+    <string name="error_email_message">Enter the valid email address</string>
+    <string name="password_hint">YOUR PASSWORD</string>
+    <string name="password_error_message">Password cannot be empty</string>
+    <string name="sign_up_checkbox_message">Sign up for email updates from LIT Method, news, promos and member benefits.</string>
+    <string name="join_us">Join us</string>
+    <string name="privacy_policy_tnc_message">By creating an account, you agree to our Privacy Policy and Terms of Use</string>
+    <string name="password_icon_content_description">password_icon</string>
+    <string name="let_s_get_you_lit_message">Let’s get you LIT</string>
+    <string name="username_or_email_address_hint">USERNAME OR EMAIL ADDRESS…</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="log_in">Log in</string>
+    <string name="password_eye">password_eye</string>
+    <string name="applogo">applogo</string>
+    <string name="start_free_trial">Start free trial</string>
 </resources>

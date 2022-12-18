@@ -7,11 +7,12 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/cv_taken_by_me"
         android:layout_width="wrap_content"
-        android:layout_height="@dimen/_40sdp"
+        android:layout_height="@dimen/_32sdp"
+        android:elevation="0dp"
+        app:cardElevation="0dp"
         android:layout_marginRight="@dimen/_8sdp"
-        app:cardBackgroundColor="#0D8F92A1"
         app:cardCornerRadius="@dimen/_8sdp"
-        app:contentPadding="@dimen/_14sdp">
+        app:contentPadding="@dimen/_10sdp">
 
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -22,13 +23,13 @@
                 android:id="@+id/tv_child_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/futura_std_condensed"
+                android:fontFamily="@font/futura_std_condensed_bold"
                 android:lineSpacingExtra="-1sp"
                 android:singleLine="true"
                 android:text="All time"
                 android:textAllCaps="true"
                 android:textColor="@color/white"
-                android:textSize="@dimen/_12ssp" />
+                android:textSize="@dimen/_10ssp" />
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
 </RelativeLayout>

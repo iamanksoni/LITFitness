@@ -11,7 +11,6 @@ import com.litmethod.android.models.GetEquipment.GetEquipMentResponse
 import com.litmethod.android.models.InjuryRequest
 import com.litmethod.android.models.SetImageResponse.SetImageResponse
 import com.litmethod.android.network.GetEquipmentRepository
-import com.litmethod.android.ui.Dashboard.AllClassTabScreen.ClassesFragmentScreen.Util.AllClassesDataObject
 import com.litmethod.android.utlis.DialogueBox
 import com.litmethod.android.utlis.NetworkHelper
 import okhttp3.MultipartBody

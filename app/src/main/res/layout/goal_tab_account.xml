@@ -20,7 +20,8 @@
             android:layout_weight="1"
             android:fontFamily="@font/futura_std_condensed_extra_bd"
             android:singleLine="true"
-            android:text="Your Goals"
+            android:text="YOUR GOALS"
+
             android:textColor="@color/white"
             android:textSize="@dimen/_13ssp" />
 
@@ -51,7 +52,7 @@
         app:cornerRadius="@dimen/_6sdp"
         app:elevation="@dimen/_5sdp"
         app:strokeColor="@color/mono_grey_100"
-        app:strokeWidth="1dp" />
+        app:strokeWidth="0dp" />
 
     <View
         android:id="@+id/vw_3"

@@ -12,17 +12,13 @@ import carbon.widget.RecyclerView
 import com.litmethod.android.R
 import com.litmethod.android.databinding.ActivityLevelBinding
 import com.litmethod.android.models.GetLevel.Data
-import com.litmethod.android.network.GetInterestRepository
 import com.litmethod.android.network.GetLevelRepository
-import com.litmethod.android.network.RetrofitService
+import com.litmethod.android.network.RetrofitDataSourceService
 import com.litmethod.android.shared.BaseActivity
-import com.litmethod.android.ui.Dashboard.AllClassTabScreen.ClassesFragmentScreen.Util.AllClassesDataObject
+import com.litmethod.android.ui.root.AllClassTabScreen.ClassesFragmentScreen.Util.BaseResponseDataObject
 import com.litmethod.android.ui.Onboarding.LevelScreen.ViewModel.GetLevelFactory
 import com.litmethod.android.ui.Onboarding.LevelScreen.ViewModel.GetLevelViewModel
-import com.litmethod.android.ui.Onboarding.YourGoalsScreen.GoalsData
 import com.litmethod.android.ui.Onboarding.YourGoalsScreen.YourGoalsActivity
-import com.litmethod.android.ui.Onboarding.YourInterestScreen.ViewModel.GetInterestViewModel
-import com.litmethod.android.ui.Onboarding.YourInterestScreen.ViewModel.GetInterestViewModelFactory
 import com.litmethod.android.utlis.MarginItemDecoration
 import com.litmethod.android.utlis.UiDataObject
 
@@ -31,7 +27,7 @@ class LevelActivity : BaseActivity(),LevelAdapter.LevelAdapterListener,View.OnCl
     val dataList: ArrayList<LevelData> = ArrayList<LevelData>()
     private var levelAdapter: LevelAdapter? = null
     lateinit var viewModel: GetLevelViewModel
-    private val retrofitService = RetrofitService.getInstance()
+    private val retrofitService = RetrofitDataSourceService.getInstance()
     var levelList: List<Data> = ArrayList<Data>()
     val levelListResponse: ArrayList<String> = ArrayList<String>()
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,7 +37,7 @@ class LevelActivity : BaseActivity(),LevelAdapter.LevelAdapterListener,View.OnCl
 //        setUpAdapter()
         viewModelSetup()
         clickListener()
-        viewModel.checkgetLevel(AllClassesDataObject.accessToken)
+        viewModel.checkgetLevel(BaseResponseDataObject.accessToken)
     }
 
     private fun setUpUi() {
