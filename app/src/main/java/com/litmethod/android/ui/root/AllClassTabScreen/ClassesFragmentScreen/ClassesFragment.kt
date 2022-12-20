@@ -309,6 +309,7 @@ class ClassesFragment : BaseFragment(), StackClassesAdapter.StackClassesAdapterL
         val typeFace = Typeface.createFromAsset(requireContext().assets, "futura_std_condensed.otf")
 
         binding.rbClasses.setOnClickListener {
+            binding.tvHeader.text = "AXIS STRENGTH"
             binding.ibFilter.visibility = View.VISIBLE
 
             if (BaseResponseDataObject.isFilter==true){
@@ -369,6 +370,7 @@ class ClassesFragment : BaseFragment(), StackClassesAdapter.StackClassesAdapterL
         }
 
         binding.rbPrograms.setOnClickListener {
+            binding.tvHeader.text = "PROGRAMS"
             binding.ibFilter.visibility = View.GONE
             if(rbProgramActive){
                 rbProgramActive = false
@@ -423,6 +425,7 @@ class ClassesFragment : BaseFragment(), StackClassesAdapter.StackClassesAdapterL
         }
 
         binding.rbAccess.setOnClickListener {
+            binding.tvHeader.text = "ALL ACCESS"
             binding.ibFilter.visibility = View.GONE
             if(rbAccessActive){
                 rbAccessActive = false

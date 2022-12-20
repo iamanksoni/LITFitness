@@ -17,6 +17,8 @@ interface AppConstants {
         const val actionTypegetAllAccessFilterRequest: String = "getAllAccessfilter"
         const val ALLTIME = "all_time"
         const val PASTMONTH = "past_month"
+        const val THREEMONTH = "three_month"
+        const val SIXMONTH = "six_month"
         const val PASTWEEK = "last_week"
         const val TODAY = "today"
         const val heart_rate = "AVG. HEART RATE"

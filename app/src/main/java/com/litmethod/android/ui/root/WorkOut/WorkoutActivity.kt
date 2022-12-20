@@ -26,7 +26,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
-class WorkoutActivity : AppCompatActivity(), WorkoutDropDownAdapter.WorkoutDropDownAdapterListener {
+class WorkoutActivity : AppCompatActivity(), WorkoutDropDownAdapter.WorkoutDropDownAdapterListener, View.OnClickListener {
     private var layoutManagerworkoutHistory: RecyclerView.LayoutManager? = null
     private var workoutHistoryAdapter:WorkoutDropDownAdapter? = null
     private var classHistoryAdapter:WorkOutHistoryListParentAdapter? = null
@@ -44,6 +44,7 @@ class WorkoutActivity : AppCompatActivity(), WorkoutDropDownAdapter.WorkoutDropD
         monthSpinner()
         yearSpinner()
         viewModelSetup()
+        binding.ibBackButton.setOnClickListener(this)
         viewModel.checkgetClassHistoryList(BaseResponseDataObject.accessToken, ClassHistoryListRequest(10,"classHistorylistV2","cl8esljwz8048i5p0yfyjw5q2",1,"10","2022"))
     }
 
@@ -205,6 +206,14 @@ class WorkoutActivity : AppCompatActivity(), WorkoutDropDownAdapter.WorkoutDropD
 
         })
 
+    }
+
+    override fun onClick(p0: View?) {
+        when(p0!!.id){
+            R.id.ib_back_button -> {
+                finish()
+            }
+        }
     }
 
 
