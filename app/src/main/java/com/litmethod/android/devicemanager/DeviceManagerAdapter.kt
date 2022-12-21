@@ -7,11 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
+import com.litmethod.android.BluetoothConnection.LitDeviceConstants
 import com.litmethod.android.R
 import com.litmethod.android.models.GetCustomers.Equipment
+import com.litmethod.android.utlis.AppConstants
 
 class DeviceManagerAdapter(
     val context: Context,
@@ -35,6 +36,7 @@ class DeviceManagerAdapter(
 
     interface DeviceAdapterClickListener {
         fun onDeviceItemClick(position: Int, data: Equipment)
+        fun onUnpairRequest(position: Int, data: Equipment)
     }
 
 
@@ -46,7 +48,13 @@ class DeviceManagerAdapter(
         var item = equipmentData[position]
         holder.tv_device_name.text = item.title
         holder.btn_pair.setOnClickListener {
-            deviceClickListener.onDeviceItemClick(position,item)
+            deviceClickListener.onDeviceItemClick(position, item)
+        }
+        if (LitDeviceConstants.mLitAxisDevicePair != null && LitDeviceConstants.mLitAxisDevicePair?.rightLitAxisDevice != null && LitDeviceConstants.mLitAxisDevicePair?.rightLitAxisDevice != null) {
+            if (item.id == AppConstants.LIT_STRENGTH_DEVICE_ID) {
+                holder.btn_pair.text = "Unpair"
+                deviceClickListener.onUnpairRequest(position, item)
+            }
         }
     }
 

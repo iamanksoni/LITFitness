@@ -8,4 +8,37 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="manage_devices">MANAGE DEVICES</string>
     <string name="settings">Settings</string>
+
+
+    <string name="ota_service_name">OTA Service</string>
+    <string name="blinky_service_name">Blinky Example</string>
+    <string name="throughput_test_service_name">Throughput Test Service</string>
+    <string name="throughput_information_service_name">Throughput Information Service</string>
+
+    <string name="ota_control_attribute_characteristic_name">OTA Control Attribute</string>
+    <string name="ota_data_characteristic_name">OTA Data</string>
+    <string name="fw_version_characteristic_name">Fw version</string>
+    <string name="ota_version_characteristic_name">OTA Version</string>
+    <string name="bootloader_version_characteristic_name">Bootloader Version</string>
+    <string name="application_version_characteristic_name">Application Version</string>
+
+    <string name="led_control_characteristic_name">LED Control</string>
+    <string name="report_button_characteristic_name">Report Button</string>
+
+    <string name="indications_characteristic_name">Indications</string>
+    <string name="notifications_characteristic_name">Notifications</string>
+    <string name="transmission_on_characteristic_name">Transmission ON</string>
+    <string name="throughput_result_characteristic_name">Throughput Result</string>
+
+    <string name="connection_phy_characteristic_name">Connection PHY</string>
+    <string name="connection_interval_characteristic_name">Connection Interval</string>
+    <string name="slave_latency_characteristic_name">Slave Latency</string>
+    <string name="supervision_timeout_characteristic_name">Supervision Timeout</string>
+    <string name="pdu_size_characteristic_name">PDU Size</string>
+    <string name="mtu_size_characteristic_name">MTU Size</string>
+    <string name="unknown_characteristic_label">Unknown Characteristic Label</string>
+    <string name="unknown_service">Unknown Service</string>
+    <string name="left_lit_axis_connect_message">pull your left lit axis carabiner until the led blinks</string>
+    <string name="right_lit_axis_connect_message">pull your right lit axis carabiner until the led blinks</string>
+    <string name="please_make_sure_the_led_of_your_heart_rate_sensor_is_on_and_bring_it_close_to_your_iphone">Please make sure the LED of your heart rate sensor is on and bring it close to your iPhone</string>
 </resources>

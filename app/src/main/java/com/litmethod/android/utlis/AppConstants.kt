@@ -59,5 +59,10 @@ interface AppConstants {
         const val LIT_AXIS_DEVICE_ID="cl8etkso120560i5p08mc6rq08"
         const val LIT_STRENGTH_DEVICE_ID="cl8etjfrr20509i5p09s7975ox"
 
+        const val WEB_URL="web_url"
+        const val URL_TERMS_CONDITION="https://litmethod.com/policies/terms-of-service"
+        const val URL_PRIVACY_POLICY="https://litmethod.com/policies/privacy-policy"
+        const val URL_SUPPORT="https://litmethod.com/pages/faq"
+
     }
 }

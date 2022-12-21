@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center"
-    android:background="@color/mono_dark_100"
+    android:background="@color/black"
     android:gravity="center"
     android:orientation="vertical"
     android:padding="@dimen/_15sdp"
@@ -22,7 +22,8 @@
             android:elevation="1dp"
             android:fontFamily="@font/futura_std_condensed_bold"
             android:lines="2"
-            android:text="pull your left lit axis carabiner until the led blinks"
+            android:id="@+id/tv_lit_axis_message"
+            android:text="@string/left_lit_axis_connect_message"
             android:textAlignment="center"
             android:textAllCaps="true"
             android:textColor="@color/white"
@@ -35,10 +36,26 @@
             android:adjustViewBounds="true"
             android:elevation="0dp" />
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/tv_lit_heart_rate_message"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/iv_animation"
+            android:elevation="1dp"
+            android:fontFamily="@font/futura_std_condensed"
+            android:lines="2"
+            android:text="@string/please_make_sure_the_led_of_your_heart_rate_sensor_is_on_and_bring_it_close_to_your_iphone"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:layout_marginBottom="@dimen/_8sdp"
+            android:textSize="@dimen/_15ssp"
+            android:visibility="gone" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_lit_heart_rate_message"
             android:gravity="center">
 
             <ProgressBar
@@ -49,10 +66,11 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:id="@+id/tv_scanning"
                 android:layout_gravity="center"
                 android:fontFamily="@font/futura_std_condensed_bold"
                 android:gravity="center"
-                android:text="Scanning..."
+                android:text="Scanning"
                 android:textAllCaps="true"
                 android:textColor="@color/white"
                 android:textSize="@dimen/_15ssp" />
