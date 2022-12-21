@@ -172,7 +172,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
         if (pass.isEmpty()) {
             binding.errorPasswordLogin.visibility = View.VISIBLE
         }
-        if (!email.isEmpty() && checkEmail(email) && !pass.isEmpty()) {
+        if (email.isNotEmpty() && checkEmail(email) && pass.isNotEmpty()) {
             return true
         }
         return false
@@ -182,10 +182,10 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
         if (checkEmail(email)) {
             binding.errorEmailLogin.visibility = View.GONE
         }
-        if (!pass.isEmpty()) {
+        if (pass.isNotEmpty()) {
             binding.errorPasswordLogin.visibility = View.GONE
         }
-        if (!email.isEmpty() && checkEmail(email) && !pass.isEmpty()) {
+        if (email.isNotEmpty() && checkEmail(email) && !pass.isEmpty()) {
             loginButtonActive()
             return true
         }
@@ -228,7 +228,8 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
                         it.result.profileDetails.accessToken.accessToken
                     )
                 }
-                BaseResponseDataObject.accessToken = it.result.profileDetails.accessToken.accessToken
+                BaseResponseDataObject.accessToken =
+                    it.result.profileDetails.accessToken.accessToken
                 BaseResponseDataObject.token = it.result.profileDetails.accessToken.accessToken
                 BaseResponseDataObject.profilePageData = it.result.profileDetails
                 binding.spLoading.visibility = View.GONE

@@ -28,12 +28,12 @@ class SplashScreenActivity : AppCompatActivity() {
     lateinit var viewModel: SplashScreenViewModel
     private val retrofitService = RetrofitDataSourceService.getInstance()
     lateinit var dataPereREnceObject: DataPreferenceObject
-    var token =""
+    var token = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySplashScreenBinding.inflate(layoutInflater)
         setContentView(binding.root)
-       setUpUi()
+        setUpUi()
         viewModelSetup()
     }
 
@@ -45,21 +45,24 @@ class SplashScreenActivity : AppCompatActivity() {
 
     private fun viewModelSetup() {
         viewModel =
-            ViewModelProvider(this, SpalshScreenViewModelFactory(SplashScreenRepository(retrofitService),this)).get(
+            ViewModelProvider(
+                this,
+                SpalshScreenViewModelFactory(SplashScreenRepository(retrofitService), this)
+            ).get(
                 SplashScreenViewModel::class.java
             )
         loginResponse()
     }
 
-    private fun  getToken(){
-        dataPereREnceObject.getTheData("userToken").asLiveData().observe(this){
-            Log.d("theacceestoke","the accesss ${it.toString()}")
-            if (it.toString().isNotEmpty()){
-                Log.d("theacceestoke","the accesss ${it.toString()}")
+    private fun getToken() {
+        dataPereREnceObject.getTheData("userToken").asLiveData().observe(this) {
+            if (it.toString().isNotEmpty()) {
                 token = it
-                viewModel.checkGetCustomer(it.toString(), GetCutomerRequest(AppConstants.getCustomer))
-            } else
-            {
+                viewModel.checkGetCustomer(
+                    it.toString(),
+                    GetCutomerRequest(AppConstants.getCustomer)
+                )
+            } else {
                 intentActivityWithFinish(this@SplashScreenActivity, WelcomeActivity::class.java)
             }
 
@@ -67,25 +70,26 @@ class SplashScreenActivity : AppCompatActivity() {
         }
     }
 
-    private fun loginResponse(){
+    private fun loginResponse() {
         viewModel.getCustomerResponse.observe(this, Observer {
-            Log.d("singetoneobject","thr object is ${it}")
-            if (it.serverResponse.statusCode == 200){
-                if (it.result.profileDetails.onbordingStatus ==true){
-                    BaseResponseDataObject.profilePageData=it.result.profileDetails
+            if (it.serverResponse.statusCode == 200) {
+                if (it.result.profileDetails.onbordingStatus) {
+                    BaseResponseDataObject.profilePageData = it.result.profileDetails
                     BaseResponseDataObject.accessToken = token
 
-                    intentActivityWithFinish(this@SplashScreenActivity, DashBoardActivity::class.java)
+                    intentActivityWithFinish(
+                        this@SplashScreenActivity,
+                        DashBoardActivity::class.java
+                    )
 
-                }else{
-                    BaseResponseDataObject.profilePageData=it.result.profileDetails
+                } else {
+                    BaseResponseDataObject.profilePageData = it.result.profileDetails
                     BaseResponseDataObject.accessToken = token
                     intentActivityWithFinish(this@SplashScreenActivity, ProfileActivity::class.java)
                 }
 
-            }else{
+            } else {
                 intentActivityWithFinish(this@SplashScreenActivity, WelcomeActivity::class.java)
-//                toastMessageShow("SomeThing went wrong")
             }
 
 
@@ -96,7 +100,7 @@ class SplashScreenActivity : AppCompatActivity() {
         })
     }
 
-    open fun intentActivityWithFinish(thisActivity: Context, cls:Class<*>) {
+    open fun intentActivityWithFinish(thisActivity: Context, cls: Class<*>) {
         val i = Intent(thisActivity, cls)
         startActivity(i)
         finish()
@@ -105,8 +109,9 @@ class SplashScreenActivity : AppCompatActivity() {
             R.anim.slide_to_left
         )
     }
-    fun toastMessageShow(msg:String){
-        val toast = Toast.makeText(applicationContext,msg, Toast.LENGTH_SHORT)
+
+    fun toastMessageShow(msg: String) {
+        val toast = Toast.makeText(applicationContext, msg, Toast.LENGTH_SHORT)
         toast.show()
     }
 }

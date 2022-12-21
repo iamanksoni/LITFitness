@@ -26,8 +26,10 @@ import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
+import com.google.gson.Gson
 import com.litmethod.android.R
 import com.litmethod.android.databinding.FragmentEditProfileBinding
+import com.litmethod.android.models.EditProfileRequest
 import com.litmethod.android.models.EditUserRequestNullable.EditUserRequestNullable
 import com.litmethod.android.models.GetCountries.Result
 import com.litmethod.android.network.EditProfileRepository
@@ -828,9 +830,19 @@ class EditProfileFragment : Fragment(), View.OnClickListener {
     // Api call to changing the USerImage
     private fun calltoChangeAvatar() {
         val file = File(path)
-        val reqFile = RequestBody.create(MULTIPART_FORM_DATA.toMediaTypeOrNull(),file)
-        val body = MultipartBody.Part.createFormData(IMAGE,file.name,reqFile)
-        val action: RequestBody =    RequestBody.create(TEXT_PLAIN.toMediaTypeOrNull(), AVATAR_IMAGE)
+        val reqFile = RequestBody.create("multipart/form-data".toMediaTypeOrNull(),file)
+        val body = MultipartBody.Part.createFormData("image",file.name,reqFile)
+        val action: RequestBody =    RequestBody.create("text/plain".toMediaTypeOrNull(), "avtarImage")
+//        val action2: RequestBody = create("multipart/form-data".toMediaTypeOrNull(), "avtarImage")
+        Log.d("check","the action data is $action")
+
+//        val editProfileRequest = EditProfileRequest("avtarImage")
+//        val gson = Gson()
+//        val data = MultipartBody.Part
+//            .createFormData(
+//                "action",
+//                gson.toJson(editProfileRequest)
+//            )
         viewModel.checkSetImage(BaseResponseDataObject.accessToken, body, action)
         Log.d("SighUpResponse37","body is ${body.body} and req file is $action")
     }

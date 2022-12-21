@@ -179,10 +179,10 @@ class HomeScreenFragment : BaseFragment(), AllTimeAdapter.AllTimeAdapterListener
         }
 
         dataListAllTime.clear()
-        dataListAllTime.add(HomePageVideosModel("All time", true))
-        dataListAllTime.add(HomePageVideosModel("past month", false))
-        dataListAllTime.add(HomePageVideosModel("Past week", false))
-        dataListAllTime.add(HomePageVideosModel("Today", false))
+        dataListAllTime.add(HomePageVideosModel("Past week", true))
+        dataListAllTime.add(HomePageVideosModel("3 months", false))
+        dataListAllTime.add(HomePageVideosModel("6 months", false))
+        dataListAllTime.add(HomePageVideosModel("All time", false))
         binding.rvAllTime.apply {
             layoutManagerAllTime =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
@@ -221,7 +221,7 @@ class HomeScreenFragment : BaseFragment(), AllTimeAdapter.AllTimeAdapterListener
 
         binding.spLoading.visibility = View.VISIBLE
         viewModel.getHomeCheck(token)
-        viewModel.getUserAnalyticsCheck(token, AppConstants.ALLTIME)
+        viewModel.getUserAnalyticsCheck(token, AppConstants.PASTWEEK)
         viewModel.getAchievementsCheck(token)
     }
 
@@ -240,14 +240,14 @@ class HomeScreenFragment : BaseFragment(), AllTimeAdapter.AllTimeAdapterListener
         for (i in 0 until dataListAllTime.size) {
             binding.spLoading.visibility = View.VISIBLE
             if (dataListAllTime[i].selected) {
-                if (dataListAllTime[i].title.equals("All time")) {
-                    viewModel.getUserAnalyticsCheck(token, AppConstants.ALLTIME)
-                } else if (dataListAllTime[i].title.equals("past month")) {
-                    viewModel.getUserAnalyticsCheck(token, AppConstants.PASTMONTH)
-                } else if (dataListAllTime[i].title.equals("Past week")) {
+                if (dataListAllTime[i].title.equals("Past week")) {
                     viewModel.getUserAnalyticsCheck(token, AppConstants.PASTWEEK)
-                } else if (dataListAllTime[i].title.equals("Today")) {
-                    viewModel.getUserAnalyticsCheck(token, AppConstants.TODAY)
+                } else if (dataListAllTime[i].title.equals("3 months")) {
+                    viewModel.getUserAnalyticsCheck(token, AppConstants.THREEMONTH)
+                } else if (dataListAllTime[i].title.equals("6 months")) {
+                    viewModel.getUserAnalyticsCheck(token, AppConstants.SIXMONTH)
+                } else if (dataListAllTime[i].title.equals("All time")) {
+                    viewModel.getUserAnalyticsCheck(token, AppConstants.ALLTIME)
                 }
             }
         }

@@ -25,6 +25,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize">
 
+
+                <TextView
+                    android:id="@+id/tv_header"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_marginEnd="10dp"
+                    android:fontFamily="@font/futura_std_condensed_extra_bd"
+                    android:lineSpacingExtra="2sp"
+                    android:text="HOME"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_15ssp"
+                    android:translationY="-1sp" />
+
                 <ImageButton
                     android:id="@+id/ib_setting"
                     android:layout_width="@dimen/_30sdp"
@@ -81,7 +95,6 @@
                 android:layout_marginEnd="@dimen/_15sdp"
                 android:fontFamily="@font/futura_std_condensed_bold"
                 android:lineSpacingExtra="2sp"
-                android:singleLine="true"
                 android:text="Welcome [username]"
                 android:textAllCaps="true"
                 android:textColor="@color/grey"

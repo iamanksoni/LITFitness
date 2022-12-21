@@ -119,7 +119,7 @@ interface RetrofitDataSourceService {
     fun setImage(
         @Header(AppConstants.AUTH_TOKEN) authorizationKey: String,
         @Part file: MultipartBody.Part,
-        @Part("action") action: RequestBody
+        @Part action: RequestBody
     ): Call<SetImageResponse>
 
     @Headers(APP_HEADER)

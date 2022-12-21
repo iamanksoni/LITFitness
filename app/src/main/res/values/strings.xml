@@ -4,10 +4,29 @@
     <string name="have_an_account_login"><font color='#FFFFFFFF'>Have an account? </font><font color="#ED2124">Login</font></string>
     <string name="read_more"><u>Read more</u></string>
     <string name="during_week_one_you_will_learn_the_four_fundamentals_of_resistance_rowing_pull_push_power_and_strength">During week one, you will learn the four fundamentals of Resistance Rowing: <b>Pull, Push, Power</b> and <b>strength.</b></string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="accept_email_updates_message">Please accept the email updates, news…</string>
+    <string name="back_button">back_button</string>
+    <string name="sign_up_for_list_heading">Sign up for LIT</string>
+    <string name="sign_up_below_heading_message">Create your LIT account and join us to a fitter, healthier, stronger you.</string>
+    <string name="email_address_hint">EMAIL ADDRESS…</string>
+    <string name="error_email_message">Enter the valid email address</string>
+    <string name="password_hint">YOUR PASSWORD</string>
+    <string name="password_error_message">Password cannot be empty</string>
+    <string name="sign_up_checkbox_message">Sign up for email updates from LIT Method, news, promos and member benefits.</string>
+    <string name="join_us">Join us</string>
+    <string name="privacy_policy_tnc_message">By creating an account, you agree to our Privacy Policy and Terms of Use</string>
+    <string name="password_icon_content_description">password_icon</string>
+    <string name="let_s_get_you_lit_message">Let’s get you LIT</string>
+    <string name="username_or_email_address_hint">USERNAME OR EMAIL ADDRESS…</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="log_in">Log in</string>
+    <string name="password_eye">password_eye</string>
+    <string name="applogo">applogo</string>
+    <string name="start_free_trial">Start free trial</string>
     <string name="manage_devices">MANAGE DEVICES</string>
     <string name="settings">Settings</string>
+<<<<<<< HEAD
 
 
     <string name="ota_service_name">OTA Service</string>
@@ -41,4 +60,37 @@
     <string name="left_lit_axis_connect_message">pull your left lit axis carabiner until the led blinks</string>
     <string name="right_lit_axis_connect_message">pull your right lit axis carabiner until the led blinks</string>
     <string name="please_make_sure_the_led_of_your_heart_rate_sensor_is_on_and_bring_it_close_to_your_iphone">Please make sure the LED of your heart rate sensor is on and bring it close to your iPhone</string>
+=======
+    <string name="welcome_to_lit">Welcome to LIT</string>
+    <string name="profile_setup_message">Let’s get your profile set up.</string>
+    <string name="cameraview">cameraview</string>
+    <string name="userimage">userimage</string>
+    <string name="first_name">FIRST NAME</string>
+    <string name="please_enter_first_name">Please enter first name</string>
+    <string name="last_name">LAST NAME</string>
+    <string name="username">USERNAME</string>
+    <string name="please_enter_user_name">Please enter user name</string>
+    <string name="date_of_birth">DATE OF BIRTH</string>
+    <string name="please_select_dob">Please select DOB</string>
+    <string name="next">NEXT</string>
+    <string name="do_you_have_an_injury">Do you have an injury?</string>
+    <string name="injury_below_heading_message">Our low intensity training can provide targeted workouts to help with injury.</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="where_is_your_injury">Where is your injury?</string>
+    <string name="your_fitness_level">Your fitness level</string>
+    <string name="fitness_subheader">Select Your level and we’ll provide workouts tailored to you.</string>
+    <string name="about_you">About you</string>
+    <string name="below_about_subheader">let’s personalize your workouts to you.</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+    <string name="other">Other</string>
+    <string name="height">HEIGHT</string>
+    <string name="feet">FEET</string>
+    <string name="inches">INCHES</string>
+    <string name="cm">CM</string>
+    <string name="weight">WEIGHT</string>
+    <string name="lbs">lbs</string>
+    <string name="kgs">kgs</string>
+>>>>>>> d6be823cfd6aacbd5639efb1c8fbae4fc04b69f1
 </resources>

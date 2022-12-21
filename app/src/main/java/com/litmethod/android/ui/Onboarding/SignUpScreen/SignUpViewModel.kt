@@ -40,7 +40,7 @@ class SignUpViewModell constructor(private val repository: SignUpRepository, var
         })
     }
 
-    fun checkLogin(email: String, pass: String, phoneNo: String) {
+    fun checkLogin(email: String, pass: String) {
         when {
             !NetworkHelper.instance.isNetworkAvailable(context) ->
                 DialogueBox.showMsg(
@@ -50,7 +50,7 @@ class SignUpViewModell constructor(private val repository: SignUpRepository, var
                 )
             else -> {
                 signUpUserDataList(
-                    SignUpRequest(AppConstants.actionTypeSignUp,email,true,pass, phoneNo, "+1"
+                    SignUpRequest(AppConstants.actionTypeSignUp,email,true,pass
                     )
                 )
             }
