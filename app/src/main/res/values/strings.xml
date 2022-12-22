@@ -26,7 +26,7 @@
     <string name="start_free_trial">Start free trial</string>
     <string name="manage_devices">MANAGE DEVICES</string>
     <string name="settings">Settings</string>
-<<<<<<< HEAD
+
 
 
     <string name="ota_service_name">OTA Service</string>
@@ -60,7 +60,7 @@
     <string name="left_lit_axis_connect_message">pull your left lit axis carabiner until the led blinks</string>
     <string name="right_lit_axis_connect_message">pull your right lit axis carabiner until the led blinks</string>
     <string name="please_make_sure_the_led_of_your_heart_rate_sensor_is_on_and_bring_it_close_to_your_iphone">Please make sure the LED of your heart rate sensor is on and bring it close to your iPhone</string>
-=======
+
     <string name="welcome_to_lit">Welcome to LIT</string>
     <string name="profile_setup_message">Let’s get your profile set up.</string>
     <string name="cameraview">cameraview</string>
