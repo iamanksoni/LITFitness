@@ -780,7 +780,7 @@ class AccountScreenFragment : BaseFragment(), AllTabItemAdapter.AllTabItemAdapte
         })
 
         viewModel.getClassStatisticsResponse.observe(viewLifecycleOwner, Observer {
-       Log.d("GetClassStatisticsResponse","the data resp $it")
+       Log.d("GetClassStatisticsResponse", "the data resp $it")
             getClassStatisticsList = it.result.data.videoType as MutableList<VideoType>
             BaseResponseDataObject.getClassStatisticsList.addAll(it.result.data.videoType)
             BaseResponseDataObject.getClassStatisticsListNew.addAll(it.result.data.videoType)

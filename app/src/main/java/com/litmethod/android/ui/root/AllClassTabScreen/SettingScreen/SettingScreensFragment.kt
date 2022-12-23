@@ -8,10 +8,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.litmethod.android.R
+import com.litmethod.android.Webview.WebViewActivity
 import com.litmethod.android.databinding.FragmentSettingScreensBinding
 import com.litmethod.android.devicemanager.DeviceManagerActivity
 import com.litmethod.android.models.LogOut.LogOutRequest
@@ -21,6 +24,11 @@ import com.litmethod.android.ui.Onboarding.LoginScreen.LoginActivity
 import com.litmethod.android.ui.root.AllClassTabScreen.ClassesFragmentScreen.Util.BaseResponseDataObject
 import com.litmethod.android.ui.root.AllClassTabScreen.SettingScreen.ViewModel.SettingScreenViewModel
 import com.litmethod.android.ui.root.AllClassTabScreen.SettingScreen.ViewModel.SettingScreenViewModelFactory
+import com.litmethod.android.ui.root.HomeTabScreen.HomeTabFragmentScreen.HomeScreenFragment
+import com.litmethod.android.utlis.AppConstants
+import com.litmethod.android.utlis.AppConstants.Companion.URL_PRIVACY_POLICY
+import com.litmethod.android.utlis.AppConstants.Companion.URL_SUPPORT
+import com.litmethod.android.utlis.AppConstants.Companion.URL_TERMS_CONDITION
 import com.litmethod.android.utlis.DataPreferenceObject
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -58,6 +66,27 @@ class SettingScreensFragment : Fragment(), View.OnClickListener {
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
             window.statusBarColor = this.resources.getColor(R.color.black)
         }
+
+        binding.tvPrivacyPolicy.setOnClickListener {
+
+
+            var intent = Intent(context, WebViewActivity::class.java)
+            intent.putExtra(AppConstants.WEB_URL, URL_PRIVACY_POLICY)
+            startActivity(intent)
+
+        }
+//
+        binding.tvSupport.setOnClickListener {
+            var intent = Intent(context, WebViewActivity::class.java)
+            intent.putExtra(AppConstants.WEB_URL, URL_SUPPORT)
+            startActivity(intent)
+        }
+//
+        binding.tvTermCondition.setOnClickListener {
+            var intent = Intent(context, WebViewActivity::class.java)
+            intent.putExtra(AppConstants.WEB_URL, URL_TERMS_CONDITION)
+            startActivity(intent)
+        }
     }
 
     private fun viewModelSetup() {
@@ -80,10 +109,9 @@ class SettingScreensFragment : Fragment(), View.OnClickListener {
     override fun onClick(p0: View?) {
         when (p0!!.id) {
             R.id.ib_back_button -> {
-//                Log.d("imgbutt","button clicked")
-//                val ft: FragmentTransaction = requireFragmentManager().beginTransaction()
-//                ft.replace(R.id.container, AccountScreenFragment(), "NewFragmentTag")
-//                ft.commit()
+                val ft: FragmentTransaction = requireFragmentManager().beginTransaction()
+                ft.replace(R.id.container, HomeScreenFragment(), "NewFragmentTag")
+                ft.commit()
             }
             R.id.cv_signout -> {
                 viewModel.checkgetLogOut(
@@ -95,6 +123,7 @@ class SettingScreensFragment : Fragment(), View.OnClickListener {
             R.id.tv_heart_rate -> {
                 startActivity(Intent(context, DeviceManagerActivity::class.java))
             }
+
 
         }
     }
