@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import androidx.annotation.RequiresApi
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.litmethod.android.BluetoothConnection.LitDeviceConstants
 import com.litmethod.android.R
@@ -17,7 +18,7 @@ import com.litmethod.android.utlis.AppConstants
 class DeviceManagerAdapter(
     val context: Context,
     val equipmentData: List<Equipment>,
-    val deviceClickListener:DeviceAdapterClickListener
+    val deviceClickListener: DeviceAdapterClickListener
 ) : RecyclerView.Adapter<DeviceManagerAdapter.DeviceManagerAdapterViewHolder>() {
 
     lateinit var yourEquipmentAdapterListener: DeviceAdapterClickListener
@@ -52,8 +53,9 @@ class DeviceManagerAdapter(
         }
         if (LitDeviceConstants.mLitAxisDevicePair != null && LitDeviceConstants.mLitAxisDevicePair?.rightLitAxisDevice != null && LitDeviceConstants.mLitAxisDevicePair?.rightLitAxisDevice != null) {
             if (item.id == AppConstants.LIT_STRENGTH_DEVICE_ID) {
-                holder.btn_pair.text = "Unpair"
+                holder.btn_pair.text = "Forget"
                 deviceClickListener.onUnpairRequest(position, item)
+                holder.btn_pair.setBackgroundColor(ContextCompat.getColor(context,R.color.red))
             }
         }
     }
