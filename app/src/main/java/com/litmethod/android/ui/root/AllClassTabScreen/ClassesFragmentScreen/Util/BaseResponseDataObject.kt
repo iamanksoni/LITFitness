@@ -29,4 +29,5 @@ object BaseResponseDataObject {
     lateinit var profilePageData:ProfileDetails
     var getClassStatisticsList: MutableList<VideoType> = ArrayList<VideoType>()
     var getClassStatisticsListAll: MutableList<VideoType> = ArrayList<VideoType>()
+    var getNewStaticsticVideoClass: MutableList<VideoType> = ArrayList<VideoType>()
 }

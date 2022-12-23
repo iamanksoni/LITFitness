@@ -117,7 +117,7 @@
                                     android:layout_alignRight="@+id/exOneMonthText"
                                     android:layout_alignBottom="@+id/exOneMonthText"
                                     android:background="@drawable/example_1_today_bg"
-                                    android:visibility="invisible" />
+                                    android:visibility="gone" />
                             </RelativeLayout>
 
                             <androidx.recyclerview.widget.RecyclerView

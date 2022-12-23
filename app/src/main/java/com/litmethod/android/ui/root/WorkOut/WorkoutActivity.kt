@@ -39,7 +39,7 @@ class WorkoutActivity : AppCompatActivity(), WorkoutDropDownAdapter.WorkoutDropD
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_workout)
-        getClassStatisticsList.addAll(BaseResponseDataObject.getClassStatisticsList)
+        getClassStatisticsList.addAll(BaseResponseDataObject.getNewStaticsticVideoClass)
         workoutsTabAdapter()
         monthSpinner()
         yearSpinner()
