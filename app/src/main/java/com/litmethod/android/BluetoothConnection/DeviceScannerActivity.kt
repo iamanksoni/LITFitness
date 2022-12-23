@@ -9,6 +9,7 @@ import android.graphics.Typeface
 import android.location.LocationManager
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.os.Handler
 import android.provider.Settings
 import android.text.Spannable
 import android.text.SpannableString
@@ -22,6 +23,7 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
+import com.litmethod.android.BluetoothConnection.LitDeviceConstants.HEART_RATE_CHARACTERISTIC_UUID
 import com.litmethod.android.BluetoothConnection.LitDeviceConstants.LIT_AXIS_WEIGHT_SCALE_CHARACHTERISTIC
 import com.litmethod.android.BluetoothConnection.LitDeviceConstants.LIT_AXIS_WEIGHT_SCALE_SERVICE
 import com.litmethod.android.BluetoothConnection.LitDeviceConstants.LIT_HEART_RATE_SERVICE
@@ -35,6 +37,7 @@ import com.litmethod.android.utlis.AppConstants.Companion.DEVICE_HEART_RATE
 import com.litmethod.android.utlis.AppConstants.Companion.DEVICE_LIT_AXIS
 import com.litmethod.android.utlis.AppConstants.Companion.DEVICE_NAME
 import com.litmethod.android.utlis.AppConstants.Companion.DEVICE_STRENGTH_MACHINE
+import com.litmethod.android.utlis.DataPreferenceObject
 import com.siliconlabs.bledemo.bluetooth.data_types.Field
 import com.siliconlabs.bledemo.bluetooth.parsing.Common
 import com.siliconlabs.bledemo.bluetooth.parsing.Engine
@@ -45,6 +48,7 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 import java.math.BigInteger
 import java.util.*
+import kotlin.collections.HashMap
 
 class DeviceScannerActivity : BaseActivity() {
     lateinit var binding: ActivityDeviceScannerBinding
@@ -63,11 +67,16 @@ class DeviceScannerActivity : BaseActivity() {
     private lateinit var fieldValue: ByteArray
     private var value: ByteArray = ByteArray(0)
     private lateinit var builder: AlertDialog;
+    var averageRSSI: HashMap<String, Triple<Int, Int, BluetoothPeripheral>> =
+        HashMap()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDeviceScannerBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        checkGPSIsOpen()
+        checkPermissions()
+        handlePermissions()
         litAxisDevicePair = LitAxisDevicePair();
         if (!checkIsAdapterEnabled()) {
             startActivity(Intent(Settings.ACTION_BLUETOOTH_SETTINGS));
@@ -88,15 +97,25 @@ class DeviceScannerActivity : BaseActivity() {
         centralManager.observeConnectionState { peripheral, state ->
             Log.d("Peripheral", " ${peripheral.address} has $state")
             if (state.toString() == "CONNECTED") {
+
+
                 if (peripheral.getService(LIT_HEART_RATE_SERVICE) != null) {
+
+                    centralManager.stopScan()
                     runOnUiThread() {
+
                         Toast.makeText(this, "Connected with heart rate sensor", Toast.LENGTH_SHORT)
                             .show()
+
+                        showHRConsole(peripheral)
                     }
-                    centralManager.stopScan()
+
 
                 } else if (peripheral.getService(LIT_AXIS_WEIGHT_SCALE_SERVICE) != null) {
                     if (litAxisDevicePair.leftLitAxisDevice == null) {
+                        /**
+                         * SAVING LEFT LIT AXIS DEVICE
+                         */
                         runOnUiThread() {
                             binding.tvLitHeartRateMessage.visibility = View.VISIBLE
                             binding.tvLitHeartRateMessage.text = "Left Lit Axis Connected"
@@ -123,8 +142,18 @@ class DeviceScannerActivity : BaseActivity() {
 
 
                         litAxisDevicePair.setLeftLitAxis(peripheral)
+                        scope.launch {
+                            DataPreferenceObject(this@DeviceScannerActivity).save(
+                                "leftLitAxis",
+                                peripheral.address
+                            )
+                        }
 
                     } else if (litAxisDevicePair.rightLitAxisDevice == null) {
+
+                        /**
+                         * SAVING RIGHT LIT AXIS DEVICE
+                         */
                         runOnUiThread() {
                             Toast.makeText(
                                 this,
@@ -133,9 +162,16 @@ class DeviceScannerActivity : BaseActivity() {
                             )
                                 .show()
                         }
-
-                        litAxisDevicePair.setRightLitAxis(peripheral)
                         centralManager.stopScan()
+                        litAxisDevicePair.setRightLitAxis(peripheral)
+
+                        scope.launch {
+                            DataPreferenceObject(this@DeviceScannerActivity).save(
+                                "rightLitAxis",
+                                peripheral.address
+                            )
+                        }
+
 
                     }
                     LitDeviceConstants.mLitAxisDevicePair = litAxisDevicePair
@@ -202,6 +238,7 @@ class DeviceScannerActivity : BaseActivity() {
 //                            }
 //                        }
 //                    }
+
                     centralManager.stopScan()
 
                     runOnUiThread {
@@ -236,9 +273,10 @@ class DeviceScannerActivity : BaseActivity() {
 
                         }
                         DEVICE_HEART_RATE -> {
-
-                            handleHeartRateConnection()
-
+                            if (peripheral.getService(LIT_HEART_RATE_SERVICE) != null) {
+                                Log.d("Disconnection", "HR sensor disconnected")
+                                handleHeartRateConnection()
+                            }
                         }
                         DEVICE_STRENGTH_MACHINE -> {
 
@@ -295,12 +333,13 @@ class DeviceScannerActivity : BaseActivity() {
 
             }
             DEVICE_HEART_RATE -> {
+
                 binding.tvLitHeartRateMessage.visibility = View.VISIBLE
                 binding.tvLitAxisMessage.visibility = View.GONE
                 Glide.with(this).load(R.drawable.heart_rate).into(binding.ivAnimation)
                 handleHeartRateConnection()
-
             }
+
             DEVICE_STRENGTH_MACHINE -> {
                 Glide.with(this).load(R.drawable.strength_machine).into(binding.ivAnimation)
                 handleRowingMachineConnection()
@@ -363,9 +402,7 @@ class DeviceScannerActivity : BaseActivity() {
 
     override fun onResume() {
         super.onResume()
-        checkGPSIsOpen()
-        checkPermissions()
-        handlePermissions()
+
     }
 
     private fun checkPermissions() {
@@ -450,7 +487,7 @@ class DeviceScannerActivity : BaseActivity() {
 
     override fun onPause() {
         super.onPause()
-        centralManager.stopScan()
+
     }
 
     private fun scanAndConnectLitAxisDevice(list: Array<UUID>) {
@@ -474,18 +511,50 @@ class DeviceScannerActivity : BaseActivity() {
     }
 
     private fun scanAndConnectWithHeartRateSensor(list: Array<UUID>) {
+
         var deviceMap = HashMap<String, BluetoothPeripheral>()
         centralManager.scanForPeripherals({ peripheral, scanResult ->
 
-            if (scanResult.rssi > -45) {
+            if (scanResult.rssi > -60) {
                 Log.d("Device --->>>", peripheral.address + "   RSSI -->>>" + scanResult.rssi)
+                if (!averageRSSI.contains(peripheral.address)) {
+                    averageRSSI.put(
+                        peripheral.name, Triple(
+                            1,
+                            scanResult.rssi,
+                            peripheral
+                        )
+                    )
+                } else {
+                    var dataPayload = averageRSSI.getValue(peripheral.address)
+                    var rssi = dataPayload.second
+                    var count = dataPayload.first
+                    var average = (rssi * count + scanResult.rssi) / (count + 1)
+                    var updatedPacket =
+                        Triple(count + 1, average, peripheral)
+                    averageRSSI.put(peripheral.address, updatedPacket)
 
-                deviceMap.put(peripheral.address, peripheral)
+                }
             }
+
 
         }, { scanFailure: ScanFailure ->
 
         })
+
+        runOnUiThread {
+            Handler().postDelayed(Runnable {
+                centralManager.stopScan()
+                averageRSSI.values.forEach {
+                    Log.d("RSSI AVERAGE", "${it.third.address} ----> ${it.second}")
+                    scope.launch {
+                        centralManager.connectPeripheral(it.third)
+                    }
+
+                }
+
+            }, 10000)
+        }
 
     }
 
@@ -613,8 +682,10 @@ class DeviceScannerActivity : BaseActivity() {
 
 
         scope.launch {
-            peripheral.readCharacteristic( LIT_AXIS_WEIGHT_SCALE_SERVICE,
-                LIT_AXIS_WEIGHT_SCALE_CHARACHTERISTIC)
+            peripheral.readCharacteristic(
+                LIT_AXIS_WEIGHT_SCALE_SERVICE,
+                LIT_AXIS_WEIGHT_SCALE_CHARACHTERISTIC
+            )
         }
 
         var notificationCharacteristic = peripheral.getCharacteristic(
@@ -629,7 +700,7 @@ class DeviceScannerActivity : BaseActivity() {
                         dataParser()
                         fieldValue = value
                         var data = readValue()
-                        consoleView.text = String.format("%.2f", (data.toFloat() * 0.0005))+"KG"
+                        consoleView.text = String.format("%.2f", (data.toFloat() * 0.0005)) + "KG"
                         Log.d("TAG", "Weight LOgged: " + data.toFloat() * 0.0005 + "KG")
 
                     }
@@ -642,6 +713,51 @@ class DeviceScannerActivity : BaseActivity() {
         lp.height = 800
 
 
+
+
+        builder.setView(view)
+        builder.setCanceledOnTouchOutside(false)
+        builder.show()
+        val width = (resources.displayMetrics.widthPixels * 0.90).toInt()
+        val height = (resources.displayMetrics.heightPixels * 0.90).toInt()
+
+        builder.getWindow()?.setLayout(width, height)
+    }
+
+    private fun showHRConsole(peripheral: BluetoothPeripheral) {
+        var data = ""
+        builder = AlertDialog.Builder(this, R.style.CustomAlertDialog)
+            .create()
+        val view = layoutInflater.inflate(R.layout.ble_device_console, null)
+        val notifyButton = view.findViewById<Button>(R.id.getNotifyPermission)
+        val readButton = view.findViewById<Button>(R.id.getReadPermission)
+        val consoleView = view.findViewById<TextView>(R.id.console)
+        val clear_console = view.findViewById<TextView>(R.id.clear_text)
+        val msg_box = view.findViewById<TextView>(R.id.message_box)
+
+
+        val lp = WindowManager.LayoutParams()
+        lp.copyFrom(builder.getWindow()?.getAttributes())
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT
+        lp.height = 800
+
+        var notifyingCharacteristic = peripheral.getCharacteristic(
+            LIT_HEART_RATE_SERVICE,
+            HEART_RATE_CHARACTERISTIC_UUID
+        )
+        consoleView.text="Measuring Your pulse ... Please wait for a while"
+        notifyingCharacteristic?.let {
+            scope.launch {
+                peripheral.observe(it) { value ->
+                    consoleView.text = HeartRateMeasurement.fromBytes(value).pulse.toString() +"BPM"
+                    Log.d(
+                        "TAG",
+                        "Weight LOgged: " + HeartRateMeasurement.fromBytes(value).pulse
+                    )
+
+                }
+            }
+        }
 
 
         builder.setView(view)

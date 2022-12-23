@@ -588,7 +588,7 @@ class HomeScreenFragment : BaseFragment(), AllTimeAdapter.AllTimeAdapterListener
         context?.let {
             Glide
                 .with(it)
-                .load(BaseResponseDataObject.profilePageData.profileImage)
+                .load(BaseResponseDataObject.profilePageData?.profileImage)
                 .centerCrop()
                 .into(binding.ivUserImage)
         }

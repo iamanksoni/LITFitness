@@ -86,15 +86,7 @@ class DeviceManagerActivity : BaseActivity(), DeviceManagerAdapter.DeviceAdapter
         var centralManager = LitDeviceConstants.mBleCentralManager
         when (device.id) {
             DEVICE_LIT_AXIS -> {
-                var litAxisDevicePair = LitDeviceConstants.mLitAxisDevicePair
-                scope.launch {
-                    try {
-                        centralManager.cancelConnection(litAxisDevicePair.leftLitAxisDevice!!)
-                        centralManager.cancelConnection(litAxisDevicePair.rightLitAxisDevice!!)
-                    } catch (connectionFailed: ConnectionFailedException) {
-                        Log.d("Device Scanner Activity", "disconnection failed")
-                    }
-                }
+
 
             }
             DEVICE_STRENGTH_MACHINE -> {
