@@ -71,6 +71,8 @@ class HomeScreenFragment : BaseFragment(), AllTimeAdapter.AllTimeAdapterListener
     private var layoutManagernewVideo: RecyclerView.LayoutManager? = null
     private var videoGetStartedAdapter: VideoGetStartedAdapter? = null
 
+    private var performanceType: String = ""
+
     val dataListProgram: ArrayList<VideoX> = ArrayList<VideoX>()
     private var layoutManagernewProgram: RecyclerView.LayoutManager? = null
     private var programMadeForYouAdapter: ProgramMadeForYouAdapter? = null
@@ -143,6 +145,11 @@ class HomeScreenFragment : BaseFragment(), AllTimeAdapter.AllTimeAdapterListener
             window.statusBarColor = this.resources.getColor(R.color.black)
         }
         binding.ibSetting.visibility = View.GONE
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            viewModel.getHomeCheck(token)
+            viewModel.getUserAnalyticsCheck(token, performanceType)
+            viewModel.getAchievementsCheck(token)
+        }
 
     }
 
@@ -215,6 +222,7 @@ class HomeScreenFragment : BaseFragment(), AllTimeAdapter.AllTimeAdapterListener
         achievementsAdapter!!.setAdapterListener(this)
 
         binding.spLoading.visibility = View.VISIBLE
+        performanceType = AppConstants.PASTWEEK
         viewModel.getHomeCheck(token)
         viewModel.getUserAnalyticsCheck(token, AppConstants.PASTWEEK)
         viewModel.getAchievementsCheck(token)
@@ -236,12 +244,16 @@ class HomeScreenFragment : BaseFragment(), AllTimeAdapter.AllTimeAdapterListener
             binding.spLoading.visibility = View.VISIBLE
             if (dataListAllTime[i].selected) {
                 if (dataListAllTime[i].title.equals("Past week")) {
+                    performanceType = AppConstants.PASTWEEK
                     viewModel.getUserAnalyticsCheck(token, AppConstants.PASTWEEK)
                 } else if (dataListAllTime[i].title.equals("3 months")) {
+                    performanceType = AppConstants.THREEMONTH
                     viewModel.getUserAnalyticsCheck(token, AppConstants.THREEMONTH)
                 } else if (dataListAllTime[i].title.equals("6 months")) {
+                    performanceType = AppConstants.SIXMONTH
                     viewModel.getUserAnalyticsCheck(token, AppConstants.SIXMONTH)
                 } else if (dataListAllTime[i].title.equals("All time")) {
+                    performanceType = AppConstants.ALLTIME
                     viewModel.getUserAnalyticsCheck(token, AppConstants.ALLTIME)
                 }
             }
@@ -336,6 +348,7 @@ class HomeScreenFragment : BaseFragment(), AllTimeAdapter.AllTimeAdapterListener
 
     private fun getHomeApiResponse() {
         viewModel.getHomeData.observe(requireActivity(), Observer {
+            binding.swipeRefreshLayout.isRefreshing = false
             binding.spLoading.visibility = View.GONE
             binding.tvVideoHeader.text = it.gettingstarted.headerTitle
             binding.tvProgramHeader.text = "PROGRAMS MADE FOR YOU"

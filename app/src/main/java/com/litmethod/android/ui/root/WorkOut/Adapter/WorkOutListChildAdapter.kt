@@ -42,19 +42,24 @@ class WorkOutListChildAdapter(
         Log.d("theitemsize","the new response array size is ${result}")
 
         Glide.with(context)
-            .load(item.instructor_image)
+            .load(item.thumbnail)
             .into(holder.iv_new2)
 
 
 
         setVideoTitle(holder,item)
         setTimeLine(holder,item)
+        setWorkOutType(holder, item)
     }
 
 
     override fun getItemCount(): Int {
         Log.d("theitemsize","the new response array size is ${result.size}")
         return result.size
+    }
+
+    private fun setWorkOutType(holder: WorkOutListChildAdapterViewHolder, item: Video){
+        holder.tvWorkOutType.text = item.class_type
     }
 
     private fun setVideoTitle(holder: WorkOutListChildAdapterViewHolder,item:Video){
@@ -126,6 +131,7 @@ class WorkOutListChildAdapterViewHolder(view: View) : RecyclerView.ViewHolder(vi
 //    val tv_date: TextView = view.findViewById(R.id.tv_date)
     val tv_video_title: TextView = view.findViewById(R.id.tv_video_title)
     val tv_video_time: TextView = view.findViewById(R.id.tv_video_time)
+    val tvWorkOutType: TextView = view.findViewById(R.id.tvWorkOutType)
 
     val iv_new2: ImageView = view.findViewById(R.id.iv_new2)
 //    val btn_sign_me_up: MaterialButton = view.findViewById(R.id.btn_sign_me_up)

@@ -491,7 +491,7 @@ class ClassesFragment : BaseFragment(), StackClassesAdapter.StackClassesAdapterL
         for (i in 0..getCatagoryList.size-1){
             dataList.add(StackClassesData(i==0 ))
         }
-
+        BaseResponseDataObject.termId = getCatagoryList[0].id
         binding.rvStackType.apply {
             layoutManagernew = LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL, false)
             this.layoutManager = layoutManagernew
@@ -661,6 +661,7 @@ class ClassesFragment : BaseFragment(), StackClassesAdapter.StackClassesAdapterL
         BaseResponseDataObject.onResumeViewModel=false
         isScrolling=false
         pageNo =1
+        BaseResponseDataObject.termId = code
 
         Log.d("checkClling","view model on item clicked cllaed")
         if (BaseResponseDataObject.isFilter ==true){

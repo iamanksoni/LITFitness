@@ -111,7 +111,7 @@ class FilterActivity : BaseActivity(), View.OnClickListener,FilterChildAdapter.F
                 BaseResponseDataObject.duration = duration
                 BaseResponseDataObject.accessorries = accessorries
                 BaseResponseDataObject.muscleGroup = muscleGroup
-                BaseResponseDataObject.termId = codeId
+                //BaseResponseDataObject.termId = codeId
                 BaseResponseDataObject.isFilter = true
                 finish()
             }
@@ -142,7 +142,7 @@ class FilterActivity : BaseActivity(), View.OnClickListener,FilterChildAdapter.F
                 BaseResponseDataObject.duration.clear()
                 BaseResponseDataObject.accessorries.clear()
                 BaseResponseDataObject.muscleGroup.clear()
-                BaseResponseDataObject.termId = codeId
+                //BaseResponseDataObject.termId = codeId
                 BaseResponseDataObject.isFilter = false
                 finish()
             }

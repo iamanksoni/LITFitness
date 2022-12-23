@@ -44,7 +44,7 @@ class WorkoutDropDownAdapter(
         val typeFacebold = Typeface.createFromAsset(context.assets, "futura_std_condensed.otf")
         val typeFace = Typeface.createFromAsset(context.assets, "futura_std_condensed_light.otf")
         if (position==0){
-            holder.iv_drop_icon.visibility = View.VISIBLE
+            holder.iv_drop_icon.visibility = View.GONE
         } else{
             holder.iv_drop_icon.visibility = View.GONE
         }

@@ -83,6 +83,10 @@ class PerformanceDetailsActivity : BaseActivity(),AllTimeDetailsAdapter.AllTimeA
             window.statusBarColor = color
         }
 
+        binding.ibBackButton.setOnClickListener {
+            finish()
+        }
+
     }
 
     private fun setUpDataFromPrevious(){

@@ -24,6 +24,15 @@
                 android:layout_height="wrap_content"
                 android:background="@color/red">
 
+                <ImageButton
+                    android:id="@+id/ib_back_button"
+                    android:layout_width="@dimen/_39sdp"
+                    android:layout_height="@dimen/_37sdp"
+                    android:layout_alignParentStart="true"
+                    android:background="@drawable/ic_back_arrow"
+                    android:contentDescription="@string/back_button"
+                    android:padding="@dimen/_5sdp"/>
+
                 <TextView
                     android:id="@+id/tv_date_time"
                     android:layout_width="wrap_content"

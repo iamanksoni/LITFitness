@@ -298,7 +298,7 @@ class AccountScreenFragment : BaseFragment(), AllTabItemAdapter.AllTabItemAdapte
                 it.id == "68"
             }
             BaseResponseDataObject.getClassStatisticsList = newList as MutableList<VideoType>
-            BaseResponseDataObject.getClassStatisticsListAll = getClassStatisticsList
+            BaseResponseDataObject.getClassStatisticsListAll.addAll(getClassStatisticsList)
             val intent = Intent(context, WorkoutActivity::class.java)
             startActivity(intent)
 
@@ -782,8 +782,9 @@ class AccountScreenFragment : BaseFragment(), AllTabItemAdapter.AllTabItemAdapte
         viewModel.getClassStatisticsResponse.observe(viewLifecycleOwner, Observer {
        Log.d("GetClassStatisticsResponse","the data resp $it")
             getClassStatisticsList = it.result.data.videoType as MutableList<VideoType>
-            BaseResponseDataObject.getClassStatisticsList =
-                it.result.data.videoType as MutableList<VideoType>
+            BaseResponseDataObject.getClassStatisticsList.addAll(it.result.data.videoType)
+            BaseResponseDataObject.getClassStatisticsListNew.addAll(it.result.data.videoType)
+                // as MutableList<VideoType>
 ////            getClassStatistics= it.result
             workoutsTabAdapter()
 
@@ -899,8 +900,10 @@ class AccountScreenFragment : BaseFragment(), AllTabItemAdapter.AllTabItemAdapte
             it.id == code
         }
         BaseResponseDataObject.getClassStatisticsList = newList as MutableList<VideoType>
-        BaseResponseDataObject.getClassStatisticsListAll = getClassStatisticsList
+        BaseResponseDataObject.getClassStatisticsListAll.addAll(getClassStatisticsList)
         val intent = Intent(context, WorkoutActivity::class.java)
+        intent.putExtra("isComingFromSingle", true)
+        intent.putExtra("code", code)
         startActivity(intent)
     }
 

@@ -54,13 +54,64 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/_5sdp"
-                            android:background="@color/mono_slate_10"
                             app:carbon_cornerRadius="@dimen/_11sdp">
+                            
+                            <RelativeLayout
+                                android:id="@+id/headerItem"
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/_54sdp"
+                                android:layout_marginBottom="@dimen/_9sdp"
+                                android:padding="@dimen/_10sdp"
+                                android:background="@drawable/view_background_grey"
+                                android:backgroundTint="@color/mono_slate_10"
+                                android:backgroundTintMode="add"
+                                app:carbon_cornerRadius="@dimen/_10sdp">
+
+
+                                <ImageView
+                                    android:id="@+id/iv_level_image"
+                                    android:layout_width="@dimen/_24sdp"
+                                    android:layout_height="@dimen/_24sdp"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginStart="@dimen/_10sdp"
+                                    android:contentDescription="level"
+                                    android:src="@drawable/iv_recovery"
+                                    app:tint="@color/white" />
+
+                                <TextView
+                                    android:id="@+id/tv_header_title"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginLeft="@dimen/_5sdp"
+                                    android:layout_marginRight="@dimen/_5sdp"
+                                    android:lineSpacingExtra="4sp"
+                                    android:singleLine="true"
+                                    android:layout_toEndOf="@+id/iv_level_image"
+                                    android:textAllCaps="true"
+                                    android:textColor="@color/white"
+                                    android:textSize="@dimen/_15ssp"
+                                    android:translationY="-2.2sp" />
+
+                                <ImageView
+                                    android:id="@+id/iv_drop_icon_image"
+                                    android:layout_width="@dimen/_10sdp"
+                                    android:layout_height="@dimen/_10sdp"
+                                    android:layout_centerVertical="true"
+                                    android:layout_alignParentEnd="true"
+                                    android:layout_marginEnd="@dimen/_10sdp"
+                                    android:contentDescription="arrow"
+                                    android:scaleType="fitXY"
+                                    app:tint="@color/red"
+                                    android:src="@drawable/ic_down" />
+
+                            </RelativeLayout>
 
                             <androidx.recyclerview.widget.RecyclerView
                                 android:id="@+id/rv_workout_dropdown"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:layout_below="@id/headerItem"
                                 android:nestedScrollingEnabled="true" />
 
                             <RelativeLayout
@@ -93,6 +144,7 @@
                             </RelativeLayout>
 
                             <RelativeLayout
+                                android:id="@+id/layoutForYear"
                                 android:layout_width="wrap_content"
                                 android:layout_below="@+id/rl_year"
                                 android:layout_height="wrap_content"
@@ -120,12 +172,41 @@
                                     android:visibility="invisible" />
                             </RelativeLayout>
 
+                            <TextView
+                                android:id="@+id/tvDate"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@id/layoutForYear"
+                                android:layout_marginTop="@dimen/_10sdp"
+                                android:layout_marginEnd="@dimen/_5sdp"
+                                android:fontFamily="@font/futura_std_condensed_extra_bd"
+                                android:singleLine="true"
+                                android:textAllCaps="true"
+                                android:textColor="@color/grey"
+                                android:textSize="@dimen/_11ssp" />
+
+                            <TextView
+                                android:id="@+id/tvNoDataError"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@id/layoutForYear"
+                                android:layout_marginTop="@dimen/_20sdp"
+                                android:layout_centerHorizontal="true"
+                                android:layout_marginEnd="@dimen/_5sdp"
+                                android:text="NO CLASSES TAKEN DURING THIS PERIOD"
+                                android:fontFamily="@font/futura_std_condensed_bold"
+                                android:singleLine="true"
+                                android:textAllCaps="true"
+                                android:visibility="gone"
+                                android:textColor="@color/grey"
+                                android:textSize="@dimen/_15ssp" />
+
                             <androidx.recyclerview.widget.RecyclerView
                                 android:id="@+id/rv_work_out_parent"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_below="@+id/rl_year"
-                                android:layout_marginTop="@dimen/_40sdp"
+                                android:layout_below="@+id/tvDate"
+                                android:layout_marginTop="@dimen/_10sdp"
                               />
                         </RelativeLayout>
 
@@ -133,6 +214,16 @@
 
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <com.github.ybq.android.spinkit.SpinKitView
+                    android:id="@+id/sp_loading"
+                    style="@style/SpinKitView.Circle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:visibility="gone"
+                    app:SpinKit_Color="@color/colorAccent" />
+
             </RelativeLayout>
         </androidx.core.widget.NestedScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>

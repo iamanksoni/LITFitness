@@ -47,9 +47,9 @@ class WorkOutHistoryListParentAdapter (
 
 
 
-       val time= getLocalDateFrom(item.date)
-        holder.tv_work_goal.text = time
-        Log.d("thedateis","the month $time and date ")
+       //val time= getLocalDateFrom(item.date)
+        //holder.tv_work_goal.text = time
+        //Log.d("thedateis","the month $time and date ")
         holder.rv_home_workout_child!!.layoutManager =
             LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false)
         allClassMilestoneChildAdapter =
@@ -57,35 +57,9 @@ class WorkOutHistoryListParentAdapter (
         holder.rv_home_workout_child.adapter = allClassMilestoneChildAdapter
 
     }
-
-    fun getLocalDateFrom(utcDateString: String): String {
-        val oldFormatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
-        oldFormatter.timeZone = TimeZone.getTimeZone("UTC")
-        val value = oldFormatter.parse(utcDateString)
-
-        val suffixMonth = SetThePostFixinDate()
-        val newFormatterDate = SimpleDateFormat("dd")
-        newFormatterDate.timeZone = TimeZone.getDefault()
-       val dateNew = newFormatterDate.format(value)
-        Log.d("thedateis","the date is  $dateNew")
-        val getLast =suffixMonth.getTheLastNo(dateNew.toString())
-        val suffixSet = suffixMonth.setThePostFix(getLast)
-
-        val newFormatterDaysName = SimpleDateFormat("EEEE")
-        newFormatterDaysName.timeZone = TimeZone.getDefault()
-        val daysName = newFormatterDaysName.format(value)
-
-        val newFormatterMonth = SimpleDateFormat("MMMM")
-        newFormatterMonth.timeZone = TimeZone.getDefault()
-        val monthName = newFormatterMonth.format(value)
-
-
-        return "$daysName, ${dateNew}$suffixSet $monthName"
-    }
 //    yyyy-MMMM-EEEE
 }
 
 class WorkOutHistoryListParentAdapterViewHolder(row: View) : RecyclerView.ViewHolder(row) {
     val rv_home_workout_child = row.findViewById(R.id.rv_home_workout_child) as RecyclerView?
-    val tv_work_goal = row.findViewById(R.id.tv_work_goal) as TextView
 }
