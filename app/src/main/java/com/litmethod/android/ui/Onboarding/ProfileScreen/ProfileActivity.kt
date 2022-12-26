@@ -30,6 +30,8 @@ import okhttp3.RequestBody.Companion.create
 import java.io.File
 import java.text.DateFormat
 import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.Period
 import java.util.*
 
 
@@ -37,11 +39,13 @@ class ProfileActivity : BaseActivity(), View.OnClickListener {
     companion object {
         //image pick code
         private val IMAGE_PICK_CODE = 1000
+
         //Permission code
         private val PERMISSION_CODE = 1001
     }
-    lateinit var binding:ActivityProfileBinding
-    var path:String? = null
+
+    lateinit var binding: ActivityProfileBinding
+    var path: String? = null
     var uri: Uri? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,6 +54,14 @@ class ProfileActivity : BaseActivity(), View.OnClickListener {
         setUpUi()
         clickListener()
     }
+
+    private fun getAgeInYears(dayOfMonth: Int, month: Int, year: Int): Int {
+        return Period.between(
+            LocalDate.of(year, month, dayOfMonth),
+            LocalDate.now()
+        ).years
+    }
+
     private fun setUpUi() {
         binding.firstName.setOnFocusChangeListener { view, b ->
             if (view.isFocused) {
@@ -148,7 +160,7 @@ class ProfileActivity : BaseActivity(), View.OnClickListener {
         })
     }
 
-    private fun clickListener(){
+    private fun clickListener() {
         binding.ibBackButton.setOnClickListener(this)
         binding.etDob.setOnClickListener(this)
         binding.btnNext.setOnClickListener(this)
@@ -160,28 +172,38 @@ class ProfileActivity : BaseActivity(), View.OnClickListener {
             R.id.ib_back_button -> {
                 finish()
             }
-            R.id.et_dob ->{
+            R.id.et_dob -> {
                 binding.firstName.clearFocus()
                 binding.lastName.clearFocus()
                 binding.userName.clearFocus()
                 binding.etDob.strokeWidth = 3.0f
                 val colorInt = resources.getColor(R.color.red)
                 binding.etDob.stroke = ColorStateList.valueOf(colorInt)
-             CalenderDialog(this@ProfileActivity,binding.etDob)
+                CalenderDialog(this@ProfileActivity, binding.etDob)
 
 
             }
-            R.id.btn_next ->{
+            R.id.btn_next -> {
                 binding.firstName.clearFocus()
                 binding.lastName.clearFocus()
                 binding.userName.clearFocus()
                 binding.etDob.clearFocus()
-               Log.d("thedateis", "the date is ${binding.etDob.text}")
+                Log.d("thedateis", "the date is ${binding.etDob.text}")
 
-                nextScreen()
+                val splittedDate = binding.etDob.text.toString().split("/")
+                if (getAgeInYears(
+                        splittedDate[0].toInt(),
+                        splittedDate[1].toInt(),
+                        splittedDate[2].toInt()
+                    ) > 10
+                ) {
+                    nextScreen()
+                }else{
+                    toastMessageShow("Age should be greater than 10 years.")
+                }
             }
-            R.id.ll_image ->{
-               getImage()
+            R.id.ll_image -> {
+                getImage()
             }
         }
     }
@@ -221,10 +243,15 @@ class ProfileActivity : BaseActivity(), View.OnClickListener {
     }
 
 
-    fun nextScreen(){
+    fun nextScreen() {
 
 
-        if (checkForAllValues(binding.firstName.text.toString(), binding.userName.text.toString(), binding.etDob.text.toString())) {
+        if (checkForAllValues(
+                binding.firstName.text.toString(),
+                binding.userName.text.toString(),
+                binding.etDob.text.toString()
+            )
+        ) {
             UiDataObject.firstName = binding.firstName.text.toString()
             UiDataObject.lastName = binding.lastName.text.toString().ifEmpty { "" }
             UiDataObject.username = binding.userName.text.toString().trim()
@@ -242,7 +269,7 @@ class ProfileActivity : BaseActivity(), View.OnClickListener {
         }
     }
 
-    private fun datePickClearFocus(){
+    private fun datePickClearFocus() {
         binding.etDob.strokeWidth = 0.0f
         val colorInt = resources.getColor(R.color.mono_slate_10)
         binding.etDob.stroke = ColorStateList.valueOf(colorInt)
@@ -257,26 +284,26 @@ class ProfileActivity : BaseActivity(), View.OnClickListener {
         binding.btnNext.backgroundTintList = ColorStateList.valueOf(colorInt)
     }
 
-    private  fun getImage(){
+    private fun getImage() {
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) ==
-                PackageManager.PERMISSION_DENIED){
+                PackageManager.PERMISSION_DENIED
+            ) {
                 //permission denied
                 val permissions = arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE)
                 //show popup to request runtime permission
                 requestPermissions(permissions, PERMISSION_CODE);
-            }
-            else{
+            } else {
                 //permission already granted
                 pickImageFromGallery()
             }
-        }
-        else{
+        } else {
             //system OS is < Marshmallow
             pickImageFromGallery()
         }
     }
+
     private fun pickImageFromGallery() {
         //Intent to pick image
         val intent = Intent(Intent.ACTION_PICK)
@@ -285,16 +312,20 @@ class ProfileActivity : BaseActivity(), View.OnClickListener {
     }
 
     //handle requested permission result
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        when(requestCode){
+        when (requestCode) {
             PERMISSION_CODE -> {
-                if (grantResults.size >0 && grantResults[0] ==
-                    PackageManager.PERMISSION_GRANTED){
+                if (grantResults.size > 0 && grantResults[0] ==
+                    PackageManager.PERMISSION_GRANTED
+                ) {
                     //permission from popup granted
                     pickImageFromGallery()
-                }
-                else{
+                } else {
                     //permission from popup denied
                     Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT).show()
                 }
@@ -305,7 +336,7 @@ class ProfileActivity : BaseActivity(), View.OnClickListener {
     //handle result of picked image
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == Activity.RESULT_OK && requestCode == IMAGE_PICK_CODE){
+        if (resultCode == Activity.RESULT_OK && requestCode == IMAGE_PICK_CODE) {
             uri = data?.data
             path = uri?.let { RealPathUtil.getRealPath(this, it) }
             val bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri)
@@ -319,15 +350,16 @@ class ProfileActivity : BaseActivity(), View.OnClickListener {
     private fun calltoChangeAvatar() {
         val file = File(path)
 
-        val reqFile = RequestBody.create("multipart/form-data".toMediaTypeOrNull(),file)
-        val body = MultipartBody.Part.createFormData("image",file.name,reqFile)
-        val action: RequestBody =    RequestBody.create("multipart/form-data".toMediaTypeOrNull(), "avtarImage")
+        val reqFile = RequestBody.create("multipart/form-data".toMediaTypeOrNull(), file)
+        val body = MultipartBody.Part.createFormData("image", file.name, reqFile)
+        val action: RequestBody =
+            RequestBody.create("multipart/form-data".toMediaTypeOrNull(), "avtarImage")
 //        val action2: RequestBody = create("multipart/form-data".toMediaTypeOrNull(), "avtarImage")
-        Log.d("check","the action data is $action")
+        Log.d("check", "the action data is $action")
 
         UiDataObject.body = body
         UiDataObject.action = action
-        Log.d("SighUpResponse37","body is $body and req file is $action")
+        Log.d("SighUpResponse37", "body is $body and req file is $action")
     }
 
 }

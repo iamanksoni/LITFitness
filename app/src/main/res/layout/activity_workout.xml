@@ -125,7 +125,6 @@
                                     android:id="@+id/exOneYearText"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:drawableRight="@drawable/ic_baseline_expand_more_24"
                                     android:drawablePadding="@dimen/_3ssp"
                                     android:drawableTint="@color/mono_grey_60"
                                     android:fontFamily="@font/futura_std_condensed_bold"
@@ -154,13 +153,13 @@
                                     android:id="@+id/exOneMonthText"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:drawableRight="@drawable/ic_baseline_expand_more_24"
                                     android:drawablePadding="@dimen/_3ssp"
-                                    android:drawableTint="@color/white"
                                     android:fontFamily="@font/futura_std_condensed_bold"
                                     android:textColor="@color/white"
                                     android:textSize="@dimen/_20ssp"
-                                    tools:text="April" />
+                                    tools:text="April"
+                                    app:drawableRightCompat="@drawable/ic_baseline_expand_more_24"
+                                    app:drawableTint="@color/white" />
 
                                 <Spinner
                                     android:id="@+id/spinner_month"
@@ -172,11 +171,80 @@
                                     android:visibility="gone" />
                             </RelativeLayout>
 
+
+                            <LinearLayout
+                                android:id="@+id/layoutForCustomCalendar"
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/_100sdp"
+                                android:padding="@dimen/_10sdp"
+                                android:visibility="gone"
+                                android:layout_below="@id/layoutForYear"
+                                android:orientation="horizontal">
+
+                                <RelativeLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="2"
+                                    android:background="@drawable/view_background_grey"
+                                    android:backgroundTint="@color/mono_slate_10"
+                                    android:backgroundTintMode="add"
+                                    app:carbon_cornerRadius="@dimen/_10sdp">
+
+                                    <androidx.recyclerview.widget.RecyclerView
+                                        android:id="@+id/listViewForMonth"
+                                        android:layout_width="match_parent"
+                                        android:layout_marginTop="@dimen/_5sdp"
+                                        android:layout_marginBottom="@dimen/_5sdp"
+                                        android:layout_height="wrap_content"
+                                        tools:listitem="@layout/item_for_custom_calendar"/>
+
+                                </RelativeLayout>
+
+                                <RelativeLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:layout_marginStart="@dimen/_10sdp"
+                                    android:background="@drawable/view_background_grey"
+                                    android:backgroundTint="@color/mono_slate_10"
+                                    android:backgroundTintMode="add"
+                                    app:carbon_cornerRadius="@dimen/_10sdp">
+
+                                    <androidx.recyclerview.widget.RecyclerView
+                                        android:id="@+id/listViewForYear"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="@dimen/_5sdp"
+                                        android:layout_marginBottom="@dimen/_5sdp"/>
+
+                                </RelativeLayout>
+
+                            </LinearLayout>
+
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/buttonConfirm"
+                                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/_50sdp"
+                                android:layout_below="@+id/layoutForCustomCalendar"
+                                android:layout_marginTop="@dimen/_8sdp"
+                                android:fontFamily="@font/futura_std_condensed_extra_bd"
+                                android:lineSpacingExtra="4sp"
+                                android:singleLine="true"
+                                android:text="confirm"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/_10ssp"
+                                android:visibility="gone"
+                                app:cornerRadius="@dimen/_6sdp"
+                                app:elevation="@dimen/_5sdp"
+                                app:strokeColor="@color/red"
+                                app:strokeWidth="1dp" />
+
                             <TextView
                                 android:id="@+id/tvDate"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_below="@id/layoutForYear"
+                                android:layout_below="@id/buttonConfirm"
                                 android:layout_marginTop="@dimen/_10sdp"
                                 android:layout_marginEnd="@dimen/_5sdp"
                                 android:fontFamily="@font/futura_std_condensed_extra_bd"
@@ -189,7 +257,7 @@
                                 android:id="@+id/tvNoDataError"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_below="@id/layoutForYear"
+                                android:layout_below="@id/buttonConfirm"
                                 android:layout_marginTop="@dimen/_20sdp"
                                 android:layout_centerHorizontal="true"
                                 android:layout_marginEnd="@dimen/_5sdp"

@@ -23,6 +23,8 @@ import com.litmethod.android.network.RetrofitDataSourceService
 import com.litmethod.android.network.WorkOutActivityRepository
 import com.litmethod.android.ui.root.AllClassTabScreen.ClassesFragmentScreen.Util.BaseResponseDataObject
 import com.litmethod.android.ui.root.LiveClassTabScreen.TimeUtil.SetThePostFixinDate
+import com.litmethod.android.ui.root.WorkOut.Adapter.CalendarAdapter
+import com.litmethod.android.ui.root.WorkOut.Adapter.CalendarYearAdapter
 import com.litmethod.android.ui.root.WorkOut.Adapter.WorkOutHistoryListParentAdapter
 import com.litmethod.android.ui.root.WorkOut.Adapter.WorkoutDropDownAdapter
 import com.litmethod.android.ui.root.WorkOut.ViewModel.WorkOutActivityViewModel
@@ -33,7 +35,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 class WorkoutActivity : AppCompatActivity(), WorkoutDropDownAdapter.WorkoutDropDownAdapterListener,
-    View.OnClickListener {
+    View.OnClickListener, CalendarAdapter.OnClickOfItem, CalendarYearAdapter.OnClickOfItemOfYear {
     private var layoutManagerworkoutHistory: RecyclerView.LayoutManager? = null
     private var workoutHistoryAdapter: WorkoutDropDownAdapter? = null
     private var classHistoryAdapter: WorkOutHistoryListParentAdapter? = null
@@ -46,33 +48,104 @@ class WorkoutActivity : AppCompatActivity(), WorkoutDropDownAdapter.WorkoutDropD
     var getClassStatisticsList: MutableList<VideoType> = ArrayList<VideoType>()
     var classHistoryList: MutableList<Data> = ArrayList<Data>()
     private var isComingFromSingle: Boolean = false
-    private var code: String = ""
+    private var codeForTermId: String = ""
+    private lateinit var managerForMonth: LinearLayoutManager
+    private lateinit var managerForYear: LinearLayoutManager
+    private var isScrollingMonth: Boolean = false
+    private var selectedPosition: Int = -1
+    private val listOfMonth = arrayListOf<String>()
+    private val listOfYear = arrayListOf<String>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_workout)
         if(intent.extras != null){
             isComingFromSingle = intent.extras!!.getBoolean("isComingFromSingle")
-            code = intent.extras!!.getString("code")!!
+            codeForTermId = intent.extras!!.getString("code")!!
         }
         getClassStatisticsList.addAll(BaseResponseDataObject.getClassStatisticsListNew)
         checkThePosition()
-        monthSpinner()
-        yearSpinner()
+//        monthSpinner()
+//        yearSpinner()
         historyListAdapter()
         viewModelSetup()
+        setAdapterForCalendar()
+        getCurrentMonthAndYear()
         binding.ibBackButton.setOnClickListener(this)
         binding.headerItem.setOnClickListener(this)
+        binding.buttonConfirm.setOnClickListener(this)
+        binding.exOneMonthText.setOnClickListener(this)
         if(isComingFromSingle){
-            hitApiOfClassHistory(code)
+            hitApiOfClassHistory(codeForTermId)
         }else {
+            codeForTermId = getClassStatisticsList[getClassStatisticsList.size - 1].id
             hitApiOfClassHistory(getClassStatisticsList[getClassStatisticsList.size - 1].id)
         }
+    }
+
+
+
+    private fun visibleItemsOnCalendarClick(){
+        if(binding.layoutForCustomCalendar.visibility == View.VISIBLE && binding.buttonConfirm.visibility == View.VISIBLE){
+            binding.layoutForCustomCalendar.visibility = View.GONE
+            binding.buttonConfirm.visibility = View.GONE
+        }else {
+            binding.layoutForCustomCalendar.visibility = View.VISIBLE
+            binding.buttonConfirm.visibility = View.VISIBLE
+        }
+//        binding.rvWorkOutParent.visibility = View.GONE
+//        binding.tvNoDataError.visibility = View.GONE
+//        binding.tvDate.visibility = View.GONE
+    }
+
+    private fun hideAndShowItemsOnButtonClick(){
+        binding.layoutForCustomCalendar.visibility = View.GONE
+        binding.buttonConfirm.visibility = View.GONE
+//        binding.rvWorkOutParent.visibility = View.VISIBLE
+//        binding.tvNoDataError.visibility = View.GONE
+//        binding.tvDate.visibility = View.VISIBLE
+        binding.exOneMonthText.text = listOfMonth[selectedMonth.toInt()-1]
+        binding.exOneYearText.text = selectedYear
+        hitApiOfClassHistory(codeForTermId)
+    }
+
+    private fun setAdapterForCalendar(){
+        managerForMonth = LinearLayoutManager(this)
+        managerForYear = LinearLayoutManager(this)
+        listOfMonth.add("January")
+        listOfMonth.add("February")
+        listOfMonth.add("March")
+        listOfMonth.add("April")
+        listOfMonth.add("May")
+        listOfMonth.add("June")
+        listOfMonth.add("July")
+        listOfMonth.add("August")
+        listOfMonth.add("September")
+        listOfMonth.add("October")
+        listOfMonth.add("November")
+        listOfMonth.add("December")
+        val monthAdapter = CalendarAdapter(this, this, listOfMonth)
+        binding.listViewForMonth.layoutManager = managerForMonth
+        binding.listViewForMonth.adapter = monthAdapter
+        listOfYear.add("2021")
+        listOfYear.add("2022")
+        listOfYear.add("2023")
+        val yearAdapter = CalendarYearAdapter(this, this,  listOfYear)
+        binding.listViewForYear.layoutManager = managerForYear
+        binding.listViewForYear.adapter = yearAdapter
+    }
+
+    override fun onItemClick(position: Int) {
+       selectedMonth = (position + 1).toString()
+    }
+
+    override fun onItemClickOfYear(position: Int) {
+        selectedYear = listOfYear[position]
     }
 
     private fun checkThePosition(){
         if(isComingFromSingle){
             for(i in 0 until getClassStatisticsList.size){
-                if(code == getClassStatisticsList[i].id){
+                if(codeForTermId == getClassStatisticsList[i].id){
                     workoutsTabAdapter(i)
                     break
                 }
@@ -173,47 +246,8 @@ class WorkoutActivity : AppCompatActivity(), WorkoutDropDownAdapter.WorkoutDropD
             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         )
         binding.tvHeaderTitle.text = spannable
-
+        codeForTermId = getClassStatisticsList[position].id
         hitApiOfClassHistory(getClassStatisticsList[position].id)
-
-
-//       if (position==0){
-//           if (isRvExtended){
-//               Log.d("valuechecking","true called")
-//
-//
-//               getClassStatisticsList.clear()
-//               getClassStatisticsList.addAll(BaseResponseDataObject.getClassStatisticsList)
-//               Log.d("valuechecking","value is ${BaseResponseDataObject.getClassStatisticsList}")
-//               workoutHistoryAdapter?.notifyDataSetChanged()
-////               workoutsTabAdapter()
-//
-//               isRvExtended=false
-//           }else{
-//               Log.d("valuechecking","false called")
-//               getClassStatisticsList.addAll(BaseResponseDataObject.getClassStatisticsListAll)
-////               workoutHistoryAdapter?.notifyDataSetChanged()
-//               Log.d("valuechecking","value is ${BaseResponseDataObject.getClassStatisticsList}")
-//
-//               workoutsTabAdapter()
-//               isRvExtended=true
-//           }
-//
-//       } else{
-//         val newFilteredArray =  BaseResponseDataObject.getClassStatisticsListAll.filter {
-//               it.id==code
-//           }
-//           BaseResponseDataObject.getClassStatisticsList.clear()
-//           BaseResponseDataObject.getClassStatisticsList.addAll(newFilteredArray)
-//           getClassStatisticsList.clear()
-//           getClassStatisticsList.addAll(newFilteredArray)
-//           isRvExtended=false
-////           getClassStatisticsList.addAll(BaseResponseDataObject.getClassStatisticsListAll)
-//           Log.d("valuechecking10","value is ${getClassStatisticsList}")
-//           workoutHistoryAdapter?.notifyDataSetChanged()
-//
-//       }
-
     }
 
     private fun yearSpinner() {
@@ -256,6 +290,16 @@ class WorkoutActivity : AppCompatActivity(), WorkoutDropDownAdapter.WorkoutDropD
         } else {
             binding.rvWorkoutDropdown.visibility = View.VISIBLE
         }
+    }
+
+    private fun getCurrentMonthAndYear(){
+        val calendar = Calendar.getInstance()
+        val month: Int = calendar[Calendar.MONTH]
+        val year: Int = calendar[Calendar.YEAR]
+        selectedMonth = (month+1).toString()
+        selectedYear = year.toString()
+        binding.exOneMonthText.text = listOfMonth[month]
+        binding.exOneYearText.text = year.toString()
     }
 
     private fun monthSpinner() {
@@ -371,6 +415,12 @@ class WorkoutActivity : AppCompatActivity(), WorkoutDropDownAdapter.WorkoutDropD
             }
             R.id.headerItem -> {
                 visibleSpinner()
+            }
+            R.id.buttonConfirm -> {
+                hideAndShowItemsOnButtonClick()
+            }
+            R.id.exOneMonthText -> {
+                visibleItemsOnCalendarClick()
             }
         }
     }
