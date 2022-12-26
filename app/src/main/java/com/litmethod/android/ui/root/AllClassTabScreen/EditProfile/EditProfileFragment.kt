@@ -21,33 +21,33 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.EditText
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
-import com.google.gson.Gson
 import com.litmethod.android.R
 import com.litmethod.android.databinding.FragmentEditProfileBinding
-import com.litmethod.android.models.EditProfileRequest
 import com.litmethod.android.models.EditUserRequestNullable.EditUserRequestNullable
 import com.litmethod.android.models.GetCountries.Result
 import com.litmethod.android.network.EditProfileRepository
 import com.litmethod.android.network.RetrofitDataSourceService
+import com.litmethod.android.ui.Onboarding.MeasureScreen.Util.UntiConvert
+import com.litmethod.android.ui.Onboarding.ProfileScreen.Util.RealPathUtil
 import com.litmethod.android.ui.root.AccountTabScreen.AccountFragmentScreen.AccountScreenFragment
 import com.litmethod.android.ui.root.AllClassTabScreen.ClassesFragmentScreen.Util.BaseResponseDataObject
 import com.litmethod.android.ui.root.AllClassTabScreen.EditProfile.ViewModel.EditProfileViewModel
 import com.litmethod.android.ui.root.AllClassTabScreen.EditProfile.ViewModel.EditProfileViewModelFactory
 import com.litmethod.android.ui.root.DashBoardActivity
-import com.litmethod.android.ui.Onboarding.MeasureScreen.Util.UntiConvert
-import com.litmethod.android.ui.Onboarding.ProfileScreen.Util.RealPathUtil
-import com.litmethod.android.utlis.AppConstants.Companion.AVATAR_IMAGE
-import com.litmethod.android.utlis.AppConstants.Companion.IMAGE
-import com.litmethod.android.utlis.AppConstants.Companion.MULTIPART_FORM_DATA
-import com.litmethod.android.utlis.AppConstants.Companion.TEXT_PLAIN
+import id.zelory.compressor.Compressor
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
 import java.io.File
 import java.util.*
 
@@ -770,17 +770,30 @@ class EditProfileFragment : Fragment(), View.OnClickListener {
         return datePickerDialog
     }
 
-    private  fun getImage(){
+    private fun getImage() {
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+        if (Build.VERSION.SDK_INT > 32) {
+            // Handling the Version 13 ISSUE
+            if (context?.checkSelfPermission(Manifest.permission.READ_MEDIA_IMAGES) ==
+                PackageManager.PERMISSION_DENIED
+            ) {
+                //permission denied
+                val permissions = arrayOf(Manifest.permission.READ_MEDIA_IMAGES)
+                //show popup to request runtime permission
+                ActivityCompat.requestPermissions(activity!!, permissions, PERMISSION_CODE);
+            } else {
+                pickImageFromGallery()
+            }
+
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (context?.checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) ==
-                PackageManager.PERMISSION_DENIED){
+                PackageManager.PERMISSION_DENIED
+            ) {
                 //permission denied
                 val permissions = arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE)
                 //show popup to request runtime permission
-                requestPermissions(permissions, PERMISSION_CODE);
-            }
-            else{
+                ActivityCompat.requestPermissions(activity!!, permissions, PERMISSION_CODE);
+            } else {
                 //permission already granted
                 pickImageFromGallery()
             }
@@ -829,22 +842,27 @@ class EditProfileFragment : Fragment(), View.OnClickListener {
 
     // Api call to changing the USerImage
     private fun calltoChangeAvatar() {
+
         val file = File(path)
-        val reqFile = RequestBody.create("multipart/form-data".toMediaTypeOrNull(),file)
-        val body = MultipartBody.Part.createFormData("image",file.name,reqFile)
-        val action: RequestBody =    RequestBody.create("text/plain".toMediaTypeOrNull(), "avtarImage")
-//        val action2: RequestBody = create("multipart/form-data".toMediaTypeOrNull(), "avtarImage")
-        Log.d("check","the action data is $action")
 
-//        val editProfileRequest = EditProfileRequest("avtarImage")
-//        val gson = Gson()
-//        val data = MultipartBody.Part
-//            .createFormData(
-//                "action",
-//                gson.toJson(editProfileRequest)
-//            )
-        viewModel.checkSetImage(BaseResponseDataObject.accessToken, body, action)
-        Log.d("SighUpResponse37","body is ${body.body} and req file is $action")
+
+        CoroutineScope(Dispatchers.IO).launch {
+            run {
+                val compressedImageFile = Compressor.compress(context!!, file)
+                val requestFile = compressedImageFile.asRequestBody(
+                    activity!!.contentResolver.getType(Uri.parse(path))?.toMediaTypeOrNull()
+                )
+                val body = MultipartBody.Part.createFormData(
+                    "image",
+                    compressedImageFile.name,
+                    requestFile
+                )
+
+                val action: RequestBody =
+                    RequestBody.create("text/plain".toMediaTypeOrNull(), "avtarImage")
+                viewModel.checkSetImage(BaseResponseDataObject.accessToken, body, action)
+            }
+
+        }
     }
-
 }

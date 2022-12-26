@@ -498,7 +498,9 @@ class HomeScreenFragment : BaseFragment(), AllTimeAdapter.AllTimeAdapterListener
                 }
             }
         } else {
-            dataListAchievement[1] = AchivementsViewModel("0", "Class", false)
+            if (dataListAchievement.size > 0) {
+                dataListAchievement[1] = AchivementsViewModel("0", "Class", false)
+            }
         }
 
         trueSize = 0
@@ -520,7 +522,9 @@ class HomeScreenFragment : BaseFragment(), AllTimeAdapter.AllTimeAdapterListener
                 }
             }
         } else {
-            dataListAchievement[2] = AchivementsViewModel("0 Day", "Streak", false)
+            if (dataListAchievement.size > 0) {
+                dataListAchievement[2] = AchivementsViewModel("0 Day", "Streak", false)
+            }
         }
 
         trueSize = 0
@@ -542,7 +546,9 @@ class HomeScreenFragment : BaseFragment(), AllTimeAdapter.AllTimeAdapterListener
             }
             }
         } else {
-            dataListAchievement[3] = AchivementsViewModel("0 Week", "streak", false)
+            if (dataListAchievement.size > 0) {
+                dataListAchievement[3] = AchivementsViewModel("0 Week", "streak", false)
+            }
         }
 
 
@@ -565,7 +571,10 @@ class HomeScreenFragment : BaseFragment(), AllTimeAdapter.AllTimeAdapterListener
             }
             }
         } else {
-            dataListAchievement[4] = AchivementsViewModel("0", "KCAL", false)
+            if (dataListAchievement.size > 0) {
+
+                dataListAchievement[4] = AchivementsViewModel("0", "KCAL", false)
+            }
         }
 
         trueSize = 0
@@ -587,7 +596,10 @@ class HomeScreenFragment : BaseFragment(), AllTimeAdapter.AllTimeAdapterListener
             }
             }
         } else {
-            dataListAchievement[5] = AchivementsViewModel("0", "LBS LIFTED", false)
+            if (dataListAchievement.size > 0) {
+
+                dataListAchievement[5] = AchivementsViewModel("0", "LBS LIFTED", false)
+            }
         }
         achievementsAdapter?.notifyDataSetChanged()
         binding.spLoading.visibility = View.GONE
@@ -598,13 +610,11 @@ class HomeScreenFragment : BaseFragment(), AllTimeAdapter.AllTimeAdapterListener
             token = it.toString()
             setUpAdapter()
         }
-        context?.let {
-            Glide
-                .with(it)
+        Glide
+            .with(context!!)
                 .load(BaseResponseDataObject.profilePageData?.profileImage)
                 .centerCrop()
                 .into(binding.ivUserImage)
-        }
         binding.tvHeader1.text =
             "Welcome ${BaseResponseDataObject.profilePageData.firstName} ${BaseResponseDataObject.profilePageData.lastName}"
     }

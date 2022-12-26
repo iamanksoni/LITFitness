@@ -5,7 +5,6 @@ import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.ColorStateList
-import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -15,6 +14,7 @@ import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
 import com.litmethod.android.R
 import com.litmethod.android.databinding.ActivityProfileBinding
@@ -22,11 +22,9 @@ import com.litmethod.android.shared.BaseActivity
 import com.litmethod.android.ui.Onboarding.MeasureScreen.MeasureActivity
 import com.litmethod.android.ui.Onboarding.ProfileScreen.Util.RealPathUtil
 import com.litmethod.android.utlis.UiDataObject
-import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
-import okhttp3.RequestBody.Companion.create
 import java.io.File
 import java.text.DateFormat
 import java.text.SimpleDateFormat
@@ -257,22 +255,36 @@ class ProfileActivity : BaseActivity(), View.OnClickListener {
         binding.btnNext.backgroundTintList = ColorStateList.valueOf(colorInt)
     }
 
-    private  fun getImage(){
+    private  fun getImage() {
+        if (Build.VERSION.SDK_INT > 32) {
+            // Handling the Version 13 ISSUE
+            if (checkSelfPermission(Manifest.permission.READ_MEDIA_IMAGES) ==
+                PackageManager.PERMISSION_DENIED
+            ) {
+                //permission denied
+                val permissions = arrayOf(Manifest.permission.READ_MEDIA_IMAGES)
+                //show popup to request runtime permission
+                ActivityCompat.requestPermissions(
+                    this, permissions,
+                    PERMISSION_CODE
+                );
+            } else {
+                pickImageFromGallery()
+            }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) ==
-                PackageManager.PERMISSION_DENIED){
+                PackageManager.PERMISSION_DENIED
+            ) {
                 //permission denied
                 val permissions = arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE)
                 //show popup to request runtime permission
                 requestPermissions(permissions, PERMISSION_CODE);
-            }
-            else{
+            } else {
                 //permission already granted
                 pickImageFromGallery()
             }
-        }
-        else{
+        } else{
             //system OS is < Marshmallow
             pickImageFromGallery()
         }
