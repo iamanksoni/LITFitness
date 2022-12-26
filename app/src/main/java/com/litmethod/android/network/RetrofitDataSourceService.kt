@@ -113,13 +113,12 @@ interface RetrofitDataSourceService {
         @Body editUserRequest: EditUserRequest
     ): Call<GetCustomerResponse>
 
-    @Headers(APP_HEADER)
+    @Headers(APP_HEADER, "Accept: application/json")
+
     @Multipart
-    @POST("/me/setProfileImage")
+    @POST("me/setProfileImage")
     fun setImage(
-        @Header(AppConstants.AUTH_TOKEN) authorizationKey: String,
-        @Part file: MultipartBody.Part,
-        @Part action: RequestBody
+        @Part image: MultipartBody.Part,
     ): Call<SetImageResponse>
 
     @Headers(APP_HEADER)

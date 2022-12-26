@@ -1,7 +1,10 @@
 package com.litmethod.android.network
 
 import com.google.gson.GsonBuilder
+import com.litmethod.android.ui.root.AllClassTabScreen.ClassesFragmentScreen.Util.BaseResponseDataObject
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
+import okhttp3.Request
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.converter.gson.GsonConverterFactory
 import java.security.KeyManagementException
@@ -27,7 +30,12 @@ object ApiWorker {
                 httpBuilder
                     .connectTimeout(90, TimeUnit.SECONDS)
                     .readTimeout(90, TimeUnit.SECONDS)
-                    .addInterceptor(interceptor)  /// show all JSON in logCat
+                    .addInterceptor(interceptor).addInterceptor( Interceptor { chain ->
+                        val request: Request =
+                            chain.request().newBuilder().addHeader("Accept","application/json")
+                                .build()
+                        chain.proceed(request)
+                    })  /// show all JSON in logCat
                 mClient = httpBuilder.build()
 
             }

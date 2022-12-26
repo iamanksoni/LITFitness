@@ -1,6 +1,7 @@
 package com.litmethod.android.ui.Onboarding.YourEquipmentScreen.ViewModel
 
 import android.content.Context
+import android.graphics.BitmapFactory
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -119,7 +120,7 @@ class GetEquipmentViewModel  constructor(private val repository: GetEquipmentRep
                 call: Call<SetImageResponse>,
                 response: Response<SetImageResponse>
             ) {
-                Log.d("theeris","the error is $response")
+                Log.d("there is","the error is $response")
                 if(response.code() == 200) {
                     setImageData.postValue(response.body())
                 }else  if(response.code() == 403) {
@@ -142,6 +143,7 @@ class GetEquipmentViewModel  constructor(private val repository: GetEquipmentRep
                     "Please check your internet connection."
                 )
             else -> {
+//                val bitmap = BitmapFactory.decodeFile(compressedImageFile.path)
                 setImage(
                     auth,fileName,
                     action

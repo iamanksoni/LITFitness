@@ -4,16 +4,11 @@ import android.content.Context
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.litmethod.android.models.EditUser.EditAvatarResponse.EditAvatarRequest
 import com.litmethod.android.models.EditUserRequestNullable.EditUserRequestNullable
-import com.litmethod.android.models.GetCatagory.GetCatagoryRequest
-import com.litmethod.android.models.GetCity.GetCityRequest
-import com.litmethod.android.models.GetCity.GetCityResponse
-import com.litmethod.android.models.GetCountries.GetCountriesRequest
-import com.litmethod.android.models.GetCountries.GetCountriesResponse
 import com.litmethod.android.models.GetCustomers.GetCustomerResponse
 import com.litmethod.android.models.SetImageResponse.SetImageResponse
 import com.litmethod.android.network.EditProfileRepository
+import com.litmethod.android.network.ServiceBuilder
 import com.litmethod.android.utlis.DialogueBox
 import com.litmethod.android.utlis.NetworkHelper
 import okhttp3.MultipartBody
@@ -26,14 +21,19 @@ import retrofit2.Response
 class EditProfileViewModel  constructor(private val repository: EditProfileRepository, var context: Context) :
     ViewModel()  {
 
-    val editUserRequestNullableResponse= MutableLiveData<GetCustomerResponse>()
+    val editUserRequestNullableResponse = MutableLiveData<GetCustomerResponse>()
     val errorMessage3 = MutableLiveData<String>()
 
+    val mSetImageResponse = MutableLiveData<SetImageResponse>()
+    val mSetImageError = MutableLiveData<String>()
+    val mSetImageProgress = MutableLiveData<Boolean>()
 
 
-
-    private fun editUserRequestNullable(auth: String,editUserRequestNullable: EditUserRequestNullable) {
-        val response = repository.editUserRequestNullable(auth,editUserRequestNullable)
+    private fun editUserRequestNullable(
+        auth: String,
+        editUserRequestNullable: EditUserRequestNullable
+    ) {
+        val response = repository.editUserRequestNullable(auth, editUserRequestNullable)
         response.enqueue(object : Callback<GetCustomerResponse> {
             override fun onResponse(
                 call: Call<GetCustomerResponse>,
@@ -87,17 +87,43 @@ class EditProfileViewModel  constructor(private val repository: EditProfileRepos
                     setImageData.postValue(response.body())
                 }else  if(response.code() == 403) {
                     val jObjError = JSONObject(response.errorBody()!!.string())
-                    errorMessage3.postValue(jObjError.getJSONObject("serverResponse").getString("message"))
+                    errorMessage3.postValue(
+                        jObjError.getJSONObject("serverResponse").getString("message")
+                    )
                 }
             }
+
             override fun onFailure(call: Call<SetImageResponse>, t: Throwable) {
                 errorMessage3.postValue(t.message)
-                Log.d("theimageerroe","the image error is ${t.message}")
+                Log.d("theimageerroe", "the image error is ${t.message}")
             }
         })
     }
 
-    fun checkSetImage(auth:String, fileName: MultipartBody.Part,action:RequestBody) {
+     fun setImage2(body: MultipartBody.Part) {
+         mSetImageProgress.postValue(true)
+         val serviceBuilder = ServiceBuilder.myApi
+         serviceBuilder.uploadImage(body).enqueue(object : retrofit2.Callback<SetImageResponse> {
+
+             override fun onFailure(call: Call<SetImageResponse>, t: Throwable) {
+                 mSetImageError.postValue(t.message)
+
+             }
+
+             override fun onResponse(
+                 call: Call<SetImageResponse>,
+                 response: Response<SetImageResponse>
+            ) {
+                val responseCode = response.code()
+                if (responseCode == 200) {
+                    mSetImageResponse.postValue(response.body())
+
+                }
+            }
+        })
+    }
+
+    fun checkSetImage(auth: String, fileName: MultipartBody.Part, action: RequestBody) {
         when {
             !NetworkHelper.instance.isNetworkAvailable(context) ->
                 DialogueBox.showMsg(
@@ -106,9 +132,8 @@ class EditProfileViewModel  constructor(private val repository: EditProfileRepos
                     "Please check your internet connection."
                 )
             else -> {
-                setImage(
-                    auth,fileName,
-                    action
+                setImage2(
+                    fileName
                 )
             }
         }

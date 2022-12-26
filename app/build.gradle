@@ -104,4 +104,8 @@ dependencies {
     // Exo player
     implementation 'com.google.android.exoplayer:exoplayer:2.18.1'
 
+    //Compressor
+
+    implementation 'id.zelory:compressor:3.0.1'
+
 }
