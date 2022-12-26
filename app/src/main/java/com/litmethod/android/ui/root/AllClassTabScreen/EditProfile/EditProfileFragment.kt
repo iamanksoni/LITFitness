@@ -141,12 +141,13 @@ class EditProfileFragment : Fragment(), View.OnClickListener {
                 EditProfileViewModel::class.java
             )
         loginResponse()
+        profilePicUploadResponse()
     }
 
-    private fun loginResponse(){
+    private fun loginResponse() {
         viewModel.editUserRequestNullableResponse.observe(viewLifecycleOwner, Observer {
 
-           BaseResponseDataObject.profilePageData= it.result.profileDetails
+            BaseResponseDataObject.profilePageData = it.result.profileDetails
             val ft: FragmentTransaction = requireFragmentManager().beginTransaction()
             ft.replace(R.id.container, AccountScreenFragment(), "NewFragmentTag")
             ft.commit()
@@ -154,7 +155,31 @@ class EditProfileFragment : Fragment(), View.OnClickListener {
 
     }
 
+    private fun profilePicUploadResponse() {
+        viewModel.mSetImageResponse.observe(viewLifecycleOwner) {
+            binding.spLoading.visibility = View.GONE
+            Toast.makeText(context!!, "Uploaded Profile Pic", Toast.LENGTH_SHORT).show()
+        }
 
+
+        viewModel.mSetImageError.observe(viewLifecycleOwner)
+        {
+            binding.spLoading.visibility = View.GONE
+            Toast.makeText(context!!, "Error Uploading Profile Pic", Toast.LENGTH_SHORT).show()
+
+        }
+
+
+        viewModel.mSetImageProgress.observe(viewLifecycleOwner) {
+
+            if (it) {
+                binding.spLoading.visibility = View.VISIBLE
+            } else {
+                binding.spLoading.visibility = View.GONE
+            }
+        }
+
+    }
 
 
     private fun clicKlistner() {
@@ -166,7 +191,9 @@ class EditProfileFragment : Fragment(), View.OnClickListener {
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
             window.statusBarColor = this.resources.getColor(R.color.black)
         }
-        Log.d("theProfileData","the profile data is ${BaseResponseDataObject.profilePageData}")
+        Log.d(
+            "theProfileData", "the profile data is ${BaseResponseDataObject.profilePageData}"
+        )
         binding.firstName.text = BaseResponseDataObject.profilePageData.firstName
         binding.lastName.text = BaseResponseDataObject.profilePageData.lastName
         binding.userName.text = BaseResponseDataObject.profilePageData.username
@@ -177,17 +204,17 @@ class EditProfileFragment : Fragment(), View.OnClickListener {
         binding.signupEtEmail.text = BaseResponseDataObject.profilePageData.email
 
         context?.let {
-            Glide
-                .with(it)
-                .load(BaseResponseDataObject.profilePageData.profileImage)
-                .centerCrop()
+            Glide.with(it).load(BaseResponseDataObject.profilePageData.profileImage).centerCrop()
                 .into(binding.ivChooseimg)
         }
     }
 
     private fun setupUi() {
-        val typeFacebold = Typeface.createFromAsset(getActivity()?.getAssets(), "futura_std_condensed_bold.otf")
-        val typeFace = Typeface.createFromAsset(getActivity()?.getAssets(), "futura_std_condensed.otf")
+        val typeFacebold = Typeface.createFromAsset(
+            getActivity()?.getAssets(), "futura_std_condensed_bold.otf"
+        )
+        val typeFace =
+            Typeface.createFromAsset(getActivity()?.getAssets(), "futura_std_condensed.otf")
         binding.firstName.setOnFocusChangeListener { view, b ->
             if (view.isFocused) {
                 binding.firstName.strokeWidth = 1.0f
@@ -276,26 +303,26 @@ class EditProfileFragment : Fragment(), View.OnClickListener {
                         binding.rbMale.typeface = typeFacebold
                         binding.rbFemale.typeface = typeFace
                         binding.rbOther.typeface = typeFace
-                        gender2 ="Male"
+                        gender2 = "Male"
                     }
                     R.id.rb_female -> {
                         binding.rbMale.typeface = typeFace
                         binding.rbFemale.typeface = typeFacebold
                         binding.rbOther.typeface = typeFace
-                        gender2 ="Female"
+                        gender2 = "Female"
                     }
                     R.id.rb_other -> {
                         binding.rbMale.typeface = typeFace
                         binding.rbFemale.typeface = typeFace
                         binding.rbOther.typeface = typeFacebold
-                        gender2 ="Other"
+                        gender2 = "Other"
                     }
                 }
             }
         }
-        when(BaseResponseDataObject.profilePageData.gender){
-             "Male" -> binding.rbMale.isChecked = true
-            "Female" ->binding.rbFemale.isChecked = true
+        when (BaseResponseDataObject.profilePageData.gender) {
+            "Male" -> binding.rbMale.isChecked = true
+            "Female" -> binding.rbFemale.isChecked = true
             "Other" -> binding.rbOther.isChecked = true
         }
 
@@ -308,7 +335,7 @@ class EditProfileFragment : Fragment(), View.OnClickListener {
                         binding.etHightCm.visibility = View.GONE
                         binding.llHightFeetInch.visibility = View.VISIBLE
                         binding.etHightFt.requestFocus()
-                        heightUnit="Feet"
+                        heightUnit = "Feet"
                         editTextValueCheckIng(
                             binding.etDob.text.toString(),
                             binding.firstName.text.toString(),
@@ -319,9 +346,9 @@ class EditProfileFragment : Fragment(), View.OnClickListener {
                             binding.etWeight.text.toString()
 
                         )
-                        if (firstTimeRunHeight){
+                        if (firstTimeRunHeight) {
                             firstTimeRunHeight = false
-                        }else{
+                        } else {
                             setDataMeterToFeet()
                         }
 
@@ -350,10 +377,10 @@ class EditProfileFragment : Fragment(), View.OnClickListener {
             }
         }
 
-        when(BaseResponseDataObject.profilePageData.heightUnit){
+        when (BaseResponseDataObject.profilePageData.heightUnit) {
             "meter" -> binding.rbCm.isChecked = true
-            "Feet" ->  binding.rbFt.isChecked = true
-            else ->binding.rbFt.isChecked = true
+            "Feet" -> binding.rbFt.isChecked = true
+            else -> binding.rbFt.isChecked = true
         }
 
         binding.rgLbsKg.setOnCheckedChangeListener { radioGroup, optionId ->
@@ -362,42 +389,46 @@ class EditProfileFragment : Fragment(), View.OnClickListener {
                     R.id.rb_lbs -> {
                         binding.rbLbs.typeface = typeFacebold
                         binding.rbKg.typeface = typeFace
-                        if (firstTimeRunWeight){
-                            firstTimeRunWeight =false
-                        }else{
+                        if (firstTimeRunWeight) {
+                            firstTimeRunWeight = false
+                        } else {
 //                            binding.etWeight.text = kgconverToLbs
                             setDataKgTLbsUi()
                         }
 
-                        unit="lbs"
+                        unit = "lbs"
 
                     }
                     R.id.rb_kg -> {
                         binding.rbLbs.typeface = typeFace
                         binding.rbKg.typeface = typeFacebold
 //                        binding.etWeight.text = lbsConverToKg
-                        firstTimeRunWeight =false
+                        firstTimeRunWeight = false
                         setDatalbsTokg()
-                        unit="kgs"
+                        unit = "kgs"
 //                        Log.d("thekg","the weight unit $weightUnit")
                     }
                 }
             }
         }
-        when(BaseResponseDataObject.profilePageData.weightUnit){
+        when (BaseResponseDataObject.profilePageData.weightUnit) {
             "kgs" -> binding.rbKg.isChecked = true
-            "lbs" ->  binding.rbLbs.isChecked = true
-            else ->binding.rbLbs.isChecked = true
+            "lbs" -> binding.rbLbs.isChecked = true
+            else -> binding.rbLbs.isChecked = true
         }
 
 
 
         binding.etDob.addTextChangedListener(object : TextWatcher {
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+            override fun onTextChanged(
+                s: CharSequence, start: Int, before: Int, count: Int
+            ) {
 
             }
 
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
+            override fun beforeTextChanged(
+                s: CharSequence, start: Int, count: Int, after: Int
+            ) {
             }
 
             override fun afterTextChanged(s: Editable) {
@@ -417,11 +448,15 @@ class EditProfileFragment : Fragment(), View.OnClickListener {
         })
 
         binding.firstName.addTextChangedListener(object : TextWatcher {
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+            override fun onTextChanged(
+                s: CharSequence, start: Int, before: Int, count: Int
+            ) {
 
             }
 
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
+            override fun beforeTextChanged(
+                s: CharSequence, start: Int, count: Int, after: Int
+            ) {
             }
 
             override fun afterTextChanged(s: Editable) {
@@ -440,11 +475,15 @@ class EditProfileFragment : Fragment(), View.OnClickListener {
             }
         })
         binding.lastName.addTextChangedListener(object : TextWatcher {
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+            override fun onTextChanged(
+                s: CharSequence, start: Int, before: Int, count: Int
+            ) {
 
             }
 
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
+            override fun beforeTextChanged(
+                s: CharSequence, start: Int, count: Int, after: Int
+            ) {
             }
 
             override fun afterTextChanged(s: Editable) {
@@ -463,10 +502,14 @@ class EditProfileFragment : Fragment(), View.OnClickListener {
         })
 
         binding.etHightFt.addTextChangedListener(object : TextWatcher {
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+            override fun onTextChanged(
+                s: CharSequence, start: Int, before: Int, count: Int
+            ) {
             }
 
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
+            override fun beforeTextChanged(
+                s: CharSequence, start: Int, count: Int, after: Int
+            ) {
 
             }
 
@@ -486,10 +529,14 @@ class EditProfileFragment : Fragment(), View.OnClickListener {
             }
         })
         binding.etHightIn.addTextChangedListener(object : TextWatcher {
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+            override fun onTextChanged(
+                s: CharSequence, start: Int, before: Int, count: Int
+            ) {
             }
 
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
+            override fun beforeTextChanged(
+                s: CharSequence, start: Int, count: Int, after: Int
+            ) {
 
             }
 
@@ -508,10 +555,14 @@ class EditProfileFragment : Fragment(), View.OnClickListener {
             }
         })
         binding.etHightCm.addTextChangedListener(object : TextWatcher {
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+            override fun onTextChanged(
+                s: CharSequence, start: Int, before: Int, count: Int
+            ) {
             }
 
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
+            override fun beforeTextChanged(
+                s: CharSequence, start: Int, count: Int, after: Int
+            ) {
 
             }
 
@@ -531,10 +582,14 @@ class EditProfileFragment : Fragment(), View.OnClickListener {
             }
         })
         binding.etWeight.addTextChangedListener(object : TextWatcher {
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+            override fun onTextChanged(
+                s: CharSequence, start: Int, before: Int, count: Int
+            ) {
             }
 
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
+            override fun beforeTextChanged(
+                s: CharSequence, start: Int, count: Int, after: Int
+            ) {
 
             }
 
@@ -557,32 +612,39 @@ class EditProfileFragment : Fragment(), View.OnClickListener {
 
     }
 
-    private fun editTextValueCheckIng(dob:String,firstName:String,lastName:String,etHightFt:String,etHightIn:String,etHightCm:String,etWeight:String) {
-
+    private fun editTextValueCheckIng(
+        dob: String,
+        firstName: String,
+        lastName: String,
+        etHightFt: String,
+        etHightIn: String,
+        etHightCm: String,
+        etWeight: String
+    ) {
 
 
         if (binding.rbFt.isChecked) {
             when {
 
-                dob.isEmpty() ->{
+                dob.isEmpty() -> {
                     joinUsButtonInactive()
                 }
-                firstName.isEmpty() ->{
+                firstName.isEmpty() -> {
                     joinUsButtonInactive()
                 }
-                lastName.isEmpty() ->{
-                    joinUsButtonInactive()
-                }
-
-
-                etHightFt.isEmpty() ->{
-                    joinUsButtonInactive()
-                }
-                etHightIn.isEmpty() ->{
+                lastName.isEmpty() -> {
                     joinUsButtonInactive()
                 }
 
-                etWeight.isEmpty() ->{
+
+                etHightFt.isEmpty() -> {
+                    joinUsButtonInactive()
+                }
+                etHightIn.isEmpty() -> {
+                    joinUsButtonInactive()
+                }
+
+                etWeight.isEmpty() -> {
                     joinUsButtonInactive()
                 }
                 else -> {
@@ -591,22 +653,21 @@ class EditProfileFragment : Fragment(), View.OnClickListener {
             }
         } else if (binding.rbCm.isChecked) {
             when {
-                dob.isEmpty() ->{
+                dob.isEmpty() -> {
                     joinUsButtonInactive()
                 }
-                firstName.isEmpty() ->{
+                firstName.isEmpty() -> {
                     joinUsButtonInactive()
                 }
-                lastName.isEmpty() ->{
+                lastName.isEmpty() -> {
                     joinUsButtonInactive()
                 }
 
 
-
-                etHightCm.isEmpty() ->{
+                etHightCm.isEmpty() -> {
                     joinUsButtonInactive()
                 }
-                etWeight.isEmpty() ->{
+                etWeight.isEmpty() -> {
                     joinUsButtonInactive()
                 }
                 else -> {
@@ -629,7 +690,7 @@ class EditProfileFragment : Fragment(), View.OnClickListener {
         binding.btnNext.isClickable = true
     }
 
-    private fun clickListener(){
+    private fun clickListener() {
         binding.ibBackButton.setOnClickListener(this)
         binding.etDob.setOnClickListener(this)
         binding.btnNext.setOnClickListener(this)
@@ -641,75 +702,94 @@ class EditProfileFragment : Fragment(), View.OnClickListener {
         when (p0!!.id) {
             R.id.ib_back_button -> {
 
-                Log.d("imgbutt","button clicked")
+                Log.d("imgbutt", "button clicked")
                 val ft: FragmentTransaction = requireFragmentManager().beginTransaction()
                 ft.replace(R.id.container, AccountScreenFragment(), "NewFragmentTag")
                 ft.commit()
             }
-            R.id.et_dob ->{
+            R.id.et_dob -> {
                 binding.firstName.clearFocus()
                 binding.lastName.clearFocus()
                 binding.userName.clearFocus()
                 binding.etDob.strokeWidth = 1.0f
                 val colorInt = resources.getColor(R.color.red)
                 binding.etDob.stroke = ColorStateList.valueOf(colorInt)
-                CalenderDialog(requireContext(),binding.etDob)
-
+                CalenderDialog(requireContext(), binding.etDob)
 
 
             }
-            R.id.btn_next ->{
+            R.id.btn_next -> {
                 binding.firstName.clearFocus()
                 binding.lastName.clearFocus()
                 binding.userName.clearFocus()
                 binding.etDob.clearFocus()
-                Log.d("thecountrycode", "the country code is $countryCode and dialcode is $dialCode")
-                first_name= binding.firstName.text.toString().trim()
+                Log.d(
+                    "thecountrycode", "the country code is $countryCode and dialcode is $dialCode"
+                )
+                first_name = binding.firstName.text.toString().trim()
                 last_name = binding.lastName.text.toString().trim()
 
                 weight = binding.etWeight.text.toString().trim()
-                dob=binding.etDob.text.toString().trim()
+                dob = binding.etDob.text.toString().trim()
 
-                if (heightUnit=="meter"){
-                 val feetObj=   convert.convertMetersToFeet(binding.etHightCm.text.toString().trim().toDouble())
+                if (heightUnit == "meter") {
+                    val feetObj = convert.convertMetersToFeet(
+                        binding.etHightCm.text.toString().trim().toDouble()
+                    )
                     heightValueFeet = feetObj.feet.toFloat().toInt().toString()
                     heightValueInches = feetObj.inches
-                }else{
+                } else {
                     heightValueFeet = binding.etHightFt.text.toString().trim()
                     heightValueInches = binding.etHightIn.text.toString().trim()
                 }
 
-                if (unit=="kgs"){
+                if (unit == "kgs") {
                     setDataKgTLbs()
-                }else{
+                } else {
                     weight = binding.etWeight.text.toString()
                 }
 
-                Log.d("weghtis","the height is in feet $heightValueFeet and feet ${heightValueInches.toString().toFloat().toInt()} and height unit $heightUnit and weight $unit")
-                viewModel.checkeeditUserRequestNullable(BaseResponseDataObject.accessToken,
-                    EditUserRequestNullable("editUser", dob = dob,first_name,gender2,heightUnit,heightValueFeet.toInt(),heightValueInches.toString().toFloat().toInt(),last_name, unit = unit
-                        , weight.toFloat().toInt())
+                Log.d(
+                    "weghtis", "the height is in feet $heightValueFeet and feet ${
+                        heightValueInches.toString().toFloat().toInt()
+                    } and height unit $heightUnit and weight $unit"
+                )
+                viewModel.checkeeditUserRequestNullable(
+                    BaseResponseDataObject.accessToken, EditUserRequestNullable(
+                        "editUser",
+                        dob = dob,
+                        first_name,
+                        gender2,
+                        heightUnit,
+                        heightValueFeet.toInt(),
+                        heightValueInches.toString().toFloat().toInt(),
+                        last_name,
+                        unit = unit,
+                        weight.toFloat().toInt()
+                    )
 
                 )
 
             }
-            R.id.ll_image ->{
+            R.id.ll_image -> {
 
 
             }
-            R.id.iv_chooseimg ->{
-                Log.d(TAG," image button was clicked")
+            R.id.iv_chooseimg -> {
+                Log.d(TAG, " image button was clicked")
                 getImage()
             }
         }
     }
 
-    fun setDataFeetToMeter(){
+    fun setDataFeetToMeter() {
 
-        if (binding.etHightFt.text.toString().trim().isNotEmpty() || binding.etHightIn.text.toString().trim().isNotEmpty() ) {
-            var heightInMeter =   convert.convertFeetToMeters(
-                binding.etHightFt.text.toString().trim(),
-                binding.etHightIn.text.toString().trim()
+        if (binding.etHightFt.text.toString().trim()
+                .isNotEmpty() || binding.etHightIn.text.toString()
+                .trim().isNotEmpty()
+        ) {
+            var heightInMeter = convert.convertFeetToMeters(
+                binding.etHightFt.text.toString().trim(), binding.etHightIn.text.toString().trim()
             )
 
             meter2 = heightInMeter
@@ -717,20 +797,21 @@ class EditProfileFragment : Fragment(), View.OnClickListener {
         }
     }
 
-    fun setDataMeterToFeet(){
-        Log.d("meterData","meter is $meter and meter2 is $meter2")
+    fun setDataMeterToFeet() {
+        Log.d("meterData", "meter is $meter and meter2 is $meter2")
 
-            if (binding.etHightCm.text.toString().trim().isNotEmpty() ) {
-                val feetAndInches = convert.convertMetersToFeet(binding.etHightCm.text.toString().toDouble())
-                binding.etHightFt.text = feetAndInches.feet
-                binding.etHightIn.text = "${feetAndInches.inches.toFloat().toInt()}"
+        if (binding.etHightCm.text.toString().trim().isNotEmpty()) {
+            val feetAndInches =
+                convert.convertMetersToFeet(binding.etHightCm.text.toString().toDouble())
+            binding.etHightFt.text = feetAndInches.feet
+            binding.etHightIn.text = "${feetAndInches.inches.toFloat().toInt()}"
 
-            }
+        }
 //        floor(feetAndInches.feet.toFloat()).toString()
 
     }
 
-    private fun setDatalbsTokg(){
+    private fun setDatalbsTokg() {
         if (binding.etWeight.text.toString().trim().isNotEmpty()) {
             var kg = convert.converlbsTokg(binding.etWeight.text.toString().trim())
             binding.etWeight.text = "${kg.toFloat().toInt()}"
@@ -738,22 +819,20 @@ class EditProfileFragment : Fragment(), View.OnClickListener {
         }
     }
 
-    private fun setDataKgTLbsUi(){
-        if ( binding.etWeight.text.toString().trim().isNotEmpty()) {
+    private fun setDataKgTLbsUi() {
+        if (binding.etWeight.text.toString().trim().isNotEmpty()) {
             var tempLbs = convert.convertkgTolbs(binding.etWeight.text.toString().trim())
             binding.etWeight.text = "${tempLbs.toFloat().toInt()}"
             lbs = tempLbs
         }
     }
 
-    private fun setDataKgTLbs(){
-        if ( binding.etWeight.text.toString().trim().isNotEmpty()) {
+    private fun setDataKgTLbs() {
+        if (binding.etWeight.text.toString().trim().isNotEmpty()) {
             var tempLbs = convert.convertkgTolbs(binding.etWeight.text.toString().trim())
             weight = tempLbs
         }
     }
-
-
 
 
     fun CalenderDialog(thisActivity: Context, dateTv: EditText): DatePickerDialog {
@@ -761,10 +840,16 @@ class EditProfileFragment : Fragment(), View.OnClickListener {
         val year = cal.get(Calendar.YEAR)
         val month = cal.get(Calendar.MONTH)
         val day = cal.get(Calendar.DAY_OF_MONTH)
-        datePickerDialog = DatePickerDialog(thisActivity,R.style.MyDatePickerStyle,
+        datePickerDialog = DatePickerDialog(
+            thisActivity,
+            R.style.MyDatePickerStyle,
             DatePickerDialog.OnDateSetListener { view, myear, mmonth, mdayOfMonth ->
-            dateTv.setText("$mdayOfMonth/$mmonth/$myear")
-        }, year, month, day)
+                dateTv.setText("$mdayOfMonth/$mmonth/$myear")
+            },
+            year,
+            month,
+            day
+        )
         datePickerDialog.datePicker.maxDate = System.currentTimeMillis()
         datePickerDialog.show()
         return datePickerDialog
@@ -786,9 +871,7 @@ class EditProfileFragment : Fragment(), View.OnClickListener {
             }
 
         } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (context?.checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) ==
-                PackageManager.PERMISSION_DENIED
-            ) {
+            if (context?.checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
                 //permission denied
                 val permissions = arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE)
                 //show popup to request runtime permission
@@ -797,30 +880,30 @@ class EditProfileFragment : Fragment(), View.OnClickListener {
                 //permission already granted
                 pickImageFromGallery()
             }
-        }
-        else{
+        } else {
             //system OS is < Marshmallow
             pickImageFromGallery()
         }
     }
+
     private fun pickImageFromGallery() {
         //Intent to pick image
         val intent = Intent(Intent.ACTION_PICK)
         intent.type = "image/*"
-        startActivityForResult(intent,IMAGE_PICK_CODE)
+        startActivityForResult(intent, IMAGE_PICK_CODE)
     }
 
     //handle requested permission result
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int, permissions: Array<out String>, grantResults: IntArray
+    ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        when(requestCode){
-          PERMISSION_CODE -> {
-                if (grantResults.size >0 && grantResults[0] ==
-                    PackageManager.PERMISSION_GRANTED){
+        when (requestCode) {
+            PERMISSION_CODE -> {
+                if (grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     //permission from popup granted
                     pickImageFromGallery()
-                }
-                else{
+                } else {
                     //permission from popup denied
                     Toast.makeText(context, "Permission denied", Toast.LENGTH_SHORT).show()
                 }
@@ -829,9 +912,11 @@ class EditProfileFragment : Fragment(), View.OnClickListener {
     }
 
     //handle result of picked image
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    override fun onActivityResult(
+        requestCode: Int, resultCode: Int, data: Intent?
+    ) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == Activity.RESULT_OK && requestCode == IMAGE_PICK_CODE){
+        if (resultCode == Activity.RESULT_OK && requestCode == IMAGE_PICK_CODE) {
             uri = data?.data
             path = uri?.let { RealPathUtil.getRealPath(requireContext(), it) }
             val bitmap = BitmapFactory.decodeFile(path)

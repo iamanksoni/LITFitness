@@ -2,7 +2,6 @@ package com.litmethod.android.ui.root.AllClassTabScreen.EditProfile.ViewModel
 
 import android.content.Context
 import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.litmethod.android.models.EditUserRequestNullable.EditUserRequestNullable
@@ -22,14 +21,19 @@ import retrofit2.Response
 class EditProfileViewModel  constructor(private val repository: EditProfileRepository, var context: Context) :
     ViewModel()  {
 
-    val editUserRequestNullableResponse= MutableLiveData<GetCustomerResponse>()
+    val editUserRequestNullableResponse = MutableLiveData<GetCustomerResponse>()
     val errorMessage3 = MutableLiveData<String>()
 
+    val mSetImageResponse = MutableLiveData<SetImageResponse>()
+    val mSetImageError = MutableLiveData<String>()
+    val mSetImageProgress = MutableLiveData<Boolean>()
 
 
-
-    private fun editUserRequestNullable(auth: String,editUserRequestNullable: EditUserRequestNullable) {
-        val response = repository.editUserRequestNullable(auth,editUserRequestNullable)
+    private fun editUserRequestNullable(
+        auth: String,
+        editUserRequestNullable: EditUserRequestNullable
+    ) {
+        val response = repository.editUserRequestNullable(auth, editUserRequestNullable)
         response.enqueue(object : Callback<GetCustomerResponse> {
             override fun onResponse(
                 call: Call<GetCustomerResponse>,
@@ -97,21 +101,22 @@ class EditProfileViewModel  constructor(private val repository: EditProfileRepos
     }
 
      fun setImage2(body: MultipartBody.Part) {
-        val serviceBuilder = ServiceBuilder.myApi
-        serviceBuilder.uploadImage(body).enqueue(object : retrofit2.Callback<SetImageResponse> {
+         mSetImageProgress.postValue(true)
+         val serviceBuilder = ServiceBuilder.myApi
+         serviceBuilder.uploadImage(body).enqueue(object : retrofit2.Callback<SetImageResponse> {
 
-            override fun onFailure(call: Call<SetImageResponse>, t: Throwable) {
-                Toast.makeText(context, "Failed due ${t.message}", Toast.LENGTH_SHORT)
-                    .show()
-            }
+             override fun onFailure(call: Call<SetImageResponse>, t: Throwable) {
+                 mSetImageError.postValue(t.message)
 
-            override fun onResponse(
-                call: Call<SetImageResponse>,
-                response: Response<SetImageResponse>
+             }
+
+             override fun onResponse(
+                 call: Call<SetImageResponse>,
+                 response: Response<SetImageResponse>
             ) {
                 val responseCode = response.code()
                 if (responseCode == 200) {
-                    Toast.makeText(context, "Uploaded !", Toast.LENGTH_SHORT).show()
+                    mSetImageResponse.postValue(response.body())
 
                 }
             }
