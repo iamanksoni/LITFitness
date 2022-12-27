@@ -10,6 +10,7 @@ import com.litmethod.android.utlis.AppConstants
 import com.siliconlabs.bledemo.bluetooth.data_types.Field
 import com.siliconlabs.bledemo.bluetooth.parsing.Common
 import com.siliconlabs.bledemo.bluetooth.parsing.Engine
+import com.welie.blessed.HeartRateMeasurement
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -49,7 +50,7 @@ class DeviceDataLoggerActivity : BaseActivity() {
                     )
 
                 var notificationRightDevice =
-                    LitDeviceConstants.mLitAxisDevicePair.leftLitAxisDevice?.getCharacteristic(
+                    LitDeviceConstants.mLitAxisDevicePair.rightLitAxisDevice?.getCharacteristic(
                         LIT_AXIS_WEIGHT_SCALE_SERVICE,
                         LIT_AXIS_WEIGHT_SCALE_CHARACHTERISTIC
                     )
@@ -63,10 +64,10 @@ class DeviceDataLoggerActivity : BaseActivity() {
                                 fieldValue = value
                                 val data = readValue()
                                 runOnUiThread {
-                                    binding.tvDeviceStats.text =
+                                    binding.tvLeftAxis.text =
                                         "Left Pull-->:${(data.toFloat() * 0.005)} KG"
                                 }
-                                Log.d("TAG", "Weight Weight: " + data.toFloat() * 0.005 + "KG")
+                                Log.d("TAG", "Left Weight: " + data.toFloat() * 0.005 + "KG")
 
                             }
                         }
@@ -82,15 +83,42 @@ class DeviceDataLoggerActivity : BaseActivity() {
                                 fieldValue = value
                                 val data = readValue()
                                 runOnUiThread {
-                                    binding.tvDeviceStats.text =
+                                    binding.tvRightAxis.text =
                                         "Right Pull-->:${(data.toFloat() * 0.005)} KG"
                                 }
-                                Log.d("TAG", "Weight Weight: " + data.toFloat() * 0.005 + "KG")
+                                Log.d("TAG", "Right Weight: " + data.toFloat() * 0.005 + "KG")
 
                             }
                         }
                     }
                 }
+            }
+
+            AppConstants.DEVICE_HEART_RATE -> {
+
+
+                var notifyingCharacteristic =
+                    LitDeviceConstants.mHeartRateMonitorPeripheral.getCharacteristic(
+                        LitDeviceConstants.LIT_HEART_RATE_SERVICE,
+                        LitDeviceConstants.HEART_RATE_CHARACTERISTIC_UUID
+                    )
+                notifyingCharacteristic?.let {
+                    scope.launch {
+                        LitDeviceConstants.mHeartRateMonitorPeripheral.observe(it) { value ->
+                            runOnUiThread{
+                                binding.tvHeartRate.text =
+                                    HeartRateMeasurement.fromBytes(value).toString()
+                            }
+                            Log.d(
+                                "TAG",
+                                "Weight LOgged in testing: " + HeartRateMeasurement.fromBytes(value).pulse
+                            )
+
+                        }
+                    }
+                }
+
+
             }
         }
     }

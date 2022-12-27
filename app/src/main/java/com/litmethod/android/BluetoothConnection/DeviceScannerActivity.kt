@@ -33,6 +33,7 @@ import com.litmethod.android.Parsing.Converters
 import com.litmethod.android.R
 import com.litmethod.android.databinding.ActivityDeviceScannerBinding
 import com.litmethod.android.shared.BaseActivity
+import com.litmethod.android.utlis.AppConstants
 import com.litmethod.android.utlis.AppConstants.Companion.DEVICE_HEART_RATE
 import com.litmethod.android.utlis.AppConstants.Companion.DEVICE_LIT_AXIS
 import com.litmethod.android.utlis.AppConstants.Companion.DEVICE_NAME
@@ -48,7 +49,6 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 import java.math.BigInteger
 import java.util.*
-import kotlin.collections.HashMap
 
 class DeviceScannerActivity : BaseActivity() {
     lateinit var binding: ActivityDeviceScannerBinding
@@ -98,152 +98,25 @@ class DeviceScannerActivity : BaseActivity() {
             Log.d("Peripheral", " ${peripheral.address} has $state")
             if (state.toString() == "CONNECTED") {
 
-
                 if (peripheral.getService(LIT_HEART_RATE_SERVICE) != null) {
-
                     centralManager.stopScan()
-                    runOnUiThread() {
-
-                        Toast.makeText(this, "Connected with heart rate sensor", Toast.LENGTH_SHORT)
-                            .show()
-
-                        showHRConsole(peripheral)
-                    }
+                    LitDeviceConstants.mBleCentralManager = centralManager
+                    LitDeviceConstants.mHeartRateMonitorPeripheral = peripheral
+//                    var intent = Intent(this, DeviceDataLoggerActivity::class.java)
+//                    intent.putExtra(AppConstants.DEVICE_NAME, AppConstants.DEVICE_HEART_RATE)
+//                    startActivity(intent)
+//                    runOnUiThread() {
+//
+//                        Toast.makeText(this, "Connected with heart rate sensor", Toast.LENGTH_SHORT)
+//                            .show()
+//
+//                        showHRConsole(peripheral)
+//                    }
 
 
                 } else if (peripheral.getService(LIT_AXIS_WEIGHT_SCALE_SERVICE) != null) {
-                    if (litAxisDevicePair.leftLitAxisDevice == null) {
-                        /**
-                         * SAVING LEFT LIT AXIS DEVICE
-                         */
-                        runOnUiThread() {
-                            binding.tvLitHeartRateMessage.visibility = View.VISIBLE
-                            binding.tvLitHeartRateMessage.text = "Left Lit Axis Connected"
-                            binding.tvLitHeartRateMessage.setTextColor(R.color.blue)
-                            binding.tvLitHeartRateMessage.typeface =
-                                Typeface.createFromAsset(assets, "futura_std_condensed.otf")
-                            Toast.makeText(
-                                this,
-                                "Connected with Left Lit AXIS sensor",
-                                Toast.LENGTH_SHORT
-                            )
-                                .show()
-                        }
 
-                        val spannable =
-                            SpannableString(getString(R.string.right_lit_axis_connect_message))
-                        spannable.setSpan(
-                            ForegroundColorSpan(Color.RED),
-                            10, // start
-                            15, // end
-                            Spannable.SPAN_EXCLUSIVE_INCLUSIVE
-                        )
-                        binding.tvLitAxisMessage.text = spannable
-
-
-                        litAxisDevicePair.setLeftLitAxis(peripheral)
-                        scope.launch {
-                            DataPreferenceObject(this@DeviceScannerActivity).save(
-                                "leftLitAxis",
-                                peripheral.address
-                            )
-                        }
-
-                    } else if (litAxisDevicePair.rightLitAxisDevice == null) {
-
-                        /**
-                         * SAVING RIGHT LIT AXIS DEVICE
-                         */
-                        runOnUiThread() {
-                            Toast.makeText(
-                                this,
-                                "Connected with Right Lit AXIS sensor",
-                                Toast.LENGTH_SHORT
-                            )
-                                .show()
-                        }
-                        centralManager.stopScan()
-                        litAxisDevicePair.setRightLitAxis(peripheral)
-
-                        scope.launch {
-                            DataPreferenceObject(this@DeviceScannerActivity).save(
-                                "rightLitAxis",
-                                peripheral.address
-                            )
-                        }
-
-
-                    }
-                    LitDeviceConstants.mLitAxisDevicePair = litAxisDevicePair
-
-
-
-                    if (LitDeviceConstants.mLitAxisDevicePair.rightLitAxisDevice != null && LitDeviceConstants.mLitAxisDevicePair.leftLitAxisDevice != null) {
-//
-//                        var rightDeviceCharacteristics =
-//                            LitDeviceConstants.mLitAxisDevicePair.rightLitAxisDevice?.getCharacteristic(
-//                                LIT_AXIS_WEIGHT_SCALE_SERVICE,
-//                                LitDeviceConstants.LIT_AXIS_WEIGHT_SCALE_CHARACHTERISTIC
-//                            )
-//
-//                        rightDeviceCharacteristics?.let {
-//                            scope.launch {
-//                                LitDeviceConstants.mLitAxisDevicePair.rightLitAxisDevice?.observe(it) { value ->
-//                                    Log.d("Data Size", value.size.toString())
-//                                    "Received : $value".also {
-//                                        dataParser()
-//                                        fieldValue = value
-//                                        val data = readValue()
-////                                        binding.tvDeviceStats.text =
-////                                            "Right Pull-->:${(data.toFloat() * 0.005)} KG"
-//                                        Log.d(
-//                                            "TAG",
-//                                            "Right Weight LOgged: " + data.toFloat() * 0.005 + "KG"
-//                                        )
-//
-//                                    }
-//                                }
-//                            }
-//                        }
-
-
-//                        var _intent = Intent(this, DeviceDataLoggerActivity::class.java)
-//                        _intent.putExtra(DEVICE_NAME, intent?.getStringExtra(DEVICE_NAME))
-//                        startActivity(_intent)
-                    }
-
-
-//                    var leftDeviceCharacteristics =
-//                        LitDeviceConstants.mLitAxisDevicePair.leftLitAxisDevice?.getCharacteristic(
-//                            LIT_AXIS_WEIGHT_SCALE_SERVICE,
-//                            LitDeviceConstants.LIT_AXIS_WEIGHT_SCALE_CHARACHTERISTIC
-//                        )
-
-//                    leftDeviceCharacteristics?.let {
-//                        scope.launch {
-//                            LitDeviceConstants.mLitAxisDevicePair.leftLitAxisDevice?.observe(it) { value ->
-//                                Log.d("Data Size", value.size.toString())
-//                                "Received : $value".also {
-//                                    dataParser()
-//                                    fieldValue = value
-//                                    val data = readValue()
-////                                        binding.tvDeviceStats.text =
-////                                            "Right Pull-->:${(data.toFloat() * 0.005)} KG"
-//                                    Log.d(
-//                                        "TAG",
-//                                        "Left Weight LOgged: " + data.toFloat() * 0.005 + "KG"
-//                                    )
-//
-//                                }
-//                            }
-//                        }
-//                    }
-
-                    centralManager.stopScan()
-
-                    runOnUiThread {
-                        showConsole(peripheral)
-                    }
+                    handleLitAxisConnectionLogic(peripheral)
 
                 } else if (peripheral.getService(LIT_STRENGTH_MACHINE_SERVICE) != null) {
                     centralManager.stopScan()
@@ -251,8 +124,6 @@ class DeviceScannerActivity : BaseActivity() {
                         Toast.makeText(this, "Connected with ROWING sensor", Toast.LENGTH_SHORT)
                             .show()
                     }
-
-
                 } else {
                     scope.launch {
                         try {
@@ -269,7 +140,6 @@ class DeviceScannerActivity : BaseActivity() {
                         DEVICE_LIT_AXIS -> {
 
                             updateLitAxisConnectionPair(peripheral)
-                            handleLitAxisConnection()
 
                         }
                         DEVICE_HEART_RATE -> {
@@ -288,29 +158,116 @@ class DeviceScannerActivity : BaseActivity() {
         }
     }
 
+    private fun handleLitAxisConnectionLogic(peripheral: BluetoothPeripheral) {
+        if (litAxisDevicePair.leftLitAxisDevice == null) {
+            /**
+             * SAVING LEFT LIT AXIS DEVICE
+             */
+            runOnUiThread() {
+                binding.tvLitHeartRateMessage.visibility = View.VISIBLE
+                binding.tvLitHeartRateMessage.text = "Left Lit Axis Connected"
+                binding.tvLitHeartRateMessage.setTextColor(R.color.blue)
+                binding.tvLitHeartRateMessage.typeface =
+                    Typeface.createFromAsset(assets, "futura_std_condensed.otf")
+                Toast.makeText(
+                    this,
+                    "Connected with Left Lit AXIS sensor",
+                    Toast.LENGTH_SHORT
+                )
+                    .show()
+            }
+
+            val spannable =
+                SpannableString(getString(R.string.right_lit_axis_connect_message))
+            spannable.setSpan(
+                ForegroundColorSpan(Color.RED),
+                10, // start
+                15, // end
+                Spannable.SPAN_EXCLUSIVE_INCLUSIVE
+            )
+            binding.tvLitAxisMessage.text = spannable
+            litAxisDevicePair.setLeftLitAxis(peripheral)
+
+            scope.launch {
+                DataPreferenceObject(this@DeviceScannerActivity).save(
+                    "leftLitAxis",
+                    peripheral.address
+                )
+            }
+
+        } else if (litAxisDevicePair.rightLitAxisDevice == null) {
+            if (litAxisDevicePair.leftLitAxisDevice != null) {
+
+                litAxisDevicePair.leftLitAxisDevice?.let {
+                    if (it.address != peripheral.address) {
+                        runOnUiThread() {
+                            Toast.makeText(
+                                this,
+                                "Connected with Right Lit AXIS sensor",
+                                Toast.LENGTH_SHORT
+                            )
+                                .show()
+                        }
+                        litAxisDevicePair.setRightLitAxis(peripheral)
+
+                        scope.launch {
+                            DataPreferenceObject(this@DeviceScannerActivity).save(
+                                "rightLitAxis",
+                                peripheral.address
+                            )
+                        }
+                    } else {
+                        runOnUiThread {
+                            Toast.makeText(this, "Device Mac is already paired", Toast.LENGTH_SHORT)
+                                .show()
+                        }
+                    }
+                }
+
+            } else {
+                runOnUiThread {
+                    Toast.makeText(
+                        this,
+                        "Left is disconnected so, making this one as the left axis connection",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+
+            if (litAxisDevicePair.rightLitAxisDevice != null && litAxisDevicePair.leftLitAxisDevice != null) {
+                LitDeviceConstants.mLitAxisDevicePair = litAxisDevicePair
+                centralManager.stopScan()
+                var intent = Intent(this, DeviceDataLoggerActivity::class.java)
+                intent.putExtra(AppConstants.DEVICE_NAME, AppConstants.DEVICE_LIT_AXIS)
+                startActivity(intent)
+            }
+        }
+
+    }
+
     private fun updateLitAxisConnectionPair(disconnectedPeripheral: BluetoothPeripheral) {
 
-//        when (disconnectedPeripheral.name) {
-//            litAxisDevicePair.getLeftLitAxis()!!.name -> {
-//                litAxisDevicePair.setLeftLitAxis(null)
-//                Log.d("DeviceScanner Activity", "Left Device Disconnected")
-//                runOnUiThread {
-//                    Toast.makeText(this, "Disconnected Left Lit Axis device", Toast.LENGTH_SHORT)
-//                        .show()
-//                }
-//            }
-//            litAxisDevicePair.getRightLitAxis()!!.name -> {
-//                litAxisDevicePair.setRightLitAxis(null)
-//                Log.d("DeviceScanner Activity", "Right Device Disconnected")
-//                runOnUiThread {
-//                    Toast.makeText(this, "Disconnected Right Lit Axis device", Toast.LENGTH_SHORT)
-//                        .show()
-//                }
-//            }
-//
-//        }
-//        LitDeviceConstants.mLitAxisDevicePair = litAxisDevicePair
+        when (disconnectedPeripheral.address) {
+            litAxisDevicePair.getLeftLitAxis()?.address -> {
+                litAxisDevicePair.setLeftLitAxis(null)
+                Log.d("DeviceScanner Activity", "Left Device Disconnected")
+                runOnUiThread {
+                    Toast.makeText(this, "Disconnected Left Lit Axis device", Toast.LENGTH_SHORT)
+                        .show()
+                }
+            }
+            litAxisDevicePair.getRightLitAxis()?.address -> {
+                litAxisDevicePair.setRightLitAxis(null)
+                Log.d("DeviceScanner Activity", "Right Device Disconnected")
+                runOnUiThread {
+                    Toast.makeText(this, "Disconnected Right Lit Axis device", Toast.LENGTH_SHORT)
+                        .show()
+                }
+            }
 
+        }
+        LitDeviceConstants.mLitAxisDevicePair = litAxisDevicePair
+        handleLitAxisConnection()
 
     }
 
