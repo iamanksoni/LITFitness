@@ -9,6 +9,7 @@ import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import java.text.SimpleDateFormat
 import java.time.DayOfWeek
 import java.time.temporal.WeekFields
 import java.util.*
@@ -49,4 +50,22 @@ abstract class BaseFragment : Fragment() {
 
     internal fun TextView.setTextColorRes(@ColorRes color: Int) = setTextColor(context.getColorCompat(color))
 
+    fun String.toDate(): Date{
+        return SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse(this)
+    }
+
+    fun getDaysAgo(daysAgo: Int): String {
+        val calendar = Calendar.getInstance()
+        calendar.add(Calendar.DAY_OF_YEAR, -daysAgo)
+        val newFormatter = SimpleDateFormat("yyyy-MM-dd")
+        return newFormatter.format(calendar.time)
+    }
+
+    open fun isWithinRange(testDate: Date,startDate: Date,endDate:Date): Boolean {
+        if((testDate.before(startDate) || testDate.after(endDate))){
+            return  false
+        }else{
+            return  true
+        }
+    }
 }

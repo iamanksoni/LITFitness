@@ -23,6 +23,7 @@ import com.litmethod.android.R
 import com.litmethod.android.utlis.ConnectionReceiver
 import org.imaginativeworld.oopsnointernet.callbacks.ConnectionCallback
 import org.imaginativeworld.oopsnointernet.dialogs.pendulum.NoInternetDialogPendulum
+import java.text.SimpleDateFormat
 import java.util.*
 
 
@@ -209,6 +210,24 @@ abstract class BaseActivity: AppCompatActivity(), ConnectionReceiver.ReceiverLis
             val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             imm.hideSoftInputFromWindow(view.windowToken, 0)
         }
+    }
+    open fun isWithinRange(testDate: Date,startDate: Date,endDate:Date): Boolean {
+        if((testDate.before(startDate) || testDate.after(endDate))){
+            return  false
+        }else{
+            return  true
+        }
+    }
+
+    fun String.toDate(): Date{
+        return SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse(this)
+    }
+
+    fun getDaysAgo(daysAgo: Int): String {
+        val calendar = Calendar.getInstance()
+        calendar.add(Calendar.DAY_OF_YEAR, -daysAgo)
+        val newFormatter = SimpleDateFormat("yyyy-MM-dd")
+        return newFormatter.format(calendar.time)
     }
 
 }

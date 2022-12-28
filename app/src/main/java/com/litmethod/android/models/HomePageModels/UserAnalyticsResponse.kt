@@ -10,9 +10,14 @@ data class UserAnalyticsResponse(
 )
 @Parcelize
 data class ResultUserAnalytics(
-    val `data`: Int,
+    var `data`: Int,
     val key: String,
     val leftArm: Int,
     val rightArm: Int,
-    val subKey: String
+    val subKey: String,
+    var selected: Boolean = false
 ): Parcelable
+
+data class SubscribtionStatus(
+    val has_subscription: Boolean
+)

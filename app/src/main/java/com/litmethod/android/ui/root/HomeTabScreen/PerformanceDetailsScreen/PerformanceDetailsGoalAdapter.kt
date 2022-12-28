@@ -43,7 +43,7 @@ class PerformanceDetailsGoalAdapter(
     }
 
     private fun setVideoTitle(holder: WorkoutGoalChildAdapterViewHolder, position: Int) {
-        val firstWord = list[position].title + " "
+        val firstWord = list[position].class_type + " "
         val secondWord = "with " + list[position].getInstructor
         when (selectedPosition) {
             0 -> {

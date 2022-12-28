@@ -95,7 +95,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.root.HomeTabScreen.PerformanceDetailsScreen.PerformanceDetailsActivity"
+            android:name=".ui.Dashboard.HomeTabScreen.PerformanceDetailsScreen.PerformanceDetailsActivity"
             android:configChanges="keyboardHidden|screenSize"
             android:exported="true"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />

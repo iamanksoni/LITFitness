@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.root.HomeTabScreen.PerformanceDetailsScreen.PerformanceDetailsActivity">
+    tools:context=".ui.Dashboard.HomeTabScreen.PerformanceDetailsScreen.PerformanceDetailsActivity">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -23,15 +23,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/red">
-
-                <ImageButton
-                    android:id="@+id/ib_back_button"
-                    android:layout_width="@dimen/_39sdp"
-                    android:layout_height="@dimen/_37sdp"
-                    android:layout_alignParentStart="true"
-                    android:background="@drawable/ic_back_arrow"
-                    android:contentDescription="@string/back_button"
-                    android:padding="@dimen/_5sdp"/>
 
                 <TextView
                     android:id="@+id/tv_date_time"
@@ -129,7 +120,7 @@
                     android:layout_marginTop="@dimen/_15sdp"
                     android:layout_marginEnd="@dimen/_15sdp"
                     android:nestedScrollingEnabled="false"
-                    android:visibility="visible"/>
+                    android:visibility="visible" />
 
                 <RelativeLayout
                     android:id="@+id/rl_chart"
@@ -147,13 +138,15 @@
                         android:textAllCaps="true"
                         android:layout_marginStart="@dimen/_15sdp"
                         android:fontFamily="@font/futura_std_condensed"
-                        android:text="Calories 18,092 KCAL"/>
+                        android:text="Calories 18,092 KCAL"
+                        android:visibility="gone"/>
 
                     <RelativeLayout
                         android:id="@+id/rl_top"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/tv_chart_kcal">
+                        android:layout_below="@+id/tv_chart_kcal"
+                        android:visibility="gone">
                         <ImageView
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/_4sdp"
@@ -167,14 +160,26 @@
                             android:layout_height="@dimen/_13sdp"
                             app:tint="@color/red"
                             android:layout_alignParentRight="true"
-                            android:src="@drawable/ic_circle_chart" />
+                            android:src="@drawable/ic_circle_chart"
+
+                            />
                     </RelativeLayout>
+
+                    <com.github.mikephil.charting.charts.BarChart
+                        android:id="@+id/bar_chart"
+                        android:layout_width="match_parent"
+                        android:layout_height="300dp"
+                        android:layout_below="@+id/rl_top"
+                        android:visibility="gone"
+
+                        />
 
                     <com.github.mikephil.charting.charts.LineChart
                         android:id="@+id/line_chart"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_below="@+id/rl_top" />
+                        android:layout_height="300dp"
+                        android:layout_below="@+id/rl_top"
+                        android:visibility="gone"/>
 
                 </RelativeLayout>
 

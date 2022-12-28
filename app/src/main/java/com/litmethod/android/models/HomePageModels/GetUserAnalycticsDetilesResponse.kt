@@ -1,33 +1,41 @@
 package com.litmethod.android.models.HomePageModels
 
-import android.icu.text.CaseMap
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 
 data class GetUserAnalycticsDetilesResponse(
     val result: ResultGetUserAnalycticsDetiles,
-    val serverResponse: ServerResponse
+    val serverResponse: ServerResponseAnalycticsDetiles
 )
 
 data class ResultGetUserAnalycticsDetiles(
-    val grapData: List<GrapData>,
+    val grapData: ArrayList<GrapData>,
     val total: Int,
     val videos: ArrayList<VideoGetUserAnalycticsDetiles>
 )
 
+data class ServerResponseAnalycticsDetiles(
+    val message: String,
+    val statusCode: Int,
+    val subscribtionStatus: SubscribtionStatus,
+    val success: Boolean
+)
+
 data class GrapData(
-    val date: String,
+    var date: String,
     val leftArm: Int,
     val rightArm: Int,
     val totalData: Int
 )
-
+@Parcelize
 data class VideoGetUserAnalycticsDetiles(
     val Date: String,
     val avgCal: String,
     val avgHr: String,
     val class_type: String,
     val completeTime: String,
-    val dataId: Any,
+
     @SerializedName("date")
     val datenew: String,
     val dateUnix: Long,
@@ -46,12 +54,25 @@ data class VideoGetUserAnalycticsDetiles(
     val startTimeUnix: Long,
     val statusUrl: String,
     val thumbnail: String,
-    val videoCategory: List<VideoCategory>,
-    val videoUrl: String,
-    val title:String?
-)
+    val videoCategory: ArrayList<VideoCategory>,
+    val videoUrl: String
+):Parcelable
 
+@Parcelize
 data class VideoCategory(
     val name: String,
     val tream_id: String
+):Parcelable
+
+data class SubscribtionStatus(
+    val has_subscription: Boolean
 )
+
+@Parcelize
+data class GrapDataShort(
+    var date: String,
+    var totalData: Int,
+    var startDate : String?=null,
+    var endDate : String? =null
+):Parcelable
+

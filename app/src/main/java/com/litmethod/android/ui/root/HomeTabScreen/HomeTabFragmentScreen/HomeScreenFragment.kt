@@ -40,7 +40,9 @@ import com.litmethod.android.models.GetProgramById.GetProgramByIdRequest
 import com.litmethod.android.models.HomePageModels.*
 import com.litmethod.android.network.HomeTabFragmentRepository
 import com.litmethod.android.network.RetrofitDataSourceService
+import com.litmethod.android.network.ServiceBuilder
 import com.litmethod.android.shared.BaseFragment
+import com.litmethod.android.ui.Dashboard.HomeTabScreen.PerformanceDetailsScreen.PerformanceDetailsActivity
 import com.litmethod.android.ui.VideoPlayer.VideoPlayerActivity
 import com.litmethod.android.ui.root.AllClassTabScreen.ClassesFragmentScreen.Util.BaseResponseDataObject
 import com.litmethod.android.ui.root.AllClassTabScreen.ClassesFragmentScreen.Util.GetProgramsByIdToNextScreen
@@ -48,7 +50,6 @@ import com.litmethod.android.ui.root.AllClassTabScreen.CoverScreen.ClassesCoverS
 import com.litmethod.android.ui.root.AllClassTabScreen.CoverScreen.ProgramsCoverScreen.ProgramsCoverActivity
 import com.litmethod.android.ui.root.HomeTabScreen.HomeViewModel
 import com.litmethod.android.ui.root.HomeTabScreen.HomeViewModelFactory
-import com.litmethod.android.ui.root.HomeTabScreen.PerformanceDetailsScreen.PerformanceDetailsActivity
 import com.litmethod.android.utlis.AppConstants
 import com.litmethod.android.utlis.DataPreferenceObject
 import com.litmethod.android.utlis.PeekingLinearLayoutManager
@@ -69,13 +70,11 @@ class HomeScreenFragment : BaseFragment(), AllTimeAdapter.AllTimeAdapterListener
 
     val dataListVideo: ArrayList<Video> = ArrayList<Video>()
     private var layoutManagernewVideo: RecyclerView.LayoutManager? = null
-    private lateinit var videoGetStartedAdapter: VideoGetStartedAdapter
-
-    private var performanceType: String = ""
+    private var videoGetStartedAdapter: VideoGetStartedAdapter? = null
 
     val dataListProgram: ArrayList<VideoX> = ArrayList<VideoX>()
     private var layoutManagernewProgram: RecyclerView.LayoutManager? = null
-    private lateinit var programMadeForYouAdapter: ProgramMadeForYouAdapter
+    private var programMadeForYouAdapter: ProgramMadeForYouAdapter? = null
 
     val dataListWorkOut: ArrayList<VideoXX> = ArrayList<VideoXX>()
     private var layoutManagerWorkOut: RecyclerView.LayoutManager? = null
@@ -87,7 +86,7 @@ class HomeScreenFragment : BaseFragment(), AllTimeAdapter.AllTimeAdapterListener
 
     val dataListRateKacl: ArrayList<ResultUserAnalytics> = ArrayList<ResultUserAnalytics>()
     private var layoutManagerRateKacl: RecyclerView.LayoutManager? = null
-    private lateinit var rateKaclAdapter: RateKaclAdapter
+    private var rateKaclAdapter: RateKaclAdapter? = null
 
     val dataListAchievement: ArrayList<AchivementsViewModel> = ArrayList<AchivementsViewModel>()
     private var layoutManagerAchievement: RecyclerView.LayoutManager? = null
@@ -112,7 +111,36 @@ class HomeScreenFragment : BaseFragment(), AllTimeAdapter.AllTimeAdapterListener
     private lateinit var thisYearMonth: YearMonth
     lateinit var getProgramByIdResponse: Data5
     lateinit var getClassDetailsList: Data6
+    var currentKey: String = ""
+    var currentPosition = 0
+    var totalPosition = 0
+    val heart_rateData: ArrayList<GrapData> = ArrayList<GrapData>()
+    var heart_rateDataAsc: ArrayList<GrapDataShort> = ArrayList<GrapDataShort>()
+    var heart_rateDataVideo: ArrayList<VideoGetUserAnalycticsDetiles> = ArrayList<VideoGetUserAnalycticsDetiles>()
 
+    val caloriesData: ArrayList<GrapData> = ArrayList<GrapData>()
+    var caloriesDataAsc: ArrayList<GrapDataShort> = ArrayList<GrapDataShort>()
+    var caloriesDataVideo: ArrayList<VideoGetUserAnalycticsDetiles> = ArrayList<VideoGetUserAnalycticsDetiles>()
+
+    val distanceData: ArrayList<GrapData> = ArrayList<GrapData>()
+    var distanceDataAsc: ArrayList<GrapDataShort> = ArrayList<GrapDataShort>()
+    var distanceDataVideo: ArrayList<VideoGetUserAnalycticsDetiles> = ArrayList<VideoGetUserAnalycticsDetiles>()
+
+    val total_forceData: ArrayList<GrapData> = ArrayList<GrapData>()
+    var total_forceDataAsc: ArrayList<GrapDataShort> = ArrayList<GrapDataShort>()
+    var total_forceDataVideo: ArrayList<VideoGetUserAnalycticsDetiles> = ArrayList<VideoGetUserAnalycticsDetiles>()
+
+    val total_repsData: ArrayList<GrapData> = ArrayList<GrapData>()
+    var total_repsDataAsc: ArrayList<GrapDataShort> = ArrayList<GrapDataShort>()
+    var total_repsDataVideo: ArrayList<VideoGetUserAnalycticsDetiles> = ArrayList<VideoGetUserAnalycticsDetiles>()
+
+    val time_under_tensionData: ArrayList<GrapData> = ArrayList<GrapData>()
+    var time_under_tensionDataAsc: ArrayList<GrapDataShort> = ArrayList<GrapDataShort>()
+    var time_under_tensionDataVideo: ArrayList<VideoGetUserAnalycticsDetiles> = ArrayList<VideoGetUserAnalycticsDetiles>()
+
+    val total_timeData: ArrayList<GrapData> = ArrayList<GrapData>()
+    var total_timeDataAsc: ArrayList<GrapDataShort> = ArrayList<GrapDataShort>()
+    var total_timeDataVideo: ArrayList<VideoGetUserAnalycticsDetiles> = ArrayList<VideoGetUserAnalycticsDetiles>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -146,15 +174,6 @@ class HomeScreenFragment : BaseFragment(), AllTimeAdapter.AllTimeAdapterListener
             window.statusBarColor = this.resources.getColor(R.color.black)
         }
         binding.ibSetting.visibility = View.GONE
-        binding.swipeRefreshLayout.setOnRefreshListener {
-            viewModel.getHomeCheck(token)
-            viewModel.getUserAnalyticsCheck(token, performanceType)
-            viewModel.getAchievementsCheck(token)
-        }
-        rateKaclAdapter = RateKaclAdapter(dataListRateKacl, requireContext())
-        videoGetStartedAdapter = VideoGetStartedAdapter(dataListVideo, requireContext())
-        programMadeForYouAdapter = ProgramMadeForYouAdapter(dataListProgram, requireContext())
-        workoutGoalHeaderAdapter = WorkoutGoalHeaderAdapter(requireContext(), dataListWorkOut)
 
     }
 
@@ -186,10 +205,10 @@ class HomeScreenFragment : BaseFragment(), AllTimeAdapter.AllTimeAdapterListener
         }
 
         dataListAllTime.clear()
-        dataListAllTime.add(HomePageVideosModel("Past week", true))
-        dataListAllTime.add(HomePageVideosModel("3 months", false))
-        dataListAllTime.add(HomePageVideosModel("6 months", false))
-        dataListAllTime.add(HomePageVideosModel("All time", false))
+        dataListAllTime.add(HomePageVideosModel("Past week", false))
+        dataListAllTime.add(HomePageVideosModel("3 Months", false))
+        dataListAllTime.add(HomePageVideosModel("6 Months", false))
+        dataListAllTime.add(HomePageVideosModel("All time", true))
         binding.rvAllTime.apply {
             layoutManagerAllTime =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
@@ -200,13 +219,13 @@ class HomeScreenFragment : BaseFragment(), AllTimeAdapter.AllTimeAdapterListener
         }
         allTimeAdapter!!.setAdapterListener(this)
 
-        rateKaclAdapter = RateKaclAdapter(dataListRateKacl, requireContext())
 
         binding.rvRateKacl.apply {
             layoutManagerRateKacl = GridLayoutManager(requireActivity(), 2)
             this.layoutManager = layoutManagerRateKacl
+            rateKaclAdapter = RateKaclAdapter(dataListRateKacl, requireContext())
             this.adapter = rateKaclAdapter
-            addItemDecoration(SpacesItemDecoration(19))
+//            addItemDecoration(SpacesItemDecoration(19))
         }
         rateKaclAdapter!!.setAdapterListener(this)
 
@@ -227,9 +246,8 @@ class HomeScreenFragment : BaseFragment(), AllTimeAdapter.AllTimeAdapterListener
         achievementsAdapter!!.setAdapterListener(this)
 
         binding.spLoading.visibility = View.VISIBLE
-        performanceType = AppConstants.PASTWEEK
         viewModel.getHomeCheck(token)
-        viewModel.getUserAnalyticsCheck(token, AppConstants.PASTWEEK)
+        viewModel.getUserAnalyticsCheck(token, AppConstants.ALLTIME)
         viewModel.getAchievementsCheck(token)
     }
 
@@ -237,7 +255,7 @@ class HomeScreenFragment : BaseFragment(), AllTimeAdapter.AllTimeAdapterListener
         for (i in 0 until dataListAllTime.size) {
             if (i == position) {
                 if (dataListAllTime[i].selected) {
-                    dataListAllTime[i].selected = false
+//                    dataListAllTime[i].selected = false
                 } else {
                     dataListAllTime[i].selected = true
                 }
@@ -245,25 +263,8 @@ class HomeScreenFragment : BaseFragment(), AllTimeAdapter.AllTimeAdapterListener
                 dataListAllTime[i].selected = false
             }
         }
-        for (i in 0 until dataListAllTime.size) {
-            binding.spLoading.visibility = View.VISIBLE
-            if (dataListAllTime[i].selected) {
-                if (dataListAllTime[i].title.equals("Past week")) {
-                    performanceType = AppConstants.PASTWEEK
-                    viewModel.getUserAnalyticsCheck(token, AppConstants.PASTWEEK)
-                } else if (dataListAllTime[i].title.equals("3 months")) {
-                    performanceType = AppConstants.THREEMONTH
-                    viewModel.getUserAnalyticsCheck(token, AppConstants.THREEMONTH)
-                } else if (dataListAllTime[i].title.equals("6 months")) {
-                    performanceType = AppConstants.SIXMONTH
-                    viewModel.getUserAnalyticsCheck(token, AppConstants.SIXMONTH)
-                } else if (dataListAllTime[i].title.equals("All time")) {
-                    performanceType = AppConstants.ALLTIME
-                    viewModel.getUserAnalyticsCheck(token, AppConstants.ALLTIME)
-                }
-            }
-        }
-
+        binding.spLoadingNew.visibility = View.VISIBLE
+        setDatatoHomepagechart()
     }
 
     override fun onItemClickAchievements(position: Int) {
@@ -273,7 +274,29 @@ class HomeScreenFragment : BaseFragment(), AllTimeAdapter.AllTimeAdapterListener
         val intent = Intent(requireActivity(), PerformanceDetailsActivity::class.java)
         intent.putParcelableArrayListExtra("dataListRateKacl", dataListRateKacl)
         intent.putParcelableArrayListExtra("dataListAllTime", dataListAllTime)
+        intent.putParcelableArrayListExtra("heart_rateDataAsc", heart_rateDataAsc)
+        intent.putParcelableArrayListExtra("caloriesDataAsc", caloriesDataAsc)
+        intent.putParcelableArrayListExtra("distanceDataAsc", distanceDataAsc)
+        intent.putParcelableArrayListExtra("total_forceDataAsc", total_forceDataAsc)
+        intent.putParcelableArrayListExtra("total_repsDataAsc", total_repsDataAsc)
+        intent.putParcelableArrayListExtra("time_under_tensionDataAsc",time_under_tensionDataAsc)
+        intent.putParcelableArrayListExtra("total_timeDataAsc", total_timeDataAsc)
         intent.putExtra("position", position)
+        if (dataListRateKacl[position].key.equals("heart_rate")) {
+            intent.putParcelableArrayListExtra("heart_rateDataVideo", heart_rateDataVideo!!)
+        } else if (dataListRateKacl[position].key.equals("calories")) {
+            intent.putParcelableArrayListExtra("heart_rateDataVideo", caloriesDataVideo!!)
+        } else if (dataListRateKacl[position].key.equals("distance")) {
+            intent.putParcelableArrayListExtra("heart_rateDataVideo", distanceDataVideo!!)
+        } else if (dataListRateKacl[position].key.equals("total_force")) {
+            intent.putParcelableArrayListExtra("heart_rateDataVideo", total_forceDataVideo!!)
+        } else if (dataListRateKacl[position].key.equals("total_reps")) {
+            intent.putParcelableArrayListExtra("heart_rateDataVideo", total_repsDataVideo!!)
+        } else if (dataListRateKacl[position].key.equals("time_under_tension")) {
+            intent.putParcelableArrayListExtra("heart_rateDataVideo", time_under_tensionDataVideo!!)
+        } else if (dataListRateKacl[position].key.equals("total_time")) {
+            intent.putParcelableArrayListExtra("heart_rateDataVideo", total_timeDataVideo!!)
+        }
         startActivity(intent)
         requireActivity().overridePendingTransition(
             R.anim.push_up_in,
@@ -289,15 +312,11 @@ class HomeScreenFragment : BaseFragment(), AllTimeAdapter.AllTimeAdapterListener
             ).get(
                 HomeViewModel::class.java
             )
-
-        try {
-            getHomeApiResponse()
-            getUserAnalyticsResponse()
-            getAchievementsListResponse()
-            getAllResposnse()
-        } catch (e: Exception) {
-
-        }
+        getHomeApiResponse()
+        getUserAnalyticsResponse()
+        getAchievementsListResponse()
+        getAllResposnse()
+        getUserAnalycticsDetiles()
     }
 
     private fun getCurrentYearAndMonth() {
@@ -358,21 +377,20 @@ class HomeScreenFragment : BaseFragment(), AllTimeAdapter.AllTimeAdapterListener
 
     private fun getHomeApiResponse() {
         viewModel.getHomeData.observe(requireActivity(), Observer {
-            binding.swipeRefreshLayout.isRefreshing = false
             binding.spLoading.visibility = View.GONE
             binding.tvVideoHeader.text = it.gettingstarted.headerTitle
             binding.tvProgramHeader.text = "PROGRAMS MADE FOR YOU"
 //            it.programsmadeforyou.headerTitle
             dataListVideo.clear()
             dataListVideo.addAll(it.gettingstarted.videos)
-            videoGetStartedAdapter?.notifyDataSetChanged()
+            videoGetStartedAdapter!!.notifyDataSetChanged()
             dataListProgram.clear()
             dataListProgram.addAll(it.programsmadeforyou.videos)
-            programMadeForYouAdapter?.notifyDataSetChanged()
+            programMadeForYouAdapter!!.notifyDataSetChanged()
             dataListWorkOut.clear()
             if (!it.videos.isNullOrEmpty()) {
                 dataListWorkOut.addAll(it.videos)
-                workoutGoalHeaderAdapter?.notifyDataSetChanged()
+                workoutGoalHeaderAdapter!!.notifyDataSetChanged()
             }
 
         })
@@ -399,7 +417,8 @@ class HomeScreenFragment : BaseFragment(), AllTimeAdapter.AllTimeAdapterListener
             binding.spLoading.visibility = View.GONE
             dataListRateKacl.clear()
             dataListRateKacl.addAll(it)
-            rateKaclAdapter?.notifyDataSetChanged()
+            totalPosition = dataListRateKacl.size
+            getUserAnalycticsDetilesCheckNew()
         })
 
         viewModel.errorMessage.observe(requireActivity(), Observer {
@@ -409,10 +428,728 @@ class HomeScreenFragment : BaseFragment(), AllTimeAdapter.AllTimeAdapterListener
 
     }
 
+    private fun getUserAnalycticsDetilesCheckNew() {
+        val tz: TimeZone = TimeZone.getDefault()
+        currentKey = ""
+        if(currentPosition<totalPosition) {
+            binding.spLoadingNew.visibility = View.VISIBLE
+            currentKey = dataListRateKacl[currentPosition].key
+            viewModel.getUserAnalycticsDetilesCheck(
+                token, GetUserAnalycticsDetilesRequest(
+                    "getUserAnalycticsDetiles",
+                    "",
+                    dataListRateKacl[currentPosition].key,
+                    dataListRateKacl[currentPosition].subKey,
+                    tz.getID(),
+                )
+            )
+        }
+
+    }
+
+    private fun getUserAnalycticsDetiles() {
+        viewModel.getUserAnalycticsDetilesData.observe(requireActivity(), Observer {
+            if (currentKey.equals("heart_rate")) {
+                heart_rateData.clear()
+                heart_rateDataVideo.clear()
+                heart_rateData.addAll(it.grapData)
+                heart_rateDataVideo.addAll(it.videos)
+            } else if (currentKey.equals("calories")) {
+                caloriesData.clear()
+                caloriesDataVideo.clear()
+                caloriesData.addAll(it.grapData)
+                caloriesDataVideo.addAll(it.videos)
+            } else if (currentKey.equals("distance")) {
+                distanceData.clear()
+                distanceDataVideo.clear()
+                distanceData.addAll(it.grapData)
+                distanceDataVideo.addAll(it.videos)
+            } else if (currentKey.equals("total_force")) {
+                total_forceData.clear()
+                total_forceDataVideo.clear()
+                total_forceData.addAll(it.grapData)
+                total_forceDataVideo.addAll(it.videos)
+            } else if (currentKey.equals("total_reps")) {
+                total_repsData.clear()
+                total_repsDataVideo.clear()
+                total_repsData.addAll(it.grapData)
+                total_repsDataVideo.addAll(it.videos)
+            } else if (currentKey.equals("time_under_tension")) {
+                time_under_tensionData.clear()
+                time_under_tensionDataVideo.clear()
+                time_under_tensionData.addAll(it.grapData)
+                time_under_tensionDataVideo.addAll(it.videos)
+            } else if (currentKey.equals("total_time")) {
+                total_timeData.clear()
+                total_timeDataVideo.clear()
+                total_timeData.addAll(it.grapData)
+                total_timeDataVideo.addAll(it.videos)
+            }
+            currentPosition += 1
+            if (currentPosition < totalPosition) {
+                getUserAnalycticsDetilesCheckNew()
+            } else {
+                Log.d("ghghfghfhgfhf", heart_rateData.toString())
+                DataCheckingAndChange()
+            }
+        })
+
+    }
+
+    private fun DataCheckingAndChange() {
+        if (heart_rateData.size > 0) {
+            heart_rateData.forEach {
+                it.date = it.date.split("T")[0]
+            }
+            var difficultyset: ArrayList<GrapDataShort> = ArrayList<GrapDataShort>()
+            difficultyset.clear()
+            for (i in 0 until heart_rateData.size) {
+                if (difficultyset.size > 0) {
+                    for (j in 0 until difficultyset.size) {
+                        if (difficultyset[j].date == heart_rateData[i].date) {
+                            difficultyset[j].totalData =
+                                difficultyset[j].totalData + heart_rateData[i].totalData
+                        } else {
+                            var verify = false
+                            for (k in 0 until difficultyset.size) {
+                                if (difficultyset[k].date == heart_rateData[i].date) {
+                                    verify = true
+                                }
+                            }
+                            if (!verify) {
+                                difficultyset.add(
+                                    GrapDataShort(
+                                        heart_rateData[i].date,
+                                        heart_rateData[i].totalData
+                                    )
+                                )
+                            }
+                        }
+                    }
+                } else {
+                    difficultyset.add(
+                        GrapDataShort(
+                            heart_rateData[i].date,
+                            heart_rateData[i].totalData
+                        )
+                    )
+                }
+                heart_rateDataAsc.clear()
+                heart_rateDataAsc.addAll(difficultyset.sortedBy { it.date.toDate() })
+            }
+        }
+        if (caloriesData.size > 0) {
+            caloriesData.forEach {
+                it.date = it.date.split("T")[0]
+            }
+            var difficultyset: ArrayList<GrapDataShort> = ArrayList<GrapDataShort>()
+            difficultyset.clear()
+            for (i in 0 until caloriesData.size) {
+                if (difficultyset.size > 0) {
+                    for (j in 0 until difficultyset.size) {
+                        if (difficultyset[j].date == caloriesData[i].date) {
+                            difficultyset[j].totalData =
+                                difficultyset[j].totalData + caloriesData[i].totalData
+                        } else {
+                            var verify = false
+                            for (k in 0 until difficultyset.size) {
+                                if (difficultyset[k].date == caloriesData[i].date) {
+                                    verify = true
+                                }
+                            }
+                            if (!verify) {
+                                difficultyset.add(
+                                    GrapDataShort(
+                                        caloriesData[i].date,
+                                        caloriesData[i].totalData
+                                    )
+                                )
+                            }
+                        }
+                    }
+                } else {
+                    difficultyset.add(
+                        GrapDataShort(
+                            caloriesData[i].date,
+                            caloriesData[i].totalData
+                        )
+                    )
+                }
+                caloriesDataAsc.clear()
+                caloriesDataAsc.addAll(difficultyset.sortedBy { it.date.toDate() })
+            }
+        }
+        if (distanceData.size > 0) {
+            distanceData.forEach {
+                it.date = it.date.split("T")[0]
+            }
+            var difficultyset: ArrayList<GrapDataShort> = ArrayList<GrapDataShort>()
+            difficultyset.clear()
+            for (i in 0 until distanceData.size) {
+                if (difficultyset.size > 0) {
+                    for (j in 0 until difficultyset.size) {
+                        if (difficultyset[j].date == distanceData[i].date) {
+                            difficultyset[j].totalData =
+                                difficultyset[j].totalData + distanceData[i].totalData
+                        } else {
+                            var verify = false
+                            for (k in 0 until difficultyset.size) {
+                                if (difficultyset[k].date == distanceData[i].date) {
+                                    verify = true
+                                }
+                            }
+                            if (!verify) {
+                                difficultyset.add(
+                                    GrapDataShort(
+                                        distanceData[i].date,
+                                        distanceData[i].totalData
+                                    )
+                                )
+                            }
+                        }
+                    }
+                } else {
+                    difficultyset.add(
+                        GrapDataShort(
+                            distanceData[i].date,
+                            distanceData[i].totalData
+                        )
+                    )
+                }
+                distanceDataAsc.clear()
+                distanceDataAsc.addAll(difficultyset.sortedBy { it.date.toDate() })
+            }
+        }
+        if (total_forceData.size > 0) {
+            total_forceData.forEach {
+                it.date = it.date.split("T")[0]
+            }
+            var difficultyset: ArrayList<GrapDataShort> = ArrayList<GrapDataShort>()
+            difficultyset.clear()
+            for (i in 0 until total_forceData.size) {
+                if (difficultyset.size > 0) {
+                    for (j in 0 until difficultyset.size) {
+                        if (difficultyset[j].date == total_forceData[i].date) {
+                            difficultyset[j].totalData =
+                                difficultyset[j].totalData + total_forceData[i].totalData
+                        } else {
+                            var verify = false
+                            for (k in 0 until difficultyset.size) {
+                                if (difficultyset[k].date == total_forceData[i].date) {
+                                    verify = true
+                                }
+                            }
+                            if (!verify) {
+                                difficultyset.add(
+                                    GrapDataShort(
+                                        total_forceData[i].date,
+                                        total_forceData[i].totalData
+                                    )
+                                )
+                            }
+                        }
+                    }
+                } else {
+                    difficultyset.add(
+                        GrapDataShort(
+                            total_forceData[i].date,
+                            total_forceData[i].totalData
+                        )
+                    )
+                }
+                total_forceDataAsc.clear()
+                total_forceDataAsc.addAll(difficultyset.sortedBy { it.date.toDate() })
+            }
+        }
+        if (total_repsData.size > 0) {
+            total_repsData.forEach {
+                it.date = it.date.split("T")[0]
+            }
+            var difficultyset: ArrayList<GrapDataShort> = ArrayList<GrapDataShort>()
+            difficultyset.clear()
+            for (i in 0 until total_repsData.size) {
+                if (difficultyset.size > 0) {
+                    for (j in 0 until difficultyset.size) {
+                        if (difficultyset[j].date == total_repsData[i].date) {
+                            difficultyset[j].totalData =
+                                difficultyset[j].totalData + total_repsData[i].totalData
+                        } else {
+                            var verify = false
+                            for (k in 0 until difficultyset.size) {
+                                if (difficultyset[k].date == total_repsData[i].date) {
+                                    verify = true
+                                }
+                            }
+                            if (!verify) {
+                                difficultyset.add(
+                                    GrapDataShort(
+                                        total_repsData[i].date,
+                                        total_repsData[i].totalData
+                                    )
+                                )
+                            }
+                        }
+                    }
+                } else {
+                    difficultyset.add(
+                        GrapDataShort(
+                            total_repsData[i].date,
+                            total_repsData[i].totalData
+                        )
+                    )
+                }
+                total_repsDataAsc.clear()
+                total_repsDataAsc.addAll(difficultyset.sortedBy { it.date.toDate() })
+            }
+        }
+        if (time_under_tensionData.size > 0) {
+            time_under_tensionData.forEach {
+                it.date = it.date.split("T")[0]
+            }
+            var difficultyset: ArrayList<GrapDataShort> = ArrayList<GrapDataShort>()
+            difficultyset.clear()
+            for (i in 0 until time_under_tensionData.size) {
+                if (difficultyset.size > 0) {
+                    for (j in 0 until difficultyset.size) {
+                        if (difficultyset[j].date == time_under_tensionData[i].date) {
+                            difficultyset[j].totalData =
+                                difficultyset[j].totalData + time_under_tensionData[i].totalData
+                        } else {
+                            var verify = false
+                            for (k in 0 until difficultyset.size) {
+                                if (difficultyset[k].date == time_under_tensionData[i].date) {
+                                    verify = true
+                                }
+                            }
+                            if (!verify) {
+                                difficultyset.add(
+                                    GrapDataShort(
+                                        time_under_tensionData[i].date,
+                                        time_under_tensionData[i].totalData
+                                    )
+                                )
+                            }
+                        }
+                    }
+                } else {
+                    difficultyset.add(
+                        GrapDataShort(
+                            time_under_tensionData[i].date,
+                            time_under_tensionData[i].totalData
+                        )
+                    )
+                }
+                time_under_tensionDataAsc.clear()
+                time_under_tensionDataAsc.addAll(difficultyset.sortedBy { it.date.toDate() })
+            }
+        }
+        if (total_timeData.size > 0) {
+            total_timeData.forEach {
+                it.date = it.date.split("T")[0]
+            }
+            var difficultyset: ArrayList<GrapDataShort> = ArrayList<GrapDataShort>()
+            difficultyset.clear()
+            for (i in 0 until total_timeData.size) {
+                if (difficultyset.size > 0) {
+                    for (j in 0 until difficultyset.size) {
+                        if (difficultyset[j].date == total_timeData[i].date) {
+                            difficultyset[j].totalData =
+                                difficultyset[j].totalData + total_timeData[i].totalData
+                        } else {
+                            var verify = false
+                            for (k in 0 until difficultyset.size) {
+                                if (difficultyset[k].date == total_timeData[i].date) {
+                                    verify = true
+                                }
+                            }
+                            if (!verify) {
+                                difficultyset.add(
+                                    GrapDataShort(
+                                        total_timeData[i].date,
+                                        total_timeData[i].totalData
+                                    )
+                                )
+                            }
+                        }
+                    }
+                } else {
+                    difficultyset.add(
+                        GrapDataShort(
+                            total_timeData[i].date,
+                            total_timeData[i].totalData
+                        )
+                    )
+                }
+                total_timeDataAsc.clear()
+                total_timeDataAsc.addAll(difficultyset.sortedBy { it.date.toDate() })
+            }
+        }
+        setDatatoHomepagechart()
+    }
+
+    private fun setDatatoHomepagechart() {
+        var selectedItem: String = ""
+        for (i in 0 until dataListAllTime.size) {
+            if (dataListAllTime[i].selected) {
+                selectedItem = dataListAllTime[i].title.toString()
+            }
+        }
+        when (selectedItem) {
+            "All time" -> {
+                dataListRateKacl.forEach {
+                    if (it.key.equals("heart_rate")) {
+                        var totalValue: Int = 0
+                        heart_rateDataAsc.forEach {
+                            totalValue += it.totalData
+                        }
+                        it.data = totalValue
+                    } else if (it.key.equals("calories")) {
+                        var totalValue: Int = 0
+                        caloriesDataAsc.forEach {
+                            totalValue += it.totalData
+                        }
+                        it.data = totalValue
+                    } else if (it.key.equals("distance")) {
+                        var totalValue: Int = 0
+                        distanceDataAsc.forEach {
+                            totalValue += it.totalData
+                        }
+                        it.data = totalValue
+                    } else if (it.key.equals("total_force")) {
+                        var totalValue: Int = 0
+                        total_forceDataAsc.forEach {
+                            totalValue += it.totalData
+                        }
+                        it.data = totalValue
+                    } else if (it.key.equals("total_reps")) {
+                        var totalValue: Int = 0
+                        total_repsDataAsc.forEach {
+                            totalValue += it.totalData
+                        }
+                        it.data = totalValue
+                    } else if (it.key.equals("time_under_tension")) {
+                        var totalValue: Int = 0
+                        time_under_tensionDataAsc.forEach {
+                            totalValue += it.totalData
+                        }
+                        it.data = totalValue
+                    } else if (it.key.equals("total_time")) {
+                        var totalValue: Int = 0
+                        total_timeDataAsc.forEach {
+                            totalValue += it.totalData
+                        }
+                        it.data = totalValue
+                    }
+                }
+            }
+            "Past week" -> {
+                val sdf = SimpleDateFormat("yyyy-MM-dd")
+                val currentDate = sdf.format(Date())
+                val sevenDayAgoDateFormat = getDaysAgo(7)
+                dataListRateKacl.forEach {
+                    if (it.key.equals("heart_rate")) {
+                        var totalValue: Int = 0
+                        heart_rateDataAsc.forEach {
+                            if (isWithinRange(
+                                    it.date.toDate(), sevenDayAgoDateFormat.toDate(),
+                                    currentDate.toDate()
+
+                                )
+                            ) {
+                                totalValue += it.totalData
+                            }
+                        }
+                        it.data = totalValue
+                    } else if (it.key.equals("calories")) {
+                        var totalValue: Int = 0
+                        caloriesDataAsc.forEach {
+                            if (isWithinRange(
+                                    it.date.toDate(), sevenDayAgoDateFormat.toDate(),
+                                    currentDate.toDate()
+
+                                )
+                            ) {
+                                totalValue += it.totalData
+                            }
+                        }
+                        it.data = totalValue
+                    } else if (it.key.equals("distance")) {
+                        var totalValue: Int = 0
+                        distanceDataAsc.forEach {
+                            if (isWithinRange(
+                                    it.date.toDate(), sevenDayAgoDateFormat.toDate(),
+                                    currentDate.toDate()
+
+                                )
+                            ) {
+                                totalValue += it.totalData
+                            }
+                        }
+                        it.data = totalValue
+                    } else if (it.key.equals("total_force")) {
+                        var totalValue: Int = 0
+                        total_forceDataAsc.forEach {
+                            if (isWithinRange(
+                                    it.date.toDate(), sevenDayAgoDateFormat.toDate(),
+                                    currentDate.toDate()
+
+                                )
+                            ) {
+                                totalValue += it.totalData
+                            }
+                        }
+                        it.data = totalValue
+                    } else if (it.key.equals("total_reps")) {
+                        var totalValue: Int = 0
+                        total_repsDataAsc.forEach {
+                            if (isWithinRange(
+                                    it.date.toDate(), sevenDayAgoDateFormat.toDate(),
+                                    currentDate.toDate()
+
+                                )
+                            ) {
+                                totalValue += it.totalData
+                            }
+                        }
+                        it.data = totalValue
+                    } else if (it.key.equals("time_under_tension")) {
+                        var totalValue: Int = 0
+                        time_under_tensionDataAsc.forEach {
+                            if (isWithinRange(
+                                    it.date.toDate(), sevenDayAgoDateFormat.toDate(),
+                                    currentDate.toDate()
+
+                                )
+                            ) {
+                                totalValue += it.totalData
+                            }
+                        }
+                        it.data = totalValue
+                    } else if (it.key.equals("total_time")) {
+                        var totalValue: Int = 0
+                        total_timeDataAsc.forEach {
+                            if (isWithinRange(
+                                    it.date.toDate(), sevenDayAgoDateFormat.toDate(),
+                                    currentDate.toDate()
+
+                                )
+                            ) {
+                                totalValue += it.totalData
+                            }
+                        }
+                        it.data = totalValue
+                    }
+                }
+            }
+            "3 Months" -> {
+                val sdf = SimpleDateFormat("yyyy-MM-dd")
+                val currentDate = sdf.format(Date())
+                val sevenDayAgoDateFormat = getDaysAgo(90)
+
+                dataListRateKacl.forEach {
+                    if (it.key.equals("heart_rate")) {
+                        var totalValue: Int = 0
+                        heart_rateDataAsc.forEach {
+                            if (isWithinRange(
+                                    it.date.toDate(), sevenDayAgoDateFormat.toDate(),
+                                    currentDate.toDate()
+
+                                )
+                            ) {
+                                totalValue += it.totalData
+                            }
+                        }
+                        it.data = totalValue
+                    } else if (it.key.equals("calories")) {
+                        var totalValue: Int = 0
+                        caloriesDataAsc.forEach {
+                            if (isWithinRange(
+                                    it.date.toDate(), sevenDayAgoDateFormat.toDate(),
+                                    currentDate.toDate()
+
+                                )
+                            ) {
+                                totalValue += it.totalData
+                            }
+                        }
+                        it.data = totalValue
+                    } else if (it.key.equals("distance")) {
+                        var totalValue: Int = 0
+                        distanceDataAsc.forEach {
+                            if (isWithinRange(
+                                    it.date.toDate(), sevenDayAgoDateFormat.toDate(),
+                                    currentDate.toDate()
+
+                                )
+                            ) {
+                                totalValue += it.totalData
+                            }
+                        }
+                        it.data = totalValue
+                    } else if (it.key.equals("total_force")) {
+                        var totalValue: Int = 0
+                        total_forceDataAsc.forEach {
+                            if (isWithinRange(
+                                    it.date.toDate(), sevenDayAgoDateFormat.toDate(),
+                                    currentDate.toDate()
+
+                                )
+                            ) {
+                                totalValue += it.totalData
+                            }
+                        }
+                        it.data = totalValue
+                    } else if (it.key.equals("total_reps")) {
+                        var totalValue: Int = 0
+                        total_repsDataAsc.forEach {
+                            if (isWithinRange(
+                                    it.date.toDate(), sevenDayAgoDateFormat.toDate(),
+                                    currentDate.toDate()
+
+                                )
+                            ) {
+                                totalValue += it.totalData
+                            }
+                        }
+                        it.data = totalValue
+                    } else if (it.key.equals("time_under_tension")) {
+                        var totalValue: Int = 0
+                        time_under_tensionDataAsc.forEach {
+                            if (isWithinRange(
+                                    it.date.toDate(), sevenDayAgoDateFormat.toDate(),
+                                    currentDate.toDate()
+
+                                )
+                            ) {
+                                totalValue += it.totalData
+                            }
+                        }
+                        it.data = totalValue
+                    } else if (it.key.equals("total_time")) {
+                        var totalValue: Int = 0
+                        total_timeDataAsc.forEach {
+                            if (isWithinRange(
+                                    it.date.toDate(), sevenDayAgoDateFormat.toDate(),
+                                    currentDate.toDate()
+
+                                )
+                            ) {
+                                totalValue += it.totalData
+                            }
+                        }
+                        it.data = totalValue
+                    }
+                }
+            }
+            "6 Months" -> {
+                val sdf = SimpleDateFormat("yyyy-MM-dd")
+                val currentDate = sdf.format(Date())
+                val sevenDayAgoDateFormat = getDaysAgo(180)
+                dataListRateKacl.forEach {
+                    if (it.key.equals("heart_rate")) {
+                        var totalValue: Int = 0
+                        heart_rateDataAsc.forEach {
+                            if (isWithinRange(
+                                    it.date.toDate(), sevenDayAgoDateFormat.toDate(),
+                                    currentDate.toDate()
+
+                                )
+                            ) {
+                                totalValue += it.totalData
+                            }
+                        }
+                        it.data = totalValue
+                    } else if (it.key.equals("calories")) {
+                        var totalValue: Int = 0
+                        caloriesDataAsc.forEach {
+                            if (isWithinRange(
+                                    it.date.toDate(), sevenDayAgoDateFormat.toDate(),
+                                    currentDate.toDate()
+
+                                )
+                            ) {
+                                totalValue += it.totalData
+                            }
+                        }
+                        it.data = totalValue
+                    } else if (it.key.equals("distance")) {
+                        var totalValue: Int = 0
+                        distanceDataAsc.forEach {
+                            if (isWithinRange(
+                                    it.date.toDate(),
+                                    sevenDayAgoDateFormat.toDate(),
+                                    currentDate.toDate()
+                                )
+                            ) {
+                                totalValue += it.totalData
+                            }
+                        }
+                        it.data = totalValue
+                    } else if (it.key.equals("total_force")) {
+                        var totalValue: Int = 0
+                        total_forceDataAsc.forEach {
+                            if (isWithinRange(
+                                    it.date.toDate(),
+                                    sevenDayAgoDateFormat.toDate(),
+                                    currentDate.toDate()
+                                )
+                            ) {
+                                totalValue += it.totalData
+                            }
+                        }
+                        it.data = totalValue
+                    } else if (it.key.equals("total_reps")) {
+                        var totalValue: Int = 0
+                        total_repsDataAsc.forEach {
+                            if (isWithinRange(
+                                    it.date.toDate(), sevenDayAgoDateFormat.toDate(),
+                                    currentDate.toDate()
+
+                                )
+                            ) {
+                                totalValue += it.totalData
+                            }
+                        }
+                        it.data = totalValue
+                    } else if (it.key.equals("time_under_tension")) {
+                        var totalValue: Int = 0
+                        time_under_tensionDataAsc.forEach {
+                            if (isWithinRange(
+                                    it.date.toDate(), sevenDayAgoDateFormat.toDate(),
+                                    currentDate.toDate()
+
+                                )
+                            ) {
+                                totalValue += it.totalData
+                            }
+                        }
+                        it.data = totalValue
+                    } else if (it.key.equals("total_time")) {
+                        var totalValue: Int = 0
+                        total_timeDataAsc.forEach {
+                            if (isWithinRange(
+                                    it.date.toDate(), sevenDayAgoDateFormat.toDate(),
+                                    currentDate.toDate()
+
+                                )
+                            ) {
+                                totalValue += it.totalData
+                            }
+                        }
+                        it.data = totalValue
+                    }
+                }
+            }
+        }
+        rateKaclAdapter!!.notifyDataSetChanged()
+        binding.spLoadingNew.visibility = View.GONE
+    }
+
     private fun getAchievementsListResponse() {
         viewModel.getAchievementsClassData.observe(requireActivity(), Observer {
             getAchievementsClassData.clear()
             getAchievementsClassData.addAll(it.data.classMilestone)
+            Log.d("getAchievementsClassDataa1",getAchievementsClassData.toString())
             getAchievementsdayStreakListResponse()
         })
 
@@ -426,6 +1163,7 @@ class HomeScreenFragment : BaseFragment(), AllTimeAdapter.AllTimeAdapterListener
         viewModel.getAchievementsdayStreakData.observe(requireActivity(), Observer {
             getAchievementsDayStreakData.clear()
             getAchievementsDayStreakData.addAll(it.data.dayStreak)
+            Log.d("getAchievementsClassDataa2",getAchievementsDayStreakData.toString())
             getAchievementsweeklyStreakListResponse()
         })
 
@@ -439,6 +1177,7 @@ class HomeScreenFragment : BaseFragment(), AllTimeAdapter.AllTimeAdapterListener
         viewModel.getAchievementsweeklyData.observe(requireActivity(), Observer {
             getAchievementsweeklyStreakData.clear()
             getAchievementsweeklyStreakData.addAll(it.data.weeklyStreak)
+            Log.d("getAchievementsClassDataa3",getAchievementsweeklyStreakData.toString())
             getAchievementscaloriesachievementsListResponse()
         })
 
@@ -452,6 +1191,7 @@ class HomeScreenFragment : BaseFragment(), AllTimeAdapter.AllTimeAdapterListener
         viewModel.getCaloriesData.observe(requireActivity(), Observer {
             getAchievementscaloriesachievementsData.clear()
             getAchievementscaloriesachievementsData.addAll(it.data.caloriesachievements)
+            Log.d("getAchievementsClassDataa4",getAchievementscaloriesachievementsData.toString())
             getAchievementsLbsListResponse()
         })
 
@@ -466,6 +1206,7 @@ class HomeScreenFragment : BaseFragment(), AllTimeAdapter.AllTimeAdapterListener
             binding.spLoading.visibility = View.GONE
             getAchievementsLbsData.clear()
             getAchievementsLbsData.addAll(it.data.lbsachievements)
+            Log.d("getAchievementsClassDataa5",getAchievementsLbsData.toString())
             finalAchievemntsResult()
         })
 
@@ -493,14 +1234,10 @@ class HomeScreenFragment : BaseFragment(), AllTimeAdapter.AllTimeAdapterListener
                 if (idDefult.toInt() < 10) {
                     idDefult = "0$idDefult"
                 }
-                if (dataListAchievement.size > 1) {
-                    dataListAchievement[1] = AchivementsViewModel(idDefult, "Classes", true)
-                }
+                dataListAchievement[1] = AchivementsViewModel(idDefult, "Classes", true)
             }
         } else {
-            if (dataListAchievement.size > 0) {
-                dataListAchievement[1] = AchivementsViewModel("0", "Class", false)
-            }
+            dataListAchievement[1] = AchivementsViewModel("0", "Class", false)
         }
 
         trueSize = 0
@@ -517,14 +1254,10 @@ class HomeScreenFragment : BaseFragment(), AllTimeAdapter.AllTimeAdapterListener
                 if (idDefult.toInt() < 10) {
                     idDefult = "0$idDefult"
                 }
-                if (dataListAchievement.size > 2) {
-                    dataListAchievement[2] = AchivementsViewModel("$idDefult Day", "Streak", true)
-                }
+                dataListAchievement[2] = AchivementsViewModel("$idDefult Day", "Streak", true)
             }
         } else {
-            if (dataListAchievement.size > 0) {
-                dataListAchievement[2] = AchivementsViewModel("0 Day", "Streak", false)
-            }
+            dataListAchievement[2] = AchivementsViewModel("0 Day", "Streak", false)
         }
 
         trueSize = 0
@@ -541,14 +1274,10 @@ class HomeScreenFragment : BaseFragment(), AllTimeAdapter.AllTimeAdapterListener
                 if (idDefult.toInt() < 10) {
                     idDefult = "0$idDefult"
                 }
-                if(dataListAchievement.size>3){
                 dataListAchievement[3] = AchivementsViewModel("$idDefult Week", "Streak", true)
             }
-            }
         } else {
-            if (dataListAchievement.size > 0) {
-                dataListAchievement[3] = AchivementsViewModel("0 Week", "streak", false)
-            }
+            dataListAchievement[3] = AchivementsViewModel("0 Week", "streak", false)
         }
 
 
@@ -566,15 +1295,10 @@ class HomeScreenFragment : BaseFragment(), AllTimeAdapter.AllTimeAdapterListener
                 if (idDefult.toInt() < 10) {
                     idDefult = "0$idDefult"
                 }
-                if(dataListAchievement.size>4){
                 dataListAchievement[4] = AchivementsViewModel("$idDefult", "KCAL", true)
             }
-            }
         } else {
-            if (dataListAchievement.size > 0) {
-
-                dataListAchievement[4] = AchivementsViewModel("0", "KCAL", false)
-            }
+            dataListAchievement[4] = AchivementsViewModel("0", "KCAL", false)
         }
 
         trueSize = 0
@@ -591,17 +1315,12 @@ class HomeScreenFragment : BaseFragment(), AllTimeAdapter.AllTimeAdapterListener
                 if (idDefult.toInt() < 10) {
                     idDefult = "0$idDefult"
                 }
-                if(dataListAchievement.size>5){
                 dataListAchievement[5] = AchivementsViewModel("$idDefult", "LBS LIFTED", true)
             }
-            }
         } else {
-            if (dataListAchievement.size > 0) {
-
-                dataListAchievement[5] = AchivementsViewModel("0", "LBS LIFTED", false)
-            }
+            dataListAchievement[5] = AchivementsViewModel("0", "LBS LIFTED", false)
         }
-        achievementsAdapter?.notifyDataSetChanged()
+        achievementsAdapter!!.notifyDataSetChanged()
         binding.spLoading.visibility = View.GONE
     }
 
@@ -610,17 +1329,19 @@ class HomeScreenFragment : BaseFragment(), AllTimeAdapter.AllTimeAdapterListener
             token = it.toString()
             setUpAdapter()
         }
-        Glide
-            .with(context!!)
-                .load(BaseResponseDataObject.profilePageData?.profileImage)
+        context?.let {
+            Glide
+                .with(it)
+                .load(BaseResponseDataObject.profilePageData.profileImage)
                 .centerCrop()
                 .into(binding.ivUserImage)
+        }
         binding.tvHeader1.text =
             "Welcome ${BaseResponseDataObject.profilePageData.firstName} ${BaseResponseDataObject.profilePageData.lastName}"
     }
 
     private fun setCalender() {
-        val selectedDates = mutableSetOf<LocalDate>()
+        var selectedDate: LocalDate? = null
         val daysOfWeek = daysOfWeekFromLocale()
         val today = LocalDate.now()
         val monthTitleFormatter = DateTimeFormatter.ofPattern("MMMM")
@@ -655,12 +1376,15 @@ class HomeScreenFragment : BaseFragment(), AllTimeAdapter.AllTimeAdapterListener
             init {
                 view.setOnClickListener {
                     if (day.owner == DayOwner.THIS_MONTH) {
-                        if (selectedDates.contains(day.date)) {
-                            selectedDates.remove(day.date)
+                        if (selectedDate == day.date) {
+                            selectedDate = null
+                            binding.calenderFullView.exOneCalendar.notifyDayChanged(day)
                         } else {
-                            selectedDates.add(day.date)
+                            val oldDate = selectedDate
+                            selectedDate = day.date
+                            binding.calenderFullView.exOneCalendar.notifyDateChanged(day.date)
+                            oldDate?.let { binding.calenderFullView.exOneCalendar.notifyDateChanged(oldDate) }
                         }
-                        binding.calenderFullView.exOneCalendar.notifyDayChanged(day)
                     }
                 }
             }
@@ -678,14 +1402,13 @@ class HomeScreenFragment : BaseFragment(), AllTimeAdapter.AllTimeAdapterListener
                 container.firstLine.visibility = View.GONE
                 container.secondLine.visibility = View.GONE
                 container.thirdLine.visibility = View.GONE
-
                 if (day.owner == DayOwner.THIS_MONTH) {
-                    when {
-                        selectedDates.contains(day.date) -> {
+                    when(day.date) {
+                        selectedDate -> {
                             textView.setTextColorRes(R.color.white)
-                            flDaySelected.setBackgroundResource(R.drawable.example_1_today_bg)
+                            flDaySelected.background = null
                         }
-                        today == day.date -> {
+                        today -> {
                             textView.setTextColorRes(R.color.white)
                             flDaySelected.setBackgroundResource(R.drawable.example_1_today_bg)
                         }
