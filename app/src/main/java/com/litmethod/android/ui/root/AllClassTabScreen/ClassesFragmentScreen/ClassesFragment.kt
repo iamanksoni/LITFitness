@@ -952,7 +952,6 @@ class ClassesFragment : BaseFragment(), StackClassesAdapter.StackClassesAdapterL
 
 
         viewModel.classDetailsResponse.observe(viewLifecycleOwner, Observer {
-            Log.d("getData255","the data size is ${it.result.data.isSave}")
 
                 getClassDetailsList = it.result!!.data
                 BaseResponseDataObject.getClassDetailsResponse=getClassDetailsList
