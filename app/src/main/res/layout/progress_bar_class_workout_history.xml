@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+        <com.skydoves.progressview.ProgressView
+            android:id="@+id/progressbar_1"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_44sdp"
+            android:layout_marginRight="@dimen/_5sdp"
+            android:layout_weight="1"
+            android:visibility="visible"
+            app:progressView_radius="@dimen/_8sdp"
+            app:progressView_max="100"
+            app:progressView_autoAnimate="false"
+            app:progressView_labelColorInner="@color/black"
+            app:progressView_labelColorOuter="#52CFC5"
+            app:progressView_labelSize="@dimen/_12ssp"
+            app:progressView_colorBackground="#1A01CCF9"
+            app:progressView_colorProgress="#52CFC5"
+            app:progressView_labelTypeface="bold"
+            />
+
+        <com.skydoves.progressview.ProgressView
+            android:id="@+id/progressbar_2"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_44sdp"
+            android:layout_marginRight="@dimen/_5sdp"
+            android:layout_weight="1"
+            android:visibility="visible"
+            app:progressView_radius="@dimen/_8sdp"
+            app:progressView_max="100"
+            app:progressView_autoAnimate="false"
+            app:progressView_labelColorInner="@color/black"
+            app:progressView_labelColorOuter="@color/orange"
+            app:progressView_labelSize="@dimen/_12ssp"
+            app:progressView_colorBackground="#1AF95A01"
+            app:progressView_colorProgress="@color/orange"
+            app:progressView_labelTypeface="bold"
+            />
+    </LinearLayout>
+</layout>

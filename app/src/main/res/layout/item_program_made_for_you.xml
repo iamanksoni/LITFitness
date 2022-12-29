@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="@dimen/_330sdp"
+    android:layout_marginRight="@dimen/_15sdp">
+
+    <carbon.widget.RelativeLayout
+        android:id="@+id/rl_level_second"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_330sdp"
+        android:layout_marginBottom="@dimen/_9sdp"
+        android:backgroundTintMode="add"
+        android:foreground="@drawable/ic_home_gradiet"
+        app:carbon_cornerRadius="@dimen/_8sdp">
+
+        <ImageView
+            android:id="@+id/iv_thumbline"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_330sdp"
+            android:layout_centerInParent="true"
+            android:contentDescription="video_image"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_welcome_one" />
+
+        <carbon.widget.TextView
+            android:id="@+id/tv_category"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_15sdp"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:layout_marginEnd="@dimen/_15sdp"
+            android:layout_marginBottom="@dimen/_15sdp"
+            android:background="#CC0F0F0F"
+            android:fontFamily="@font/futura_std_condensed_bold"
+            android:padding="@dimen/_5sdp"
+            android:text="Rowing"
+            android:textAllCaps="true"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_10ssp"
+            app:carbon_cornerRadius="@dimen/_4sdp" />
+
+        <ImageView
+            android:layout_width="@dimen/_30sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_centerInParent="true"
+            android:background="@drawable/ic_video_thubline_inactive"
+            android:contentDescription="video_thubline" />
+
+    </carbon.widget.RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv_lit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/tv_video_type"
+        android:layout_marginLeft="@dimen/_15sdp"
+        android:layout_marginBottom="@dimen/_10sdp"
+        android:fontFamily="@font/futura_condensed_extra_bold_outline"
+        android:includeFontPadding="false"
+        android:lineSpacingExtra="4sp"
+        android:text="LIT"
+        android:textAllCaps="true"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_45ssp"
+        android:translationY="-2.2sp" />
+
+    <TextView
+        android:id="@+id/tv_video_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/tv_sub_min"
+        android:layout_marginLeft="@dimen/_15sdp"
+        android:layout_marginBottom="@dimen/_10sdp"
+        android:fontFamily="@font/futura_std_medium"
+        android:lineSpacingExtra="4sp"
+        android:text="Pilates"
+        android:textAllCaps="true"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_14ssp"
+        android:translationY="-2.2sp" />
+
+    <TextView
+        android:id="@+id/tv_sub_min"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="@dimen/_15sdp"
+        android:layout_marginBottom="@dimen/_30sdp"
+        android:fontFamily="@font/sf_pro_display_bold"
+        android:lineSpacingExtra="3sp"
+        android:maxLines="2"
+        android:singleLine="false"
+        android:text="[n mins]"
+        android:textAllCaps="true"
+        android:textColor="@color/mono_grey_100"
+        android:textSize="@dimen/_8ssp"
+        android:translationY="-1.69sp" />
+
+    <TextView
+        android:id="@+id/tv_sub_dot"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/_30sdp"
+        android:layout_toRightOf="@+id/tv_sub_min"
+        android:fontFamily="@font/sf_pro_display_bold"
+        android:lineSpacingExtra="3sp"
+        android:maxLines="2"
+        android:singleLine="false"
+        android:text="   •   "
+        android:textAllCaps="true"
+        android:textColor="@color/mono_grey_100"
+        android:textSize="@dimen/_8ssp"
+        android:translationY="-1.69sp" />
+
+    <TextView
+        android:id="@+id/tv_sub_level"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/_30sdp"
+        android:layout_toRightOf="@+id/tv_sub_dot"
+        android:fontFamily="@font/sf_pro_display_bold"
+        android:lineSpacingExtra="3sp"
+        android:maxLines="2"
+        android:singleLine="false"
+        android:text="Program"
+        android:textAllCaps="true"
+        android:textColor="@color/yellow"
+        android:textSize="@dimen/_8ssp"
+        android:translationY="-1.69sp" />
+</RelativeLayout>

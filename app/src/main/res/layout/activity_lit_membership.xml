@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/mono_black_5"
+        tools:context=".ui.Onboarding.LitMembershipScreen.LitMembershipActivity">
+
+        <ImageButton
+            android:id="@+id/ib_back_button"
+            android:layout_width="@dimen/_39sdp"
+            android:layout_height="@dimen/_37sdp"
+            android:layout_marginLeft="@dimen/_15sdp"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:background="@drawable/ic_back_arrow"
+            android:contentDescription="back_button"
+            android:padding="@dimen/_5sdp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/nestedScrollView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/tv_sub_header3"
+            android:layout_below="@+id/ib_back_button"
+            android:fillViewport="true"
+            android:scrollbars="none">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="@dimen/_15sdp">
+
+                    <carbon.widget.RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="@dimen/_40sdp"
+                        android:gravity="center"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent">
+
+                        <TextView
+                            android:id="@+id/tv_header1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/futura_std_condensed_extra_bd"
+                            android:lineSpacingExtra="2sp"
+                            android:singleLine="true"
+                            android:text="Lit membership"
+                            android:textAllCaps="true"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/_25ssp"
+                            android:translationY="-1.2sp" />
+
+                        <TextView
+                            android:id="@+id/tv_sub_header"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/tv_header1"
+                            android:layout_marginTop="@dimen/_3sdp"
+                            android:fontFamily="@font/futura_std_condensed"
+                            android:lineSpacingExtra="4sp"
+                            android:singleLine="false"
+                            android:text="Join the LIT Membership and gain access to exclusive workouts, programs and our growing community. "
+                            android:textAllCaps="true"
+                            android:textColor="@color/grey"
+                            android:textSize="@dimen/_17ssp"
+                            android:translationY="-2.2sp" />
+
+                        <TextView
+                            android:id="@+id/tv_sub_header2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/tv_sub_header"
+                            android:layout_marginTop="@dimen/_4sdp"
+                            android:fontFamily="@font/futura_std_condensed"
+                            android:lineSpacingExtra="4sp"
+                            android:singleLine="false"
+                            android:text="@string/read_more"
+                            android:textAllCaps="true"
+                            android:textColor="@color/mono_grey_60"
+                            android:textSize="@dimen/_12ssp"
+                            android:translationY="-2.2sp" />
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rv_membership_type"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/tv_sub_header2"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="@dimen/_19sdp"
+                            android:nestedScrollingEnabled="true" />
+                    </carbon.widget.RelativeLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </RelativeLayout>
+        </androidx.core.widget.NestedScrollView>
+
+        <TextView
+            android:id="@+id/tv_sub_header3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/btn_Subscribe"
+            android:layout_marginLeft="@dimen/_15sdp"
+            android:layout_marginTop="@dimen/_4sdp"
+            android:layout_marginRight="@dimen/_15sdp"
+            android:layout_marginBottom="@dimen/_5sdp"
+            android:fontFamily="@font/sf_pro_display_regular"
+            android:gravity="center"
+            android:lineSpacingExtra="5sp"
+            android:singleLine="false"
+            android:text="Your subscription will auto-renew after trial period.
+To learn more view LIT membership subscriptions."
+            android:textAllCaps="false"
+            android:textColor="@color/mono_grey_100"
+            android:textSize="@dimen/_10ssp"
+            android:translationY="-2.74sp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_Subscribe"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_50sdp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="@dimen/_15sdp"
+            android:layout_marginRight="@dimen/_15sdp"
+            android:layout_marginBottom="@dimen/_15sdp"
+            android:clickable="false"
+            android:enabled="false"
+            android:fontFamily="@font/futura_std_condensed_extra_bd"
+            android:lineSpacingExtra="4sp"
+            android:singleLine="true"
+            android:text="Subscribe"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_10ssp"
+            android:visibility="visible"
+            app:cornerRadius="@dimen/_6sdp"
+            app:elevation="@dimen/_5sdp"
+            app:strokeColor="@color/red"
+            app:strokeWidth="1dp" />
+    </RelativeLayout>
+</layout>

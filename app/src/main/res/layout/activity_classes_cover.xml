@@ -1,0 +1,368 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:animateLayoutChanges="true">
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:animateLayoutChanges="true"
+        tools:context=".ui.root.AllClassTabScreen.CoverScreen.ClassesCoverScreen.ClassesCoverActivity">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/app_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fitsSystemWindows="true"
+            android:theme="@style/AppTheme.AppBarOverlay">
+
+            <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:id="@+id/toolbar_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fitsSystemWindows="true"
+                app:contentScrim="?attr/colorPrimary"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+                <ImageView
+                    android:id="@+id/expandedImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_250sdp"
+                    android:foreground="@drawable/gradient"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_classes_bg"
+                    app:layout_collapseMode="parallax"
+                    app:layout_collapseParallaxMultiplier="0.7" />
+
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    app:layout_collapseMode="pin"
+                    app:popupTheme="@style/AppTheme.PopupOverlay">
+
+                    <RelativeLayout
+                        android:id="@+id/rl_top"
+                        android:layout_width="match_parent"
+                        android:layout_height="?attr/actionBarSize">
+
+                        <ImageButton
+                            android:id="@+id/ib_back_button"
+                            android:layout_width="@dimen/_39sdp"
+                            android:layout_height="@dimen/_37sdp"
+                            android:layout_alignParentLeft="true"
+                            android:layout_centerVertical="true"
+                            android:background="@drawable/ic_back_arrow"
+                            android:contentDescription="back_button"
+                            android:padding="@dimen/_5sdp" />
+
+                        <carbon.widget.RelativeLayout
+                            android:layout_width="@dimen/_39sdp"
+                            android:layout_height="@dimen/_37sdp"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="@dimen/_15sdp"
+
+                            app:carbon_cornerRadius="@dimen/_7sdp">
+
+                            <ImageView
+                                android:id="@+id/imageView"
+                                android:layout_width="@dimen/_15sdp"
+                                android:layout_height="@dimen/_15sdp"
+                                android:layout_centerVertical="true"
+                                android:src="@drawable/ic_like"
+                                android:contentDescription="filter" />
+                        </carbon.widget.RelativeLayout>
+
+                    </RelativeLayout>
+                </androidx.appcompat.widget.Toolbar>
+
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/mono_dark_100"
+            android:fillViewport="true"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <include
+                    android:id="@+id/trainner_progress_sub"
+                    layout="@layout/progress_bar_class_workout_history"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_15sdp"
+                    android:layout_marginTop="@dimen/_18sdp"
+                    android:layout_marginEnd="@dimen/_15sdp" />
+
+                <View
+                    android:id="@+id/vw_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_1sdp"
+                    android:layout_below="@+id/trainner_progress_sub"
+                    android:layout_marginStart="@dimen/_15sdp"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:layout_marginEnd="@dimen/_15sdp"
+                    android:layout_marginBottom="@dimen/_13sdp"
+                    android:background="#338F92A1" />
+
+                <LinearLayout
+                    android:id="@+id/ll_new_tag"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/vw_1"
+                    android:layout_marginStart="@dimen/_15sdp"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:layout_marginEnd="@dimen/_15sdp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/iv_new"
+                        android:layout_width="@dimen/_32sdp"
+                        android:layout_height="@dimen/_20sdp"
+                        android:visibility="invisible"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginEnd="@dimen/_10sdp"
+                        android:background="@drawable/ic_new_tag"
+                        android:contentDescription="new tag" />
+
+<!--                    <carbon.widget.TextView-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_gravity="center_vertical"-->
+<!--                        android:background="@color/mono_slate_100"-->
+<!--                        android:fontFamily="@font/futura_std_condensed_extra_bd"-->
+<!--                        android:padding="@dimen/_5sdp"-->
+<!--                        android:text="Rowing"-->
+<!--                        android:textAllCaps="true"-->
+<!--                        android:textColor="@color/white"-->
+<!--                        android:textSize="@dimen/_10ssp"-->
+<!--                        app:carbon_cornerRadius="@dimen/_4sdp" />-->
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tv_video_title_with_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/ll_new_tag"
+                    android:layout_marginStart="@dimen/_15sdp"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:layout_marginEnd="@dimen/_15sdp"
+                    android:fontFamily="@font/futura_std_condensed_extra_bd"
+                    android:lineSpacingExtra="@dimen/_5sdp"
+                    android:singleLine="false"
+                    android:text=""
+                    android:textAllCaps="true"
+                    android:textSize="@dimen/_23ssp" />
+
+                <TextView
+                    android:id="@+id/tv_video_desc"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_video_title_with_name"
+                    android:layout_marginStart="@dimen/_15sdp"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:layout_marginEnd="@dimen/_15sdp"
+                    android:fontFamily="@font/sf_pro_display_regular"
+                    android:lineSpacingExtra="5sp"
+                    android:singleLine="false"
+                    android:text="This class is designed to increase your stamina and endurance through a series of sprints and rowing variations. You will use your LIT levels ranging from 10-40lbs of resistance to maximize your workout."
+                    android:textColor="@color/mono_grey_100"
+                    android:textSize="@dimen/_11ssp"
+                    android:translationY="-2.74sp" />
+
+                <TextView
+                    android:id="@+id/tv_video_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_video_desc"
+                    android:layout_marginStart="@dimen/_15sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_15sdp"
+                    android:fontFamily="@font/sf_pro_display_bold"
+                    android:lineSpacingExtra="6sp"
+                    android:singleLine="false"
+                    android:text="40 min"
+                    android:textAllCaps="true"
+                    android:textColor="@color/mono_grey_100"
+                    android:textSize="@dimen/_10ssp" />
+
+                <TextView
+                    android:id="@+id/tv_combined_equip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_video_time"
+                    android:layout_marginStart="@dimen/_15sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_15sdp"
+                    android:fontFamily="@font/sf_pro_display_bold"
+                    android:lineSpacingExtra="6sp"
+                    android:singleLine="false"
+                    android:textAllCaps="true"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_10ssp" />
+
+                <TextView
+                    android:id="@+id/tv_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_combined_equip"
+                    android:layout_marginStart="@dimen/_15sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_15sdp"
+                    android:fontFamily="@font/sf_pro_display_bold"
+                    android:lineSpacingExtra="6sp"
+                    android:singleLine="false"
+                    android:text="May 14, 2022"
+                    android:textAllCaps="true"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_8ssp" />
+
+                <View
+                    android:id="@+id/vw_2"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_1sdp"
+                    android:layout_below="@+id/tv_date"
+                    android:layout_marginStart="@dimen/_15sdp"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:layout_marginEnd="@dimen/_15sdp"
+                    android:layout_marginBottom="@dimen/_13sdp"
+                    android:background="#338F92A1" />
+
+                <TextView
+                    android:id="@+id/tv_Connect_your_Devices"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/vw_2"
+                    android:layout_marginStart="@dimen/_15sdp"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:layout_marginEnd="@dimen/_15sdp"
+                    android:fontFamily="@font/futura_std_condensed_extra_bd"
+                    android:lineSpacingExtra="6sp"
+                    android:singleLine="false"
+                    android:visibility="gone"
+                    android:text="Connect your Devices"
+                    android:textAllCaps="true"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_14ssp" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_equipment_type"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_Connect_your_Devices"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginStart="@dimen/_15sdp"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:layout_marginEnd="@dimen/_15sdp"
+                    android:nestedScrollingEnabled="false" />
+
+                <View
+                    android:id="@+id/vw_3"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_1sdp"
+                    android:layout_below="@+id/rv_equipment_type"
+                    android:layout_marginStart="@dimen/_15sdp"
+                    android:layout_marginTop="@dimen/_18sdp"
+                    android:layout_marginEnd="@dimen/_15sdp"
+                    android:layout_marginBottom="@dimen/_13sdp"
+                    android:background="#338F92A1" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_start_workout"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_50sdp"
+                    android:layout_below="@+id/vw_3"
+                    android:layout_marginLeft="@dimen/_15sdp"
+                    android:layout_marginRight="@dimen/_15sdp"
+                    android:fontFamily="@font/futura_std_condensed_extra_bd"
+                    android:lineSpacingExtra="4sp"
+                    android:singleLine="true"
+                    android:text="Start workout"
+                    app:backgroundTint="@color/red"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_10ssp"
+                    android:visibility="visible"
+                    app:cornerRadius="@dimen/_6sdp"
+                    app:elevation="@dimen/_5sdp"
+                    app:strokeColor="@color/red"
+                    app:strokeWidth="1dp" />
+
+                <View
+                    android:id="@+id/vw_4"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_1sdp"
+                    android:layout_below="@+id/btn_start_workout"
+                    android:layout_marginStart="@dimen/_15sdp"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:layout_marginEnd="@dimen/_15sdp"
+                    android:layout_marginBottom="@dimen/_15sdp"
+                    android:background="#338F92A1" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_device_video"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/vw_4"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginStart="@dimen/_15sdp"
+                    android:layout_marginEnd="@dimen/_15sdp"
+                    android:nestedScrollingEnabled="false" />
+
+                <View
+                    android:id="@+id/vw_5"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_1sdp"
+                    android:layout_below="@+id/rv_device_video"
+                    android:layout_marginStart="@dimen/_15sdp"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:layout_marginEnd="@dimen/_15sdp"
+                    android:layout_marginBottom="@dimen/_15sdp"
+                    android:background="#338F92A1" />
+
+                <include
+                    android:id="@+id/trainner_profile_sub"
+                    layout="@layout/trainner_profile_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/vw_5"
+                    android:layout_marginStart="@dimen/_15sdp"
+                    android:layout_marginEnd="@dimen/_15sdp"
+                    android:layout_marginBottom="@dimen/_15sdp" />
+
+                <View
+                    android:id="@+id/vw_6"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_1sdp"
+                    android:layout_below="@+id/trainner_profile_sub"
+                    android:layout_marginStart="@dimen/_15sdp"
+                    android:layout_marginEnd="@dimen/_15sdp"
+                    android:layout_marginBottom="@dimen/_15sdp"
+                    android:background="#338F92A1" />
+
+            </RelativeLayout>
+        </androidx.core.widget.NestedScrollView>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+    <com.github.ybq.android.spinkit.SpinKitView
+        android:id="@+id/sp_loading"
+        style="@style/SpinKitView.Circle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:SpinKit_Color="@color/colorAccent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:visibility="gone"/>
+</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

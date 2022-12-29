@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.root.AllClassTabScreen.EditProfile.EditProfileFragment">
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/nestedScrollView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            android:scrollbars="none"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/mono_black_5">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="@dimen/_15sdp"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:layout_marginEnd="@dimen/_15sdp"
+                    android:layout_marginBottom="@dimen/_15sdp">
+                    <ImageButton
+                        android:id="@+id/ib_back_button"
+                        android:layout_width="@dimen/_39sdp"
+                        android:layout_height="@dimen/_37sdp"
+                        android:background="@drawable/ic_back_arrow"
+                        android:contentDescription="back_button"
+                        android:padding="@dimen/_5sdp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <carbon.widget.RelativeLayout
+                        android:id="@+id/relativeLayout2"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="60dp"
+                        app:layout_constraintHorizontal_bias="1.0"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/ib_back_button">
+
+                        <RelativeLayout
+                            android:id="@+id/rl_spinner"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            app:carbon_cornerRadius="@dimen/_11sdp">
+                            
+                            <RelativeLayout
+                                android:id="@+id/headerItem"
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/_54sdp"
+                                android:layout_marginBottom="@dimen/_9sdp"
+                                android:padding="@dimen/_10sdp"
+                                android:background="@drawable/view_background_grey"
+                                android:backgroundTint="@color/mono_slate_10"
+                                android:backgroundTintMode="add"
+                                app:carbon_cornerRadius="@dimen/_10sdp">
+
+
+                                <ImageView
+                                    android:id="@+id/iv_level_image"
+                                    android:layout_width="@dimen/_24sdp"
+                                    android:layout_height="@dimen/_24sdp"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginStart="@dimen/_10sdp"
+                                    android:contentDescription="level"
+                                    android:src="@drawable/iv_recovery"
+                                    app:tint="@color/white" />
+
+                                <TextView
+                                    android:id="@+id/tv_header_title"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginLeft="@dimen/_5sdp"
+                                    android:layout_marginRight="@dimen/_5sdp"
+                                    android:lineSpacingExtra="4sp"
+                                    android:singleLine="true"
+                                    android:layout_toEndOf="@+id/iv_level_image"
+                                    android:textAllCaps="true"
+                                    android:textColor="@color/white"
+                                    android:textSize="@dimen/_15ssp"
+                                    android:translationY="-2.2sp" />
+
+                                <ImageView
+                                    android:id="@+id/iv_drop_icon_image"
+                                    android:layout_width="@dimen/_10sdp"
+                                    android:layout_height="@dimen/_10sdp"
+                                    android:layout_centerVertical="true"
+                                    android:layout_alignParentEnd="true"
+                                    android:layout_marginEnd="@dimen/_10sdp"
+                                    android:contentDescription="arrow"
+                                    android:scaleType="fitXY"
+                                    app:tint="@color/red"
+                                    android:src="@drawable/ic_down" />
+
+                            </RelativeLayout>
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/rv_workout_dropdown"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@id/headerItem"
+                                android:nestedScrollingEnabled="true" />
+
+                            <RelativeLayout
+                                android:id="@+id/rl_year"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/rv_workout_dropdown"
+                                android:layout_marginTop="@dimen/_15sdp">
+
+                                <TextView
+                                    android:id="@+id/exOneYearText"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:drawablePadding="@dimen/_3ssp"
+                                    android:drawableTint="@color/mono_grey_60"
+                                    android:fontFamily="@font/futura_std_condensed_bold"
+                                    android:textColor="@color/mono_grey_60"
+                                    android:textSize="@dimen/_20ssp"
+                                    tools:text="2022" />
+
+                                <Spinner
+                                    android:id="@+id/spinner_yr"
+                                    android:layout_width="@dimen/_10sdp"
+                                    android:layout_height="@dimen/_10sdp"
+                                    android:layout_alignRight="@+id/exOneYearText"
+                                    android:layout_alignBottom="@+id/exOneYearText"
+                                    android:background="@drawable/example_1_today_bg"
+                                    android:visibility="invisible" />
+                            </RelativeLayout>
+
+                            <RelativeLayout
+                                android:id="@+id/layoutForYear"
+                                android:layout_width="wrap_content"
+                                android:layout_below="@+id/rl_year"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/_5sdp">
+
+                                <TextView
+                                    android:id="@+id/exOneMonthText"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:drawablePadding="@dimen/_3ssp"
+                                    android:fontFamily="@font/futura_std_condensed_bold"
+                                    android:textColor="@color/white"
+                                    android:textSize="@dimen/_20ssp"
+                                    tools:text="April"
+                                    app:drawableRightCompat="@drawable/ic_baseline_expand_more_24"
+                                    app:drawableTint="@color/white" />
+
+                                <Spinner
+                                    android:id="@+id/spinner_month"
+                                    android:layout_width="@dimen/_10sdp"
+                                    android:layout_height="@dimen/_10sdp"
+                                    android:layout_alignRight="@+id/exOneMonthText"
+                                    android:layout_alignBottom="@+id/exOneMonthText"
+                                    android:background="@drawable/example_1_today_bg"
+                                    android:visibility="gone" />
+                            </RelativeLayout>
+
+
+                            <LinearLayout
+                                android:id="@+id/layoutForCustomCalendar"
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/_100sdp"
+                                android:padding="@dimen/_10sdp"
+                                android:visibility="gone"
+                                android:layout_below="@id/layoutForYear"
+                                android:orientation="horizontal">
+
+                                <RelativeLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="2"
+                                    android:background="@drawable/view_background_grey"
+                                    android:backgroundTint="@color/mono_slate_10"
+                                    android:backgroundTintMode="add"
+                                    app:carbon_cornerRadius="@dimen/_10sdp">
+
+                                    <androidx.recyclerview.widget.RecyclerView
+                                        android:id="@+id/listViewForMonth"
+                                        android:layout_width="match_parent"
+                                        android:layout_marginTop="@dimen/_5sdp"
+                                        android:layout_marginBottom="@dimen/_5sdp"
+                                        android:layout_height="wrap_content"
+                                        tools:listitem="@layout/item_for_custom_calendar"/>
+
+                                </RelativeLayout>
+
+                                <RelativeLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:layout_marginStart="@dimen/_10sdp"
+                                    android:background="@drawable/view_background_grey"
+                                    android:backgroundTint="@color/mono_slate_10"
+                                    android:backgroundTintMode="add"
+                                    app:carbon_cornerRadius="@dimen/_10sdp">
+
+                                    <androidx.recyclerview.widget.RecyclerView
+                                        android:id="@+id/listViewForYear"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="@dimen/_5sdp"
+                                        android:layout_marginBottom="@dimen/_5sdp"/>
+
+                                </RelativeLayout>
+
+                            </LinearLayout>
+
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/buttonConfirm"
+                                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/_50sdp"
+                                android:layout_below="@+id/layoutForCustomCalendar"
+                                android:layout_marginTop="@dimen/_8sdp"
+                                android:fontFamily="@font/futura_std_condensed_extra_bd"
+                                android:lineSpacingExtra="4sp"
+                                android:singleLine="true"
+                                android:text="confirm"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/_10ssp"
+                                android:visibility="gone"
+                                app:cornerRadius="@dimen/_6sdp"
+                                app:elevation="@dimen/_5sdp"
+                                app:strokeColor="@color/red"
+                                app:strokeWidth="1dp" />
+
+                            <TextView
+                                android:id="@+id/tvDate"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@id/buttonConfirm"
+                                android:layout_marginTop="@dimen/_10sdp"
+                                android:layout_marginEnd="@dimen/_5sdp"
+                                android:fontFamily="@font/futura_std_condensed_extra_bd"
+                                android:singleLine="true"
+                                android:textAllCaps="true"
+                                android:textColor="@color/grey"
+                                android:textSize="@dimen/_11ssp" />
+
+                            <TextView
+                                android:id="@+id/tvNoDataError"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@id/buttonConfirm"
+                                android:layout_marginTop="@dimen/_20sdp"
+                                android:layout_centerHorizontal="true"
+                                android:layout_marginEnd="@dimen/_5sdp"
+                                android:text="NO CLASSES TAKEN DURING THIS PERIOD"
+                                android:fontFamily="@font/futura_std_condensed_bold"
+                                android:singleLine="true"
+                                android:textAllCaps="true"
+                                android:visibility="gone"
+                                android:textColor="@color/grey"
+                                android:textSize="@dimen/_15ssp" />
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/rv_work_out_parent"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/tvDate"
+                                android:layout_marginTop="@dimen/_10sdp"
+                              />
+                        </RelativeLayout>
+
+                    </carbon.widget.RelativeLayout>
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <com.github.ybq.android.spinkit.SpinKitView
+                    android:id="@+id/sp_loading"
+                    style="@style/SpinKitView.Circle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:visibility="gone"
+                    app:SpinKit_Color="@color/colorAccent" />
+
+            </RelativeLayout>
+        </androidx.core.widget.NestedScrollView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
+
+

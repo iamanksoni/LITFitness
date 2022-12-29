@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<carbon.widget.RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    android:layout_marginBottom="@dimen/_8sdp"
+    android:background="@color/mono_dark_100"
+    app:carbon_cornerRadius="8dp"
+    app:carbon_stroke="#1AFFFFFF"
+    android:gravity="center"
+    app:carbon_strokeWidth="1dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:gravity="center"
+        android:weightSum="2">
+
+        <TextView
+            android:id="@+id/device_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.666"
+            android:fontFamily="@font/futura_std_condensed"
+            android:text="HR Sensor"
+            android:textAllCaps="true"
+            android:textColor="@color/white"
+            android:textSize="16dp"
+
+            />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/devicePairButton"
+            android:layout_width="70dp"
+            android:layout_height="55dp"
+            android:layout_weight="0.33"
+            android:fontFamily="@font/futura_std_condensed_extra_bd"
+            android:text="pair"
+            android:textColor="@color/black"
+            app:backgroundTint="@color/beginner"
+            app:cornerRadius="8dp" />
+
+
+    </LinearLayout>
+
+
+</carbon.widget.RelativeLayout>

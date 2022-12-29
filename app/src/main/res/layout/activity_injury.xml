@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/mono_black_5">
+
+        <ImageButton
+            android:id="@+id/ib_back_button"
+            android:layout_width="@dimen/_39sdp"
+            android:layout_height="@dimen/_37sdp"
+            android:layout_marginStart="@dimen/_15sdp"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:background="@drawable/ic_back_arrow"
+            android:contentDescription="@string/back_button"
+            android:padding="@dimen/_5sdp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/nestedScrollView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/btn_next"
+            android:layout_below="@+id/ib_back_button"
+            android:fillViewport="true"
+            android:scrollbars="none">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="@dimen/_15sdp">
+
+                    <carbon.widget.RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="@dimen/_40sdp"
+                        android:gravity="center"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent">
+
+                        <TextView
+                            android:id="@+id/tv_header1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/futura_std_condensed_extra_bd"
+                            android:lineSpacingExtra="2sp"
+                            android:singleLine="true"
+                            android:text="@string/do_you_have_an_injury"
+                            android:textAllCaps="true"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/_25ssp"
+                            android:translationY="-1.2sp" />
+
+                        <TextView
+                            android:id="@+id/tv_sub_header"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/tv_header1"
+                            android:layout_marginTop="@dimen/_3sdp"
+                            android:fontFamily="@font/futura_std_condensed"
+                            android:lineSpacingExtra="4sp"
+                            android:singleLine="false"
+                            android:text="@string/injury_below_heading_message"
+                            android:textAllCaps="true"
+                            android:textColor="@color/grey"
+                            android:textSize="@dimen/_17ssp"
+                            android:translationY="-2.2sp" />
+
+                        <RadioGroup
+                            android:id="@+id/rg_question"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_52sdp"
+                            android:layout_below="@+id/tv_sub_header"
+                            android:layout_marginTop="@dimen/_20sdp"
+                            android:checkedButton="@+id/offer"
+                            android:elevation="@dimen/_2sdp"
+                            android:orientation="horizontal"
+                            android:weightSum="2">
+
+                            <RadioButton
+                                android:id="@+id/rb_yes"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_marginStart="1dp"
+                                android:layout_marginTop="1dp"
+                                android:layout_marginEnd="@dimen/_5sdp"
+                                android:layout_marginBottom="1dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/toggle_widget_injury_background"
+                                android:button="@null"
+                                android:enabled="false"
+                                android:fontFamily="@font/futura_std_condensed"
+                                android:gravity="center"
+                                android:text="@string/yes"
+                                android:textAllCaps="true"
+                                android:textColor="@drawable/radio_text_selected" />
+
+                            <RadioButton
+                                android:id="@+id/rb_no"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_marginStart="@dimen/_5sdp"
+                                android:layout_marginTop="1dp"
+                                android:layout_marginEnd="1dp"
+                                android:layout_marginBottom="1dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/toggle_widget_injury_background"
+                                android:button="@null"
+                                android:enabled="false"
+                                android:fontFamily="@font/futura_std_condensed"
+                                android:gravity="center"
+                                android:text="@string/no"
+                                android:textAllCaps="true"
+                                android:textColor="@drawable/radio_text_selected" />
+                        </RadioGroup>
+
+                        <TextView
+                            android:id="@+id/tv_sub_header2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/rg_question"
+                            android:layout_marginTop="@dimen/_19sdp"
+                            android:fontFamily="@font/futura_std_condensed"
+                            android:lineSpacingExtra="4sp"
+                            android:singleLine="true"
+                            android:text="@string/where_is_your_injury"
+                            android:textAllCaps="true"
+                            android:textColor="@color/mono_grey_60"
+                            android:textSize="@dimen/_17ssp"
+                            android:translationY="-2.2sp" />
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rv_injury_type"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/tv_sub_header2"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="@dimen/_19sdp"
+                            android:nestedScrollingEnabled="true" />
+                    </carbon.widget.RelativeLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </RelativeLayout>
+        </androidx.core.widget.NestedScrollView>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_next"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_50sdp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="@dimen/_15sdp"
+            android:layout_marginRight="@dimen/_15sdp"
+            android:layout_marginBottom="@dimen/_15sdp"
+            android:clickable="false"
+            android:enabled="false"
+            android:fontFamily="@font/futura_std_condensed_extra_bd"
+            android:lineSpacingExtra="4sp"
+            android:singleLine="true"
+            android:text="@string/next"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_10ssp"
+            android:visibility="visible"
+            app:cornerRadius="@dimen/_6sdp"
+            app:elevation="@dimen/_5sdp"
+            app:strokeColor="@color/red"
+            app:strokeWidth="1dp" />
+
+
+    </RelativeLayout>
+
+</layout>

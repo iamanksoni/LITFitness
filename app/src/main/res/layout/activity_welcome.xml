@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.Onboarding.WelcomeScreen.WelcomeActivity">
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/nestedScrollView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/black"
+            android:fillViewport="true"
+            android:scrollbars="none"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <RelativeLayout
+                android:id="@+id/relativeLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <androidx.viewpager2.widget.ViewPager2
+                    android:id="@+id/viewpager"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="@dimen/_130sdp"
+                    android:orientation="horizontal" />
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="@dimen/_15sdp">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <ImageView
+                            android:id="@+id/lit"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/ic_logo"
+                            android:contentDescription="@string/applogo"
+                            android:scaleType="fitXY"/>
+
+                        <com.zhpan.indicator.IndicatorView
+                            android:id="@+id/indicator_view"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_above="@+id/ll_bottom"
+                            android:layout_marginTop="@dimen/_10sdp" />
+
+                        <LinearLayout
+                            android:id="@+id/ll_bottom"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentBottom="true"
+                            android:layout_marginTop="@dimen/_20sdp"
+                            android:layout_marginBottom="@dimen/_10ssp"
+                            android:orientation="horizontal"
+                            android:weightSum="2">
+
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/btn_free_trial"
+                                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                                android:layout_width="0dp"
+                                android:layout_height="@dimen/_50sdp"
+                                android:layout_marginEnd="@dimen/_5sdp"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/futura_std_condensed_extra_bd"
+                                android:lineSpacingExtra="4sp"
+                                android:singleLine="true"
+                                android:text="@string/start_free_trial"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/_10ssp"
+                                android:visibility="visible"
+                                app:backgroundTint="@color/red"
+                                app:cornerRadius="@dimen/_6sdp"
+                                app:elevation="@dimen/_5sdp"
+                                app:strokeColor="@color/red"
+                                app:strokeWidth="1dp" />
+
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/btn_log_in"
+                                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                                android:layout_width="0dp"
+                                android:layout_height="@dimen/_50sdp"
+                                android:layout_marginStart="@dimen/_5sdp"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/futura_std_condensed_extra_bd"
+                                android:lineSpacingExtra="4sp"
+                                android:singleLine="true"
+                                android:text="@string/log_in"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/_10ssp"
+                                android:visibility="visible"
+                                app:backgroundTint="@color/black"
+                                app:cornerRadius="@dimen/_6sdp"
+                                app:elevation="@dimen/_5sdp"
+                                app:strokeColor="@color/red"
+                                app:strokeWidth="1dp" />
+                        </LinearLayout>
+                    </RelativeLayout>
+                </FrameLayout>
+            </RelativeLayout>
+        </androidx.core.widget.NestedScrollView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
