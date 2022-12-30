@@ -3,6 +3,7 @@ package com.foxlabz.statisticvideoplayer
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.exoplayer2.ExoPlayer
@@ -28,10 +29,17 @@ class MainActivity : AppCompatActivity() {
         staticList.add(StatisticDataModel("TUT", "- -", R.mipmap.ic_launcher))
         staticList.add(StatisticDataModel("LBS", "- -", R.mipmap.ic_launcher_round))
         staticList.add(StatisticDataModel("REPS", "- -", R.mipmap.ic_launcher_round))
+        staticList.add(StatisticDataModel("Heart Rate", "- -", R.drawable.ic_baseline_favorite_24))
         var recyclerView = findViewById<RecyclerView>(R.id.rv_statistics)
         var adapter = StatisticRecyclerView(staticList, this)
         recyclerView.adapter = adapter
-        recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        recyclerView.layoutManager =
+            LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+
+        LitVideoPlayerSDK.heartRate.observe(this, Observer {
+            staticList.get(3).value = it.parameterValue.toString()
+            adapter.notifyItemChanged(3)
+        })
 
     }
 }

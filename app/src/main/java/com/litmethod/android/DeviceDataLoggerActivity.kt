@@ -2,6 +2,9 @@ package com.litmethod.android
 
 import android.os.Bundle
 import android.util.Log
+import androidx.lifecycle.MutableLiveData
+import com.foxlabz.statisticvideoplayer.DeviceDataCalculated
+import com.foxlabz.statisticvideoplayer.LitVideoPlayerSDK
 import com.litmethod.android.BluetoothConnection.LitDeviceConstants
 import com.litmethod.android.Parsing.Converters
 import com.litmethod.android.databinding.ActivityDeviceDataLoggerBinding
@@ -95,7 +98,7 @@ class DeviceDataLoggerActivity : BaseActivity() {
             }
 
             AppConstants.DEVICE_HEART_RATE -> {
-
+                LitVideoPlayerSDK.heartRate= MutableLiveData()
 
                 var notifyingCharacteristic =
                     LitDeviceConstants.mHeartRateMonitorPeripheral.getCharacteristic(
@@ -108,6 +111,16 @@ class DeviceDataLoggerActivity : BaseActivity() {
                             runOnUiThread{
                                 binding.tvHeartRate.text =
                                     HeartRateMeasurement.fromBytes(value).toString()
+
+                                LitVideoPlayerSDK.heartRate.postValue(
+                                    DeviceDataCalculated(
+                                        "Hear Rate",
+                                        HeartRateMeasurement.fromBytes(value).sensorContactStatus.toString() == "SupportedAndContacted",
+                                        HeartRateMeasurement.fromBytes(value).createdAt.toString(),
+                                        "HeartRateType",
+                                        HeartRateMeasurement.fromBytes(value).pulse.toString(),
+                                    )
+                                )
                             }
                             Log.d(
                                 "TAG",

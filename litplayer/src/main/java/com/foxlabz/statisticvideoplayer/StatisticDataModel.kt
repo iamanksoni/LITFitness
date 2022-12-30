@@ -1,6 +1,6 @@
 package com.foxlabz.statisticvideoplayer
 
-data class StatisticDataModel(val label:String, val value:String, val iconResource: Int) {
+data class StatisticDataModel(val label:String, var value:String, val iconResource: Int) {
 
 
 }
