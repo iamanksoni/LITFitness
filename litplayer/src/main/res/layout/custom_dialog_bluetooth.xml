@@ -26,6 +26,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/futura_std_condensed"
                 android:text="CONNECTED DEVICES"
                 android:textStyle="bold"
                 android:textSize="10sp"
@@ -52,6 +53,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="DEVICES"
+                    android:fontFamily="@font/futura_std_condensed"
                     android:textStyle="bold"
                     android:textColor="@color/white"/>
 
@@ -67,6 +69,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="LIT AXIS"
+                        android:fontFamily="@font/futura_std_condensed"
                         android:textStyle="bold"
                         android:textSize="12sp"
                         android:textColor="@color/black"/>
@@ -75,6 +78,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="TAP TO CONNECT"
+                        android:fontFamily="@font/futura_std_condensed"
                         android:textStyle="bold"
                         android:textSize="10sp"
                         android:textColor="@color/black"/>
@@ -94,6 +98,7 @@
                         android:layout_height="wrap_content"
                         android:text="LIT AXIS"
                         android:textStyle="bold"
+                        android:fontFamily="@font/futura_std_condensed"
                         android:textSize="12sp"
                         android:textColor="@color/black"/>
 
@@ -102,6 +107,7 @@
                         android:layout_height="wrap_content"
                         android:text="TAP TO CONNECT"
                         android:textStyle="bold"
+                        android:fontFamily="@font/futura_std_condensed"
                         android:textSize="10sp"
                         android:textColor="@color/black"/>
 
@@ -119,6 +125,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="LIT AXIS"
+                        android:fontFamily="@font/futura_std_condensed"
                         android:textStyle="bold"
                         android:textSize="12sp"
                         android:textColor="@color/black"/>
@@ -127,6 +134,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="TAP TO CONNECT"
+                        android:fontFamily="@font/futura_std_condensed"
                         android:textStyle="bold"
                         android:textSize="10sp"
                         android:textColor="@color/black"/>
@@ -148,16 +156,17 @@
 
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="60dp"
+            android:layout_height="25dp"
             android:text="cancel"
             android:layout_marginStart="10dp"
             android:paddingStart="5dp"
+            android:fontFamily="@font/futura_std_condensed"
             android:paddingEnd="5dp"
             android:gravity="center"
             android:textAlignment="center"
-            android:paddingTop="1dp"
-            android:paddingBottom="1dp"
+            android:paddingTop="2dp"
+            android:paddingBottom="2dp"
             android:textStyle="bold"
             android:background="@drawable/button_background"
             android:textColor="@color/black" />
