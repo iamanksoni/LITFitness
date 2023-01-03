@@ -9,12 +9,14 @@ import android.text.style.ForegroundColorSpan
 import android.util.Log
 import android.view.View
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import carbon.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.foxlabz.statisticvideoplayer.LitVideoPlayerSDK
 import com.foxlabz.statisticvideoplayer.VideoPlayerActivity
+import com.litmethod.android.DataProcessing.ProcessedData
 import com.litmethod.android.R
 import com.litmethod.android.databinding.ActivityClassesCoverBinding
 import com.litmethod.android.models.AcountScreenFragment.ClassBookmark.ClassBookmarkRequest
@@ -204,7 +206,9 @@ class ClassesCoverActivity : BaseActivity(), YourEquipmentAdapter.YourEquipmentA
             }
         }
         binding.btnStartWorkout.setOnClickListener {
-
+            var time =(100.0/360)
+            ProcessedData.calculateCaloriesBurnt(time)
+            LitVideoPlayerSDK.heartRate= MutableLiveData()
             LitVideoPlayerSDK.streamingUrl =
                 "https://d1p2c1ey61b4dk.cloudfront.net/f1f2bd39-07b9-4e78-91b7-38e439b15151/hls/TIFFLsmSpdBndCirTra40Min1013-22.m3u8"
 

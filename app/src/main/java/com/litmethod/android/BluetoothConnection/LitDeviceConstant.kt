@@ -29,5 +29,8 @@ object LitDeviceConstants {
 
     var mLitAxisDevicePair: LitAxisDevicePair = LitAxisDevicePair()
 
+    lateinit var HR_CONNECTION_STATE:String
+    lateinit var LIT_AXIS_CONNECTION_STATE:Pair<Boolean,Boolean>
+    lateinit var ROWING_MACHINE_CONNECTION_STATE:String
 
 }
