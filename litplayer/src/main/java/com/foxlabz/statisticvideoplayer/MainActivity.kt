@@ -36,10 +36,7 @@ class MainActivity : AppCompatActivity() {
         recyclerView.layoutManager =
             LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
 
-        LitVideoPlayerSDK.heartRate.observe(this, Observer {
-            staticList.get(3).value = it.parameterValue.toString()
-            adapter.notifyItemChanged(3)
-        })
+
 
     }
 }
