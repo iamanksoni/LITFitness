@@ -13,7 +13,7 @@ import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.ui.StyledPlayerView
 
-class MainActivity : AppCompatActivity() {
+class VideoPlayerActivity : AppCompatActivity() {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {

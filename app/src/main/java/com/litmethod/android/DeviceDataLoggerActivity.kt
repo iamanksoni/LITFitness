@@ -44,7 +44,6 @@ class DeviceDataLoggerActivity : BaseActivity() {
         )
         when (deviceName) {
 
-
             AppConstants.DEVICE_LIT_AXIS -> {
                 var notificationLeftDevice =
                     LitDeviceConstants.mLitAxisDevicePair.leftLitAxisDevice?.getCharacteristic(

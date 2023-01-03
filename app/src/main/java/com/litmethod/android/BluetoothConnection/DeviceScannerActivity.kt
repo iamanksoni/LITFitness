@@ -105,6 +105,7 @@ class DeviceScannerActivity : BaseActivity() {
                     var intent = Intent(this, DeviceDataLoggerActivity::class.java)
                     intent.putExtra(AppConstants.DEVICE_NAME, AppConstants.DEVICE_HEART_RATE)
                     startActivity(intent)
+
 //                    runOnUiThread() {
 //
 //                        Toast.makeText(this, "Connected with heart rate sensor", Toast.LENGTH_SHORT)
