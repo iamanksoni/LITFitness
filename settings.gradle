@@ -20,3 +20,5 @@ rootProject.name = "LIT"
 include ':app'
 include ':libraryCalendar'
 include ':blessed'
+include ':litplayer'
+

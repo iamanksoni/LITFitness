@@ -1,5 +1,6 @@
 package com.litmethod.android.ui.root.AllClassTabScreen.CoverScreen.ClassesCoverScreen
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.text.Spannable
@@ -8,11 +9,13 @@ import android.text.style.ForegroundColorSpan
 import android.util.Log
 import android.view.View
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import carbon.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.foxlabz.statisticvideoplayer.LitVideoPlayerSDK
+import com.foxlabz.statisticvideoplayer.MainActivity
 import com.litmethod.android.R
-import androidx.lifecycle.Observer
 import com.litmethod.android.databinding.ActivityClassesCoverBinding
 import com.litmethod.android.models.AcountScreenFragment.ClassBookmark.ClassBookmarkRequest
 import com.litmethod.android.models.ClassDetails.EquipmentVideo
@@ -22,17 +25,16 @@ import com.litmethod.android.models.GetInstructorInfo.GetInstructorInfoRequest
 import com.litmethod.android.network.ClassesCoverActivityRepository
 import com.litmethod.android.network.RetrofitDataSourceService
 import com.litmethod.android.shared.BaseActivity
+import com.litmethod.android.ui.Onboarding.YourEquipmentScreen.YourEquipmentAdapter
+import com.litmethod.android.ui.Onboarding.YourEquipmentScreen.YourEquipmentData
 import com.litmethod.android.ui.root.AllClassTabScreen.ClassesFragmentScreen.Util.BaseResponseDataObject
 import com.litmethod.android.ui.root.AllClassTabScreen.CoverScreen.ClassesCoverScreen.ViewModel.ClassCoverActvityViewModel
 import com.litmethod.android.ui.root.AllClassTabScreen.CoverScreen.ClassesCoverScreen.ViewModel.ClassesCoverActivityViewModelFactory
 import com.litmethod.android.ui.root.AllClassTabScreen.CoverScreen.TrainerProfileScreen.TrainerProfileScreenActivity
-import com.litmethod.android.ui.Onboarding.YourEquipmentScreen.YourEquipmentAdapter
-import com.litmethod.android.ui.Onboarding.YourEquipmentScreen.YourEquipmentData
 import com.litmethod.android.utlis.MarginItemDecoration
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
 
 class ClassesCoverActivity : BaseActivity(), YourEquipmentAdapter.YourEquipmentAdapterListener,
@@ -54,13 +56,17 @@ class ClassesCoverActivity : BaseActivity(), YourEquipmentAdapter.YourEquipmentA
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_classes_cover)
+
+
+
         viewModelSetup()
         setUpUi()
 
-//        setUpAdapter()
+        setUpAdapter()
         setDeviceAdapter()
         progressBarAnimation()
 
+//        progressBarAnimation()
         clickListener()
     }
 
@@ -68,8 +74,6 @@ class ClassesCoverActivity : BaseActivity(), YourEquipmentAdapter.YourEquipmentA
         equipMentVideoList = BaseResponseDataObject.getClassDetailsResponse.equipment_video as ArrayList<EquipmentVideo>
         instructorInfoist = BaseResponseDataObject.getClassDetailsResponse.instructor_info as ArrayList<InstructorInfo>
          item = instructorInfoist.get(0)
-
-
         binding.trainnerProfileSub.tvTrainerName.text = item.instructor_name
         binding.trainnerProfileSub.tvTrainerVideoCount.text = "${item.video_count} classes"
         binding.trainnerProfileSub.tvTrainerVideoDesc.text = item.instructor_details
@@ -193,28 +197,34 @@ class ClassesCoverActivity : BaseActivity(), YourEquipmentAdapter.YourEquipmentA
 
         if (intent.extras != null) {
             val pagename = intent.extras!!.getString("pagename")
-            if (pagename == "ProgramsCoverActivity"){
+            if (pagename == "ProgramsCoverActivity") {
 
 //                binding.trainnerProgressSub.trpRating2.progressBackgroundColor = resources.getColor(R.color.blue_light)
 //                binding.trainnerProgressSub.trpRating2.progressColor = resources.getColor(R.color.blue)
             }
         }
+        binding.btnStartWorkout.setOnClickListener {
+
+            LitVideoPlayerSDK.streamingUrl =
+                "https://d1p2c1ey61b4dk.cloudfront.net/f1f2bd39-07b9-4e78-91b7-38e439b15151/hls/TIFFLsmSpdBndCirTra40Min1013-22.m3u8"
+
+            startActivity(Intent(this@ClassesCoverActivity, MainActivity::class.java))
+        }
+
     }
 
     private fun setUpAdapter() {
         dataList.clear()
         eqipLevel.clear()
-        dataList.add(YourEquipmentData(false))
-        dataList.add(YourEquipmentData(false))
-        dataList.add(YourEquipmentData(false))
-        dataList.add(YourEquipmentData(false))
         binding.rvEquipmentType.layoutManager =
             RecyclerView.LinearLayoutManager(this@ClassesCoverActivity)
-        equipmentList.add(Data("hhfhhfhf","jjfjj","555","https://d3jnymwk79oj1p.cloudfront.net/wp-content/uploads/2021/10/LIT-ON-DEMAND-scaled.jpg","fdffff"))
-        equipmentList.add(Data("hhfhhfhf","jjfjj","555","https://d3jnymwk79oj1p.cloudfront.net/wp-content/uploads/2021/10/LIT-ON-DEMAND-scaled.jpg","fdffff"))
-        equipmentList.add(Data("hhfhhfhf","jjfjj","555","https://d3jnymwk79oj1p.cloudfront.net/wp-content/uploads/2021/10/LIT-ON-DEMAND-scaled.jpg","fdffff"))
-        equipmentList.add(Data("hhfhhfhf","jjfjj","555","https://d3jnymwk79oj1p.cloudfront.net/wp-content/uploads/2021/10/LIT-ON-DEMAND-scaled.jpg","fdffff"))
-        yourEquipmentAdapter = YourEquipmentAdapter(dataList, this@ClassesCoverActivity,equipmentList)
+        BaseResponseDataObject.getClassDetailsResponse.devices.map {
+            equipmentList.add(Data(it.uuid, it.name, it.uuid, it.imgUrl, it.name))
+            dataList.add(YourEquipmentData(false))
+
+        }
+        yourEquipmentAdapter =
+            YourEquipmentAdapter(dataList, this@ClassesCoverActivity, equipmentList)
         binding.rvEquipmentType.adapter = yourEquipmentAdapter
         binding.rvEquipmentType.addItemDecoration(
             MarginItemDecoration(
@@ -230,8 +240,6 @@ class ClassesCoverActivity : BaseActivity(), YourEquipmentAdapter.YourEquipmentA
 
     private fun setDeviceAdapter(){
         dataListDeviceVideo.clear()
-        dataListDeviceVideo.add("")
-        dataListDeviceVideo.add("")
         binding.rvDeviceVideo.layoutManager =
             RecyclerView.LinearLayoutManager(this@ClassesCoverActivity)
         classesCoverDeviceVideoAdapter =

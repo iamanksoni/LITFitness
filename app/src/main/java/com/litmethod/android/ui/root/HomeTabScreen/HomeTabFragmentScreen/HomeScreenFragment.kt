@@ -40,7 +40,6 @@ import com.litmethod.android.models.GetProgramById.GetProgramByIdRequest
 import com.litmethod.android.models.HomePageModels.*
 import com.litmethod.android.network.HomeTabFragmentRepository
 import com.litmethod.android.network.RetrofitDataSourceService
-import com.litmethod.android.network.ServiceBuilder
 import com.litmethod.android.shared.BaseFragment
 import com.litmethod.android.ui.Dashboard.HomeTabScreen.PerformanceDetailsScreen.PerformanceDetailsActivity
 import com.litmethod.android.ui.VideoPlayer.VideoPlayerActivity
@@ -53,7 +52,6 @@ import com.litmethod.android.ui.root.HomeTabScreen.HomeViewModelFactory
 import com.litmethod.android.utlis.AppConstants
 import com.litmethod.android.utlis.DataPreferenceObject
 import com.litmethod.android.utlis.PeekingLinearLayoutManager
-import com.litmethod.android.utlis.SpacesItemDecoration
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.time.*
@@ -88,7 +86,7 @@ class HomeScreenFragment : BaseFragment(), AllTimeAdapter.AllTimeAdapterListener
     private var layoutManagerRateKacl: RecyclerView.LayoutManager? = null
     private var rateKaclAdapter: RateKaclAdapter? = null
 
-    val dataListAchievement: ArrayList<AchivementsViewModel> = ArrayList<AchivementsViewModel>()
+    var dataListAchievement: ArrayList<AchivementsViewModel> = ArrayList<AchivementsViewModel>()
     private var layoutManagerAchievement: RecyclerView.LayoutManager? = null
     private var achievementsAdapter: AchievementsAdapter? = null
 
@@ -178,13 +176,13 @@ class HomeScreenFragment : BaseFragment(), AllTimeAdapter.AllTimeAdapterListener
     }
 
     private fun setUpAdapter() {
+        videoGetStartedAdapter = VideoGetStartedAdapter(dataListVideo, requireContext())
         binding.rvVideoGetStarted.apply {
             layoutManagernewVideo =
                 PeekingLinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
             this.layoutManager = layoutManagernewVideo
-            videoGetStartedAdapter = VideoGetStartedAdapter(dataListVideo, requireContext())
             this.adapter = videoGetStartedAdapter
-            videoGetStartedAdapter!!.setAdapterListener(this@HomeScreenFragment)
+            videoGetStartedAdapter?.setAdapterListener(this@HomeScreenFragment)
         }
 
         binding.rvProgramsMadeForYou.apply {
@@ -383,14 +381,14 @@ class HomeScreenFragment : BaseFragment(), AllTimeAdapter.AllTimeAdapterListener
 //            it.programsmadeforyou.headerTitle
             dataListVideo.clear()
             dataListVideo.addAll(it.gettingstarted.videos)
-            videoGetStartedAdapter!!.notifyDataSetChanged()
+            videoGetStartedAdapter?.notifyDataSetChanged()
             dataListProgram.clear()
             dataListProgram.addAll(it.programsmadeforyou.videos)
-            programMadeForYouAdapter!!.notifyDataSetChanged()
+            programMadeForYouAdapter?.notifyDataSetChanged()
             dataListWorkOut.clear()
             if (!it.videos.isNullOrEmpty()) {
                 dataListWorkOut.addAll(it.videos)
-                workoutGoalHeaderAdapter!!.notifyDataSetChanged()
+                workoutGoalHeaderAdapter?.notifyDataSetChanged()
             }
 
         })
@@ -1234,7 +1232,9 @@ class HomeScreenFragment : BaseFragment(), AllTimeAdapter.AllTimeAdapterListener
                 if (idDefult.toInt() < 10) {
                     idDefult = "0$idDefult"
                 }
-                dataListAchievement[1] = AchivementsViewModel(idDefult, "Classes", true)
+                if (dataListAchievement.size > 0) {
+                    dataListAchievement[1] = AchivementsViewModel(idDefult, "Classes", true)
+                }
             }
         } else {
             dataListAchievement[1] = AchivementsViewModel("0", "Class", false)
@@ -1254,7 +1254,13 @@ class HomeScreenFragment : BaseFragment(), AllTimeAdapter.AllTimeAdapterListener
                 if (idDefult.toInt() < 10) {
                     idDefult = "0$idDefult"
                 }
-                dataListAchievement[2] = AchivementsViewModel("$idDefult Day", "Streak", true)
+                if (dataListAchievement.size > 0) {
+                    dataListAchievement.add(
+                        2,
+                        AchivementsViewModel("$idDefult Day", "Streak", true)
+                    )
+
+                }
             }
         } else {
             dataListAchievement[2] = AchivementsViewModel("0 Day", "Streak", false)
@@ -1274,7 +1280,8 @@ class HomeScreenFragment : BaseFragment(), AllTimeAdapter.AllTimeAdapterListener
                 if (idDefult.toInt() < 10) {
                     idDefult = "0$idDefult"
                 }
-                dataListAchievement[3] = AchivementsViewModel("$idDefult Week", "Streak", true)
+                if(dataListAchievement.size>0)
+                    dataListAchievement[3] = AchivementsViewModel("$idDefult Week", "Streak", true)
             }
         } else {
             dataListAchievement[3] = AchivementsViewModel("0 Week", "streak", false)
@@ -1295,6 +1302,7 @@ class HomeScreenFragment : BaseFragment(), AllTimeAdapter.AllTimeAdapterListener
                 if (idDefult.toInt() < 10) {
                     idDefult = "0$idDefult"
                 }
+                if(dataListAchievement.size>0)
                 dataListAchievement[4] = AchivementsViewModel("$idDefult", "KCAL", true)
             }
         } else {
@@ -1315,12 +1323,13 @@ class HomeScreenFragment : BaseFragment(), AllTimeAdapter.AllTimeAdapterListener
                 if (idDefult.toInt() < 10) {
                     idDefult = "0$idDefult"
                 }
-                dataListAchievement[5] = AchivementsViewModel("$idDefult", "LBS LIFTED", true)
+                if(dataListAchievement.size>0)
+                    dataListAchievement[5] = AchivementsViewModel("$idDefult", "LBS LIFTED", true)
             }
         } else {
             dataListAchievement[5] = AchivementsViewModel("0", "LBS LIFTED", false)
         }
-        achievementsAdapter!!.notifyDataSetChanged()
+        achievementsAdapter?.notifyDataSetChanged()
         binding.spLoading.visibility = View.GONE
     }
 

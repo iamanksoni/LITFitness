@@ -78,7 +78,7 @@
                         <carbon.widget.LinearLayout
                             android:id="@+id/ll_fn_ln"
                             android:layout_width="match_parent"
-                            android:layout_height="@dimen/_120sdp"
+                            android:layout_height="wrap_content"
                             android:layout_below="@+id/tv_sub_header"
                             android:layout_marginTop="@dimen/_30sdp"
                             android:weightSum="1.5">
@@ -161,7 +161,7 @@
                                     android:id="@+id/last_name"
                                     android:layout_width="match_parent"
                                     android:layout_height="@dimen/_52sdp"
-                                    android:layout_alignParentBottom="true"
+                                    android:layout_below="@id/errorFirstName"
                                     android:background="@color/mono_slate_10"
                                     android:fontFamily="@font/futura_std_condensed"
                                     android:hint="@string/last_name"
@@ -181,6 +181,17 @@
                                     app:carbon_cornerRadius="@dimen/_11sdp"
                                     app:carbon_cursorColor="@color/red"
                                     app:carbon_elevation="@dimen/_2sdp"/>
+
+
+                                <TextView
+                                    android:id="@+id/errorLastName"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Please enter last name"
+                                    android:layout_below="@id/last_name"
+                                    android:textColor="@color/red"
+                                    android:visibility="gone"/>
+
                             </carbon.widget.RelativeLayout>
                         </carbon.widget.LinearLayout>
 

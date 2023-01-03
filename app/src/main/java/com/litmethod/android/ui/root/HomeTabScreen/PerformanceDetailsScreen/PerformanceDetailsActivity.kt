@@ -104,6 +104,9 @@ class PerformanceDetailsActivity : BaseActivity(), AllTimeDetailsAdapter.AllTime
             window.decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR)
             window.statusBarColor = color
         }
+        binding.ibBackButton.setOnClickListener {
+            finish()
+        }
 
     }
 

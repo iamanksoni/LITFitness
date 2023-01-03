@@ -285,8 +285,6 @@
                     android:layout_below="@+id/vw_3"
                     android:layout_marginLeft="@dimen/_15sdp"
                     android:layout_marginRight="@dimen/_15sdp"
-                    android:clickable="false"
-                    android:enabled="false"
                     android:fontFamily="@font/futura_std_condensed_extra_bd"
                     android:lineSpacingExtra="4sp"
                     android:singleLine="true"

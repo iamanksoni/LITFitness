@@ -64,7 +64,7 @@ class VideoGetStartedAdapter(
             })
 
         holder.tv_video_title.text = result[position].video_title
-        holder.tv_video_time.text = result[position].video_duration
+        holder.tv_video_time.text = result[position].video_duration + " MINS"
         holder.itemView.setOnClickListener {
 
             videoGetStartedAdapterListener.onVideoFileItemClick(position,item.video_file)

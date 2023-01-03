@@ -106,7 +106,8 @@ class ProfileActivity : BaseActivity(), View.OnClickListener {
                 editTextValueCheckIng(
                     binding.firstName.text.toString(),
                     binding.userName.text.toString(),
-                    binding.etDob.text.toString()
+                    binding.etDob.text.toString(),
+                    binding.lastName.text.toString()
                 )
             }
         })
@@ -121,7 +122,8 @@ class ProfileActivity : BaseActivity(), View.OnClickListener {
                 editTextValueCheckIng(
                     binding.firstName.text.toString(),
                     binding.userName.text.toString(),
-                    binding.etDob.text.toString()
+                    binding.etDob.text.toString(),
+                    binding.lastName.text.toString()
                 )
             }
         })
@@ -136,7 +138,8 @@ class ProfileActivity : BaseActivity(), View.OnClickListener {
                 editTextValueCheckIng(
                     binding.firstName.text.toString(),
                     binding.userName.text.toString(),
-                    binding.etDob.text.toString()
+                    binding.etDob.text.toString(),
+                    binding.lastName.text.toString()
                 )
             }
         })
@@ -152,7 +155,8 @@ class ProfileActivity : BaseActivity(), View.OnClickListener {
                 editTextValueCheckIng(
                     binding.firstName.text.toString(),
                     binding.userName.text.toString(),
-                    binding.etDob.text.toString()
+                    binding.etDob.text.toString(),
+                    binding.lastName.text.toString()
                 )
             }
         })
@@ -206,9 +210,12 @@ class ProfileActivity : BaseActivity(), View.OnClickListener {
         }
     }
 
-    private fun editTextValueCheckIng(firstName: String, userName: String, dob: String): Boolean {
+    private fun editTextValueCheckIng(firstName: String, userName: String, dob: String, lastName: String): Boolean {
         if (firstName.isNotEmpty()) {
             binding.errorFirstName.visibility = View.GONE
+        }
+        if (lastName.isNotEmpty()) {
+            binding.errorLastName.visibility = View.GONE
         }
         if (userName.isNotEmpty()) {
             binding.errorUserName.visibility = View.GONE
@@ -224,9 +231,12 @@ class ProfileActivity : BaseActivity(), View.OnClickListener {
         return false
     }
 
-    private fun checkForAllValues(firstName: String, userName: String, dob: String): Boolean {
+    private fun checkForAllValues(firstName: String, userName: String, dob: String, lastName: String): Boolean {
         if (firstName.isEmpty()) {
             binding.errorFirstName.visibility = View.VISIBLE
+        }
+        if (lastName.isEmpty()) {
+            binding.errorLastName.visibility = View.VISIBLE
         }
         if (userName.isEmpty()) {
             binding.errorUserName.visibility = View.VISIBLE
@@ -247,7 +257,8 @@ class ProfileActivity : BaseActivity(), View.OnClickListener {
         if (checkForAllValues(
                 binding.firstName.text.toString(),
                 binding.userName.text.toString(),
-                binding.etDob.text.toString()
+                binding.etDob.text.toString(),
+                binding.lastName.text.toString()
             )
         ) {
             UiDataObject.firstName = binding.firstName.text.toString()
