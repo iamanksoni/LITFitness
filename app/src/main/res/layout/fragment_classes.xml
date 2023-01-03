@@ -169,7 +169,7 @@
                                     android:button="@null"
                                     android:paddingLeft="@dimen/_35sdp"
                                     android:fontFamily="@font/futura_std_condensed"
-                                    android:text="All Access"
+                                    android:text="open gym"
                                     android:textAllCaps="true"
                                     android:textColor="@drawable/radio_text_selected_program"
                                     android:textSize="@dimen/_11ssp" />

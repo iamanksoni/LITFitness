@@ -38,7 +38,7 @@ import java.util.*
 
 
 class ClassesCoverActivity : BaseActivity(), YourEquipmentAdapter.YourEquipmentAdapterListener,
-    View.OnClickListener{
+    View.OnClickListener {
     lateinit var binding: ActivityClassesCoverBinding
     val dataList: ArrayList<YourEquipmentData> = ArrayList<YourEquipmentData>()
     private var yourEquipmentAdapter: YourEquipmentAdapter? = null
@@ -49,7 +49,7 @@ class ClassesCoverActivity : BaseActivity(), YourEquipmentAdapter.YourEquipmentA
     var equipMentVideoList: ArrayList<EquipmentVideo> = ArrayList<EquipmentVideo>()
     var instructorInfoist: ArrayList<InstructorInfo> = ArrayList<InstructorInfo>()
     lateinit var viewModel: ClassCoverActvityViewModel
-    lateinit var item:InstructorInfo
+    lateinit var item: InstructorInfo
     var isVideoSave = false
     private val retrofitService = RetrofitDataSourceService.getInstance()
 
@@ -69,14 +69,16 @@ class ClassesCoverActivity : BaseActivity(), YourEquipmentAdapter.YourEquipmentA
     }
 
     private fun setUpUi() {
-        equipMentVideoList = BaseResponseDataObject.getClassDetailsResponse.equipment_video as ArrayList<EquipmentVideo>
-        instructorInfoist = BaseResponseDataObject.getClassDetailsResponse.instructor_info as ArrayList<InstructorInfo>
-         item = instructorInfoist.get(0)
+        equipMentVideoList =
+            BaseResponseDataObject.getClassDetailsResponse.equipment_video as ArrayList<EquipmentVideo>
+        instructorInfoist =
+            BaseResponseDataObject.getClassDetailsResponse.instructor_info as ArrayList<InstructorInfo>
+        item = instructorInfoist.get(0)
         binding.trainnerProfileSub.tvTrainerName.text = item.instructor_name
         binding.trainnerProfileSub.tvTrainerVideoCount.text = "${item.video_count} classes"
         binding.trainnerProfileSub.tvTrainerVideoDesc.text = item.instructor_details
 
-        if(BaseResponseDataObject.getClassDetailsResponse.isSave){
+        if (BaseResponseDataObject.getClassDetailsResponse.isSave) {
             isVideoSave = true
             binding.imageView.setImageResource(R.drawable.ic_star_active)
         } else {
@@ -84,9 +86,9 @@ class ClassesCoverActivity : BaseActivity(), YourEquipmentAdapter.YourEquipmentA
             binding.imageView.setImageResource(R.drawable.ic_like)
         }
 
-        if (BaseResponseDataObject.getClassDetailsResponse.isViewed== false){
+        if (BaseResponseDataObject.getClassDetailsResponse.isViewed == false) {
             binding.ivNew.visibility = View.VISIBLE
-        } else{
+        } else {
             binding.ivNew.visibility = View.GONE
         }
 
@@ -127,12 +129,12 @@ class ClassesCoverActivity : BaseActivity(), YourEquipmentAdapter.YourEquipmentA
             it.name
         }
         val combinedEquipments = (firstArray + secondArray).joinToString()
-         binding.tvCombinedEquip.text = combinedEquipments
+        binding.tvCombinedEquip.text = combinedEquipments
         val firstWordtime = "${BaseResponseDataObject.getClassDetailsResponse.getDurations}"
         val secondWordtime = "  •  "
         val ThirdWordtime = "${BaseResponseDataObject.getClassDetailsResponse.getLevelName}"
         val FourthWordtime = "  •  "
-        val  FifthWordtime= "${BaseResponseDataObject.getClassDetailsResponse.class_type}"
+        val FifthWordtime = "${BaseResponseDataObject.getClassDetailsResponse.class_type}"
 
         val spannabletime: Spannable =
             SpannableString(firstWordtime + secondWordtime + ThirdWordtime + FourthWordtime + FifthWordtime)
@@ -148,7 +150,7 @@ class ClassesCoverActivity : BaseActivity(), YourEquipmentAdapter.YourEquipmentA
             firstWordtime!!.length + secondWordtime.length,
             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         )
-        when (BaseResponseDataObject.getClassDetailsResponse.getLevelName){
+        when (BaseResponseDataObject.getClassDetailsResponse.getLevelName) {
             "Intermediate" -> {
                 spannabletime.setSpan(
                     ForegroundColorSpan(getResources().getColor(R.color.intermediate)),
@@ -236,7 +238,7 @@ class ClassesCoverActivity : BaseActivity(), YourEquipmentAdapter.YourEquipmentA
 
     }
 
-    private fun setDeviceAdapter(){
+    private fun setDeviceAdapter() {
         dataListDeviceVideo.clear()
         binding.rvDeviceVideo.layoutManager =
             RecyclerView.LinearLayoutManager(this@ClassesCoverActivity)
@@ -252,7 +254,7 @@ class ClassesCoverActivity : BaseActivity(), YourEquipmentAdapter.YourEquipmentA
         )
     }
 
-    override fun onItemEquipClick(position: Int,data:String) {
+    override fun onItemEquipClick(position: Int, data: String) {
         if (dataList[position].selectedItem) {
             dataList[position].selectedItem = false
         } else {
@@ -266,16 +268,21 @@ class ClassesCoverActivity : BaseActivity(), YourEquipmentAdapter.YourEquipmentA
             override fun onTick(millisUntilFinished: Long) {}
 
             override fun onFinish() {
-              val progressLikePercent=  BaseResponseDataObject.getClassDetailsResponse.classRatting.totalLikepersentage.toFloat()
-                val totalRating =BaseResponseDataObject.getClassDetailsResponse.classRatting.totalCount
-                 val difficultyRating = BaseResponseDataObject.getClassDetailsResponse.difficultyRating
-             val percent =  (difficultyRating.toDouble()/5)*100
-                Log.d("thepercentis","the percent $percent and rating $difficultyRating")
+                val progressLikePercent =
+                    BaseResponseDataObject.getClassDetailsResponse.classRatting.totalLikepersentage.toFloat()
+                val totalRating =
+                    BaseResponseDataObject.getClassDetailsResponse.classRatting.totalCount
+                val difficultyRating =
+                    BaseResponseDataObject.getClassDetailsResponse.difficultyRating
+                val percent = (difficultyRating.toDouble() / 5) * 100
+                Log.d("thepercentis", "the percent $percent and rating $difficultyRating")
                 binding.trainnerProgressSub.progressbar1.progress = progressLikePercent
                 binding.trainnerProgressSub.progressbar2.progress = percent.toFloat()
-                binding.trainnerProgressSub.progressbar1.labelText ="$totalRating RATINGS  (${progressLikePercent.toInt()}%)"
-                binding.trainnerProgressSub.progressbar2.labelText = "DIFFICULTY ${difficultyRating}/5"
-            //                binding.trainnerProgressSub.trpRating.progress = 70f
+                binding.trainnerProgressSub.progressbar1.labelText =
+                    "$totalRating RATINGS  (${progressLikePercent.toInt()}%)"
+                binding.trainnerProgressSub.progressbar2.labelText =
+                    "DIFFICULTY ${difficultyRating}/5"
+                //                binding.trainnerProgressSub.trpRating.progress = 70f
 //                binding.trainnerProgressSub.trpRating2.progress = 70f
             }
         }
@@ -289,6 +296,7 @@ class ClassesCoverActivity : BaseActivity(), YourEquipmentAdapter.YourEquipmentA
         binding.trainnerProfileSub.llTopLayout.setOnClickListener(this)
         binding.imageView.setOnClickListener(this)
     }
+
     override fun onClick(p0: View?) {
         when (p0!!.id) {
             R.id.ib_back_button -> {
@@ -296,24 +304,35 @@ class ClassesCoverActivity : BaseActivity(), YourEquipmentAdapter.YourEquipmentA
             }
             R.id.ll_top_layout -> {
                 binding.spLoading.visibility = View.VISIBLE
-                  viewModel.checkGetInstructorInfoRequest("${BaseResponseDataObject.accessToken}",
-                  GetInstructorInfoRequest("10","getInstructorinfo",item.instructor_id,"1")
-                  )
-                 Log.d("theINstrust","the instructor id is ${item.instructor_id}")
+                viewModel.checkGetInstructorInfoRequest(
+                    "${BaseResponseDataObject.accessToken}",
+                    GetInstructorInfoRequest("10", "getInstructorinfo", item.instructor_id, "1")
+                )
+                Log.d("theINstrust", "the instructor id is ${item.instructor_id}")
             }
             R.id.imageView -> {
                 binding.spLoading.visibility = View.VISIBLE
-                if(isVideoSave){
-                    viewModel.checkgetClassBookmark(BaseResponseDataObject.accessToken,
-                        ClassBookmarkRequest("classBookmark","${BaseResponseDataObject.getClassDetailsResponse.id}","unsave")
+                if (isVideoSave) {
+                    viewModel.checkgetClassBookmark(
+                        BaseResponseDataObject.accessToken,
+                        ClassBookmarkRequest(
+                            "classBookmark",
+                            "${BaseResponseDataObject.getClassDetailsResponse.id}",
+                            "unsave"
+                        )
                     )
-                    isVideoSave=false
+                    isVideoSave = false
                     binding.imageView.setImageResource(R.drawable.ic_like)
-                }else{
-                    viewModel.checkgetClassBookmark(BaseResponseDataObject.accessToken,
-                        ClassBookmarkRequest("classBookmark","${BaseResponseDataObject.getClassDetailsResponse.id}","save")
+                } else {
+                    viewModel.checkgetClassBookmark(
+                        BaseResponseDataObject.accessToken,
+                        ClassBookmarkRequest(
+                            "classBookmark",
+                            "${BaseResponseDataObject.getClassDetailsResponse.id}",
+                            "save"
+                        )
                     )
-                    isVideoSave=true
+                    isVideoSave = true
                     binding.imageView.setImageResource(R.drawable.ic_star_active)
                 }
 
@@ -324,21 +343,24 @@ class ClassesCoverActivity : BaseActivity(), YourEquipmentAdapter.YourEquipmentA
 
     private fun viewModelSetup() {
         viewModel =
-            ViewModelProvider(this, ClassesCoverActivityViewModelFactory(
-                ClassesCoverActivityRepository(retrofitService),this)).get(
+            ViewModelProvider(
+                this, ClassesCoverActivityViewModelFactory(
+                    ClassesCoverActivityRepository(retrofitService), this
+                )
+            ).get(
                 ClassCoverActvityViewModel::class.java
             )
         loginResponse()
     }
 
 
-    private  fun loginResponse(){
+    private fun loginResponse() {
 
         viewModel.getInstructorInfoResponse.observe(this, Observer {
-            Log.d("theSucccessData","the succes data is ${it.result}")
+            Log.d("theSucccessData", "the succes data is ${it.result}")
             binding.spLoading.visibility = View.GONE
             BaseResponseDataObject.getInstructorInfoResponse = it.result.pagenation.data
-            intentActivity(this@ClassesCoverActivity, TrainerProfileScreenActivity::class.java,"")
+            intentActivity(this@ClassesCoverActivity, TrainerProfileScreenActivity::class.java, "")
         })
         viewModel.errorMessage.observe(this, Observer {
 
@@ -346,8 +368,8 @@ class ClassesCoverActivity : BaseActivity(), YourEquipmentAdapter.YourEquipmentA
 
         viewModel.classBookmarkResponse.observe(this, Observer {
             binding.spLoading.visibility = View.GONE
-            Log.d("getData255","message is ${it.serverResponse.message}")
-               })
+            Log.d("getData255", "message is ${it.serverResponse.message}")
+        })
         viewModel.errorMessage.observe(this, Observer {
             binding.spLoading.visibility = View.GONE
         })

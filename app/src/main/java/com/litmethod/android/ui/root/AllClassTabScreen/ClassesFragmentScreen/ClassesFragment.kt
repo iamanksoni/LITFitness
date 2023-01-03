@@ -691,7 +691,9 @@ class ClassesFragment : BaseFragment(), StackClassesAdapter.StackClassesAdapterL
 
         for (i in 0 until dataList.size){
             if(position == i){
-                dataList[position].selectedItem = !dataList[position].selectedItem
+                if(!dataList[position].selectedItem) {
+                    dataList[position].selectedItem = !dataList[position].selectedItem
+                }
             }else{
                 dataList[i].selectedItem = false
             }
