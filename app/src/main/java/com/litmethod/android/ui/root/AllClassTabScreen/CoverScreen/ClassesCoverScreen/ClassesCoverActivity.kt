@@ -65,8 +65,6 @@ class ClassesCoverActivity : BaseActivity(), YourEquipmentAdapter.YourEquipmentA
         setUpAdapter()
         setDeviceAdapter()
         progressBarAnimation()
-
-//        progressBarAnimation()
         clickListener()
     }
 
