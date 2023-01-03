@@ -181,7 +181,6 @@ class HomeScreenFragment : BaseFragment(), AllTimeAdapter.AllTimeAdapterListener
             layoutManagernewVideo =
                 PeekingLinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
             this.layoutManager = layoutManagernewVideo
-
             this.adapter = videoGetStartedAdapter
             videoGetStartedAdapter?.setAdapterListener(this@HomeScreenFragment)
         }

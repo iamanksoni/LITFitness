@@ -2,6 +2,9 @@ package com.foxlabz.statisticvideoplayer
 
 import android.os.Bundle
 import android.view.View
+import android.view.WindowManager
+import android.widget.ImageView
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -36,7 +39,29 @@ class MainActivity : AppCompatActivity() {
         recyclerView.layoutManager =
             LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
 
+        val bluetoothButton = findViewById<ImageView>(R.id.bluetoothButton)
 
+        bluetoothButton.setOnClickListener {
+            val builder = AlertDialog.Builder(this, R.style.CustomAlertDialog)
+                .create()
+            val view = layoutInflater.inflate(R.layout.custom_dialog_bluetooth, null)
+            val lp = WindowManager.LayoutParams()
+            lp.copyFrom(builder.getWindow()?.getAttributes())
+            lp.width = 300
+            lp.height = 300
+            builder.setView(view)
+            builder.setCanceledOnTouchOutside(false)
+            val wmlp: WindowManager.LayoutParams = builder.getWindow()!!.getAttributes()
+            wmlp.x = 200 //x position
+            builder.show()
+            val width = (500).toInt()
+            val height = (500).toInt()
+            builder.getWindow()?.setLayout(width, height)
+        }
+        LitVideoPlayerSDK.heartRate.observe(this, Observer {
+            staticList.get(3).value = it.parameterValue.toString()
+            adapter.notifyItemChanged(3)
+        })
 
     }
 }

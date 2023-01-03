@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="250dp"
+    android:layout_height="200dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/sound_background"
+    android:orientation="vertical">
+
+
+
+    <RelativeLayout
+        android:id="@+id/upperHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bluetooth_top_background"
+        android:padding="5dp">
+
+        <ImageView
+            android:id="@+id/bluetoothIcon"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_baseline_bluetooth_24"
+            app:tint="@color/black"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="INSTRUCTOR"
+            android:textStyle="bold"
+            android:textSize="10sp"
+            android:layout_centerVertical="true"
+            android:textColor="@color/black"
+            android:layout_toEndOf="@id/bluetoothIcon"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0%"
+            android:textStyle="bold"
+            android:textSize="10sp"
+            android:layout_marginEnd="20dp"
+            android:layout_centerVertical="true"
+            android:textColor="@color/black"
+            android:layout_alignParentEnd="true" />
+
+    </RelativeLayout>
+
+    <SeekBar
+        android:id="@+id/seekbarForInstructor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_below="@id/upperHeader"
+        />
+
+    <RelativeLayout
+        android:id="@+id/middleHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_below="@id/seekbarForInstructor"
+        android:background="@drawable/bluetooth_top_background"
+        android:padding="5dp">
+
+        <ImageView
+            android:id="@+id/iconTwo"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_baseline_bluetooth_24"
+            app:tint="@color/black"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="MUSIC"
+            android:textStyle="bold"
+            android:textSize="10sp"
+            android:layout_centerVertical="true"
+            android:textColor="@color/black"
+            android:layout_toEndOf="@id/iconTwo"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0%"
+            android:textStyle="bold"
+            android:textSize="10sp"
+            android:layout_marginEnd="20dp"
+            android:layout_centerVertical="true"
+            android:textColor="@color/black"
+            android:layout_alignParentEnd="true" />
+
+    </RelativeLayout>
+
+    <SeekBar
+        android:id="@+id/seekbarForMusic"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_below="@id/middleHeader"
+        />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:orientation="vertical"
+        android:layout_alignParentBottom="true"
+        android:padding="5dp"
+        android:background="@drawable/bluetooth_bottom_background">
+
+
+        <TextView
+            android:id="@+id/originalMix"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="original mix"
+            android:layout_marginStart="10dp"
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp"
+            android:gravity="center"
+            android:textAlignment="center"
+            android:paddingTop="1dp"
+            android:paddingBottom="1dp"
+            android:textStyle="bold"
+            android:background="@drawable/button_background"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="done"
+            android:layout_marginStart="10dp"
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp"
+            android:layout_toEndOf="@id/originalMix"
+            android:gravity="center"
+            android:textAlignment="center"
+            android:paddingTop="1dp"
+            android:paddingBottom="1dp"
+            android:textStyle="bold"
+            android:background="@drawable/button_background"
+            android:textColor="@color/black" />
+
+    </RelativeLayout>
+
+
+
+
+
+
+
+</RelativeLayout>
