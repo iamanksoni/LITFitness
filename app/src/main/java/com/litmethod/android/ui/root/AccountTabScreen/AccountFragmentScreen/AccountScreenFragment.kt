@@ -312,6 +312,12 @@ class AccountScreenFragment : BaseFragment(), AllTabItemAdapter.AllTabItemAdapte
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
             window.statusBarColor = this.resources.getColor(R.color.black)
         }
+        if(BaseResponseDataObject.hasSubscription){
+            binding.llProMember.visibility = View.VISIBLE
+        }
+        else{
+            binding.llProMember.visibility = View.GONE
+        }
     }
 
     private fun setUpAdapter() {

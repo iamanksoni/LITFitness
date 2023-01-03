@@ -46,6 +46,9 @@ class DeviceManagerActivity : BaseActivity(), DeviceManagerAdapter.DeviceAdapter
             this.layoutManager = LinearLayoutManager(this@DeviceManagerActivity)
             this.adapter = yourEquipmentAdapter
         }
+        binding.ibBackButton.setOnClickListener {
+            finish()
+        }
     }
 
     override fun onDeviceItemClick(

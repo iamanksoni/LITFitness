@@ -228,6 +228,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
                         it.result.profileDetails.accessToken.accessToken
                     )
                 }
+                BaseResponseDataObject.hasSubscription = it.serverResponse.subscribtionStatus.has_subscription
                 BaseResponseDataObject.accessToken =
                     it.result.profileDetails.accessToken.accessToken
                 BaseResponseDataObject.token = it.result.profileDetails.accessToken.accessToken

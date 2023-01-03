@@ -58,6 +58,30 @@ class VideoPlayerActivity : AppCompatActivity() {
             val height = (500).toInt()
             builder.getWindow()?.setLayout(width, height)
         }
+
+
+        val soundButton = findViewById<ImageView>(R.id.soundButton)
+
+        soundButton.setOnClickListener {
+            val builder = AlertDialog.Builder(this, R.style.CustomAlertDialog)
+                .create()
+            val view = layoutInflater.inflate(R.layout.custom_dialog_sound, null)
+            val lp = WindowManager.LayoutParams()
+            lp.copyFrom(builder.getWindow()?.getAttributes())
+            lp.width = 300
+            lp.height = 300
+            builder.setView(view)
+            builder.setCanceledOnTouchOutside(false)
+            val wmlp: WindowManager.LayoutParams = builder.getWindow()!!.getAttributes()
+            wmlp.x = 200 //x position
+            builder.show()
+            val width = (500).toInt()
+            val height = (500).toInt()
+            builder.getWindow()?.setLayout(width, height)
+        }
+
+
+
         LitVideoPlayerSDK.heartRate.observe(this, Observer {
             staticList.get(3).value = it.parameterValue.toString()
             adapter.notifyItemChanged(3)
