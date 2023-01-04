@@ -89,12 +89,12 @@ class AchievementsAdapter(
             holder.tv_rate_value_next_line.text = result[position].secondLineTitle
             when (position) {
                 0 -> {
-                    holder.tv_rate_value.setTextColor(context.getColor(R.color.red))
-                    holder.tv_rate_value_next_line.setTextColor(context.getColor(R.color.light_red))
+                    holder.tv_rate_value.setTextColor(context.getColor(R.color.yellow))
+                    holder.tv_rate_value_next_line.setTextColor(context.getColor(R.color.light_yellow))
                     val colorInt1 = context.getColor(R.color.white)
                     holder.iv_achievements.imageTintMode = PorterDuff.Mode.SRC_ATOP
                     holder.iv_achievements.imageTintList = ColorStateList.valueOf(colorInt1)
-                    val colorInt = context.getColor(R.color.red)
+                    val colorInt = context.getColor(R.color.yellow_new)
 //                    holder.rl_achievements.backgroundTintList = null
                     holder.rl_achievements.backgroundTintList = ColorStateList.valueOf(colorInt)
                     holder.rl_achievements.stroke = null

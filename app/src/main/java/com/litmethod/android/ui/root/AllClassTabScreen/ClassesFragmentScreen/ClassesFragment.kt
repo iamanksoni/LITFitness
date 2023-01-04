@@ -425,7 +425,7 @@ class ClassesFragment : BaseFragment(), StackClassesAdapter.StackClassesAdapterL
         }
 
         binding.rbAccess.setOnClickListener {
-            binding.tvHeader.text = "ALL ACCESS"
+            binding.tvHeader.text = "OPEN GYM"
             binding.ibFilter.visibility = View.GONE
             if(rbAccessActive){
                 rbAccessActive = false
@@ -469,6 +469,7 @@ class ClassesFragment : BaseFragment(), StackClassesAdapter.StackClassesAdapterL
                 binding.rbAccess.isChecked = false
             }
 
+            binding.llStackView.visibility = View.GONE
             if(rbAccessActive){
 
                 binding.rvVideoClass.visibility = View.GONE
@@ -655,6 +656,7 @@ class ClassesFragment : BaseFragment(), StackClassesAdapter.StackClassesAdapterL
     }
     override fun onItemClick(position: Int,code:String) {
         binding.spLoading.visibility = View.VISIBLE
+        binding.tvHeader.text = getCatagoryList[position].name
         sendCatagoryidToFilter = code
         switchAdapter = true
         codeNextRecylerView =code

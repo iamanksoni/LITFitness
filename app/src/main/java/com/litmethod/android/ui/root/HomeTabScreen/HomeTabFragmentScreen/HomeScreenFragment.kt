@@ -228,7 +228,7 @@ class HomeScreenFragment : BaseFragment(), AllTimeAdapter.AllTimeAdapterListener
         rateKaclAdapter!!.setAdapterListener(this)
 
         dataListAchievement.clear()
-        dataListAchievement.add(AchivementsViewModel("Pro Lit", "Member", false))
+        dataListAchievement.add(AchivementsViewModel("Pro Lit", "Member", true))
         dataListAchievement.add(AchivementsViewModel("0", "Classes", false))
         dataListAchievement.add(AchivementsViewModel("0 Day", "streak", false))
         dataListAchievement.add(AchivementsViewModel("0 Week", "streak", false))

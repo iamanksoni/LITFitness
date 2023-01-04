@@ -1,140 +1,162 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="250dp"
-    android:layout_height="250dp"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:background="@drawable/bluetooth_background"
+    android:clipToOutline="true"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
 
+    <RelativeLayout
+        android:id="@+id/upperHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bluetooth_top_background"
+        android:clipToOutline="true"
+        android:padding="12dp">
 
-        <RelativeLayout
-            android:id="@+id/upperHeader"
+        <ImageView
+            android:id="@+id/bluetoothIcon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_baseline_bluetooth_24"
+            app:tint="@color/black" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="10dp"
+            android:layout_toEndOf="@id/bluetoothIcon"
+            android:fontFamily="@font/futura_std_condensed"
+            android:text="CONNECTED DEVICES"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/upperHeader"
+        android:layout_marginBottom="25dp"
+        android:padding="20dp"
+        android:scrollbars="vertical">
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/bluetooth_top_background"
-            android:padding="5dp">
-
-            <ImageView
-                android:id="@+id/bluetoothIcon"
-                android:layout_width="15dp"
-                android:layout_height="15dp"
-                android:layout_centerVertical="true"
-                android:src="@drawable/ic_baseline_bluetooth_24"
-                app:tint="@color/black"/>
+            android:orientation="vertical">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="CONNECTED DEVICES"
-                android:textStyle="bold"
-                android:textSize="10sp"
-                android:layout_centerVertical="true"
-                android:textColor="@color/black"
-                android:layout_toEndOf="@id/bluetoothIcon"/>
+                android:fontFamily="@font/futura_std_condensed"
+                android:text="DEVICES"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
-        </RelativeLayout>
-
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:scrollbars="vertical"
-            android:layout_below="@id/upperHeader"
-            android:layout_marginBottom="25dp"
-            android:padding="10dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_height="70dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/white_background_box"
+                android:gravity="center_vertical"
+                android:orientation="vertical"
+                android:padding="10dp"
+                android:paddingStart="20dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="DEVICES"
-                    android:textStyle="bold"
-                    android:textColor="@color/white"/>
+                    android:fontFamily="@font/futura_std_condensed_bold"
+                    android:text="LIT AXIS"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:background="@drawable/white_background_box"
-                    android:padding="10dp"
-                    android:layout_marginTop="10dp"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="LIT AXIS"
-                        android:textStyle="bold"
-                        android:textSize="12sp"
-                        android:textColor="@color/black"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="TAP TO CONNECT"
-                        android:textStyle="bold"
-                        android:textSize="10sp"
-                        android:textColor="@color/black"/>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:background="@drawable/white_background_box"
-                    android:padding="10dp"
-                    android:layout_marginTop="10dp"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="LIT AXIS"
-                        android:textStyle="bold"
-                        android:textSize="12sp"
-                        android:textColor="@color/black"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="TAP TO CONNECT"
-                        android:textStyle="bold"
-                        android:textSize="10sp"
-                        android:textColor="@color/black"/>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:background="@drawable/white_background_box"
-                    android:padding="10dp"
-                    android:layout_marginTop="10dp"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="LIT AXIS"
-                        android:textStyle="bold"
-                        android:textSize="12sp"
-                        android:textColor="@color/black"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="TAP TO CONNECT"
-                        android:textStyle="bold"
-                        android:textSize="10sp"
-                        android:textColor="@color/black"/>
-
-                </LinearLayout>
-
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:fontFamily="@font/futura_std_condensed"
+                    android:text="TAP TO CONNECT"
+                    android:textColor="#94DEFB"
+                    android:textSize="14sp" />
 
             </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/white_background_box"
+                android:gravity="center_vertical"
+                android:orientation="vertical"
+                android:padding="10dp"
+                android:paddingStart="20dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/futura_std_condensed_bold"
+                    android:text="LIT AXIS"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:fontFamily="@font/futura_std_condensed"
+                    android:text="TAP TO CONNECT"
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/white_background_box"
+                android:gravity="center_vertical"
+                android:orientation="vertical"
+                android:padding="10dp"
+                android:paddingStart="20dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/futura_std_condensed_bold"
+                    android:text="LIT AXIS"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:fontFamily="@font/futura_std_condensed"
+                    android:text="TAP TO CONNECT"
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+
+
+        </LinearLayout>
 
         </ScrollView>
 
@@ -142,22 +164,23 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:clipToOutline="true"
+
         android:layout_alignParentBottom="true"
         android:padding="5dp"
         android:background="@drawable/bluetooth_bottom_background">
 
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="cancel"
+            android:id="@+id/bt_cancel"
+            android:layout_width="80dp"
+            android:layout_height="30dp"
+            android:fontFamily="@font/futura_std_condensed"
             android:layout_marginStart="10dp"
-            android:paddingStart="5dp"
-            android:paddingEnd="5dp"
             android:gravity="center"
             android:textAlignment="center"
-            android:paddingTop="1dp"
-            android:paddingBottom="1dp"
+            android:text="Cancel"
+            android:textAllCaps="true"
             android:textStyle="bold"
             android:background="@drawable/button_background"
             android:textColor="@color/black" />

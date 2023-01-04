@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import com.foxlabz.statisticvideoplayer.DeviceDataCalculated
 import com.foxlabz.statisticvideoplayer.LitVideoPlayerSDK
 import com.litmethod.android.BluetoothConnection.LitDeviceConstants
+import com.litmethod.android.DataProcessing.RepsCalculator
 import com.litmethod.android.Parsing.Converters
 import com.litmethod.android.databinding.ActivityDeviceDataLoggerBinding
 import com.litmethod.android.shared.BaseActivity
@@ -66,6 +67,7 @@ class DeviceDataLoggerActivity : BaseActivity() {
                                 fieldValue = value
                                 val data = readValue()
                                 runOnUiThread {
+                                    RepsCalculator.leftBandActivity((data.toFloat() * 0.005 * 2.20462))
                                     binding.tvLeftAxis.text =
                                         "Left Pull-->:${(data.toFloat() * 0.005)} KG"
                                 }
@@ -85,6 +87,7 @@ class DeviceDataLoggerActivity : BaseActivity() {
                                 fieldValue = value
                                 val data = readValue()
                                 runOnUiThread {
+                                    RepsCalculator.rightBandActivity((data.toFloat() * 0.005 * 2.20462))
                                     binding.tvRightAxis.text =
                                         "Right Pull-->:${(data.toFloat() * 0.005)} KG"
                                 }

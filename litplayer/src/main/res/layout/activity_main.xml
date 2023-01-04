@@ -65,6 +65,7 @@
 
 
         <ImageView
+            android:id="@+id/soundButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -76,7 +77,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:src="@drawable/ic_baseline_bluetooth_24" />
+            android:src="@drawable/ic_baseline_bluetooth_24"
+            app:tint="#34a8eb" />
 
 
         <ImageView

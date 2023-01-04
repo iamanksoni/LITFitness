@@ -8,39 +8,28 @@ import java.util.*
 import kotlin.math.roundToInt
 
 object ProcessedData {
-    private var heartRateList = mutableListOf<Int>()
-    private var maximumWeight = 0
     private var currentAverageRate = 0
     private var heartRateCount = 0
-    private var totalWeight = 0;
     private var averageCaloriesBurnt = 0.0;
     private var averageCaloriesCount = 0;
+    private var timeUnderTension = 0
+    private var heartRateList = mutableListOf<Pair<Int, Long>>()
 
+    /**
+     *
+     *
+     */
     fun calculateAverageHeartRate(currentHeartRate: Int): Int {
+        heartRateList.add(Pair(currentHeartRate,System.currentTimeMillis()))
         currentAverageRate =
             (currentAverageRate * heartRateCount + currentHeartRate) / (heartRateCount + 1)
         heartRateCount += 1
         return currentHeartRate;
     }
 
-    fun calculateMaximumWeight(leftWeight: Float, rightWeight: Float): Int {
-        return -1
-    }
 
-    fun calculateTotalWeight(leftWeight: Float, rightWeight: Float): Int {
-        totalWeight += Math.max(leftWeight, rightWeight).roundToInt()
-        return totalWeight
-    }
 
     fun findAverage(data: Int, count: Int) {
-
-    }
-
-    fun findTimeUnderTension() {
-
-    }
-
-    fun findRepsCalculated() {
 
     }
 
@@ -48,6 +37,9 @@ object ProcessedData {
 
     }
 
+    /**
+     * Just pass in the current time stamp for how long the value has alreadt olayed
+     */
     fun calculateCaloriesBurnt(timeInHours: Double): Double {
         var caloriesBurnt: Double = 0.0;
         var gender = BaseResponseDataObject.profilePageData.gender.uppercase(Locale.getDefault())

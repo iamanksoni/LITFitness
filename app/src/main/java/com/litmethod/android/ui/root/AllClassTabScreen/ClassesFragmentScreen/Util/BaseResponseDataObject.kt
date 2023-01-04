@@ -8,6 +8,7 @@ import com.litmethod.android.models.GetInstructorInfo.Data8
 import com.litmethod.android.models.GetProgramById.Data5
 
 object BaseResponseDataObject {
+    var hasSubscription: Boolean = false
     lateinit var getProgramByIdResponse: Data5
     lateinit var getProgramsByIdToNextScreen: GetProgramsByIdToNextScreen
     lateinit var getClassDetailsResponse: Data6
