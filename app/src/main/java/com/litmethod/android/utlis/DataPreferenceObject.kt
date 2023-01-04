@@ -1,10 +1,7 @@
 package com.litmethod.android.utlis
 
 import android.content.Context
-import androidx.datastore.createDataStore
-import androidx.datastore.preferences.core.clear
-import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.core.preferencesKey
+import androidx.datastore.preferences.core.*
 import androidx.datastore.preferences.createDataStore
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
@@ -27,8 +24,8 @@ class DataPreferenceObject(context: Context) {
             settings[dataStoreKey] = value
 
         }
-
     }
+
     suspend fun deleteAllData() {
 
         dataStore.edit {
@@ -37,7 +34,16 @@ class DataPreferenceObject(context: Context) {
 
     }
 
+    suspend fun deleteKey(key: Preferences.Key<String>) {
+        dataStore.edit {
+            it.remove(key = key)
+        }
+    }
+
+
     val dataStoreKey = preferencesKey<String>("theUserDiplayName")
+
+
     val userNameFlow: Flow<String> = dataStore.data.map {
         it[dataStoreKey] ?: ""
     }
@@ -50,3 +56,4 @@ class DataPreferenceObject(context: Context) {
         return userNameFlow
     }
 }
+

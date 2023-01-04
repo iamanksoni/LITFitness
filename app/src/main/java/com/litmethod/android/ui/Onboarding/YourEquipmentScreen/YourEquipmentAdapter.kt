@@ -24,7 +24,7 @@ class YourEquipmentAdapter(
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): YourEquipmentAdapterViewHolder {
         return YourEquipmentAdapterViewHolder(
             LayoutInflater.from(context).inflate(
-                R.layout.item_equipment_view,
+                R.layout.item_equipment_class_cover,
                 p0,
                 false
             )
@@ -74,10 +74,10 @@ class YourEquipmentAdapter(
             val colorInt = context.resources.getColor(R.color.white)
             holder.tv_header1.setTextColor(colorInt)
             val colorInt1 = context.resources.getColor(R.color.mono_grey_60)
-            holder.tv_sub_header.text = "Tap to select..."
+            holder.tv_sub_header.text = "Tap to connect..."
             holder.tv_sub_header.setTextColor(colorInt1)
         }
-        holder.itemView.setOnClickListener {
+        holder.tv_sub_header.setOnClickListener {
             yourEquipmentAdapterListener.onItemEquipClick(position,item.id)
         }
     }

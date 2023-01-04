@@ -10,11 +10,13 @@ import com.litmethod.android.R
 import com.litmethod.android.databinding.ActivityDeviceManagerBinding
 import com.litmethod.android.models.GetCustomers.Equipment
 import com.litmethod.android.shared.BaseActivity
+import com.litmethod.android.utlis.AppConstants
 import com.litmethod.android.utlis.AppConstants.Companion.DEVICE_HEART_RATE
 import com.litmethod.android.utlis.AppConstants.Companion.DEVICE_LIT_AXIS
 import com.litmethod.android.utlis.AppConstants.Companion.DEVICE_NAME
 import com.litmethod.android.utlis.AppConstants.Companion.DEVICE_STRENGTH_MACHINE
 import com.litmethod.android.utlis.AppConstants.Companion.LIT_STRENGTH_DEVICE_ID
+import com.litmethod.android.utlis.DataPreferenceObject
 import com.welie.blessed.ConnectionFailedException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -22,6 +24,7 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 
 class DeviceManagerActivity : BaseActivity(), DeviceManagerAdapter.DeviceAdapterClickListener {
+
     lateinit var binding: ActivityDeviceManagerBinding
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
     private lateinit var yourEquipmentAdapter: DeviceManagerAdapter
@@ -86,18 +89,22 @@ class DeviceManagerActivity : BaseActivity(), DeviceManagerAdapter.DeviceAdapter
     }
 
     override fun onUnpairRequest(position: Int, device: Equipment) {
-        var centralManager = LitDeviceConstants.mBleCentralManager
         when (device.id) {
             DEVICE_LIT_AXIS -> {
-
-
+                scope.launch {
+                    DataPreferenceObject(this@DeviceManagerActivity).deleteKey(AppConstants.leftListAxisKey)
+                    DataPreferenceObject(this@DeviceManagerActivity).deleteKey(AppConstants.rightListAxisKey)
+                }
             }
             DEVICE_STRENGTH_MACHINE -> {
-
+                scope.launch {
+                    DataPreferenceObject(this@DeviceManagerActivity).deleteKey(AppConstants.leftListAxisKey)
+                }
             }
             DEVICE_HEART_RATE -> {
-
-
+                scope.launch {
+                    DataPreferenceObject(this@DeviceManagerActivity).deleteKey(AppConstants.heartRateKey)
+                }
             }
         }
 

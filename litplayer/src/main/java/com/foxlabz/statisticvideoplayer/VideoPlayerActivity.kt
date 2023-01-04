@@ -119,8 +119,6 @@ class VideoPlayerActivity : AppCompatActivity() {
             val view = layoutInflater.inflate(R.layout.custom_dialog_bluetooth, null)
             val lp = WindowManager.LayoutParams()
             lp.copyFrom(builder.getWindow()?.getAttributes())
-
-
             lp.width = round(dpWidth / 2.7).toInt()
             lp.height = round(dpHeight / 1.1).toInt()
             builder.setView(view)
@@ -175,7 +173,6 @@ class VideoPlayerActivity : AppCompatActivity() {
         }
 
         //totalDuration.text = millisecondToTimer(player!!.duration)
-
 
         LitVideoPlayerSDK.heartRate!!.observe(this, Observer {
             staticList.get(3).value = it?.parameterValue.toString()

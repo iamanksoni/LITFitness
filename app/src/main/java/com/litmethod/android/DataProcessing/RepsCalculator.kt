@@ -1,5 +1,6 @@
 package com.litmethod.android.DataProcessing
 
+import android.app.Activity
 import android.os.CountDownTimer
 import kotlin.math.floor
 import kotlin.math.roundToInt
@@ -38,7 +39,7 @@ object RepsCalculator {
     private var leftBandDataList = mutableListOf<Reps>()
     private var rightBandDataList = mutableListOf<Reps>()
 
-
+    var activity: Activity? = null
     fun leftBandActivity(weight: Double) {
         this.leftBandLoad = weight
         loadActivity(this.leftBandLoad, this.rightBandLoad)
@@ -106,46 +107,55 @@ object RepsCalculator {
             this.timeUnderTensionTimer?.cancel()
             this.timeUnderTensionTimer = null
             if (this.timeUnderTensionTimer == null) {
-                this.timeUnderTensionTimer = object : CountDownTimer(FUTURE_TIME, 1000) {
-                    override fun onTick(millisUntilFinished: Long) {
-                        totalBandTensionTime = totalBandTensionTime + 1;
-                        leftBandTensionTime = leftBandTensionTime + 1
-                        rightBandTensionTime = rightBandTensionTime + 1
-                    }
 
-                    override fun onFinish() {
+                activity?.runOnUiThread() {
+                    this.timeUnderTensionTimer = object : CountDownTimer(FUTURE_TIME, 1000) {
+                        override fun onTick(millisUntilFinished: Long) {
+                            totalBandTensionTime = totalBandTensionTime + 1;
+                            leftBandTensionTime = leftBandTensionTime + 1
+                            rightBandTensionTime = rightBandTensionTime + 1
+                        }
 
-                    }
-                }.start()
+                        override fun onFinish() {
+
+                        }
+                    }.start()
+                }
+
             }
         } else if (isLeftBandUnderTension) {
             //case when right band is only in tension
             if (this.timeUnderTensionTimer == null) {
-                this.timeUnderTensionTimer = object : CountDownTimer(FUTURE_TIME, 1000) {
-                    override fun onTick(millisUntilFinished: Long) {
-                        leftBandTensionTime = leftBandTensionTime + 1
-                        totalBandTensionTime = totalBandTensionTime + 1;
-                    }
+                activity?.runOnUiThread() {
+                    this.timeUnderTensionTimer = object : CountDownTimer(FUTURE_TIME, 1000) {
+                        override fun onTick(millisUntilFinished: Long) {
+                            leftBandTensionTime = leftBandTensionTime + 1
+                            totalBandTensionTime = totalBandTensionTime + 1;
+                        }
 
-                    override fun onFinish() {
+                        override fun onFinish() {
 
-                    }
-                }.start()
+                        }
+                    }.start()
+                }
+
             }
         } else if (isRightBandUnderTension) {
 
             //case when left band is only in tension
             if (this.timeUnderTensionTimer == null) {
-                this.timeUnderTensionTimer = object : CountDownTimer(FUTURE_TIME, 1000) {
-                    override fun onTick(millisUntilFinished: Long) {
-                        rightBandTensionTime = rightBandTensionTime + 1
-                        totalBandTensionTime = totalBandTensionTime + 1;
-                    }
+                activity?.runOnUiThread() {
+                    this.timeUnderTensionTimer = object : CountDownTimer(FUTURE_TIME, 1000) {
+                        override fun onTick(millisUntilFinished: Long) {
+                            rightBandTensionTime = rightBandTensionTime + 1
+                            totalBandTensionTime = totalBandTensionTime + 1;
+                        }
 
-                    override fun onFinish() {
+                        override fun onFinish() {
 
-                    }
-                }.start()
+                        }
+                    }.start()
+                }
             }
         }
 

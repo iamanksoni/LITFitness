@@ -1,5 +1,7 @@
 package com.litmethod.android.utlis
 
+import androidx.datastore.preferences.core.preferencesKey
+
 interface AppConstants {
     companion object {
         var recyclerview_horizantolspace: Int = 0
@@ -65,5 +67,8 @@ interface AppConstants {
         const val URL_PRIVACY_POLICY="https://litmethod.com/policies/privacy-policy"
         const val URL_SUPPORT="https://litmethod.com/pages/faq"
 
+        val rightListAxisKey = preferencesKey<String>("rightLitAxis")
+        val leftListAxisKey = preferencesKey<String>("leftLitAxis")
+        val heartRateKey = preferencesKey<String>("hrSensor")
     }
 }
