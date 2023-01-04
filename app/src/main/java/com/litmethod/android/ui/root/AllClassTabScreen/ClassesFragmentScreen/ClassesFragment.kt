@@ -51,6 +51,7 @@ import com.litmethod.android.utlis.DataPreferenceObject
 class ClassesFragment : BaseFragment(), StackClassesAdapter.StackClassesAdapterListener,
     View.OnClickListener,VideoClassesAdapter.VideoClassesAdapterListener,ProgramsTabAdapter.ProgramsTabAdapterListener,AllAccessTabAdapter.AllAccessTabAdapterListener  {
     lateinit var binding: FragmentClassesBinding
+    private var positionOfUrl: Int = -1
     val dataList: ArrayList<StackClassesData> = ArrayList<StackClassesData>()
     private var layoutManagernew: RecyclerView.LayoutManager? = null
     private var stackClassesAdapter: StackClassesAdapter? = null
@@ -723,6 +724,7 @@ class ClassesFragment : BaseFragment(), StackClassesAdapter.StackClassesAdapterL
     }
 
     override fun onVideoItemClick(position: Int,id:String) {
+        positionOfUrl = position
         binding.spLoading.visibility = View.VISIBLE
         viewModel.checkgetClassDetails(accessToken, ClassDetailsRequest(AppConstants.actionTypegetClassDetails,"$id"))
         Log.d("getData255","item Clicked class id $id")
@@ -961,6 +963,8 @@ class ClassesFragment : BaseFragment(), StackClassesAdapter.StackClassesAdapterL
                 BaseResponseDataObject.getClassDetailsResponse=getClassDetailsList
                 binding.spLoading.visibility = View.GONE
                 val intent =  Intent(requireActivity(), ClassesCoverActivity::class.java)
+                intent.putExtra("videoUrl", getClassCatagoryByIdResponseList[positionOfUrl].videoUrl)
+                intent.putExtra("videoTitle", getClassCatagoryByIdResponseList[positionOfUrl].title)
                intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP)
                 startActivity(intent)
                 requireActivity().overridePendingTransition(

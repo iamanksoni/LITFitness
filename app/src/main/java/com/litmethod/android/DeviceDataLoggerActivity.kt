@@ -26,8 +26,6 @@ class DeviceDataLoggerActivity : BaseActivity() {
 
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
     private lateinit var field: Field
-    private lateinit var fieldValue: ByteArray
-    private var value: ByteArray = ByteArray(0)
     private lateinit var binding: ActivityDeviceDataLoggerBinding
 
     val LIT_AXIS_WEIGHT_SCALE_SERVICE =
@@ -64,10 +62,10 @@ class DeviceDataLoggerActivity : BaseActivity() {
                             Log.d("Data Size", value.size.toString())
                             "Received : $value".also {
                                 dataParser()
-                                fieldValue = value
-                                val data = readValue()
+
+                                val data = readValue(value)
                                 runOnUiThread {
-                                    RepsCalculator.leftBandActivity((data.toFloat() * 0.005 * 2.20462))
+                                    RepsCalculator.leftBandActivity((data.toFloat() * 0.005))
                                     binding.tvLeftAxis.text =
                                         "Left Pull-->:${(data.toFloat() * 0.005)} KG"
                                 }
@@ -84,10 +82,9 @@ class DeviceDataLoggerActivity : BaseActivity() {
                             Log.d("Data Size", value.size.toString())
                             "Received : $value".also {
                                 dataParser()
-                                fieldValue = value
-                                val data = readValue()
+                                val data = readValue(value)
                                 runOnUiThread {
-                                    RepsCalculator.rightBandActivity((data.toFloat() * 0.005 * 2.20462))
+                                    RepsCalculator.rightBandActivity((data.toFloat() * 0.005))
                                     binding.tvRightAxis.text =
                                         "Right Pull-->:${(data.toFloat() * 0.005)} KG"
                                 }
@@ -114,7 +111,7 @@ class DeviceDataLoggerActivity : BaseActivity() {
                                 binding.tvHeartRate.text =
                                     HeartRateMeasurement.fromBytes(value).toString()
 
-                                LitVideoPlayerSDK.heartRate.postValue(
+                                LitVideoPlayerSDK.heartRate!!.postValue(
                                     DeviceDataCalculated(
                                         "Hear Rate",
                                         HeartRateMeasurement.fromBytes(value).sensorContactStatus.toString() == "SupportedAndContacted",
@@ -151,7 +148,7 @@ class DeviceDataLoggerActivity : BaseActivity() {
         private const val TYPE_FLOAT_64 = "float64"
     }
 
-    private fun readValue(): String {
+    private fun readValue(fieldValue: ByteArray): String {
         if (fieldValue.isEmpty()) {
             return ""
         }
@@ -169,10 +166,10 @@ class DeviceDataLoggerActivity : BaseActivity() {
             }
         } else {
             return when {
-                field.isFullByteSintFormat() -> convertSintToString()
-                field.isFullByteUintFormat() -> convertUintToString(formatLength)
+                field.isFullByteSintFormat() -> convertSintToString(fieldValue)
+                field.isFullByteUintFormat() -> convertUintToString(formatLength, fieldValue)
                 field.isFloatFormat() -> {
-                    val fValue = readFloat(format, formatLength)
+                    val fValue = readFloat(format, formatLength, fieldValue)
                     StringBuilder(String.format(Locale.US, "%.1f", fValue)).toString()
                 }
                 else -> {
@@ -186,7 +183,7 @@ class DeviceDataLoggerActivity : BaseActivity() {
         }
     }
 
-    private fun convertSintToString(): String {
+    private fun convertSintToString(fieldValue: ByteArray): String {
         val builder = StringBuilder()
         val reversedArray = fieldValue.reversedArray()
         for (i in reversedArray.indices) {
@@ -204,7 +201,7 @@ class DeviceDataLoggerActivity : BaseActivity() {
         return result.toString()
     }
 
-    private fun convertUintToString(formatLength: Int): String {
+    private fun convertUintToString(formatLength: Int, fieldValue: ByteArray): String {
         return try {
             if (formatLength < 9) {
                 var uintAsLong = 0L
@@ -230,7 +227,7 @@ class DeviceDataLoggerActivity : BaseActivity() {
         }
     }
 
-    private fun readFloat(format: String, formatLength: Int): Double {
+    private fun readFloat(format: String, formatLength: Int, fieldValue: ByteArray): Double {
         var result = 0.0
         when (format) {
             TYPE_SFLOAT -> result = Common.readSfloat(fieldValue).toDouble()

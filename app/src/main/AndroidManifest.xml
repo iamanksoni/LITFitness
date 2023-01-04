@@ -45,8 +45,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.LIT"
-        tools:targetApi="31"
-        tools:replace="android:theme">
+        tools:replace="android:theme"
+        tools:targetApi="31">
+        <activity
+            android:name=".ShowAllActivityHome"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
         <activity
             android:name=".DeviceDataLoggerActivity"
             android:exported="false">
@@ -80,6 +87,9 @@
             android:exported="false" />
         <activity
             android:name=".ui.root.WorkOut.WorkoutActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.root.showallactivityhome.ShowAllActivityHome"
             android:exported="false" />
         <activity
             android:name=".ui.WorkoutHistory.WorkoutHistoryActivity"

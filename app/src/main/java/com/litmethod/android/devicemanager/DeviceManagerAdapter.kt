@@ -58,25 +58,25 @@ class DeviceManagerAdapter(
         }
         scope.launch {
 
-            if (DataPreferenceObject(context).read("rightLitAxis")!=null && DataPreferenceObject(context).read("leftLitAxis")!=null) {
-                if (item.id == AppConstants.LIT_STRENGTH_DEVICE_ID) {
-                    holder.btn_pair.text = "Forget"
-                    holder.btn_pair.setOnClickListener {
-                        deviceClickListener.onUnpairRequest(position, item)
-                    }
-                    holder.btn_pair.setBackgroundColor(ContextCompat.getColor(context,R.color.red))
-
-                }
-            }
-            if(DataPreferenceObject(context).read("hrSensor")!=null){
-                if (item.id == AppConstants.DEVICE_HEART_RATE) {
-                    holder.btn_pair.text = "Forget"
-                    holder.btn_pair.setOnClickListener {
-                        deviceClickListener.onUnpairRequest(position, item)
-                    }
-                    holder.btn_pair.setBackgroundColor(ContextCompat.getColor(context,R.color.red))
-                }
-            }
+//            if (DataPreferenceObject(context).read("rightLitAxis")!=null && DataPreferenceObject(context).read("leftLitAxis")!=null) {
+//                if (item.id == AppConstants.LIT_STRENGTH_DEVICE_ID) {
+//                    holder.btn_pair.text = "Forget"
+//                    holder.btn_pair.setOnClickListener {
+//                        deviceClickListener.onUnpairRequest(position, item)
+//                    }
+//                    holder.btn_pair.setBackgroundColor(ContextCompat.getColor(context,R.color.red))
+//
+//                }
+//            }
+//            if(DataPreferenceObject(context).read("hrSensor")!=null){
+//                if (item.id == AppConstants.DEVICE_HEART_RATE) {
+//                    holder.btn_pair.text = "Forget"
+//                    holder.btn_pair.setOnClickListener {
+//                        deviceClickListener.onUnpairRequest(position, item)
+//                    }
+//                    holder.btn_pair.setBackgroundColor(ContextCompat.getColor(context,R.color.red))
+//                }
+//            }
         }
 
 

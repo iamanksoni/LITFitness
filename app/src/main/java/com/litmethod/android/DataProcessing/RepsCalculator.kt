@@ -2,6 +2,7 @@ package com.litmethod.android.DataProcessing
 
 import android.app.Activity
 import android.os.CountDownTimer
+import com.foxlabz.statisticvideoplayer.LitVideoPlayerSDK
 import kotlin.math.floor
 import kotlin.math.roundToInt
 
@@ -19,7 +20,7 @@ object RepsCalculator {
     var leftBandTensionTime = 0
     var totalBandTensionTime = 0
     var rightBandTensionTime = 0;
-
+    var privateLastDataTimeStamp = System.currentTimeMillis()
     enum class BandDirection {
         Up,
         Down
@@ -55,7 +56,11 @@ object RepsCalculator {
 
     private fun loadActivity(leftBandLoad: Double, rightBandLoad: Double) {
         calculateRepsAndWeight(leftBandLoad, rightBandLoad)
-        calculateTimeUnderTension(floor(leftBandLoad), floor(rightBandLoad))
+        val timeStamp = System.currentTimeMillis()
+        if (timeStamp - privateLastDataTimeStamp > 1000) {
+            privateLastDataTimeStamp = timeStamp
+            calculateTimeUnderTension(floor(leftBandLoad), floor(rightBandLoad))
+        }
     }
 
 
@@ -105,29 +110,26 @@ object RepsCalculator {
             isBothBandUnderTension = true
             //Case when both the bands are in tension
             //Both bands are under tension
-            this.timeUnderTensionTimer?.cancel()
-            this.timeUnderTensionTimer = null
+//            this.timeUnderTensionTimer?.cancel()
+//            this.timeUnderTensionTimer = null
             if (this.timeUnderTensionTimer == null) {
 
-                activity?.runOnUiThread() {
-                    this.timeUnderTensionTimer = object : CountDownTimer(FUTURE_TIME, 1000) {
-                        override fun onTick(millisUntilFinished: Long) {
-                            totalBandTensionTime = totalBandTensionTime + 1;
-                            leftBandTensionTime = leftBandTensionTime + 1
-                            rightBandTensionTime = rightBandTensionTime + 1
-                        }
+                this.timeUnderTensionTimer = object : CountDownTimer(FUTURE_TIME, 1000) {
+                    override fun onTick(millisUntilFinished: Long) {
+                        totalBandTensionTime = totalBandTensionTime + 1;
+                        leftBandTensionTime = leftBandTensionTime + 1
+                        rightBandTensionTime = rightBandTensionTime + 1
+                    }
 
-                        override fun onFinish() {
+                    override fun onFinish() {
 
-                        }
-                    }.start()
-                }
+                    }
+                }.start()
 
             }
         } else if (isLeftBandUnderTension) {
             //case when right band is only in tension
             if (this.timeUnderTensionTimer == null) {
-                activity?.runOnUiThread() {
                     this.timeUnderTensionTimer = object : CountDownTimer(FUTURE_TIME, 1000) {
                         override fun onTick(millisUntilFinished: Long) {
                             leftBandTensionTime = leftBandTensionTime + 1
@@ -138,14 +140,11 @@ object RepsCalculator {
 
                         }
                     }.start()
-                }
 
             }
         } else if (isRightBandUnderTension) {
 
             //case when left band is only in tension
-            if (this.timeUnderTensionTimer == null) {
-                activity?.runOnUiThread() {
                     this.timeUnderTensionTimer = object : CountDownTimer(FUTURE_TIME, 1000) {
                         override fun onTick(millisUntilFinished: Long) {
                             rightBandTensionTime = rightBandTensionTime + 1
@@ -156,8 +155,6 @@ object RepsCalculator {
 
                         }
                     }.start()
-                }
-            }
         }
 
 
@@ -170,6 +167,7 @@ object RepsCalculator {
 
         }
 
+        LitVideoPlayerSDK.timeUnderTension.postValue(Triple(this.leftBandTensionTime,this.rightBandTensionTime,this.totalBandTensionTime))
 
         println("---------------------------BAND TENSION START------------------------------")
         println("Left Band Tension" + this.leftBandTensionTime)

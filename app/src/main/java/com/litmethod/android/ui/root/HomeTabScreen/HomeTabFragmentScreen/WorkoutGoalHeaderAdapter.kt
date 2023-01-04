@@ -1,6 +1,7 @@
 package com.litmethod.android.ui.root.HomeTabScreen.HomeTabFragmentScreen
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,7 +10,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.litmethod.android.R
 import com.litmethod.android.models.VideoXX
+import com.litmethod.android.ui.root.AllClassTabScreen.ClassesFragmentScreen.Util.BaseResponseDataObject
 import com.litmethod.android.ui.root.AllClassTabScreen.FilterScreen.FilterChildAdapter
+import com.litmethod.android.ui.root.showallactivityhome.ShowAllActivityHome
 
 class WorkoutGoalHeaderAdapter(
     var mContext: Context,
@@ -35,6 +38,13 @@ class WorkoutGoalHeaderAdapter(
           holder.tv_show_all.visibility = View.VISIBLE
         }else{
             holder.tv_show_all.visibility = View.GONE
+        }
+        holder.tv_show_all.setOnClickListener {
+            BaseResponseDataObject.getVideosForShowAllInHome.clear()
+            BaseResponseDataObject.getVideosForShowAllInHome.addAll(list[position].videos)
+            val intent = Intent(mContext, ShowAllActivityHome::class.java)
+            intent.putExtra("header", list[position].headerTitle)
+            mContext.startActivity(intent)
         }
         holder.rv_home_workout_child!!.layoutManager = LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false)
         workoutGoalChildAdapter = WorkoutGoalChildAdapter(list[position].videos,mContext)

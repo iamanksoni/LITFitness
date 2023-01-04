@@ -83,13 +83,17 @@ class ClassesCoverActivity : BaseActivity(),
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
     private lateinit var centralManager: BluetoothCentralManager;
     private lateinit var field: Field
-    private lateinit var fieldValue: ByteArray
-    private var value: ByteArray = ByteArray(0)
+//    private lateinit var fieldValue: ByteArray
+//    private var value: ByteArray = ByteArray(0)
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_classes_cover)
+        if (intent.extras != null) {
+            LitVideoPlayerSDK.streamingUrl = intent.extras!!.getString("videoUrl")!!
+            LitVideoPlayerSDK.videoTitle = intent.extras!!.getString("videoTitle")!!
+        }
         viewModelSetup()
         setUpUi()
         setUpAdapter()
@@ -213,8 +217,6 @@ class ClassesCoverActivity : BaseActivity(),
 
         }
 
-
-
         spannabletime.setSpan(
             ForegroundColorSpan(getResources().getColor(R.color.mono_grey_60)),
             firstWordtime!!.length + secondWordtime.length + ThirdWordtime.length,
@@ -239,21 +241,20 @@ class ClassesCoverActivity : BaseActivity(),
             }
         }
         binding.btnStartWorkout.setOnClickListener {
+            startActivity(Intent(this@ClassesCoverActivity, VideoPlayerActivity::class.java))
 
-                RepsCalculator.activity=this@ClassesCoverActivity
-                if (LIT_AXIS_CONNECTION_STATE == "CONNECTED") {
-                    observeLitData()
-                }
-                if (HR_CONNECTION_STATE == "CONNECTED") {
-                    observeHrData()
-                }
-                var time = (100.0 / 360)
-                ProcessedData.calculateCaloriesBurnt(time)
-                LitVideoPlayerSDK.heartRate = MutableLiveData()
-                LitVideoPlayerSDK.streamingUrl =
-                    "https://d1p2c1ey61b4dk.cloudfront.net/f1f2bd39-07b9-4e78-91b7-38e439b15151/hls/TIFFLsmSpdBndCirTra40Min1013-22.m3u8"
-
-                startActivity(Intent(this@ClassesCoverActivity, VideoPlayerActivity::class.java))
+            RepsCalculator.activity = this@ClassesCoverActivity
+            if (LIT_AXIS_CONNECTION_STATE == "CONNECTED") {
+                LitVideoPlayerSDK.timeUnderTension = MutableLiveData()
+                observeLitData()
+            }
+            if (HR_CONNECTION_STATE == "CONNECTED") {
+                observeHrData()
+            }
+            var time = (100.0 / 360)
+            ProcessedData.calculateCaloriesBurnt(time)
+            LitVideoPlayerSDK.heartRate = MutableLiveData()
+            startActivity(Intent(this@ClassesCoverActivity, VideoPlayerActivity::class.java))
         }
 
     }
@@ -279,12 +280,10 @@ class ClassesCoverActivity : BaseActivity(),
                     Log.d("Data Size", value.size.toString())
                     "Received : $value".also {
                         dataParser()
-                        fieldValue = value
-                        val data = readValue()
-                        runOnUiThread {
+                        val data = readValue(value)
+                        runOnUiThread() {
                             RepsCalculator.leftBandActivity((data.toFloat() * 0.005 * 2.20462))
                         }
-                        Log.d("TAG", "Left Weight: " + data.toFloat() * 0.005 + "KG")
 
                     }
                 }
@@ -297,11 +296,10 @@ class ClassesCoverActivity : BaseActivity(),
                     Log.d("Data Size", value.size.toString())
                     "Received : $value".also {
                         dataParser()
-                        fieldValue = value
-                        val data = readValue()
-                        RepsCalculator.rightBandActivity((data.toFloat() * 0.005 * 2.20462))
-                        Log.d("TAG", "Right Weight: " + data.toFloat() * 0.005 + "KG")
-
+                        val data = readValue(value)
+                        runOnUiThread() {
+                            RepsCalculator.rightBandActivity((data.toFloat() * 0.005 * 2.20462))
+                        }
                     }
                 }
             }
@@ -323,7 +321,7 @@ class ClassesCoverActivity : BaseActivity(),
                 scope.launch {
                     LitDeviceConstants.mHeartRateMonitorPeripheral.observe(it) { value ->
                         HeartRateMeasurement.fromBytes(value).toString()
-                        LitVideoPlayerSDK.heartRate.postValue(
+                        LitVideoPlayerSDK.heartRate!!.postValue(
                             DeviceDataCalculated(
                                 "Hear Rate",
                                 HeartRateMeasurement.fromBytes(value).sensorContactStatus.toString() == "SupportedAndContacted",
@@ -833,7 +831,7 @@ class ClassesCoverActivity : BaseActivity(),
         private const val TYPE_FLOAT_64 = "float64"
     }
 
-    private fun readValue(): String {
+    private fun readValue(fieldValue: ByteArray): String {
         if (fieldValue.isEmpty()) {
             return ""
         }
@@ -851,10 +849,10 @@ class ClassesCoverActivity : BaseActivity(),
             }
         } else {
             return when {
-                field.isFullByteSintFormat() -> convertSintToString()
-                field.isFullByteUintFormat() -> convertUintToString(formatLength)
+                field.isFullByteSintFormat() -> convertSintToString(fieldValue)
+                field.isFullByteUintFormat() -> convertUintToString(formatLength, fieldValue)
                 field.isFloatFormat() -> {
-                    val fValue = readFloat(format, formatLength)
+                    val fValue = readFloat(format, formatLength, fieldValue)
                     StringBuilder(String.format(Locale.US, "%.1f", fValue)).toString()
                 }
                 else -> {
@@ -868,7 +866,7 @@ class ClassesCoverActivity : BaseActivity(),
         }
     }
 
-    private fun convertSintToString(): String {
+    private fun convertSintToString(fieldValue: ByteArray): String {
         val builder = StringBuilder()
         val reversedArray = fieldValue.reversedArray()
         for (i in reversedArray.indices) {
@@ -886,7 +884,7 @@ class ClassesCoverActivity : BaseActivity(),
         return result.toString()
     }
 
-    private fun convertUintToString(formatLength: Int): String {
+    private fun convertUintToString(formatLength: Int, fieldValue: ByteArray): String {
         return try {
             if (formatLength < 9) {
                 var uintAsLong = 0L
@@ -912,7 +910,7 @@ class ClassesCoverActivity : BaseActivity(),
         }
     }
 
-    private fun readFloat(format: String, formatLength: Int): Double {
+    private fun readFloat(format: String, formatLength: Int, fieldValue: ByteArray): Double {
         var result = 0.0
         when (format) {
             TYPE_SFLOAT -> result = Common.readSfloat(fieldValue).toDouble()

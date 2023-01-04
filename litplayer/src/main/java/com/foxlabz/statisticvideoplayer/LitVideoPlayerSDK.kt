@@ -5,10 +5,11 @@ import androidx.lifecycle.MutableLiveData
 object LitVideoPlayerSDK {
 
     var streamingUrl = ""
-    lateinit var heartRate: MutableLiveData<DeviceDataCalculated?>
+    var videoTitle = ""
+    var heartRate: MutableLiveData<DeviceDataCalculated>? = null
     lateinit var litAxis: MutableLiveData<DeviceDataCalculated>
     lateinit var strengthMachine: MutableLiveData<DeviceDataCalculated>
 
-    lateinit var timeUnderTension: MutableLiveData<Triple<Double, Double, Double>>
+    lateinit var timeUnderTension: MutableLiveData<Triple<Int, Int, Int>>
 
 }

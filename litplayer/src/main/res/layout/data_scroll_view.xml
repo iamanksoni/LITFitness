@@ -1,0 +1,461 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<HorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:scrollbars="none">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:layout_gravity="center"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/statistic_item_style"
+            android:gravity="center"
+            android:minWidth="90dp"
+            android:orientation="horizontal"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp">
+
+            <TextView
+                android:id="@+id/tv_tut_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginEnd="10dp"
+                android:layout_weight="1"
+                android:fontFamily="@font/futura_std_condensed"
+                android:gravity="center"
+                android:text="- -"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|end"
+                android:gravity="center"
+                android:orientation="vertical">
+
+
+                <TextView
+                    android:id="@+id/tv_item_type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/futura_std_condensed"
+                    android:text="TUT"
+                    android:textColor="#00E2FF"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <ImageView
+
+                    android:layout_width="11dp"
+                    android:layout_height="11dp"
+                    android:src="@drawable/ic_tension" />
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:layout_gravity="center"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="5dp"
+
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/statistic_item_style"
+            android:gravity="center"
+            android:minWidth="90dp"
+            android:orientation="horizontal"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp">
+
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginEnd="10dp"
+                android:layout_weight="1"
+                android:fontFamily="@font/futura_std_condensed"
+                android:gravity="center"
+                android:text="- -"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|end"
+                android:gravity="center"
+                android:orientation="vertical">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/futura_std_condensed"
+                    android:text="LBS"
+                    android:textColor="#630CFF"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:layout_width="11dp"
+                    android:layout_height="11dp"
+                    android:src="@drawable/ic_total_force" />
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:layout_gravity="center"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/statistic_item_style"
+            android:gravity="center"
+            android:minWidth="90dp"
+            android:orientation="horizontal"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp">
+
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginEnd="10dp"
+                android:layout_weight="1"
+                android:fontFamily="@font/futura_std_condensed"
+                android:gravity="center"
+                android:text="- -"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|end"
+                android:gravity="center"
+                android:orientation="vertical">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/futura_std_condensed"
+                    android:text="REPS"
+                    android:textColor="#00F1DA"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:id="@+id/iv_label_img"
+                    android:layout_width="11dp"
+                    android:layout_height="11dp"
+                    android:src="@drawable/ic_reps" />
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:layout_gravity="center"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/statistic_item_style"
+            android:minWidth="300dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_resistance_value"
+                android:layout_width="65dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:background="@drawable/statistic_item_style2"
+                android:fontFamily="@font/futura_std_condensed"
+                android:gravity="center"
+                android:text="0"
+                android:textColor="#FFC107"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <View
+                android:layout_width="220dp"
+                android:layout_height="1dp"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@id/tv_resistance_value"
+                android:alpha="0.3"
+                android:background="@color/white" />
+
+
+            <View
+                android:id="@+id/cut_1"
+                android:layout_width="1dp"
+                android:layout_height="20dp"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="25dp"
+                android:layout_toRightOf="@id/tv_resistance_value"
+                android:layout_weight="1"
+                android:background="@color/white"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp" />
+
+            <View
+                android:id="@+id/cut_2"
+                android:layout_width="1dp"
+                android:layout_height="20dp"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="25dp"
+                android:layout_toRightOf="@id/cut_1"
+                android:layout_weight="1"
+                android:background="@color/white"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp" />
+
+
+            <View
+                android:id="@+id/cut_3"
+                android:layout_width="1dp"
+                android:layout_height="20dp"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="25dp"
+                android:layout_toRightOf="@id/cut_2"
+                android:layout_weight="1"
+                android:background="@color/white"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp" />
+
+            <View
+                android:id="@+id/cut_4"
+                android:layout_width="1dp"
+                android:layout_height="20dp"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="25dp"
+                android:layout_toRightOf="@id/cut_3"
+                android:layout_weight="1"
+                android:background="@color/white"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp" />
+
+            <View
+                android:id="@+id/cut_5"
+                android:layout_width="1dp"
+                android:layout_height="20dp"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="25dp"
+                android:layout_toRightOf="@id/cut_4"
+                android:layout_weight="1"
+                android:background="@color/white"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp" />
+
+            <View
+                android:id="@+id/cut_6"
+                android:layout_width="1dp"
+                android:layout_height="20dp"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="25dp"
+                android:layout_toRightOf="@id/cut_5"
+                android:layout_weight="1"
+                android:background="@color/white"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp" />
+
+            <View
+                android:id="@+id/cut_7"
+                android:layout_width="1dp"
+                android:layout_height="20dp"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="25dp"
+                android:layout_toRightOf="@id/cut_6"
+                android:layout_weight="1"
+                android:background="@color/white"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp" />
+
+            <View
+                android:id="@+id/cut_8"
+                android:layout_width="1dp"
+                android:layout_height="20dp"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="25dp"
+                android:layout_toRightOf="@id/cut_7"
+                android:layout_weight="1"
+                android:background="@color/white"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp" />
+        </RelativeLayout>
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:layout_gravity="center"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/statistic_item_style_heart"
+            android:gravity="center"
+            android:minWidth="90dp"
+            android:orientation="horizontal"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp">
+
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginEnd="10dp"
+                android:layout_weight="1"
+                android:fontFamily="@font/futura_std_condensed"
+                android:gravity="center"
+                android:text="- -"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|end"
+                android:gravity="center"
+                android:orientation="vertical">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/futura_std_condensed"
+                    android:text="BPM"
+                    android:textColor="#00F1DA"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:layout_width="11dp"
+                    android:layout_height="11dp"
+                    android:src="@drawable/ic_heart_rate" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:layout_gravity="center"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/statistic_item_style"
+            android:gravity="center"
+            android:minWidth="90dp"
+            android:orientation="horizontal"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp">
+
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginEnd="10dp"
+                android:layout_weight="1"
+                android:fontFamily="@font/futura_std_condensed"
+                android:gravity="center"
+                android:text="- -"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|end"
+                android:gravity="center"
+                android:orientation="vertical">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/futura_std_condensed"
+                    android:text="KCAL"
+                    android:textColor="#FF9800"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:layout_width="11dp"
+                    android:layout_height="11dp"
+                    android:src="@drawable/ic_kcal"
+                    app:tint="#FF9800" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:layout_gravity="center"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/statistic_item_style"
+            android:gravity="center_vertical"
+            android:minWidth="300dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/music_iv"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_marginLeft="10dp"
+                android:src="@drawable/ic_baseline_music_note_24"
+                app:tint="@color/white" />
+
+            <TextView
+                android:id="@+id/tv_tack_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/music_iv"
+                android:fontFamily="@font/futura_std_condensed"
+                android:text="Grinding"
+                android:textColor="@color/white" />
+
+            <TextView
+                android:id="@+id/tv_singer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/music_iv"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="15dp"
+                android:fontFamily="@font/futura_std_condensed"
+                android:text="J Flight"
+                android:textColor="@color/white"
+                android:textSize="12sp" />
+        </RelativeLayout>
+    </LinearLayout>
+
+</HorizontalScrollView>
