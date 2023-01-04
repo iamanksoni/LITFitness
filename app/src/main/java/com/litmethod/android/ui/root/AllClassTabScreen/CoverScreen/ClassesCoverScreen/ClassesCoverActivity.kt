@@ -240,10 +240,12 @@ class ClassesCoverActivity : BaseActivity(),
         }
         binding.btnStartWorkout.setOnClickListener {
 
-            runOnUiThread() {
                 RepsCalculator.activity=this@ClassesCoverActivity
                 if (LIT_AXIS_CONNECTION_STATE == "CONNECTED") {
                     observeLitData()
+                }
+                if (HR_CONNECTION_STATE == "CONNECTED") {
+                    observeHrData()
                 }
                 var time = (100.0 / 360)
                 ProcessedData.calculateCaloriesBurnt(time)
@@ -252,12 +254,6 @@ class ClassesCoverActivity : BaseActivity(),
                     "https://d1p2c1ey61b4dk.cloudfront.net/f1f2bd39-07b9-4e78-91b7-38e439b15151/hls/TIFFLsmSpdBndCirTra40Min1013-22.m3u8"
 
                 startActivity(Intent(this@ClassesCoverActivity, VideoPlayerActivity::class.java))
-//                if (HR_CONNECTION_STATE == "CONNECTED") {
-//                    observeHrData()
-//                }
-            }
-
-
         }
 
     }

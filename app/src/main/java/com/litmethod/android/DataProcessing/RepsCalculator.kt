@@ -39,6 +39,7 @@ object RepsCalculator {
     private var leftBandDataList = mutableListOf<Reps>()
     private var rightBandDataList = mutableListOf<Reps>()
 
+
     var activity: Activity? = null
     fun leftBandActivity(weight: Double) {
         this.leftBandLoad = weight

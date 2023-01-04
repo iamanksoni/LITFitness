@@ -9,4 +9,6 @@ object LitVideoPlayerSDK {
     lateinit var litAxis: MutableLiveData<DeviceDataCalculated>
     lateinit var strengthMachine: MutableLiveData<DeviceDataCalculated>
 
+    lateinit var timeUnderTension: MutableLiveData<Triple<Double, Double, Double>>
+
 }

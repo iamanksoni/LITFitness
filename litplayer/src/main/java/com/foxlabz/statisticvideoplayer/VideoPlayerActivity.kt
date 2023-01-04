@@ -123,6 +123,8 @@ class VideoPlayerActivity : AppCompatActivity() {
         })
 
 
+
+
         player.addListener(object : Player.Listener {
             override fun onIsPlayingChanged(isPlaying: Boolean) {
 
