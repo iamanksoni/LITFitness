@@ -103,7 +103,7 @@ dependencies {
     implementation project(":litplayer")
 
     // Exo player
-    implementation 'com.google.android.exoplayer:exoplayer:2.18.1'
+    implementation 'com.google.android.exoplayer:exoplayer:2.16.1'
 
     //Compressor
 
