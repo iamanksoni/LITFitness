@@ -111,7 +111,7 @@ class DeviceDataLoggerActivity : BaseActivity() {
                                 binding.tvHeartRate.text =
                                     HeartRateMeasurement.fromBytes(value).toString()
 
-                                LitVideoPlayerSDK.heartRate.postValue(
+                                LitVideoPlayerSDK.heartRate!!.postValue(
                                     DeviceDataCalculated(
                                         "Hear Rate",
                                         HeartRateMeasurement.fromBytes(value).sensorContactStatus.toString() == "SupportedAndContacted",

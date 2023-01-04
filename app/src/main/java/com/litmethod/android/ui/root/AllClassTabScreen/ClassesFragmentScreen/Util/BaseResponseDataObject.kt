@@ -6,6 +6,7 @@ import com.litmethod.android.models.GetAllAccessFilter.Data7
 import com.litmethod.android.models.GetCustomers.ProfileDetails
 import com.litmethod.android.models.GetInstructorInfo.Data8
 import com.litmethod.android.models.GetProgramById.Data5
+import com.litmethod.android.models.VideoXXX
 
 object BaseResponseDataObject {
     var hasSubscription: Boolean = false
@@ -31,4 +32,5 @@ object BaseResponseDataObject {
     var getClassStatisticsList: MutableList<VideoType> = ArrayList<VideoType>()
     var getClassStatisticsListAll: MutableList<VideoType> = ArrayList<VideoType>()
     var getClassStatisticsListNew: MutableList<VideoType> = ArrayList<VideoType>()
+    var getVideosForShowAllInHome: MutableList<VideoXXX> = ArrayList<VideoXXX>()
 }
