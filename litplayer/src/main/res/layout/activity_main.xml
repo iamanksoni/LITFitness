@@ -15,18 +15,23 @@
 
 
     <RelativeLayout
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="80dp"
-        android:background="@drawable/statistic_item_style"
+        android:alpha="0.5"
+        android:background="@drawable/statistic_item_style_heart"
+        android:gravity="center_vertical"
         android:padding="20dp">
 
         <TextView
             android:id="@+id/currentPosition"
             android:layout_width="wrap_content"
+            android:layout_centerVertical="true"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/futura_std_condensed_bold"
+            android:textSize="20dp"
             android:textColor="@color/white" />
 
         <TextView
@@ -35,20 +40,27 @@
             android:layout_height="wrap_content"
             android:layout_toEndOf="@id/currentPosition"
             android:text=" / "
-            android:textColor="@color/grey" />
+            android:layout_centerVertical="true"
+            android:fontFamily="@font/futura_std_condensed_bold"
+            android:textColor="@color/white"
+            android:textSize="20dp" />
 
         <TextView
             android:id="@+id/totalDuration"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
             android:layout_toEndOf="@id/dash"
-            android:textColor="@color/grey" />
+            android:fontFamily="@font/futura_std_condensed_bold"
+            android:textColor="@color/white"
+            android:textSize="20dp" />
 
         <ImageView
             android:id="@+id/playAndPause"
+            android:layout_alignParentRight="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toEndOf="@id/totalDuration"
+
             android:src="@drawable/ic_baseline_pause" />
 
     </RelativeLayout>
