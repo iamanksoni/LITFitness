@@ -1,22 +1,35 @@
 package com.litmethod.android.ui.root.AllClassTabScreen.CoverScreen.ClassesCoverScreen
 
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.Typeface
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.os.Handler
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import carbon.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.foxlabz.statisticvideoplayer.DeviceDataCalculated
 import com.foxlabz.statisticvideoplayer.LitVideoPlayerSDK
 import com.foxlabz.statisticvideoplayer.VideoPlayerActivity
+import com.litmethod.android.BluetoothConnection.LitAxisDevicePair
+import com.litmethod.android.BluetoothConnection.LitDeviceConstants
+import com.litmethod.android.BluetoothConnection.LitDeviceConstants.HR_CONNECTION_STATE
+import com.litmethod.android.BluetoothConnection.LitDeviceConstants.LIT_AXIS_CONNECTION_STATE
+import com.litmethod.android.BluetoothConnection.LitDeviceConstants.LIT_AXIS_WEIGHT_SCALE_CHARACHTERISTIC
+import com.litmethod.android.BluetoothConnection.LitDeviceConstants.LIT_AXIS_WEIGHT_SCALE_SERVICE
 import com.litmethod.android.DataProcessing.ProcessedData
+import com.litmethod.android.DataProcessing.RepsCalculator
+import com.litmethod.android.Parsing.Converters
 import com.litmethod.android.R
 import com.litmethod.android.databinding.ActivityClassesCoverBinding
 import com.litmethod.android.models.AcountScreenFragment.ClassBookmark.ClassBookmarkRequest
@@ -27,23 +40,32 @@ import com.litmethod.android.models.GetInstructorInfo.GetInstructorInfoRequest
 import com.litmethod.android.network.ClassesCoverActivityRepository
 import com.litmethod.android.network.RetrofitDataSourceService
 import com.litmethod.android.shared.BaseActivity
-import com.litmethod.android.ui.Onboarding.YourEquipmentScreen.YourEquipmentAdapter
 import com.litmethod.android.ui.Onboarding.YourEquipmentScreen.YourEquipmentData
 import com.litmethod.android.ui.root.AllClassTabScreen.ClassesFragmentScreen.Util.BaseResponseDataObject
 import com.litmethod.android.ui.root.AllClassTabScreen.CoverScreen.ClassesCoverScreen.ViewModel.ClassCoverActvityViewModel
 import com.litmethod.android.ui.root.AllClassTabScreen.CoverScreen.ClassesCoverScreen.ViewModel.ClassesCoverActivityViewModelFactory
 import com.litmethod.android.ui.root.AllClassTabScreen.CoverScreen.TrainerProfileScreen.TrainerProfileScreenActivity
 import com.litmethod.android.utlis.MarginItemDecoration
+import com.siliconlabs.bledemo.bluetooth.data_types.Field
+import com.siliconlabs.bledemo.bluetooth.parsing.Common
+import com.siliconlabs.bledemo.bluetooth.parsing.Engine
+import com.welie.blessed.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
+import java.math.BigInteger
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
 
-class ClassesCoverActivity : BaseActivity(), YourEquipmentAdapter.YourEquipmentAdapterListener,
+class ClassesCoverActivity : BaseActivity(),
+    ClassCoverEquipmentAdapter.EquipmentAdapterClickListener,
     View.OnClickListener {
     lateinit var binding: ActivityClassesCoverBinding
     val dataList: ArrayList<YourEquipmentData> = ArrayList<YourEquipmentData>()
-    private var yourEquipmentAdapter: YourEquipmentAdapter? = null
+    private var yourEquipmentAdapter: ClassCoverEquipmentAdapter? = null
     val eqipLevel: ArrayList<Int> = ArrayList<Int>()
     val dataListDeviceVideo: ArrayList<String> = ArrayList<String>()
     private var classesCoverDeviceVideoAdapter: ClassesCoverDeviceVideoAdapter? = null
@@ -53,21 +75,32 @@ class ClassesCoverActivity : BaseActivity(), YourEquipmentAdapter.YourEquipmentA
     lateinit var viewModel: ClassCoverActvityViewModel
     lateinit var item: InstructorInfo
     var isVideoSave = false
+    private lateinit var litAxisDevicePair: LitAxisDevicePair;
+    private var positionClicked = -1;
+    var averageRSSI: HashMap<String, Triple<Int, Int, BluetoothPeripheral>> =
+        HashMap()
     private val retrofitService = RetrofitDataSourceService.getInstance()
+    private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
+    private lateinit var centralManager: BluetoothCentralManager;
+    private lateinit var field: Field
+    private lateinit var fieldValue: ByteArray
+    private var value: ByteArray = ByteArray(0)
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_classes_cover)
-
-
-
         viewModelSetup()
         setUpUi()
-
         setUpAdapter()
         setDeviceAdapter()
         progressBarAnimation()
         clickListener()
+        litAxisDevicePair = LitAxisDevicePair();
+        centralManager = BluetoothCentralManager(applicationContext)
+        LitDeviceConstants.mBleCentralManager = centralManager
+        handleBLEConnectionObserver()
+
     }
 
     private fun setUpUi() {
@@ -206,15 +239,112 @@ class ClassesCoverActivity : BaseActivity(), YourEquipmentAdapter.YourEquipmentA
             }
         }
         binding.btnStartWorkout.setOnClickListener {
-            var time =(100.0/360)
-            ProcessedData.calculateCaloriesBurnt(time)
-            LitVideoPlayerSDK.heartRate= MutableLiveData()
-            LitVideoPlayerSDK.streamingUrl =
-                "https://d1p2c1ey61b4dk.cloudfront.net/f1f2bd39-07b9-4e78-91b7-38e439b15151/hls/TIFFLsmSpdBndCirTra40Min1013-22.m3u8"
 
-            startActivity(Intent(this@ClassesCoverActivity, VideoPlayerActivity::class.java))
+            runOnUiThread() {
+                RepsCalculator.activity=this@ClassesCoverActivity
+                if (LIT_AXIS_CONNECTION_STATE == "CONNECTED") {
+                    observeLitData()
+                }
+                var time = (100.0 / 360)
+                ProcessedData.calculateCaloriesBurnt(time)
+                LitVideoPlayerSDK.heartRate = MutableLiveData()
+                LitVideoPlayerSDK.streamingUrl =
+                    "https://d1p2c1ey61b4dk.cloudfront.net/f1f2bd39-07b9-4e78-91b7-38e439b15151/hls/TIFFLsmSpdBndCirTra40Min1013-22.m3u8"
+
+                startActivity(Intent(this@ClassesCoverActivity, VideoPlayerActivity::class.java))
+//                if (HR_CONNECTION_STATE == "CONNECTED") {
+//                    observeHrData()
+//                }
+            }
+
+
         }
 
+    }
+
+
+    private fun observeLitData() {
+
+        var notificationLeftDevice =
+            LitDeviceConstants.mLitAxisDevicePair.leftLitAxisDevice?.getCharacteristic(
+                LIT_AXIS_WEIGHT_SCALE_SERVICE,
+                LIT_AXIS_WEIGHT_SCALE_CHARACHTERISTIC
+            )
+
+        var notificationRightDevice =
+            LitDeviceConstants.mLitAxisDevicePair.rightLitAxisDevice?.getCharacteristic(
+                LIT_AXIS_WEIGHT_SCALE_SERVICE,
+                LIT_AXIS_WEIGHT_SCALE_CHARACHTERISTIC
+            )
+
+        notificationLeftDevice?.let {
+            scope.launch {
+                LitDeviceConstants.mLitAxisDevicePair.leftLitAxisDevice?.observe(it) { value ->
+                    Log.d("Data Size", value.size.toString())
+                    "Received : $value".also {
+                        dataParser()
+                        fieldValue = value
+                        val data = readValue()
+                        runOnUiThread {
+                            RepsCalculator.leftBandActivity((data.toFloat() * 0.005 * 2.20462))
+                        }
+                        Log.d("TAG", "Left Weight: " + data.toFloat() * 0.005 + "KG")
+
+                    }
+                }
+            }
+        }
+
+        notificationRightDevice?.let {
+            scope.launch {
+                LitDeviceConstants.mLitAxisDevicePair.rightLitAxisDevice?.observe(it) { value ->
+                    Log.d("Data Size", value.size.toString())
+                    "Received : $value".also {
+                        dataParser()
+                        fieldValue = value
+                        val data = readValue()
+                        RepsCalculator.rightBandActivity((data.toFloat() * 0.005 * 2.20462))
+                        Log.d("TAG", "Right Weight: " + data.toFloat() * 0.005 + "KG")
+
+                    }
+                }
+            }
+        }
+    }
+
+
+    private fun observeHrData() {
+        if (LitDeviceConstants.mHeartRateMonitorPeripheral != null) {
+            LitVideoPlayerSDK.heartRate = MutableLiveData()
+
+            var notifyingCharacteristic =
+                LitDeviceConstants.mHeartRateMonitorPeripheral.getCharacteristic(
+                    LitDeviceConstants.LIT_HEART_RATE_SERVICE,
+                    LitDeviceConstants.HEART_RATE_CHARACTERISTIC_UUID
+                )
+
+            notifyingCharacteristic?.let {
+                scope.launch {
+                    LitDeviceConstants.mHeartRateMonitorPeripheral.observe(it) { value ->
+                        HeartRateMeasurement.fromBytes(value).toString()
+                        LitVideoPlayerSDK.heartRate.postValue(
+                            DeviceDataCalculated(
+                                "Hear Rate",
+                                HeartRateMeasurement.fromBytes(value).sensorContactStatus.toString() == "SupportedAndContacted",
+                                HeartRateMeasurement.fromBytes(value).createdAt.toString(),
+                                "HeartRateType",
+                                HeartRateMeasurement.fromBytes(value).pulse.toString(),
+                            )
+                        )
+                        Log.d(
+                            "TAG",
+                            "Weight LOgged in testing: " + HeartRateMeasurement.fromBytes(value).pulse
+                        )
+
+                    }
+                }
+            }
+        }
     }
 
     private fun setUpAdapter() {
@@ -224,11 +354,11 @@ class ClassesCoverActivity : BaseActivity(), YourEquipmentAdapter.YourEquipmentA
             RecyclerView.LinearLayoutManager(this@ClassesCoverActivity)
         BaseResponseDataObject.getClassDetailsResponse.devices.map {
             equipmentList.add(Data(it.uuid, it.name, it.uuid, it.imgUrl, it.name))
-            dataList.add(YourEquipmentData(false))
+            dataList.add(YourEquipmentData(false, false))
 
         }
         yourEquipmentAdapter =
-            YourEquipmentAdapter(dataList, this@ClassesCoverActivity, equipmentList)
+            ClassCoverEquipmentAdapter(dataList, this@ClassesCoverActivity, equipmentList)
         binding.rvEquipmentType.adapter = yourEquipmentAdapter
         binding.rvEquipmentType.addItemDecoration(
             MarginItemDecoration(
@@ -264,7 +394,321 @@ class ClassesCoverActivity : BaseActivity(), YourEquipmentAdapter.YourEquipmentA
         } else {
             dataList[position].selectedItem = true
         }
+        positionClicked = position
         yourEquipmentAdapter!!.notifyDataSetChanged()
+        equipmentList.get(position)
+        if (equipmentList.get(position).id == "0x180D") {
+            connectWithHrSensor(position)
+        }
+        if (equipmentList.get(position).id == "0x181D") {
+            handleLitAxisConnection(position)
+        }
+    }
+
+    private fun connectWithHrSensor(position: Int) {
+        var deviceMap = HashMap<String, BluetoothPeripheral>()
+        centralManager.scanForPeripherals({ peripheral, scanResult ->
+
+            if (scanResult.rssi > -60) {
+                Log.d("Device --->>>", peripheral.address + "   RSSI -->>>" + scanResult.rssi)
+                if (!averageRSSI.contains(peripheral.address)) {
+                    averageRSSI.put(
+                        peripheral.name, Triple(
+                            1,
+                            scanResult.rssi,
+                            peripheral
+                        )
+                    )
+                } else {
+                    var dataPayload = averageRSSI.getValue(peripheral.address)
+                    var rssi = dataPayload.second
+                    var count = dataPayload.first
+                    var average = (rssi * count + scanResult.rssi) / (count + 1)
+                    var updatedPacket =
+                        Triple(count + 1, average, peripheral)
+                    averageRSSI.put(peripheral.address, updatedPacket)
+
+                }
+            }
+
+
+        }, { scanFailure: ScanFailure ->
+
+        })
+
+        runOnUiThread {
+            Handler().postDelayed(Runnable {
+                centralManager.stopScan()
+                averageRSSI.values.forEach {
+                    Log.d("RSSI AVERAGE", "${it.third.address} ----> ${it.second}")
+                    scope.launch {
+                        centralManager.connectPeripheral(it.third)
+                    }
+
+                }
+
+            }, 10000)
+        }
+    }
+
+
+    private fun connectWithRowingMachine() {
+
+    }
+
+
+    private fun handleLitAxisConnectionLogic(peripheral: BluetoothPeripheral) {
+        if (litAxisDevicePair.leftLitAxisDevice == null) {
+            /**
+             * SAVING LEFT LIT AXIS DEVICE
+             */
+            runOnUiThread() {
+
+                Typeface.createFromAsset(assets, "futura_std_condensed.otf")
+                Toast.makeText(
+                    this,
+                    "Connected with Left Lit AXIS sensor",
+                    Toast.LENGTH_SHORT
+                )
+                    .show()
+            }
+
+            val spannable =
+                SpannableString(getString(R.string.right_lit_axis_connect_message))
+            spannable.setSpan(
+                ForegroundColorSpan(Color.RED),
+                10, // start
+                15, // end
+                Spannable.SPAN_EXCLUSIVE_INCLUSIVE
+            )
+            litAxisDevicePair.setLeftLitAxis(peripheral)
+
+            scope.launch {
+//                DataPreferenceObject(this@DeviceScannerActivity).save(
+//                    "leftLitAxis",
+//                    peripheral.address
+//                )
+            }
+
+        } else if (litAxisDevicePair.rightLitAxisDevice == null) {
+            if (litAxisDevicePair.leftLitAxisDevice != null) {
+
+                litAxisDevicePair.leftLitAxisDevice?.let {
+                    if (it.address != peripheral.address) {
+                        runOnUiThread() {
+                            Toast.makeText(
+                                this,
+                                "Connected with Right Lit AXIS sensor",
+                                Toast.LENGTH_SHORT
+                            )
+                                .show()
+                        }
+                        litAxisDevicePair.setRightLitAxis(peripheral)
+
+                        scope.launch {
+//                            DataPreferenceObject(this@DeviceScannerActivity).save(
+//                                "rightLitAxis",
+//                                peripheral.address
+//                            )
+                        }
+                    } else {
+                        runOnUiThread {
+                            Toast.makeText(this, "Device Mac is already paired", Toast.LENGTH_SHORT)
+                                .show()
+                        }
+                    }
+                }
+
+            } else {
+                runOnUiThread {
+                    Toast.makeText(
+                        this,
+                        "Left is disconnected so, making this one as the left axis connection",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+
+
+        }
+        if (litAxisDevicePair.rightLitAxisDevice != null && litAxisDevicePair.leftLitAxisDevice != null) {
+            LitDeviceConstants.mLitAxisDevicePair = litAxisDevicePair
+            centralManager.stopScan()
+            LIT_AXIS_CONNECTION_STATE = "CONNECTED"
+            runOnUiThread() {
+                dataList[positionClicked].connectionStatus = true
+                yourEquipmentAdapter?.notifyItemChanged(positionClicked)
+            }
+        }
+
+    }
+
+    private fun updateLitAxisConnectionPair(disconnectedPeripheral: BluetoothPeripheral) {
+
+        when (disconnectedPeripheral.address) {
+            litAxisDevicePair.getLeftLitAxis()?.address -> {
+                litAxisDevicePair.setLeftLitAxis(null)
+                Log.d("DeviceScanner Activity", "Left Device Disconnected")
+                runOnUiThread {
+                    Toast.makeText(this, "Disconnected Left Lit Axis device", Toast.LENGTH_SHORT)
+                        .show()
+                }
+            }
+            litAxisDevicePair.getRightLitAxis()?.address -> {
+                litAxisDevicePair.setRightLitAxis(null)
+                Log.d("DeviceScanner Activity", "Right Device Disconnected")
+                runOnUiThread {
+                    Toast.makeText(this, "Disconnected Right Lit Axis device", Toast.LENGTH_SHORT)
+                        .show()
+                }
+            }
+
+        }
+        LitDeviceConstants.mLitAxisDevicePair = litAxisDevicePair
+        handleLitAxisConnection(positionClicked)
+
+    }
+
+
+    private fun handleBLEConnectionObserver() {
+
+        centralManager.observeConnectionState { peripheral, state ->
+            Log.d("Peripheral", " ${peripheral.address} has $state")
+            if (state.toString() == "CONNECTED") {
+
+                if (peripheral.getService(LitDeviceConstants.LIT_HEART_RATE_SERVICE) != null) {
+                    centralManager.stopScan()
+                    LitDeviceConstants.mBleCentralManager = centralManager
+                    LitDeviceConstants.mHeartRateMonitorPeripheral = peripheral
+                    HR_CONNECTION_STATE = "CONNECTED"
+                    runOnUiThread() {
+                        Toast.makeText(this, "Connected with heart rate sensor", Toast.LENGTH_SHORT)
+                            .show()
+                    }
+
+
+                } else if (peripheral.getService(LitDeviceConstants.LIT_AXIS_WEIGHT_SCALE_SERVICE) != null) {
+
+                    handleLitAxisConnectionLogic(peripheral)
+
+                } else if (peripheral.getService(LitDeviceConstants.LIT_STRENGTH_MACHINE_SERVICE) != null) {
+                    centralManager.stopScan()
+                    runOnUiThread() {
+                        Toast.makeText(this, "Connected with ROWING sensor", Toast.LENGTH_SHORT)
+                            .show()
+                    }
+                } else {
+                    scope.launch {
+                        try {
+                            centralManager.cancelConnection(peripheral)
+                        } catch (connectionFailed: ConnectionFailedException) {
+                            Log.d("Device Scanner Activity", "disconnection failed")
+                        }
+                    }
+                }
+            }
+            if (state.toString() == "DISCONNECTED") {
+                if (!centralManager.isScanning) {
+
+                    if (peripheral.getService(LitDeviceConstants.LIT_HEART_RATE_SERVICE) != null) {
+                        Log.d("Disconnection", "HR sensor disconnected")
+                        HR_CONNECTION_STATE = "DISCONNECTED"
+                        handleHeartRateConnection()
+                    } else {
+                        Log.d("Disconnection", "Lit Axis disconnected")
+                        updateLitAxisConnectionPair(peripheral)
+                        LIT_AXIS_CONNECTION_STATE = "DISCONNECTED"
+                        runOnUiThread() {
+                            dataList[positionClicked].connectionStatus = false
+                            yourEquipmentAdapter?.notifyItemChanged(positionClicked)
+                        }
+                    }
+                }
+
+            }
+        }
+    }
+
+
+    private fun handleHeartRateConnection() {
+        var list = arrayOf<UUID>(LitDeviceConstants.LIT_HEART_RATE_SERVICE)
+        scanAndConnectWithHeartRateSensor(list)
+    }
+
+
+    private fun scanAndConnectWithHeartRateSensor(list: Array<UUID>) {
+
+        var deviceMap = HashMap<String, BluetoothPeripheral>()
+        centralManager.scanForPeripherals({ peripheral, scanResult ->
+
+            if (scanResult.rssi > -60) {
+                Log.d("Device --->>>", peripheral.address + "   RSSI -->>>" + scanResult.rssi)
+                if (!averageRSSI.contains(peripheral.address)) {
+                    averageRSSI.put(
+                        peripheral.name, Triple(
+                            1,
+                            scanResult.rssi,
+                            peripheral
+                        )
+                    )
+                } else {
+                    var dataPayload = averageRSSI.getValue(peripheral.address)
+                    var rssi = dataPayload.second
+                    var count = dataPayload.first
+                    var average = (rssi * count + scanResult.rssi) / (count + 1)
+                    var updatedPacket =
+                        Triple(count + 1, average, peripheral)
+                    averageRSSI.put(peripheral.address, updatedPacket)
+
+                }
+            }
+
+
+        }, { scanFailure: ScanFailure ->
+
+        })
+
+        runOnUiThread {
+            Handler().postDelayed(Runnable {
+                centralManager.stopScan()
+                averageRSSI.values.forEach {
+                    Log.d("RSSI AVERAGE", "${it.third.address} ----> ${it.second}")
+                    scope.launch {
+                        centralManager.connectPeripheral(it.third)
+                    }
+
+                }
+
+            }, 10000)
+        }
+
+    }
+
+    private fun handleLitAxisConnection(position: Int) {
+
+        var list = arrayOf<UUID>(LitDeviceConstants.LIT_AXIS_WEIGHT_SCALE_SERVICE)
+        scanAndConnectLitAxisDevice(list)
+    }
+
+
+    private fun scanAndConnectLitAxisDevice(list: Array<UUID>) {
+
+        Log.d("Device Scanner Activity", "Starting LE Scan")
+        if (!centralManager.isScanning) {
+            centralManager.scanForPeripheralsWithServices(list, { peripheral, scanResult ->
+                Log.d("Device", peripheral.address)
+                scope.launch {
+                    try {
+                        centralManager.autoConnectPeripheral(peripheral)
+                    } catch (connectionFailed: ConnectionFailedException) {
+                        Log.d("TAG", "connection failed")
+                    }
+                }
+            }, { error ->
+                Log.d("Central Manager", error.toString())
+            })
+        }
+
     }
 
     private fun progressBarAnimation() {
@@ -379,6 +823,109 @@ class ClassesCoverActivity : BaseActivity(), YourEquipmentAdapter.YourEquipmentA
         })
     }
 
+
+    private fun dataParser() {
+        var mChar =
+            Engine.getCharacteristic(UUID.fromString("00002a98-0000-1000-8000-00805f9b34fb"))
+        field = mChar?.fields?.get(0)!!
+    }
+
+    companion object {
+        private const val TYPE_FLOAT = "FLOAT"
+        private const val TYPE_SFLOAT = "SFLOAT"
+        private const val TYPE_FLOAT_32 = "float32"
+        private const val TYPE_FLOAT_64 = "float64"
+    }
+
+    private fun readValue(): String {
+        if (fieldValue.isEmpty()) {
+            return ""
+        }
+        val format = field.format!!
+        val formatLength = Engine.getFormat(format)
+
+        if (formatLength == 0) {
+            return if (format.toLowerCase(Locale.getDefault()) == "reg-cert-data-list") {
+                val result = StringBuilder(
+                    "0x" + Converters.bytesToHexWhitespaceDelimited(fieldValue)
+                )
+                StringBuilder(result.toString().replace(" ", "")).toString()
+            } else {
+                StringBuilder(String(fieldValue)).toString()
+            }
+        } else {
+            return when {
+                field.isFullByteSintFormat() -> convertSintToString()
+                field.isFullByteUintFormat() -> convertUintToString(formatLength)
+                field.isFloatFormat() -> {
+                    val fValue = readFloat(format, formatLength)
+                    StringBuilder(String.format(Locale.US, "%.1f", fValue)).toString()
+                }
+                else -> {
+                    val result = StringBuilder()
+                    for (element in fieldValue) {
+                        result.append((element.toInt().and(0xff)))
+                    }
+                    result.toString()
+                }
+            }
+        }
+    }
+
+    private fun convertSintToString(): String {
+        val builder = StringBuilder()
+        val reversedArray = fieldValue.reversedArray()
+        for (i in reversedArray.indices) {
+            if (reversedArray[i] < 0) {
+                reversedArray[i] = (reversedArray[i] + 256).toByte()
+            }
+            builder.append(Converters.getHexValue(reversedArray[i]))
+        }
+
+        var result = builder.toString().toInt(16)
+        if (result >= (Math.pow(256.0, fieldValue.size.toDouble()) / 2)) {
+            result -= Math.pow(256.0, fieldValue.size.toDouble()).toInt()
+        }
+
+        return result.toString()
+    }
+
+    private fun convertUintToString(formatLength: Int): String {
+        return try {
+            if (formatLength < 9) {
+                var uintAsLong = 0L
+                for (i in 0 until formatLength) {
+                    uintAsLong = uintAsLong shl 8
+                    val byteAsInt: Int = fieldValue[formatLength - 1 - i].toInt().and(0xff)
+                    uintAsLong = uintAsLong or byteAsInt.toLong()
+                }
+                uintAsLong.toString()
+            } else { // uint128
+                val binaryString = StringBuilder()
+                for (element in fieldValue) {
+                    binaryString.append(
+                        String.format("%8s", Integer.toBinaryString(element.toInt().and(0xFF)))
+                            .replace(' ', '0')
+                    )
+                }
+                BigInteger("0$binaryString", 2).toString(16)
+            }
+        } catch (ex: Exception) {
+            ex.printStackTrace()
+            ""
+        }
+    }
+
+    private fun readFloat(format: String, formatLength: Int): Double {
+        var result = 0.0
+        when (format) {
+            TYPE_SFLOAT -> result = Common.readSfloat(fieldValue).toDouble()
+            TYPE_FLOAT -> result = Common.readFloat(fieldValue, 0, formatLength - 1).toDouble()
+            TYPE_FLOAT_32 -> result = Common.readFloat32(fieldValue).toDouble()
+            TYPE_FLOAT_64 -> result = Common.readFloat64(fieldValue)
+        }
+        return result
+    }
 
 }
 

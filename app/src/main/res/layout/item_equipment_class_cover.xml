@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:backgroundTintMode="add"
-        android:gravity="center"
+        android:layout_centerInParent="true"
         android:layout_marginBottom="@dimen/_9sdp"
         app:carbon_cornerRadius="@dimen/_11sdp">
         <carbon.widget.LinearLayout
@@ -30,7 +30,6 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/futura_std_condensed_bold"
                     android:lineSpacingExtra="4sp"
-                    android:layout_centerVertical="true"
                     android:singleLine="true"
                     android:text="Lit strength machine"
                     android:textAllCaps="true"
@@ -43,12 +42,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/tv_header1"
-                    android:layout_marginTop="@dimen/_4sdp"
-                    android:fontFamily="@font/futura_std_medium"
+                    android:fontFamily="@font/futura_std_condensed"
                     android:lineSpacingExtra="3sp"
                     android:maxLines="1"
                     android:singleLine="true"
-                    android:text="Scanning..."
+                    android:layout_marginTop="@dimen/_3sdp"
+                    android:text="Tap to connect"
                     android:textAllCaps="true"
                     android:textColor="@color/mono_grey_60"
                     android:textSize="@dimen/_11ssp"
@@ -61,8 +60,9 @@
                 <ImageView
                     android:id="@+id/iv_level"
                     android:gravity="end"
-                    android:layout_width="100dp"
-                    android:layout_height="@dimen/_50sdp"
+                    android:layout_centerVertical="true"
+                    android:layout_width="80dp"
+                    android:layout_height="@dimen/_40sdp"
                     android:scaleType="centerCrop"
                     android:src="@drawable/ic_equpment" />
             </RelativeLayout>

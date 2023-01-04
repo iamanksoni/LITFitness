@@ -14,13 +14,18 @@ import com.litmethod.android.BluetoothConnection.LitDeviceConstants
 import com.litmethod.android.R
 import com.litmethod.android.models.GetCustomers.Equipment
 import com.litmethod.android.utlis.AppConstants
+import com.litmethod.android.utlis.DataPreferenceObject
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
 
 class DeviceManagerAdapter(
     val context: Context,
     val equipmentData: List<Equipment>,
     val deviceClickListener: DeviceAdapterClickListener
 ) : RecyclerView.Adapter<DeviceManagerAdapter.DeviceManagerAdapterViewHolder>() {
-
+    private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
     lateinit var yourEquipmentAdapterListener: DeviceAdapterClickListener
     override fun onCreateViewHolder(
         p0: ViewGroup,
@@ -51,13 +56,30 @@ class DeviceManagerAdapter(
         holder.btn_pair.setOnClickListener {
             deviceClickListener.onDeviceItemClick(position, item)
         }
-        if (LitDeviceConstants.mLitAxisDevicePair != null && LitDeviceConstants.mLitAxisDevicePair?.rightLitAxisDevice != null && LitDeviceConstants.mLitAxisDevicePair?.rightLitAxisDevice != null) {
-            if (item.id == AppConstants.LIT_STRENGTH_DEVICE_ID) {
-                holder.btn_pair.text = "Forget"
-                deviceClickListener.onUnpairRequest(position, item)
-                holder.btn_pair.setBackgroundColor(ContextCompat.getColor(context,R.color.red))
+        scope.launch {
+
+            if (DataPreferenceObject(context).read("rightLitAxis")!=null && DataPreferenceObject(context).read("leftLitAxis")!=null) {
+                if (item.id == AppConstants.LIT_STRENGTH_DEVICE_ID) {
+                    holder.btn_pair.text = "Forget"
+                    holder.btn_pair.setOnClickListener {
+                        deviceClickListener.onUnpairRequest(position, item)
+                    }
+                    holder.btn_pair.setBackgroundColor(ContextCompat.getColor(context,R.color.red))
+
+                }
+            }
+            if(DataPreferenceObject(context).read("hrSensor")!=null){
+                if (item.id == AppConstants.DEVICE_HEART_RATE) {
+                    holder.btn_pair.text = "Forget"
+                    holder.btn_pair.setOnClickListener {
+                        deviceClickListener.onUnpairRequest(position, item)
+                    }
+                    holder.btn_pair.setBackgroundColor(ContextCompat.getColor(context,R.color.red))
+                }
             }
         }
+
+
     }
 
     override fun getItemCount(): Int {
