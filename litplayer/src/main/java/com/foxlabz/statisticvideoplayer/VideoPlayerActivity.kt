@@ -29,6 +29,9 @@ import com.google.android.exoplayer2.Timeline
 import com.google.android.exoplayer2.ui.DefaultTimeBar
 import com.google.android.exoplayer2.ui.StyledPlayerView
 import com.google.android.exoplayer2.ui.TimeBar
+import fm.feed.android.playersdk.AvailabilityListener
+import fm.feed.android.playersdk.FeedAudioPlayer
+import fm.feed.android.playersdk.FeedPlayerService
 import kotlin.math.min
 import kotlin.math.round
 
@@ -44,6 +47,7 @@ class VideoPlayerActivity : AppCompatActivity() {
     private lateinit var currentPosition: TextView
     private var durationSet: Boolean = false
     var player: ExoPlayer? = null
+    private lateinit var feedAudioPlayer: FeedAudioPlayer
 
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -59,7 +63,11 @@ class VideoPlayerActivity : AppCompatActivity() {
         window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
         var styleExoPlayer = findViewById<StyledPlayerView>(R.id.exo_player_style)
         player = ExoPlayer.Builder(this).build()
-
+        FeedPlayerService.initialize(
+            this@VideoPlayerActivity,
+            "b288683241dfda2ce056fe3357c3038817c8094c",
+            "802c87feaa9a61bfe72d99065860037fbb77b0a1"
+        )
         styleExoPlayer.setPlayer(player);
         val mediaItem: MediaItem = MediaItem.fromUri(LitVideoPlayerSDK.streamingUrl)
         player!!.addMediaItem(mediaItem)
@@ -158,6 +166,7 @@ class VideoPlayerActivity : AppCompatActivity() {
             val doneBtn = view.findViewById<TextView>(R.id.tv_done)
             val instructorSeekbar = view.findViewById<SeekBar>(R.id.seekbarForInstructor)
             val musicSeekbar = view.findViewById<SeekBar>(R.id.seekbarForMusic)
+            val musicVolumeLabel=view.findViewById<TextView>(R.id.tv_music_volume)
             var instructorVolume = view.findViewById<TextView>(R.id.tv_instructor_volume)
             doneBtn.setOnClickListener {
                 builder.dismiss()
@@ -181,6 +190,20 @@ class VideoPlayerActivity : AppCompatActivity() {
 
                 override fun onStopTrackingTouch(p0: SeekBar?) {
 
+                }
+
+            })
+
+            musicSeekbar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+                override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
+                    feedAudioPlayer.setVolume(p1.toFloat())
+                    musicVolumeLabel.text = "${(p1 * 4)}%"
+                }
+
+                override fun onStartTrackingTouch(p0: SeekBar?) {
+                }
+
+                override fun onStopTrackingTouch(p0: SeekBar?) {
                 }
 
             })
@@ -259,6 +282,20 @@ class VideoPlayerActivity : AppCompatActivity() {
                     Log.d("Player Current Position", (player!!.currentPosition / 1000).toString())
                 }
             }
+        })
+
+        FeedPlayerService.getInstance(object : AvailabilityListener {
+            override fun onPlayerAvailable(player: FeedAudioPlayer) {
+                feedAudioPlayer = player
+                var station = player.stationList[0]
+                player.setActiveStation(station, true)
+                player.play()
+
+            }
+
+            override fun onPlayerUnavailable(e: Exception) {
+            }
+
         })
 
     }

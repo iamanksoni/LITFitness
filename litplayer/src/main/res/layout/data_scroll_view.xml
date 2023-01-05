@@ -206,7 +206,7 @@
 
             <View
                 android:id="@+id/progress"
-                android:layout_width="125dp"
+                android:layout_width="0dp"
                 android:layout_height="3.5dp"
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@id/tv_resistance_value"

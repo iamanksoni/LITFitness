@@ -19,6 +19,7 @@ object LitVideoPlayerSDK {
     lateinit var videoPlaybackTimer: MutableLiveData<Long>
 
     lateinit var gender: String
+    var feedStation: String = "Rowing_Radio_Station_1"
     lateinit var weightUnit: String
     lateinit var dob: String
     lateinit var HR_CONNECTION_STATE: String
