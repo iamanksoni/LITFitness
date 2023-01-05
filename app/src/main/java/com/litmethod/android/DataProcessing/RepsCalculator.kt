@@ -4,6 +4,7 @@ import android.app.Activity
 import android.os.CountDownTimer
 import com.foxlabz.statisticvideoplayer.LitVideoPlayerSDK
 import kotlin.math.floor
+import kotlin.math.max
 import kotlin.math.roundToInt
 
 object RepsCalculator {
@@ -55,12 +56,23 @@ object RepsCalculator {
 
 
     private fun loadActivity(leftBandLoad: Double, rightBandLoad: Double) {
-        calculateRepsAndWeight(leftBandLoad, rightBandLoad)
+
         val timeStamp = System.currentTimeMillis()
-        if (timeStamp - privateLastDataTimeStamp > 1000) {
-            privateLastDataTimeStamp = timeStamp
-            calculateTimeUnderTension(floor(leftBandLoad), floor(rightBandLoad))
-        }
+        if (timeStamp - privateLastDataTimeStamp > 1000 && (leftBandLoad > BAND_THRESHOLD_VALUE || rightBandLoad > BAND_THRESHOLD_VALUE)) {
+                LitVideoPlayerSDK.resistanceObservable.postValue(
+                    Pair(
+                        floor(
+                            max(
+                                leftBandLoad,
+                                rightBandLoad
+                            )
+                        ).toInt(), floor(calculateTotalWeight(leftBandLoad, rightBandLoad)).toInt()
+                    )
+                )
+                calculateRepsAndWeight(leftBandLoad, rightBandLoad)
+                privateLastDataTimeStamp = timeStamp
+                calculateTimeUnderTension(floor(leftBandLoad), floor(rightBandLoad))
+            }
     }
 
 
@@ -95,7 +107,7 @@ object RepsCalculator {
         return -1
     }
 
-    fun calculateTotalWeight(leftWeight: Float, rightWeight: Float): Double {
+    fun calculateTotalWeight(leftWeight: Double, rightWeight: Double): Double {
         totalWeight += (leftWeight + rightWeight).roundToInt()
         return totalWeight
     }
@@ -110,8 +122,8 @@ object RepsCalculator {
             isBothBandUnderTension = true
             //Case when both the bands are in tension
             //Both bands are under tension
-//            this.timeUnderTensionTimer?.cancel()
-//            this.timeUnderTensionTimer = null
+            this.timeUnderTensionTimer?.cancel()
+            this.timeUnderTensionTimer = null
             if (this.timeUnderTensionTimer == null) {
 
                 this.timeUnderTensionTimer = object : CountDownTimer(FUTURE_TIME, 1000) {
@@ -145,16 +157,19 @@ object RepsCalculator {
         } else if (isRightBandUnderTension) {
 
             //case when left band is only in tension
-                    this.timeUnderTensionTimer = object : CountDownTimer(FUTURE_TIME, 1000) {
-                        override fun onTick(millisUntilFinished: Long) {
-                            rightBandTensionTime = rightBandTensionTime + 1
-                            totalBandTensionTime = totalBandTensionTime + 1;
-                        }
+            if (this.timeUnderTensionTimer == null) {
 
-                        override fun onFinish() {
+                this.timeUnderTensionTimer = object : CountDownTimer(FUTURE_TIME, 1000) {
+                    override fun onTick(millisUntilFinished: Long) {
+                        rightBandTensionTime = rightBandTensionTime + 1
+                        totalBandTensionTime = totalBandTensionTime + 1;
+                    }
 
-                        }
-                    }.start()
+                    override fun onFinish() {
+
+                    }
+                }.start()
+            }
         }
 
 
@@ -167,7 +182,13 @@ object RepsCalculator {
 
         }
 
-        LitVideoPlayerSDK.timeUnderTension.postValue(Triple(this.leftBandTensionTime,this.rightBandTensionTime,this.totalBandTensionTime))
+        LitVideoPlayerSDK.timeUnderTensionObserver.postValue(
+            Triple(
+                this.leftBandTensionTime,
+                this.rightBandTensionTime,
+                this.totalBandTensionTime
+            )
+        )
 
         println("---------------------------BAND TENSION START------------------------------")
         println("Left Band Tension" + this.leftBandTensionTime)

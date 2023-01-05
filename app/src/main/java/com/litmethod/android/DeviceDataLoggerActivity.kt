@@ -44,6 +44,9 @@ class DeviceDataLoggerActivity : BaseActivity() {
         when (deviceName) {
 
             AppConstants.DEVICE_LIT_AXIS -> {
+
+
+
                 var notificationLeftDevice =
                     LitDeviceConstants.mLitAxisDevicePair.leftLitAxisDevice?.getCharacteristic(
                         LIT_AXIS_WEIGHT_SCALE_SERVICE,
@@ -97,7 +100,7 @@ class DeviceDataLoggerActivity : BaseActivity() {
             }
 
             AppConstants.DEVICE_HEART_RATE -> {
-                LitVideoPlayerSDK.heartRate= MutableLiveData()
+                LitVideoPlayerSDK.heartRateObservable= MutableLiveData()
 
                 var notifyingCharacteristic =
                     LitDeviceConstants.mHeartRateMonitorPeripheral.getCharacteristic(
@@ -111,7 +114,7 @@ class DeviceDataLoggerActivity : BaseActivity() {
                                 binding.tvHeartRate.text =
                                     HeartRateMeasurement.fromBytes(value).toString()
 
-                                LitVideoPlayerSDK.heartRate!!.postValue(
+                                LitVideoPlayerSDK.heartRateObservable!!.postValue(
                                     DeviceDataCalculated(
                                         "Hear Rate",
                                         HeartRateMeasurement.fromBytes(value).sensorContactStatus.toString() == "SupportedAndContacted",

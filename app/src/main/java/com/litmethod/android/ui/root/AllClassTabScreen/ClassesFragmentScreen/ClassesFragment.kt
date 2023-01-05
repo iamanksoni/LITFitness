@@ -964,6 +964,7 @@ class ClassesFragment : BaseFragment(), StackClassesAdapter.StackClassesAdapterL
                 binding.spLoading.visibility = View.GONE
                 val intent =  Intent(requireActivity(), ClassesCoverActivity::class.java)
                 intent.putExtra("videoUrl", getClassCatagoryByIdResponseList[positionOfUrl].videoUrl)
+                intent.putExtra("muscleUrl", getClassCatagoryByIdResponseList[positionOfUrl].muscle_image)
                 intent.putExtra("videoTitle", getClassCatagoryByIdResponseList[positionOfUrl].title)
                intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP)
                 startActivity(intent)

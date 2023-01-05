@@ -1,32 +1,29 @@
-package com.litmethod.android.DataProcessing
+package com.foxlabz.statisticvideoplayer
 
-import com.litmethod.android.BluetoothConnection.LitDeviceConstants
-import com.litmethod.android.ui.root.AllClassTabScreen.ClassesFragmentScreen.Util.BaseResponseDataObject
+import android.os.Build
+import androidx.annotation.RequiresApi
 import java.time.LocalDate
 import java.time.Period
 import java.util.*
-import kotlin.math.roundToInt
 
 object ProcessedData {
     private var currentAverageRate = 0
     private var heartRateCount = 0
     private var averageCaloriesBurnt = 0.0;
     private var averageCaloriesCount = 0;
+    private var totalCaloriesBurnt = 0.0;
     private var timeUnderTension = 0
     private var heartRateList = mutableListOf<Pair<Int, Long>>()
+    private var caloriesValuePair = CaloriesPair(0.0, 0.0)
 
-    /**
-     *
-     *
-     */
+
     fun calculateAverageHeartRate(currentHeartRate: Int): Int {
-        heartRateList.add(Pair(currentHeartRate,System.currentTimeMillis()))
+        heartRateList.add(Pair(currentHeartRate, System.currentTimeMillis()))
         currentAverageRate =
             (currentAverageRate * heartRateCount + currentHeartRate) / (heartRateCount + 1)
         heartRateCount += 1
         return currentHeartRate;
     }
-
 
 
     fun findAverage(data: Int, count: Int) {
@@ -40,23 +37,23 @@ object ProcessedData {
     /**
      * Just pass in the current time stamp for how long the value has alreadt olayed
      */
-    fun calculateCaloriesBurnt(timeInHours: Double): Double {
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun calculateCaloriesBurnt(timeInHours: Double): CaloriesPair {
         var caloriesBurnt: Double = 0.0;
-        var gender = BaseResponseDataObject.profilePageData.gender.uppercase(Locale.getDefault())
-        var weight: Double = BaseResponseDataObject.profilePageData.weight.toDouble()
+        var gender = LitVideoPlayerSDK.gender.uppercase(Locale.getDefault())
+        var weight: Double = LitVideoPlayerSDK.weight.toDouble()
         var weightUnit =
-            BaseResponseDataObject.profilePageData.weightUnit.uppercase(Locale.getDefault())
-        var dob = BaseResponseDataObject.profilePageData.dob
+            LitVideoPlayerSDK.weightUnit.uppercase(Locale.getDefault())
+        var dob = LitVideoPlayerSDK.dob
         var weightInLbs: Double = if (weightUnit == "KGS") {
-            weight * 2.20462
-        } else {
             weight
+        } else {
+            weight / 2.20462
         }
         var date = LocalDate.parse(dob)
         var currentAge =
             getAge(date.year, date.monthValue, date.dayOfMonth).toFloat()
-        LitDeviceConstants.HR_CONNECTION_STATE = "CONNECTED"
-        if (LitDeviceConstants.HR_CONNECTION_STATE == "CONNECTED") {
+        if (LitVideoPlayerSDK.HR_CONNECTION_STATE == "CONNECTED") {
 
             when (gender) {
                 "MALE" -> {
@@ -74,16 +71,21 @@ object ProcessedData {
             }
         }
 
-        if (LitDeviceConstants.HR_CONNECTION_STATE == "DISCONNECTED") {
+        if (LitVideoPlayerSDK.HR_CONNECTION_STATE == "DISCONNECTED") {
             caloriesBurnt = calculateCaloriesWithoutHR(weightInLbs, currentAge, timeInHours)
         }
-        averageCaloriesBurnt = (averageCaloriesCount * averageCaloriesCount + caloriesBurnt)/(averageCaloriesCount+1)
-        return caloriesBurnt;
+        averageCaloriesBurnt =
+            (averageCaloriesCount * averageCaloriesCount + caloriesBurnt) / (averageCaloriesCount + 1)
+        totalCaloriesBurnt += caloriesBurnt
+        caloriesValuePair.first = averageCaloriesBurnt
+        caloriesValuePair.second = totalCaloriesBurnt
+
+        return caloriesValuePair;
 
     }
 
     fun calculateOtherGenderCalories(weightInLbs: Double, age: Float, timeInHours: Double): Double {
-        var expression1 = (0.1988 * weightInLbs) + (0.2017 * age)
+        var expression1 = (0.1988 * weightInLbs) + (0.2017 * age)  //21.34
         var caloriesBurned =
             ((-20.4022 + (0.4472 * currentAverageRate) - expression1) / 4.184) * 60 * timeInHours
         return caloriesBurned;
@@ -111,6 +113,7 @@ object ProcessedData {
         return caloriesBurnedValue;
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun getAge(year: Int, month: Int, dayOfMonth: Int): Int {
         return Period.between(
             LocalDate.of(year, month, dayOfMonth),

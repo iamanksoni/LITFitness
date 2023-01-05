@@ -27,7 +27,7 @@ import com.litmethod.android.BluetoothConnection.LitDeviceConstants.HR_CONNECTIO
 import com.litmethod.android.BluetoothConnection.LitDeviceConstants.LIT_AXIS_CONNECTION_STATE
 import com.litmethod.android.BluetoothConnection.LitDeviceConstants.LIT_AXIS_WEIGHT_SCALE_CHARACHTERISTIC
 import com.litmethod.android.BluetoothConnection.LitDeviceConstants.LIT_AXIS_WEIGHT_SCALE_SERVICE
-import com.litmethod.android.DataProcessing.ProcessedData
+import com.litmethod.android.BluetoothConnection.LitDeviceConstants.ROWING_MACHINE_CONNECTION_STATE
 import com.litmethod.android.DataProcessing.RepsCalculator
 import com.litmethod.android.Parsing.Converters
 import com.litmethod.android.R
@@ -93,6 +93,7 @@ class ClassesCoverActivity : BaseActivity(),
         if (intent.extras != null) {
             LitVideoPlayerSDK.streamingUrl = intent.extras!!.getString("videoUrl")!!
             LitVideoPlayerSDK.videoTitle = intent.extras!!.getString("videoTitle")!!
+            LitVideoPlayerSDK.targetAreaImage = intent.extras!!.getString("muscleUrl")!!
         }
         viewModelSetup()
         setUpUi()
@@ -241,22 +242,34 @@ class ClassesCoverActivity : BaseActivity(),
             }
         }
         binding.btnStartWorkout.setOnClickListener {
-            startActivity(Intent(this@ClassesCoverActivity, VideoPlayerActivity::class.java))
-
+            initializeVideoSDK()
             RepsCalculator.activity = this@ClassesCoverActivity
             if (LIT_AXIS_CONNECTION_STATE == "CONNECTED") {
-                LitVideoPlayerSDK.timeUnderTension = MutableLiveData()
                 observeLitData()
             }
             if (HR_CONNECTION_STATE == "CONNECTED") {
                 observeHrData()
             }
-            var time = (100.0 / 360)
-            ProcessedData.calculateCaloriesBurnt(time)
-            LitVideoPlayerSDK.heartRate = MutableLiveData()
             startActivity(Intent(this@ClassesCoverActivity, VideoPlayerActivity::class.java))
         }
 
+    }
+
+    private fun initializeVideoSDK() {
+        LitVideoPlayerSDK.timeUnderTensionObserver = MutableLiveData()
+        LitVideoPlayerSDK.heartRateObservable = MutableLiveData()
+        LitVideoPlayerSDK.litAxis = MutableLiveData()
+        LitVideoPlayerSDK.repsObservable = MutableLiveData()
+        LitVideoPlayerSDK.strengthMachine = MutableLiveData()
+        LitVideoPlayerSDK.resistanceObservable = MutableLiveData()
+        LitVideoPlayerSDK.weightObservable = MutableLiveData()
+        LitVideoPlayerSDK.videoPlaybackTimer = MutableLiveData()
+        LitVideoPlayerSDK.gender = BaseResponseDataObject.profilePageData.gender
+        LitVideoPlayerSDK.dob = BaseResponseDataObject.profilePageData.dob
+        LitVideoPlayerSDK.weightUnit = BaseResponseDataObject.profilePageData.weightUnit
+        LitVideoPlayerSDK.HR_CONNECTION_STATE = HR_CONNECTION_STATE
+        LitVideoPlayerSDK.LIT_AXIS_CONNECTION_STATE = LIT_AXIS_CONNECTION_STATE
+        LitVideoPlayerSDK.ROWING_MACHINE_CONNECTION_STATE = ROWING_MACHINE_CONNECTION_STATE
     }
 
 
@@ -282,7 +295,7 @@ class ClassesCoverActivity : BaseActivity(),
                         dataParser()
                         val data = readValue(value)
                         runOnUiThread() {
-                            RepsCalculator.leftBandActivity((data.toFloat() * 0.005 * 2.20462))
+                            RepsCalculator.leftBandActivity((data.toFloat() * 0.005 ))
                         }
 
                     }
@@ -298,18 +311,20 @@ class ClassesCoverActivity : BaseActivity(),
                         dataParser()
                         val data = readValue(value)
                         runOnUiThread() {
-                            RepsCalculator.rightBandActivity((data.toFloat() * 0.005 * 2.20462))
+                            RepsCalculator.rightBandActivity((data.toFloat() * 0.005))
                         }
                     }
                 }
             }
         }
+
+
     }
 
 
     private fun observeHrData() {
         if (LitDeviceConstants.mHeartRateMonitorPeripheral != null) {
-            LitVideoPlayerSDK.heartRate = MutableLiveData()
+            LitVideoPlayerSDK.heartRateObservable = MutableLiveData()
 
             var notifyingCharacteristic =
                 LitDeviceConstants.mHeartRateMonitorPeripheral.getCharacteristic(
@@ -321,7 +336,7 @@ class ClassesCoverActivity : BaseActivity(),
                 scope.launch {
                     LitDeviceConstants.mHeartRateMonitorPeripheral.observe(it) { value ->
                         HeartRateMeasurement.fromBytes(value).toString()
-                        LitVideoPlayerSDK.heartRate!!.postValue(
+                        LitVideoPlayerSDK.heartRateObservable!!.postValue(
                             DeviceDataCalculated(
                                 "Hear Rate",
                                 HeartRateMeasurement.fromBytes(value).sensorContactStatus.toString() == "SupportedAndContacted",

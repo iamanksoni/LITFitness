@@ -1,22 +1,27 @@
 package com.foxlabz.statisticvideoplayer
 
+import android.animation.AnimatorSet
+import android.animation.ValueAnimator
 import android.content.Context
 import android.media.AudioManager
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.util.DisplayMetrics
 import android.util.Log
+import android.util.TypedValue
 import android.view.View
 import android.view.WindowManager
+import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.ImageView
 import android.widget.SeekBar
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.foxlabz.statisticvideoplayer.LitVideoPlayerSDK.videoPlaybackTimer
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.Player
@@ -39,6 +44,8 @@ class VideoPlayerActivity : AppCompatActivity() {
     private lateinit var currentPosition: TextView
     private var durationSet: Boolean = false
     var player: ExoPlayer? = null
+
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -64,6 +71,7 @@ class VideoPlayerActivity : AppCompatActivity() {
         staticList.add(StatisticDataModel("LBS", "- -", R.mipmap.ic_launcher_round))
         staticList.add(StatisticDataModel("REPS", "- -", R.mipmap.ic_launcher_round))
         staticList.add(StatisticDataModel("Heart Rate", "- -", R.drawable.ic_baseline_favorite_24))
+
 //        var recyclerView = findViewById<RecyclerView>(R.id.rv_statistics)
 //        var adapter = StatisticRecyclerView(staticList, this)
 //        recyclerView.adapter = adapter
@@ -72,7 +80,7 @@ class VideoPlayerActivity : AppCompatActivity() {
 
         title.text = LitVideoPlayerSDK.videoTitle
 
-        Glide.with(this).load("https://dev.assets.litmethod.com/MuscleGroup/SgM8Bp8T_Core.png")
+        Glide.with(this).load(LitVideoPlayerSDK.targetAreaImage)
             .into(findViewById<ImageView>(R.id.iv_target_muscle))
 
         player!!.addListener(object : Player.Listener {
@@ -113,9 +121,10 @@ class VideoPlayerActivity : AppCompatActivity() {
         val dpWidth: Float = displayMetrics.widthPixels / displayMetrics.density
 
         bluetoothButton.setOnClickListener {
-            val builder = AlertDialog.Builder(this, R.style.CustomAlertDialog)
-                .create()
+            val builder = AlertDialog.Builder(this, R.style.CustomAlertDialog).create()
             val view = layoutInflater.inflate(R.layout.custom_dialog_bluetooth, null)
+            val cancelBtn = view.findViewById<TextView>(R.id.bt_cancel)
+
             val lp = WindowManager.LayoutParams()
             lp.copyFrom(builder.getWindow()?.getAttributes())
             lp.width = round(dpWidth / 2.7).toInt()
@@ -128,10 +137,16 @@ class VideoPlayerActivity : AppCompatActivity() {
             val width = round(displayMetrics.widthPixels / 2.8).toInt()
             val height = round(displayMetrics.heightPixels / 1.3).toInt()
             builder.getWindow()?.setLayout(width, height)
+
+            cancelBtn.setOnClickListener {
+                builder.dismiss()
+            }
         }
 //        LitVideoPlayerSDK.heartRate?.observe(this, Observer {
 //            staticList.get(3).value = it?.parameterValue.toString()
 //        }
+
+        var progress_view = findViewById<View>(R.id.progress)
 
         val soundButton = findViewById<ImageView>(R.id.soundButton)
         var audioManager = getSystemService(Context.AUDIO_SERVICE) as AudioManager
@@ -139,8 +154,20 @@ class VideoPlayerActivity : AppCompatActivity() {
             val builder = AlertDialog.Builder(this, R.style.CustomAlertDialog)
                 .create()
             val view = layoutInflater.inflate(R.layout.custom_dialog_sound, null)
+            val defaultMix = view.findViewById<TextView>(R.id.tv_originalMix)
+            val doneBtn = view.findViewById<TextView>(R.id.tv_done)
             val instructorSeekbar = view.findViewById<SeekBar>(R.id.seekbarForInstructor)
+            val musicSeekbar = view.findViewById<SeekBar>(R.id.seekbarForMusic)
             var instructorVolume = view.findViewById<TextView>(R.id.tv_instructor_volume)
+            doneBtn.setOnClickListener {
+                builder.dismiss()
+            }
+
+            defaultMix.setOnClickListener {
+                musicSeekbar.setProgress(70, true)
+                instructorSeekbar.setProgress(70, true)
+            }
+
 
             instructorSeekbar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
                 override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
@@ -173,15 +200,52 @@ class VideoPlayerActivity : AppCompatActivity() {
 
         //totalDuration.text = millisecondToTimer(player!!.duration)
 
-//        LitVideoPlayerSDK.heartRate!!.observe(this, Observer {
-//            staticList.get(3).value = it?.parameterValue.toString()
-//            adapter.notifyItemChanged(3)
-//        })
+        LitVideoPlayerSDK.heartRateObservable!!.observe(this, Observer {
+            findViewById<TextView>(R.id.tv_heart_rate).text = it?.parameterValue.toString()
+            ProcessedData.calculateAverageHeartRate(it.parameterValue!!.toInt())
+
+        })
+
+        LitVideoPlayerSDK.timeUnderTensionObserver!!.observe(this, Observer {
+            runOnUiThread {
+                findViewById<TextView>(R.id.tv_tut_value).text =
+                    min(it?.first!!, it?.second!!).toString()
+            }
+        })
+
+
+        LitVideoPlayerSDK.weightObservable?.observe(this) {
+            runOnUiThread {
+                findViewById<TextView>(R.id.tv_lbs_value).text =
+                    (it).toString()
+            }
+        }
+
+        LitVideoPlayerSDK.resistanceObservable.observe(this) {
+
+            var progressSize = 8.0;
+            if (it.first < 9.0) {
+                progressSize = it.first * 1.0
+            }
+            runOnUiThread {
+                val dimensionInDp = TypedValue.applyDimension(
+                    TypedValue.COMPLEX_UNIT_DIP,
+                    (27.5 * progressSize).toFloat(),
+                    resources.displayMetrics
+                ).toInt()
+
+                slideView(view = progress_view, 0, dimensionInDp)
+                progress_view.layoutParams.width = dimensionInDp
+                findViewById<TextView>(R.id.tv_lbs_value).text = it.second.toString()
+                findViewById<TextView>(R.id.tv_resistance_value).text = it.first.toString()
+//                handler.postDelayed(Runnable {
 //
-//        LitVideoPlayerSDK.timeUnderTension!!.observe(this, Observer {
-//            staticList.get(0).value = (min(it?.first!!, it?.second!!)).toString()
-//            adapter.notifyItemChanged(0)
-//        })
+//                }, 300)
+            }
+        }
+
+
+
 
         player!!.addListener(object : Player.Listener {
 
@@ -244,9 +308,14 @@ class VideoPlayerActivity : AppCompatActivity() {
     }
 
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun updateTimer() {
         if (player!!.isPlaying) {
             currentPosition.text = millisecondToTimer(player!!.currentPosition)
+            videoPlaybackTimer.postValue(player?.currentPosition)
+            var timeInHours = (player!!.currentPosition / 1000.0) / 3600
+            findViewById<TextView>(R.id.tv_kcal).text =
+                ProcessedData.calculateCaloriesBurnt(timeInHours).second.toString()
             remaining.text =
                 millisecondToTimer(totalDurationInLong - player!!.currentPosition) + " Remaining"
             updater = Runnable {
@@ -259,5 +328,28 @@ class VideoPlayerActivity : AppCompatActivity() {
     override fun onBackPressed() {
         super.onBackPressed()
         handler.removeCallbacks(updater)
+    }
+
+    private fun slideView(
+        view: View,
+        currentHeight: Int,
+        newHeight: Int
+    ) {
+
+        var slideAnimator = ValueAnimator.ofInt(currentHeight, newHeight)
+            .setDuration(300);
+
+        slideAnimator.addUpdateListener() {
+            var value = it.animatedValue;
+            view.getLayoutParams().width = value as Int
+            view.requestLayout();
+        };
+
+        /*  We use an animationSet to play the animation  */
+
+        var animationSet = AnimatorSet();
+        animationSet.setInterpolator(AccelerateDecelerateInterpolator());
+        animationSet.play(slideAnimator);
+        animationSet.start()
     }
 }
