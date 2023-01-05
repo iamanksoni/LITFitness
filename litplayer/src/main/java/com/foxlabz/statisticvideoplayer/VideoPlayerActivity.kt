@@ -32,6 +32,8 @@ import com.google.android.exoplayer2.ui.TimeBar
 import fm.feed.android.playersdk.AvailabilityListener
 import fm.feed.android.playersdk.FeedAudioPlayer
 import fm.feed.android.playersdk.FeedPlayerService
+import fm.feed.android.playersdk.PlayListener
+import fm.feed.android.playersdk.models.Play
 import kotlin.math.min
 import kotlin.math.round
 
@@ -198,6 +200,7 @@ class VideoPlayerActivity : AppCompatActivity() {
                 override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
                     feedAudioPlayer.setVolume(p1.toFloat())
                     musicVolumeLabel.text = "${(p1 * 4)}%"
+
                 }
 
                 override fun onStartTrackingTouch(p0: SeekBar?) {
@@ -291,12 +294,29 @@ class VideoPlayerActivity : AppCompatActivity() {
                 player.setActiveStation(station, true)
                 player.play()
 
+                feedAudioPlayer.addPlayListener(object :PlayListener{
+                    override fun onPlayStarted(play: Play?) {
+                        findViewById<TextView>(R.id.tv_singer).text=play?.audioFile?.artist?.name
+                        findViewById<TextView>(R.id.tv_tack_name).text=play?.audioFile?.release?.title
+                    }
+
+                    override fun onProgressUpdate(play: Play, elapsedTime: Float, duration: Float) {
+
+                    }
+
+                    override fun onSkipStatusChanged(status: Boolean) {
+
+                    }
+
+                })
             }
 
             override fun onPlayerUnavailable(e: Exception) {
             }
 
         })
+
+
 
     }
 
