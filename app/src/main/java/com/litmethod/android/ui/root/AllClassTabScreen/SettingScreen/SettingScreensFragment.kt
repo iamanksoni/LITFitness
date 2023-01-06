@@ -26,6 +26,7 @@ import com.litmethod.android.ui.root.AllClassTabScreen.SettingScreen.ViewModel.S
 import com.litmethod.android.ui.root.AllClassTabScreen.SettingScreen.ViewModel.SettingScreenViewModelFactory
 import com.litmethod.android.ui.root.HomeTabScreen.HomeTabFragmentScreen.HomeScreenFragment
 import com.litmethod.android.utlis.AppConstants
+import com.litmethod.android.utlis.AppConstants.Companion.MEMBERSHIP_URL
 import com.litmethod.android.utlis.AppConstants.Companion.URL_PRIVACY_POLICY
 import com.litmethod.android.utlis.AppConstants.Companion.URL_SUPPORT
 import com.litmethod.android.utlis.AppConstants.Companion.URL_TERMS_CONDITION
@@ -103,7 +104,7 @@ class SettingScreensFragment : Fragment(), View.OnClickListener {
         binding.ibBackButton.setOnClickListener(this)
         binding.cvSignout.setOnClickListener(this)
         binding.tvHeartRate.setOnClickListener(this)
-
+        binding.cvMembership.setOnClickListener(this)
     }
 
     override fun onClick(p0: View?) {
@@ -124,6 +125,14 @@ class SettingScreensFragment : Fragment(), View.OnClickListener {
                 startActivity(Intent(context, DeviceManagerActivity::class.java))
             }
 
+
+            R.id.cv_membership -> {
+                Toast.makeText(context,"Included",Toast.LENGTH_SHORT).show()
+                var subscriptionInt =
+                    Intent(activity, WebViewActivity::class.java)
+                subscriptionInt.putExtra(AppConstants.WEB_URL, MEMBERSHIP_URL)
+                startActivity(subscriptionInt)
+            }
 
         }
     }
@@ -151,7 +160,6 @@ class SettingScreensFragment : Fragment(), View.OnClickListener {
          startActivity(intent)
 
      }
-
 
     }
 

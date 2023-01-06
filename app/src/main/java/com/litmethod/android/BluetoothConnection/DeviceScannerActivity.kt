@@ -28,12 +28,10 @@ import com.litmethod.android.BluetoothConnection.LitDeviceConstants.LIT_AXIS_WEI
 import com.litmethod.android.BluetoothConnection.LitDeviceConstants.LIT_AXIS_WEIGHT_SCALE_SERVICE
 import com.litmethod.android.BluetoothConnection.LitDeviceConstants.LIT_HEART_RATE_SERVICE
 import com.litmethod.android.BluetoothConnection.LitDeviceConstants.LIT_STRENGTH_MACHINE_SERVICE
-import com.litmethod.android.DeviceDataLoggerActivity
 import com.litmethod.android.Parsing.Converters
 import com.litmethod.android.R
 import com.litmethod.android.databinding.ActivityDeviceScannerBinding
 import com.litmethod.android.shared.BaseActivity
-import com.litmethod.android.utlis.AppConstants
 import com.litmethod.android.utlis.AppConstants.Companion.DEVICE_HEART_RATE
 import com.litmethod.android.utlis.AppConstants.Companion.DEVICE_LIT_AXIS
 import com.litmethod.android.utlis.AppConstants.Companion.DEVICE_NAME
@@ -102,6 +100,8 @@ class DeviceScannerActivity : BaseActivity() {
                     centralManager.stopScan()
                     LitDeviceConstants.mBleCentralManager = centralManager
                     LitDeviceConstants.mHeartRateMonitorPeripheral = peripheral
+                    finish()
+
 //                    var intent = Intent(this, DeviceDataLoggerActivity::class.java)
 //                    intent.putExtra(AppConstants.DEVICE_NAME, AppConstants.DEVICE_HEART_RATE)
 //                    startActivity(intent)
@@ -243,9 +243,12 @@ class DeviceScannerActivity : BaseActivity() {
             if (litAxisDevicePair.rightLitAxisDevice != null && litAxisDevicePair.leftLitAxisDevice != null) {
                 LitDeviceConstants.mLitAxisDevicePair = litAxisDevicePair
                 centralManager.stopScan()
-                var intent = Intent(this, DeviceDataLoggerActivity::class.java)
-                intent.putExtra(AppConstants.DEVICE_NAME, AppConstants.DEVICE_LIT_AXIS)
-                startActivity(intent)
+
+                finish()
+
+//                var intent = Intent(this, DeviceDataLoggerActivity::class.java)
+//                intent.putExtra(AppConstants.DEVICE_NAME, AppConstants.DEVICE_LIT_AXIS)
+//                startActivity(intent)
             }
         }
 

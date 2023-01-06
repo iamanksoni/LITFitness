@@ -124,8 +124,10 @@
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/_40sdp"
                             android:layout_below="@+id/cv_membership"
+                            android:background="@drawable/toggle_widget_injury_background"
+
                             android:layout_marginRight="@dimen/_5sdp"
-                          android:background="@drawable/toggle_widget_injury_background"
+                            android:visibility="gone"
                             app:cardBackgroundColor="#0D8F92A1"
                             app:cardCornerRadius="@dimen/_8sdp">
 

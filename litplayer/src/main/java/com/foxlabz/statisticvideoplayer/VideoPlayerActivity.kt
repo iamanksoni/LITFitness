@@ -34,7 +34,6 @@ import fm.feed.android.playersdk.FeedAudioPlayer
 import fm.feed.android.playersdk.FeedPlayerService
 import fm.feed.android.playersdk.PlayListener
 import fm.feed.android.playersdk.models.Play
-import kotlin.math.min
 import kotlin.math.round
 
 class VideoPlayerActivity : AppCompatActivity() {
@@ -50,7 +49,7 @@ class VideoPlayerActivity : AppCompatActivity() {
     private var durationSet: Boolean = false
     var player: ExoPlayer? = null
     private lateinit var feedAudioPlayer: FeedAudioPlayer
-
+    private var feedFmPaused = false;
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -168,15 +167,21 @@ class VideoPlayerActivity : AppCompatActivity() {
             val doneBtn = view.findViewById<TextView>(R.id.tv_done)
             val instructorSeekbar = view.findViewById<SeekBar>(R.id.seekbarForInstructor)
             val musicSeekbar = view.findViewById<SeekBar>(R.id.seekbarForMusic)
-            val musicVolumeLabel=view.findViewById<TextView>(R.id.tv_music_volume)
+            val musicVolumeLabel = view.findViewById<TextView>(R.id.tv_music_volume)
             var instructorVolume = view.findViewById<TextView>(R.id.tv_instructor_volume)
+
+            musicSeekbar.progress = 7
+            instructorSeekbar.progress = 100
+            instructorVolume.text = "100%"
+            musicVolumeLabel.text = "70%"
+
             doneBtn.setOnClickListener {
                 builder.dismiss()
             }
 
             defaultMix.setOnClickListener {
                 musicSeekbar.setProgress(70, true)
-                instructorSeekbar.setProgress(70, true)
+                instructorSeekbar.setProgress(100, true)
             }
 
 
@@ -200,7 +205,6 @@ class VideoPlayerActivity : AppCompatActivity() {
                 override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
                     feedAudioPlayer.setVolume(p1.toFloat())
                     musicVolumeLabel.text = "${(p1 * 4)}%"
-
                 }
 
                 override fun onStartTrackingTouch(p0: SeekBar?) {
@@ -235,7 +239,7 @@ class VideoPlayerActivity : AppCompatActivity() {
         LitVideoPlayerSDK.timeUnderTensionObserver!!.observe(this, Observer {
             runOnUiThread {
                 findViewById<TextView>(R.id.tv_tut_value).text =
-                    min(it?.first!!, it?.second!!).toString()
+                    (it?.first!! + it?.second!!).toString()
             }
         })
 
@@ -264,9 +268,9 @@ class VideoPlayerActivity : AppCompatActivity() {
                 progress_view.layoutParams.width = dimensionInDp
                 findViewById<TextView>(R.id.tv_lbs_value).text = it.second.toString()
                 findViewById<TextView>(R.id.tv_resistance_value).text = it.first.toString()
-//                handler.postDelayed(Runnable {
-//
-//                }, 300)
+                handler.postDelayed(Runnable {
+                    progress_view.layoutParams.width = 0
+                }, 300)
             }
         }
 
@@ -317,7 +321,6 @@ class VideoPlayerActivity : AppCompatActivity() {
         })
 
 
-
     }
 
 
@@ -342,6 +345,8 @@ class VideoPlayerActivity : AppCompatActivity() {
     override fun onPause() {
         super.onPause()
         player!!.pause()
+        feedFmPaused = true
+        feedAudioPlayer.pause()
     }
 
     private fun millisecondToTimer(milliseconds: Long): String {
@@ -382,9 +387,11 @@ class VideoPlayerActivity : AppCompatActivity() {
         }
     }
 
+
     override fun onBackPressed() {
         super.onBackPressed()
         handler.removeCallbacks(updater)
+
     }
 
     private fun slideView(
@@ -408,5 +415,13 @@ class VideoPlayerActivity : AppCompatActivity() {
         animationSet.setInterpolator(AccelerateDecelerateInterpolator());
         animationSet.play(slideAnimator);
         animationSet.start()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (feedFmPaused) {
+            feedAudioPlayer.play()
+            feedFmPaused = false
+        }
     }
 }

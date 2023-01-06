@@ -249,7 +249,7 @@
                     android:fontFamily="@font/futura_std_condensed_extra_bd"
                     android:lineSpacingExtra="6sp"
                     android:singleLine="false"
-                    android:visibility="gone"
+                    android:visibility="visible"
                     android:text="Connect your Devices"
                     android:textAllCaps="true"
                     android:textColor="@color/white"

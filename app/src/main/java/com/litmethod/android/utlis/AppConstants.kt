@@ -66,6 +66,7 @@ interface AppConstants {
         const val URL_TERMS_CONDITION="https://litmethod.com/policies/terms-of-service"
         const val URL_PRIVACY_POLICY="https://litmethod.com/policies/privacy-policy"
         const val URL_SUPPORT="https://litmethod.com/pages/faq"
+        const val MEMBERSHIP_URL="https://www.litmethod.com/tools/recurring/login/"
 
         val rightListAxisKey = preferencesKey<String>("rightLitAxis")
         val leftListAxisKey = preferencesKey<String>("leftLitAxis")

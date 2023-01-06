@@ -10,7 +10,6 @@ import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.litmethod.android.BluetoothConnection.LitDeviceConstants
 import com.litmethod.android.R
 import com.litmethod.android.models.GetCustomers.Equipment
 import com.litmethod.android.utlis.AppConstants
@@ -58,25 +57,28 @@ class DeviceManagerAdapter(
         }
         scope.launch {
 
-//            if (DataPreferenceObject(context).read("rightLitAxis")!=null && DataPreferenceObject(context).read("leftLitAxis")!=null) {
-//                if (item.id == AppConstants.LIT_STRENGTH_DEVICE_ID) {
-//                    holder.btn_pair.text = "Forget"
-//                    holder.btn_pair.setOnClickListener {
-//                        deviceClickListener.onUnpairRequest(position, item)
-//                    }
-//                    holder.btn_pair.setBackgroundColor(ContextCompat.getColor(context,R.color.red))
-//
-//                }
-//            }
-//            if(DataPreferenceObject(context).read("hrSensor")!=null){
-//                if (item.id == AppConstants.DEVICE_HEART_RATE) {
-//                    holder.btn_pair.text = "Forget"
-//                    holder.btn_pair.setOnClickListener {
-//                        deviceClickListener.onUnpairRequest(position, item)
-//                    }
-//                    holder.btn_pair.setBackgroundColor(ContextCompat.getColor(context,R.color.red))
-//                }
-//            }
+            if (DataPreferenceObject(context).read("rightLitAxis") != null && DataPreferenceObject(
+                    context
+                ).read("leftLitAxis") != null
+            ) {
+                if (item.id == AppConstants.DEVICE_LIT_AXIS) {
+                    holder.btn_pair.text = "Forget"
+                    holder.btn_pair.setOnClickListener {
+                        deviceClickListener.onUnpairRequest(position, item)
+                    }
+                    holder.btn_pair.setBackgroundColor(ContextCompat.getColor(context, R.color.red))
+
+                }
+            }
+            if (DataPreferenceObject(context).read("hrSensor") != null) {
+                if (item.id == AppConstants.DEVICE_HEART_RATE) {
+                    holder.btn_pair.text = "Forget"
+                    holder.btn_pair.setOnClickListener {
+                        deviceClickListener.onUnpairRequest(position, item)
+                    }
+                    holder.btn_pair.setBackgroundColor(ContextCompat.getColor(context, R.color.red))
+                }
+            }
         }
 
 
