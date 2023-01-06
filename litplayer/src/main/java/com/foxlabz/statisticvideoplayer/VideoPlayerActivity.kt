@@ -13,9 +13,7 @@ import android.util.TypedValue
 import android.view.View
 import android.view.WindowManager
 import android.view.animation.AccelerateDecelerateInterpolator
-import android.widget.ImageView
-import android.widget.SeekBar
-import android.widget.TextView
+import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -275,6 +273,10 @@ class VideoPlayerActivity : AppCompatActivity() {
         }
 
 
+        val layoutForEnd = findViewById<RelativeLayout>(R.id.layoutForEnd)
+        layoutForEnd.setOnClickListener {
+            Toast.makeText(this, "End Session", Toast.LENGTH_SHORT).show()
+        }
 
 
         player!!.addListener(object : Player.Listener {
