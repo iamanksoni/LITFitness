@@ -5,6 +5,37 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
+    <RelativeLayout
+        android:id="@+id/layoutForEnd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="10dp"
+        android:padding="10dp"
+        android:background="@drawable/background_for_end_session">
+
+        <ImageView
+            android:id="@+id/crossIcon"
+            android:layout_width="35dp"
+            android:layout_centerVertical="true"
+            android:layout_height="35dp"
+            android:src="@drawable/ic_baseline_close"/>
+
+        <TextView
+            android:id="@+id/end_session"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@id/crossIcon"
+            android:text="END WORKOUT"
+            android:fontFamily="@font/futura_std_condensed"/>
+
+    </RelativeLayout>
+
+
     <TextView
         android:id="@+id/remaining"
         android:layout_width="wrap_content"
