@@ -29,8 +29,10 @@ import com.litmethod.android.BluetoothConnection.LitDeviceConstants.LIT_AXIS_WEI
 import com.litmethod.android.BluetoothConnection.LitDeviceConstants.LIT_AXIS_WEIGHT_SCALE_SERVICE
 import com.litmethod.android.BluetoothConnection.LitDeviceConstants.ROWING_MACHINE_CONNECTION_STATE
 import com.litmethod.android.DataProcessing.RepsCalculator
+import com.litmethod.android.DataProcessing.RepsCalculator.activity
 import com.litmethod.android.Parsing.Converters
 import com.litmethod.android.R
+import com.litmethod.android.Webview.WebViewActivity
 import com.litmethod.android.databinding.ActivityClassesCoverBinding
 import com.litmethod.android.models.AcountScreenFragment.ClassBookmark.ClassBookmarkRequest
 import com.litmethod.android.models.ClassDetails.EquipmentVideo
@@ -45,6 +47,8 @@ import com.litmethod.android.ui.root.AllClassTabScreen.ClassesFragmentScreen.Uti
 import com.litmethod.android.ui.root.AllClassTabScreen.CoverScreen.ClassesCoverScreen.ViewModel.ClassCoverActvityViewModel
 import com.litmethod.android.ui.root.AllClassTabScreen.CoverScreen.ClassesCoverScreen.ViewModel.ClassesCoverActivityViewModelFactory
 import com.litmethod.android.ui.root.AllClassTabScreen.CoverScreen.TrainerProfileScreen.TrainerProfileScreenActivity
+import com.litmethod.android.utlis.AppConstants
+import com.litmethod.android.utlis.AppConstants.Companion.MEMBERSHIP_URL
 import com.litmethod.android.utlis.MarginItemDecoration
 import com.siliconlabs.bledemo.bluetooth.data_types.Field
 import com.siliconlabs.bledemo.bluetooth.parsing.Common
@@ -239,17 +243,26 @@ class ClassesCoverActivity : BaseActivity(),
             }
         }
         binding.btnStartWorkout.setOnClickListener {
-            initializeVideoSDK()
-            RepsCalculator.activity = this@ClassesCoverActivity
-            if (LIT_AXIS_CONNECTION_STATE == "CONNECTED") {
-                observeLitData()
-            }
-            if (HR_CONNECTION_STATE == "CONNECTED") {
-                observeHrData()
-            }
-            startActivity(Intent(this@ClassesCoverActivity, VideoPlayerActivity::class.java))
-        }
 
+            if (BaseResponseDataObject.hasSubscription) {
+                initializeVideoSDK()
+                RepsCalculator.activity = this@ClassesCoverActivity
+                if (LIT_AXIS_CONNECTION_STATE == "CONNECTED") {
+                    observeLitData()
+                }
+                if (HR_CONNECTION_STATE == "CONNECTED") {
+                    observeHrData()
+                }
+                startActivity(Intent(this@ClassesCoverActivity, VideoPlayerActivity::class.java))
+
+            } else {
+
+                var intent = Intent(this, WebViewActivity::class.java)
+                intent.putExtra(AppConstants.WEB_URL, MEMBERSHIP_URL)
+                startActivity(intent)
+            }
+
+        }
     }
 
     private fun initializeVideoSDK() {

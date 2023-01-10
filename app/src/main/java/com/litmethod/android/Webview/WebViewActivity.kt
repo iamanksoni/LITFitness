@@ -15,7 +15,6 @@ class WebViewActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityWebViewBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         setupUI()
     }
 
