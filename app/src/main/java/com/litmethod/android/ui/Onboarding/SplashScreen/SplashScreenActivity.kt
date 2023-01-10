@@ -76,6 +76,7 @@ class SplashScreenActivity : AppCompatActivity() {
                 if (it.result.profileDetails.onbordingStatus) {
                     BaseResponseDataObject.profilePageData = it.result.profileDetails
                     BaseResponseDataObject.accessToken = token
+                    BaseResponseDataObject.hasSubscription = it.result.profileDetails.has_subscription
 
                     intentActivityWithFinish(
                         this@SplashScreenActivity,

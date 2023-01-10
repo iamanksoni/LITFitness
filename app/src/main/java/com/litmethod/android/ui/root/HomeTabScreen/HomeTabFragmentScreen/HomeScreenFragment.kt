@@ -65,6 +65,7 @@ class HomeScreenFragment : BaseFragment(), AllTimeAdapter.AllTimeAdapterListener
     WorkoutGoalChildAdapter.WorkoutGoalChildAdapterListener,
     VideoGetStartedAdapter.VideoGetStartedAdapterListener {
     lateinit var binding: FragmentHomeBinding
+    private var selectedPerformanceType: String = AppConstants.ALLTIME
 
     val dataListVideo: ArrayList<Video> = ArrayList<Video>()
     private var layoutManagernewVideo: RecyclerView.LayoutManager? = null
@@ -161,7 +162,9 @@ class HomeScreenFragment : BaseFragment(), AllTimeAdapter.AllTimeAdapterListener
     }
 
     private fun setClickListner() {
-
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            hitApiOfHome(selectedPerformanceType)
+        }
     }
 
     private fun setupUi() {
@@ -246,10 +249,13 @@ class HomeScreenFragment : BaseFragment(), AllTimeAdapter.AllTimeAdapterListener
             this.adapter = achievementsAdapter
         }
         achievementsAdapter!!.setAdapterListener(this)
+        hitApiOfHome(AppConstants.ALLTIME)
+    }
 
+    private fun hitApiOfHome(typeOfPerformance: String){
         binding.spLoading.visibility = View.VISIBLE
         viewModel.getHomeCheck(token)
-        viewModel.getUserAnalyticsCheck(token, AppConstants.ALLTIME)
+        viewModel.getUserAnalyticsCheck(token, typeOfPerformance)
         viewModel.getAchievementsCheck(token)
     }
 
@@ -266,6 +272,21 @@ class HomeScreenFragment : BaseFragment(), AllTimeAdapter.AllTimeAdapterListener
             }
         }
         binding.spLoadingNew.visibility = View.VISIBLE
+        when(position){
+            0 -> {
+                selectedPerformanceType = AppConstants.PASTWEEK
+            }
+            1 -> {
+                selectedPerformanceType = AppConstants.THREEMONTH
+            }
+            2 -> {
+                selectedPerformanceType = AppConstants.SIXMONTH
+            }
+            3 -> {
+                selectedPerformanceType = AppConstants.ALLTIME
+            }
+        }
+        viewModel.getUserAnalyticsCheck(token, selectedPerformanceType)
         setDatatoHomepagechart()
     }
 
@@ -380,6 +401,9 @@ class HomeScreenFragment : BaseFragment(), AllTimeAdapter.AllTimeAdapterListener
     private fun getHomeApiResponse() {
         viewModel.getHomeData.observe(requireActivity(), Observer {
             binding.spLoading.visibility = View.GONE
+            if(binding.swipeRefreshLayout.isRefreshing){
+                binding.swipeRefreshLayout.isRefreshing = false
+            }
             binding.tvVideoHeader.text = it.gettingstarted.headerTitle
             binding.tvProgramHeader.text = "PROGRAMS MADE FOR YOU"
 //            it.programsmadeforyou.headerTitle

@@ -51,8 +51,14 @@ class LiveScreenFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupUi()
-
         viewModelSetup()
+        hitApiOnSwipeRefresh()
+        binding.swipeRefreshLayoutForLiveClass.setOnRefreshListener {
+            hitApiOnSwipeRefresh()
+        }
+    }
+
+    private fun hitApiOnSwipeRefresh() {
         viewModel.checkGetLiveClass(BaseResponseDataObject.accessToken, LogOutRequest("liveClass"))
     }
 
@@ -75,24 +81,35 @@ class LiveScreenFragment : BaseFragment() {
             layoutManagernewVideo =
                 LinearLayoutManager(requireActivity(), LinearLayoutManager.VERTICAL, false)
             this.layoutManager = layoutManagernewVideo
-            liveScreenVideoAdapter = LiveScreenVideoAdapterParentAdapter(liveClassesSeparatedByDate, requireContext())
+            liveScreenVideoAdapter =
+                LiveScreenVideoAdapterParentAdapter(liveClassesSeparatedByDate, requireContext())
             this.adapter = liveScreenVideoAdapter
         }
-        Log.d("theChnagedData","the chnage data is $liveClassesSeparatedByDate")
+        Log.d("theChnagedData", "the chnage data is $liveClassesSeparatedByDate")
     }
 
     private fun viewModelSetup() {
         viewModel =
-            ViewModelProvider(this, LiveScreenFragmentViewModelfactory(LiveClassFragmentRepository(retrofitService),requireContext())).get(
+            ViewModelProvider(
+                this,
+                LiveScreenFragmentViewModelfactory(
+                    LiveClassFragmentRepository(retrofitService),
+                    requireContext()
+                )
+            ).get(
                 LiveScreenFragmentViewModel::class.java
             )
         loginResponse()
     }
 
-    private fun loginResponse(){
+    private fun loginResponse() {
         viewModel.getLiveClassResponse.observe(viewLifecycleOwner, Observer {
 
-            if (it.result !=null) {
+            if (binding.swipeRefreshLayoutForLiveClass.isRefreshing) {
+                binding.swipeRefreshLayoutForLiveClass.isRefreshing = false
+            }
+
+            if (it.result != null) {
                 liveClassList = it.result.data as ArrayList<Data>
                 mapTheResponseData()
             }
@@ -106,14 +123,14 @@ class LiveScreenFragment : BaseFragment() {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun mapTheResponseData(){
-       val liveClassScheduledDates = liveClassList.map {
+    private fun mapTheResponseData() {
+        val liveClassScheduledDates = liveClassList.map {
             it.class_time_show
         }.map {
-           getLocalDateFrom(it)
-       }.toSet().toList().map {
-           convertDateStringToLocalDate(it)
-       }.sorted()
+            getLocalDateFrom(it)
+        }.toSet().toList().map {
+            convertDateStringToLocalDate(it)
+        }.sorted()
 
 
 

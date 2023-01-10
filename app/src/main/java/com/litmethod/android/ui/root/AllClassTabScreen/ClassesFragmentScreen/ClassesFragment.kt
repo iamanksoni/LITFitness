@@ -142,6 +142,34 @@ class ClassesFragment : BaseFragment(), StackClassesAdapter.StackClassesAdapterL
     }
 
 
+//    private fun callApiOnSwipeRefresh(){
+//        if (BaseResponseDataObject.isFilter ==true){
+//            Log.d("checkClling","view model on item clicked cllaed")
+//
+//            viewModel.checkGetClassCatagoryById(accessToken,
+//                GetClassCatagoryByIDRequest(AppConstants.actionTypegetClassCatagoryById,1,"$code",
+//                    typeEquipment=BaseResponseDataObject.equipMent,
+//                    typeInstructor= BaseResponseDataObject.instrurtor,
+//                    typeMuscleGroup=BaseResponseDataObject.muscleGroup,
+//                    typeduration= BaseResponseDataObject.duration,
+//                    typelevel= BaseResponseDataObject.level,
+//                    typeAccessories=  BaseResponseDataObject.accessorries,
+//                    "","")
+//
+//            )
+//
+//        }else{
+//
+//            viewModel.checkGetClassCatagoryById(accessToken,
+//                GetClassCatagoryByIDRequest(AppConstants.actionTypegetClassCatagoryById,1,"$code",
+//                    listOf(),listOf(),listOf(),listOf(),listOf(), listOf(),"","")
+//
+//            )
+//
+//        }
+//    }
+
+
     override fun onResume() {
         super.onResume()
 
@@ -191,6 +219,18 @@ class ClassesFragment : BaseFragment(), StackClassesAdapter.StackClassesAdapterL
         }
 
         Log.d("thefrag","fragmrnt intent is ${BaseResponseDataObject.equipMent}")
+    }
+
+    private fun hitApiOnSwipeRefresh(){
+        viewModel.checkgetInjury(accessToken)
+        viewModel.checkgetProgramsList(
+            accessToken,
+            GetProgramsRequest(AppConstants.actionTypegetPrograms)
+        )
+        viewModel.checkGetAllAccessCatagory(
+            accessToken,
+            GetAllAccessCatagoryRequest(AppConstants.actionTypegetAllAccessCategory)
+        )
     }
 
     private fun  getToken(){
@@ -706,6 +746,9 @@ class ClassesFragment : BaseFragment(), StackClassesAdapter.StackClassesAdapterL
 
     private fun clickListener(){
         binding.ibFilter.setOnClickListener(this)
+        binding.swipeREfreshLayoutForClass.setOnRefreshListener {
+            hitApiOnSwipeRefresh()
+        }
     }
 
     override fun onClick(p0: View?) {
@@ -755,6 +798,9 @@ class ClassesFragment : BaseFragment(), StackClassesAdapter.StackClassesAdapterL
     private fun loginResponse(){
         viewModel.getCatagoryListResponse.observe(viewLifecycleOwner, Observer {
             Log.d("classsItemData","the data index api called $it")
+            if(binding.swipeREfreshLayoutForClass.isRefreshing){
+                binding.swipeREfreshLayoutForClass.isRefreshing = false
+            }
            getCatagoryList = it.result.data
 
                 setUpAdapter()

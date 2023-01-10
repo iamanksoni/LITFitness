@@ -174,6 +174,9 @@ class AccountScreenFragment : BaseFragment(), AllTabItemAdapter.AllTabItemAdapte
         setUpAdapter()
         getCurrentYearAndMonth()
         calenderFirstTimeSet = true
+        binding.swipeRefreshLayoutForAccount.setOnRefreshListener {
+            setUiDataFromNetwork()
+        }
     }
 
 
@@ -764,6 +767,10 @@ class AccountScreenFragment : BaseFragment(), AllTabItemAdapter.AllTabItemAdapte
 //            }
             levelList2 = it.result.data
             levelListAdapter()
+
+            if(binding.swipeRefreshLayoutForAccount.isRefreshing){
+                binding.swipeRefreshLayoutForAccount.isRefreshing = false
+            }
 
         })
 
