@@ -9,7 +9,7 @@ import kotlin.math.roundToInt
 
 object RepsCalculator {
 
-    private const val BAND_THRESHOLD_VALUE = 5
+    private const val BAND_THRESHOLD_VALUE = 2
     private var isBothBandUnderTension: Boolean = false
     var isLeftBandUnderTension: Boolean = false
     var isRightBandUnderTension: Boolean = false

@@ -83,9 +83,6 @@ class ClassesCoverActivity : BaseActivity(),
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
     private lateinit var centralManager: BluetoothCentralManager;
     private lateinit var field: Field
-//    private lateinit var fieldValue: ByteArray
-//    private var value: ByteArray = ByteArray(0)
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -107,6 +107,8 @@ class HomeViewModel constructor(
         })
     }
 
+
+
     fun getUserAnalyticsCheck(auth: String, filter: String) {
         when {
             !NetworkHelper.instance.isNetworkAvailable(context) ->

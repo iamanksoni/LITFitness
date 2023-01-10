@@ -19,7 +19,9 @@ import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
+import androidx.mediarouter.app.MediaRouteButton
 import com.bumptech.glide.Glide
 import com.foxlabz.statisticvideoplayer.LitVideoPlayerSDK.videoPlaybackTimer
 import com.google.android.exoplayer2.ExoPlayer
@@ -29,6 +31,10 @@ import com.google.android.exoplayer2.Timeline
 import com.google.android.exoplayer2.ui.DefaultTimeBar
 import com.google.android.exoplayer2.ui.StyledPlayerView
 import com.google.android.exoplayer2.ui.TimeBar
+import com.google.android.gms.cast.framework.CastContext
+import com.mradzinski.caster.Caster
+import com.mradzinski.caster.Caster.OnCastSessionStateChanged
+import com.mradzinski.caster.MediaData
 import fm.feed.android.playersdk.AvailabilityListener
 import fm.feed.android.playersdk.FeedAudioPlayer
 import fm.feed.android.playersdk.FeedPlayerService
@@ -36,7 +42,8 @@ import fm.feed.android.playersdk.PlayListener
 import fm.feed.android.playersdk.models.Play
 import kotlin.math.round
 
-class VideoPlayerActivity : AppCompatActivity() {
+
+class VideoPlayerActivity : AppCompatActivity(), Caster.OnConnectChangeListener {
     private var handler = Handler()
     private lateinit var updater: Runnable
     private var totalDurationInLong: Long = 0
@@ -48,12 +55,37 @@ class VideoPlayerActivity : AppCompatActivity() {
     private lateinit var currentPosition: TextView
     private var durationSet: Boolean = false
     var player: ExoPlayer? = null
+    var repsCount = 0;
+    private var caster: Caster? = null
     private lateinit var feedAudioPlayer: FeedAudioPlayer
     private var feedFmPaused = false;
+
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        caster = Caster.create(this);
+        caster?.addMiniController()
+        val mediaRouteButton =
+            findViewById<MediaRouteButton>(R.id.media_route_button) as MediaRouteButton
+        mediaRouteButton.setRemoteIndicatorDrawable(ContextCompat.getDrawable(this, R.drawable.ic_baseline_cast_24))
+        caster?.setupMediaRouteButton(mediaRouteButton, true)
+        if (caster?.isConnected!!) {
+            val mediaData = MediaData.Builder(LitVideoPlayerSDK.streamingUrl)
+                .setStreamType(MediaData.STREAM_TYPE_BUFFERED)
+                .setContentType("application/x-mpegURL") // Or "videos/mp4"... or any supported content type
+                .setMediaType(MediaData.MEDIA_TYPE_MOVIE)
+                .setTitle("Two birds, many stones.")
+                .setDescription("Isaac searches for Rebekah to retrieve Arachnid's stolen XP.")
+                .setThumbnailUrl("...")
+                .setPlaybackRate(MediaData.PLAYBACK_RATE_NORMAL)
+                .setAutoPlay(true)
+                .build()
+
+            caster!!.player.loadMediaAndPlay(mediaData)
+        }
+        caster?.setOnConnectChangeListener(this)
+
         seekbar = findViewById<com.google.android.exoplayer2.ui.DefaultTimeBar>(R.id.exo_progress)
         totalDuration = findViewById<TextView>(R.id.totalDuration)
         currentPosition = findViewById<TextView>(R.id.currentPosition)
@@ -64,6 +96,7 @@ class VideoPlayerActivity : AppCompatActivity() {
         window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
         var styleExoPlayer = findViewById<StyledPlayerView>(R.id.exo_player_style)
         player = ExoPlayer.Builder(this).build()
+        val castContext = CastContext.getSharedInstance(this)
         FeedPlayerService.initialize(
             this@VideoPlayerActivity,
             "b288683241dfda2ce056fe3357c3038817c8094c",
@@ -81,11 +114,6 @@ class VideoPlayerActivity : AppCompatActivity() {
         staticList.add(StatisticDataModel("REPS", "- -", R.mipmap.ic_launcher_round))
         staticList.add(StatisticDataModel("Heart Rate", "- -", R.drawable.ic_baseline_favorite_24))
 
-//        var recyclerView = findViewById<RecyclerView>(R.id.rv_statistics)
-//        var adapter = StatisticRecyclerView(staticList, this)
-//        recyclerView.adapter = adapter
-//        recyclerView.layoutManager =
-//            LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
 
         title.text = LitVideoPlayerSDK.videoTitle
 
@@ -93,6 +121,7 @@ class VideoPlayerActivity : AppCompatActivity() {
             .into(findViewById<ImageView>(R.id.iv_target_muscle))
 
         player!!.addListener(object : Player.Listener {
+            @RequiresApi(Build.VERSION_CODES.O)
             override fun onPlayerStateChanged(playWhenReady: Boolean, playbackState: Int) {
                 super.onPlayerStateChanged(playWhenReady, playbackState)
                 if (playbackState === ExoPlayer.STATE_READY && !durationSet) {
@@ -115,11 +144,14 @@ class VideoPlayerActivity : AppCompatActivity() {
                 playAndPause.setImageDrawable(resources.getDrawable(R.drawable.ic_baseline_play_arrow))
                 state.text = "Paused"
                 player!!.pause()
+                feedAudioPlayer.pause()
             } else {
                 playAndPause.setImageDrawable(resources.getDrawable(R.drawable.ic_baseline_pause))
                 player!!.play()
                 state.text = "Playing"
                 updateTimer()
+                feedAudioPlayer.play()
+
             }
         }
 
@@ -243,6 +275,7 @@ class VideoPlayerActivity : AppCompatActivity() {
             }
         })
 
+//
 
         LitVideoPlayerSDK.weightObservable?.observe(this) {
             runOnUiThread {
@@ -267,15 +300,15 @@ class VideoPlayerActivity : AppCompatActivity() {
                 slideView(view = progress_view, 0, dimensionInDp)
                 progress_view.layoutParams.width = dimensionInDp
                 findViewById<TextView>(R.id.tv_lbs_value).text = it.second.toString()
+                if (it.second > 3) {
+                    repsCount++;
+                    findViewById<TextView>(R.id.tv_reps_value).text = repsCount.toString()
+                }
                 findViewById<TextView>(R.id.tv_resistance_value).text = it.first.toString()
-                handler.postDelayed(Runnable {
-                    progress_view.layoutParams.width = 0
-                }, 300)
+
+
             }
         }
-
-
-
 
         player!!.addListener(object : Player.Listener {
 
@@ -318,6 +351,28 @@ class VideoPlayerActivity : AppCompatActivity() {
             override fun onPlayerUnavailable(e: Exception) {
             }
 
+        })
+
+        caster!!.setOnCastSessionStateChanged(object : OnCastSessionStateChanged {
+            override fun onCastSessionBegan() {
+                Log.e("Caster", "Began playing video")
+                player!!.play()
+            }
+
+            override fun onCastSessionFinished() {
+                Log.e("Caster", "Finished playing video")
+            }
+
+            override fun onCastSessionPlaying() {
+                val playingURL = caster!!.player.currentPlayingMediaUrl
+                player!!.play()
+
+                Log.e("Caster", "Playing video")
+            }
+
+            override fun onCastSessionPaused() {
+                Log.e("Caster", "Paused video")
+            }
         })
 
 
@@ -370,6 +425,7 @@ class VideoPlayerActivity : AppCompatActivity() {
     }
 
 
+
     @RequiresApi(Build.VERSION_CODES.O)
     private fun updateTimer() {
         if (player!!.isPlaying) {
@@ -415,6 +471,23 @@ class VideoPlayerActivity : AppCompatActivity() {
         animationSet.setInterpolator(AccelerateDecelerateInterpolator());
         animationSet.play(slideAnimator);
         animationSet.start()
+
+        var slideAnimator2 = ValueAnimator.ofInt(newHeight, 0)
+            .setDuration(300);
+
+        slideAnimator2.addUpdateListener() {
+            var value = it.animatedValue;
+            view.getLayoutParams().width = value as Int
+            view.requestLayout();
+        };
+
+        var animationSet2 = AnimatorSet();
+        animationSet2.setInterpolator(AccelerateDecelerateInterpolator());
+        animationSet2.play(slideAnimator2);
+        animationSet2.start()
+        runOnUiThread {
+            findViewById<TextView>(R.id.tv_resistance_value).text = "0"
+        }
     }
 
     override fun onResume() {
@@ -423,5 +496,13 @@ class VideoPlayerActivity : AppCompatActivity() {
             feedAudioPlayer.play()
             feedFmPaused = false
         }
+    }
+
+    override fun onConnected() {
+        Log.d("Caster", "Connected with Chromecast");
+    }
+
+    override fun onDisconnected() {
+        Log.d("Caster", "Disconnected from Chromecast");
     }
 }
