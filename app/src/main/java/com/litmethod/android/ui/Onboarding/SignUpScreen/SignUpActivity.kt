@@ -1,10 +1,15 @@
 package com.litmethod.android.ui.Onboarding.SignUpScreen
 
+import android.content.Intent
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.text.Editable
+import android.text.Spannable
+import android.text.SpannableString
 import android.text.TextWatcher
+import android.text.method.LinkMovementMethod
 import android.text.method.PasswordTransformationMethod
+import android.text.style.ClickableSpan
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
@@ -12,14 +17,18 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.litmethod.android.R
+import com.litmethod.android.Webview.WebViewActivity
 import com.litmethod.android.databinding.ActivitySignUpBinding
 import com.litmethod.android.network.RetrofitDataSourceService
 import com.litmethod.android.network.SignUpRepository
 import com.litmethod.android.shared.BaseActivity
-import com.litmethod.android.ui.root.AllClassTabScreen.ClassesFragmentScreen.Util.BaseResponseDataObject
 import com.litmethod.android.ui.Onboarding.LoginScreen.LoginActivity
 import com.litmethod.android.ui.Onboarding.ProfileScreen.ProfileActivity
+import com.litmethod.android.ui.root.AllClassTabScreen.ClassesFragmentScreen.Util.BaseResponseDataObject
 import com.litmethod.android.utlis.AppConstants
+import com.litmethod.android.utlis.AppConstants.Companion.URL_PRIVACY_POLICY
+import com.litmethod.android.utlis.AppConstants.Companion.URL_TERMS_CONDITION
+import com.litmethod.android.utlis.AppConstants.Companion.WEB_URL
 import com.litmethod.android.utlis.DataPreferenceObject
 import kotlinx.coroutines.launch
 
@@ -82,6 +91,28 @@ class SignUpActivity : BaseActivity(), View.OnClickListener {
                 )
             }
         })
+        var spannable =
+            SpannableString(getString(R.string.privacy_policy_tnc_message))
+
+        val privacyPolicy: ClickableSpan = object : ClickableSpan() {
+            override fun onClick(widget: View) {
+                var privacyPolicyIntent = Intent(this@SignUpActivity, WebViewActivity::class.java)
+                privacyPolicyIntent.putExtra(WEB_URL, URL_PRIVACY_POLICY)
+                startActivity(privacyPolicyIntent)
+            }
+        }
+
+        val terms: ClickableSpan = object : ClickableSpan() {
+            override fun onClick(widget: View) {
+                var terms = Intent(this@SignUpActivity, WebViewActivity::class.java)
+                terms.putExtra(WEB_URL, URL_TERMS_CONDITION)
+                startActivity(terms)
+            }
+        }
+        spannable.setSpan(privacyPolicy, 41, 55, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        spannable.setSpan(terms, 60, 72, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        binding.tvSubHeader2.text = spannable
+        binding.tvSubHeader2.movementMethod = LinkMovementMethod.getInstance();
 
         binding.signupEtPassword.addTextChangedListener(object : TextWatcher {
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
@@ -99,6 +130,7 @@ class SignUpActivity : BaseActivity(), View.OnClickListener {
                 )
             }
         })
+
 
         binding.cbSignup.setOnClickListener {
             binding.signupEtEmail.clearFocus()

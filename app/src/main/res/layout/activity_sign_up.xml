@@ -214,9 +214,11 @@
                             android:gravity="center"
                             android:lineSpacingExtra="4sp"
                             android:singleLine="false"
+                            android:textColorHighlight="@color/grey"
+                            android:textColorLink="@color/grey"
                             android:text="@string/privacy_policy_tnc_message"
                             android:textColor="@color/grey"
-                            android:textSize="@dimen/_8ssp"
+                            android:textSize="@dimen/_10ssp"
                             android:translationY="-2.2sp" />
 
                         <com.google.android.material.button.MaterialButton

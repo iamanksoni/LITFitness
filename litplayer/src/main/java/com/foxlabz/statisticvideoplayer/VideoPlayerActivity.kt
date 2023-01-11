@@ -93,7 +93,6 @@ class VideoPlayerActivity : AppCompatActivity(), Caster.OnConnectChangeListener,
     var averageRSSI: HashMap<String, Triple<Int, Int, BluetoothPeripheral>> = HashMap()
     private lateinit var litAxisDevicePair: LitAxisDevicePair;
     private var yourEquipmentAdapter: ClassCoverEquipmentAdapter? = null
-
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -356,7 +355,15 @@ class VideoPlayerActivity : AppCompatActivity(), Caster.OnConnectChangeListener,
 
         val layoutForEnd = findViewById<RelativeLayout>(R.id.layoutForEnd)
         layoutForEnd.setOnClickListener {
-            Toast.makeText(this, "End Session", Toast.LENGTH_SHORT).show()
+            player?.pause()
+            feedAudioPlayer.pause()
+            feedFmPaused = true
+//            if (player!!.duration > 10 * 60 * 1000) {
+//                showRatingPopup()
+//            } else {
+                finish()
+//            }
+
         }
 
         player!!.addListener(object : Player.Listener {
@@ -447,6 +454,9 @@ class VideoPlayerActivity : AppCompatActivity(), Caster.OnConnectChangeListener,
             })
     }
 
+    fun showRatingPopup() {
+
+    }
 
     override fun onPause() {
         super.onPause()

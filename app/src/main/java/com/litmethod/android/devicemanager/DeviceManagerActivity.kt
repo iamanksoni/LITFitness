@@ -39,7 +39,7 @@ class DeviceManagerActivity : BaseActivity(), DeviceManagerAdapter.DeviceAdapter
         var equipmentListData = arrayListOf<Equipment>()
         var hearRateSensor = Equipment("LIT Hear Rate Sensor", DEVICE_HEART_RATE, "", "HEART RATE")
         var strengthMachine =
-            Equipment("LIT Strength Machine", LIT_STRENGTH_DEVICE_ID, "", "LIT STRENGTH MACHINE")
+            Equipment("LIT Strength Machine", DEVICE_STRENGTH_MACHINE, "", "LIT STRENGTH MACHINE")
         var litAxis = Equipment("LIT axis Machine", DEVICE_LIT_AXIS, "", "LIT AXIS™")
         equipmentListData.add(hearRateSensor)
         equipmentListData.add(strengthMachine)
@@ -71,7 +71,6 @@ class DeviceManagerActivity : BaseActivity(), DeviceManagerAdapter.DeviceAdapter
                 intent.putExtra(DEVICE_NAME, DEVICE_STRENGTH_MACHINE)
                 startActivity(intent)
                 overridePendingTransition(R.anim.push_down_in, R.anim.push_down_out);
-
             }
             DEVICE_HEART_RATE -> {
                 val intent = Intent(this@DeviceManagerActivity, DeviceScannerActivity::class.java)

@@ -255,6 +255,24 @@
                     android:textColor="@color/white"
                     android:textSize="@dimen/_14ssp" />
 
+                <TextView
+                    android:id="@+id/edit_device"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/vw_2"
+                    android:layout_marginStart="@dimen/_15sdp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:gravity="end"
+                    android:layout_marginEnd="@dimen/_15sdp"
+                    android:fontFamily="@font/futura_std_condensed_extra_bd"
+                    android:lineSpacingExtra="6sp"
+                    android:singleLine="false"
+                    android:visibility="visible"
+                    android:text="Edit"
+                    android:textColor="@color/red"
+                    android:textSize="@dimen/_10ssp" />
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_equipment_type"
                     android:layout_width="match_parent"

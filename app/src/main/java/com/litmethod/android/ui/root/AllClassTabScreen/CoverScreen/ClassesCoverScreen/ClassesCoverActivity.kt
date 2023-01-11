@@ -35,6 +35,7 @@ import com.litmethod.android.Parsing.Converters
 import com.litmethod.android.R
 import com.litmethod.android.Webview.WebViewActivity
 import com.litmethod.android.databinding.ActivityClassesCoverBinding
+import com.litmethod.android.devicemanager.DeviceManagerActivity
 import com.litmethod.android.models.AcountScreenFragment.ClassBookmark.ClassBookmarkRequest
 import com.litmethod.android.models.ClassDetails.Device
 import com.litmethod.android.models.ClassDetails.EquipmentVideo
@@ -134,6 +135,10 @@ class ClassesCoverActivity : BaseActivity(),
             binding.ivNew.visibility = View.VISIBLE
         } else {
             binding.ivNew.visibility = View.GONE
+        }
+
+        binding.editDevice.setOnClickListener{
+            startActivity(Intent(this,DeviceManagerActivity::class.java))
         }
 
         val originalFormat: DateFormat = SimpleDateFormat("yyyy-mm-dd")

@@ -2,7 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <carbon.widget.RelativeLayout
         android:id="@+id/rl_level_second"
@@ -77,8 +78,6 @@
                 android:layout_height="@dimen/_40sdp"
                 android:layout_below="@+id/tv_date"
                 android:layout_marginTop="@dimen/_2sdp"
-                android:clickable="false"
-                android:enabled="false"
                 android:fontFamily="@font/futura_std_condensed_extra_bd"
                 android:lineSpacingExtra="4sp"
                 android:singleLine="true"
