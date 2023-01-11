@@ -1,19 +1,25 @@
 package com.litmethod.android.ui.Onboarding.LitMembershipScreen
 
+import android.content.Intent
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.View
 import androidx.databinding.DataBindingUtil
 import carbon.widget.RecyclerView
 import com.litmethod.android.R
+import com.litmethod.android.Webview.WebViewActivity
 import com.litmethod.android.databinding.ActivityLitMembershipBinding
 import com.litmethod.android.shared.BaseActivity
+import com.litmethod.android.ui.Onboarding.LoginScreen.LoginActivity
+import com.litmethod.android.ui.root.DashBoardActivity
+import com.litmethod.android.utlis.AppConstants
 import com.litmethod.android.utlis.MarginItemDecoration
 
 class LitMembershipActivity : BaseActivity(), LitMembershipAdapter.LevelAdapterListener, View.OnClickListener {
     lateinit var binding: ActivityLitMembershipBinding
     val dataList: ArrayList<LitMembershipData> = ArrayList<LitMembershipData>()
     private var litMembershipAdapter: LitMembershipAdapter? = null
+    private var selectedPosition: Int = -1
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_lit_membership)
@@ -31,8 +37,6 @@ class LitMembershipActivity : BaseActivity(), LitMembershipAdapter.LevelAdapterL
 
     private fun setUpAdapter() {
         dataList.clear()
-        dataList.add(LitMembershipData(false,false))
-        dataList.add(LitMembershipData(false,false))
         dataList.add(LitMembershipData(false,false))
         dataList.add(LitMembershipData(false,false))
         binding.rvMembershipType.layoutManager =
@@ -69,6 +73,7 @@ class LitMembershipActivity : BaseActivity(), LitMembershipAdapter.LevelAdapterL
         }
         pageValueChecking()
         litMembershipAdapter!!.notifyDataSetChanged()
+        selectedPosition = position
     }
 
     private fun pageValueChecking() {
@@ -95,12 +100,25 @@ class LitMembershipActivity : BaseActivity(), LitMembershipAdapter.LevelAdapterL
 
     private fun clickListener() {
         binding.ibBackButton.setOnClickListener(this)
+        binding.btnSubscribe.setOnClickListener(this)
     }
 
     override fun onClick(p0: View?) {
         when (p0!!.id) {
             R.id.ib_back_button -> {
                 finish()
+            }
+            R.id.btn_Subscribe -> {
+                if(selectedPosition == 1){
+                    val intent = Intent(this, WebViewActivity::class.java)
+                    intent.putExtra(AppConstants.WEB_URL, AppConstants.MEMBERSHIP_URL)
+                    startActivity(intent)
+                }else{
+                    intentActivityWithFinish(
+                        this,
+                        LoginActivity::class.java
+                    )
+                }
             }
         }
     }

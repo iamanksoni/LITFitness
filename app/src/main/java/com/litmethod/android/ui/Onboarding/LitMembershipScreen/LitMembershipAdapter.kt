@@ -68,6 +68,16 @@ class LitMembershipAdapter(
             holder.rl_level_second.stroke = ColorStateList.valueOf(colorInt)
             holder.rl_level_second.alpha = 1f
         }
+
+        if(position == 0){
+            holder.tv_header1.text = "Monthly"
+            holder.tv_subheader.text = "30 Days Free Trial"
+            holder.tv_amount.text = "$0"
+        }else{
+            holder.tv_header1.text = "Buy Subscription"
+            holder.tv_subheader.text = "Premium Membership"
+        }
+
         holder.rb_membership.setOnClickListener{
             levelAdapterListener.onItemClick(position)
         }
@@ -84,6 +94,8 @@ class LitMembershipAdapter(
 
 class LitMembershipAdapterViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     val tv_header1: TextView = view.findViewById(R.id.tv_header1)
+    val tv_subheader: TextView = view.findViewById(R.id.tv_sub_header)
     val rl_level_second: carbon.widget.RelativeLayout = view.findViewById(R.id.rl_level_second)
     val rb_membership: RadioButton = view.findViewById(R.id.rb_membership)
+    val tv_amount: TextView = view.findViewById(R.id.tv_amount)
 }
