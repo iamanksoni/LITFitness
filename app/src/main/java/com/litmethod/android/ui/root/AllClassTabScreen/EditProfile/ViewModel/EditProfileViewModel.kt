@@ -100,10 +100,10 @@ class EditProfileViewModel  constructor(private val repository: EditProfileRepos
         })
     }
 
-     fun setImage2(body: MultipartBody.Part) {
+     fun setImage2(auth: String, body: MultipartBody.Part) {
          mSetImageProgress.postValue(true)
          val serviceBuilder = ServiceBuilder.myApi
-         serviceBuilder.uploadImage(body).enqueue(object : retrofit2.Callback<SetImageResponse> {
+         serviceBuilder.uploadImage(auth, body).enqueue(object : retrofit2.Callback<SetImageResponse> {
 
              override fun onFailure(call: Call<SetImageResponse>, t: Throwable) {
                  mSetImageError.postValue(t.message)
@@ -133,6 +133,7 @@ class EditProfileViewModel  constructor(private val repository: EditProfileRepos
                 )
             else -> {
                 setImage2(
+                    auth,
                     fileName
                 )
             }

@@ -989,9 +989,15 @@ class ClassesFragment : BaseFragment(), StackClassesAdapter.StackClassesAdapterL
                 BaseResponseDataObject.getClassDetailsResponse=getClassDetailsList
                 binding.spLoading.visibility = View.GONE
                 val intent =  Intent(requireActivity(), ClassesCoverActivity::class.java)
-                intent.putExtra("videoUrl", getClassCatagoryByIdResponseList[positionOfUrl].videoUrl)
-                intent.putExtra("muscleUrl", getClassCatagoryByIdResponseList[positionOfUrl].muscle_image)
-                intent.putExtra("videoTitle", getClassCatagoryByIdResponseList[positionOfUrl].title)
+                if(getClassCatagoryByIdResponseList != null && getClassCatagoryByIdResponseList.size != 0){
+                    intent.putExtra("videoUrl", getClassCatagoryByIdResponseList[positionOfUrl].videoUrl)
+                    intent.putExtra("muscleUrl", getClassCatagoryByIdResponseList[positionOfUrl].muscle_image)
+                    intent.putExtra("videoTitle", getClassCatagoryByIdResponseList[positionOfUrl].title)
+                }else{
+                    intent.putExtra("videoUrl", getClassCatagoryByIdResponseListFilter[positionOfUrl].videoUrl)
+                    intent.putExtra("muscleUrl", getClassCatagoryByIdResponseListFilter[positionOfUrl].muscle_image)
+                    intent.putExtra("videoTitle", getClassCatagoryByIdResponseListFilter[positionOfUrl].title)
+                }
                intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP)
                 startActivity(intent)
                 requireActivity().overridePendingTransition(

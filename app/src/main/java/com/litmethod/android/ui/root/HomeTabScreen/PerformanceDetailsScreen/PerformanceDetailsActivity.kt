@@ -287,13 +287,19 @@ class PerformanceDetailsActivity : BaseActivity(), AllTimeDetailsAdapter.AllTime
             binding.spLoading.setIndeterminateDrawable(doubleBounce)
             binding.rlTopLayer.setBackgroundColor(resources.getColor(R.color.mono_grey_100))
             //     binding.tvRating.text = dataListRateKacl[selectedPosition].data.toString()
-            var  minutes = (dataListRateKacl[selectedPosition].data.toString().toInt() % 3600) / 60;
+            var  minutes = (dataListRateKacl[selectedPosition].data.toString().toInt()) / 60;
             var seconds = dataListRateKacl[selectedPosition].data.toString().toInt() % 60;
 
-            if(minutes==0 && seconds==0){
+//            val time = AppUtils.fetchTime(dataListRateKacl[selectedPosition].data.toString().toInt())
+//            val hours = time!![0]
+//            val minutesNew = time!![1]
+//            val secondsNew = time!![2]
 
+            if(minutes==0 && seconds==0){
                 binding.tvRating.text = "0$minutes:0$seconds"
             }else binding.tvRating.text = "$minutes:$seconds"
+
+
 
             Glide.with(this)
                 .load(getDrawable(R.drawable.ic_time_fill))

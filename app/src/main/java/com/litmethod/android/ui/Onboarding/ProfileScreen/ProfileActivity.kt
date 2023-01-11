@@ -15,16 +15,28 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.ViewModelProvider
 import com.litmethod.android.R
 import com.litmethod.android.databinding.ActivityProfileBinding
+import com.litmethod.android.network.EditProfileRepository
+import com.litmethod.android.network.RetrofitDataSourceService
 import com.litmethod.android.shared.BaseActivity
 import com.litmethod.android.ui.Onboarding.MeasureScreen.MeasureActivity
 import com.litmethod.android.ui.Onboarding.ProfileScreen.Util.RealPathUtil
+import com.litmethod.android.ui.root.AllClassTabScreen.ClassesFragmentScreen.Util.BaseResponseDataObject
+import com.litmethod.android.ui.root.AllClassTabScreen.EditProfile.ViewModel.EditProfileViewModel
+import com.litmethod.android.ui.root.AllClassTabScreen.EditProfile.ViewModel.EditProfileViewModelFactory
 import com.litmethod.android.utlis.UiDataObject
+import id.zelory.compressor.Compressor
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
 import java.io.File
 import java.text.DateFormat
 import java.text.SimpleDateFormat
@@ -43,6 +55,8 @@ class ProfileActivity : BaseActivity(), View.OnClickListener {
     }
 
     lateinit var binding: ActivityProfileBinding
+    lateinit var viewModel: EditProfileViewModel
+    private val retrofitService = RetrofitDataSourceService.getInstance()
     var path: String? = null
     var uri: Uri? = null
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,6 +65,24 @@ class ProfileActivity : BaseActivity(), View.OnClickListener {
 
         setUpUi()
         clickListener()
+        viewModelSetup()
+    }
+
+    private fun profilePicUploadResponse() {
+
+        viewModel.mSetImageResponse.observe(this, androidx.lifecycle.Observer {
+            Toast.makeText(this, "Image Uploaded", Toast.LENGTH_LONG).show()
+        })
+
+
+    }
+
+    private fun viewModelSetup(){
+        viewModel =
+            ViewModelProvider(this, EditProfileViewModelFactory(EditProfileRepository(retrofitService),this)).get(
+                EditProfileViewModel::class.java
+            )
+        profilePicUploadResponse()
     }
 
     private fun getAgeInYears(dayOfMonth: Int, month: Int, year: Int): Int {
@@ -374,16 +406,25 @@ class ProfileActivity : BaseActivity(), View.OnClickListener {
     private fun calltoChangeAvatar() {
         val file = File(path)
 
-        val reqFile = RequestBody.create("multipart/form-data".toMediaTypeOrNull(), file)
-        val body = MultipartBody.Part.createFormData("image", file.name, reqFile)
-        val action: RequestBody =
-            RequestBody.create("multipart/form-data".toMediaTypeOrNull(), "avtarImage")
-//        val action2: RequestBody = create("multipart/form-data".toMediaTypeOrNull(), "avtarImage")
-        Log.d("check", "the action data is $action")
 
-        UiDataObject.body = body
-        UiDataObject.action = action
-        Log.d("SighUpResponse37", "body is $body and req file is $action")
+        CoroutineScope(Dispatchers.IO).launch {
+            run {
+                val compressedImageFile = Compressor.compress(this@ProfileActivity, file)
+                val requestFile = compressedImageFile.asRequestBody(
+                    this@ProfileActivity.contentResolver.getType(Uri.parse(path))?.toMediaTypeOrNull()
+                )
+                val body = MultipartBody.Part.createFormData(
+                    "image",
+                    compressedImageFile.name,
+                    requestFile
+                )
+
+                val action: RequestBody =
+                    RequestBody.create("text/plain".toMediaTypeOrNull(), "avtarImage")
+                viewModel.checkSetImage(BaseResponseDataObject.accessToken, body, action)
+            }
+
+        }
     }
 
 }

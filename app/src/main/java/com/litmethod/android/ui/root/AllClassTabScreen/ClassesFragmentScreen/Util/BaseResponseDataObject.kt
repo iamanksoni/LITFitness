@@ -16,6 +16,7 @@ object BaseResponseDataObject {
     lateinit var getAllAccessFilterResponse: List<Data7>
     lateinit var getInstructorInfoResponse: Data8
     var accessToken = ""
+    var accessTokenForSignUp = ""
     var filterToClaassFragment:Boolean= false
     var level: ArrayList<String> = ArrayList<String>()
     var duration: ArrayList<String> = ArrayList<String>()

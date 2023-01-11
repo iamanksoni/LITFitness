@@ -63,7 +63,7 @@ class YourEquipmentAdapter(
             holder.rl_level_second.background = context.getDrawable(R.drawable.view_background_grey)
             holder.rl_level_second.backgroundTintList = ColorStateList.valueOf(colorInt2)
             val colorInt3 = context.resources.getColor(R.color.red)
-            holder.tv_sub_header.text = ""
+            holder.tv_sub_header.text = "selected"
             holder.tv_sub_header.setTextColor(colorInt3)
         } else {
             holder.rl_level_second.strokeWidth = 0.5f
@@ -74,7 +74,7 @@ class YourEquipmentAdapter(
             val colorInt = context.resources.getColor(R.color.white)
             holder.tv_header1.setTextColor(colorInt)
             val colorInt1 = context.resources.getColor(R.color.mono_grey_60)
-            holder.tv_sub_header.text = "Tap to connect..."
+            holder.tv_sub_header.text = "Tap to select"
             holder.tv_sub_header.setTextColor(colorInt1)
         }
         holder.tv_sub_header.setOnClickListener {
