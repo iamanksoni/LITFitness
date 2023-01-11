@@ -34,7 +34,7 @@ class ClassCoverEquipmentAdapter(
 
         holder.tv_device_name.text=item.title
         if(item.selectedItem!!) {
-            holder.iv_tap_connect.text = "CONNECTING"
+            holder.iv_tap_connect.text = "SCA"
         }
         else{
             holder.iv_tap_connect.text = "Tap to connect..."

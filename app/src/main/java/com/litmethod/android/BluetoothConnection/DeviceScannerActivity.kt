@@ -307,6 +307,9 @@ class DeviceScannerActivity : BaseActivity() {
             }
 
             DEVICE_STRENGTH_MACHINE -> {
+                binding.tvLitHeartRateMessage.visibility = View.VISIBLE
+                binding.tvLitAxisMessage.visibility = View.GONE
+                binding.tvLitHeartRateMessage.text="Please make sure the LED of your rower is on and bring your phone near your rower"
                 Glide.with(this).load(R.drawable.strength_machine).into(binding.ivAnimation)
                 handleRowingMachineConnection()
             }
@@ -361,14 +364,13 @@ class DeviceScannerActivity : BaseActivity() {
     }
 
     private fun handleRowingMachineConnection() {
-        var list = arrayOf<UUID>()
+        var list = arrayOf<UUID>(LIT_STRENGTH_MACHINE_SERVICE)
         scanAndConnectLitAxisDevice(list)
     }
 
 
     override fun onResume() {
         super.onResume()
-
     }
 
     private fun checkPermissions() {

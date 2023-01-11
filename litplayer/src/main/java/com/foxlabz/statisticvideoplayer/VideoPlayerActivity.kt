@@ -355,14 +355,15 @@ class VideoPlayerActivity : AppCompatActivity(), Caster.OnConnectChangeListener,
 
         val layoutForEnd = findViewById<RelativeLayout>(R.id.layoutForEnd)
         layoutForEnd.setOnClickListener {
-            player?.pause()
-            feedAudioPlayer.pause()
-            feedFmPaused = true
-//            if (player!!.duration > 10 * 60 * 1000) {
-//                showRatingPopup()
-//            } else {
-                finish()
-//            }
+            if (player!!.isPlaying) {
+                player?.pause()
+            }
+            if (!feedFmPaused) {
+                feedAudioPlayer.pause()
+                feedFmPaused = true
+            }
+
+            finish()
 
         }
 
