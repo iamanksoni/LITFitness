@@ -13,6 +13,7 @@ import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.litmethod.android.R
+import com.litmethod.android.models.Liveclass.Data
 import com.litmethod.android.ui.root.LiveClassTabScreen.TimeUtil.LiveClassSeparatedByDate
 import com.litmethod.android.ui.root.LiveClassTabScreen.TimeUtil.SetThePostFixinDate
 import java.time.LocalDate
@@ -21,9 +22,10 @@ import java.util.*
 class LiveScreenVideoAdapterParentAdapter(
                                           val list: MutableList<LiveClassSeparatedByDate>,
                                           var mContext: Context,
-) : RecyclerView.Adapter<AllClassMilestoneHeaderAdapterViewHolder>() {
+) : RecyclerView.Adapter<AllClassMilestoneHeaderAdapterViewHolder>(),LiveScreenVideoAdapter.LiveClassItemInterface {
 
     private var allClassMilestoneChildAdapter: LiveScreenVideoAdapter? = null
+    private lateinit var liveParentDataItemClick:ParentLiveDataItem
     override fun onCreateViewHolder(
         p0: ViewGroup,
         p1: Int
@@ -58,11 +60,23 @@ class LiveScreenVideoAdapterParentAdapter(
             LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false)
         allClassMilestoneChildAdapter =
             LiveScreenVideoAdapter(list[position].videoList, mContext)
+        allClassMilestoneChildAdapter?.setClickListener(this)
         holder.rv_home_workout_child.adapter = allClassMilestoneChildAdapter
 
     }
 
+    interface ParentLiveDataItem{
+        fun liveParentDataItemClick(data:Data)
+    }
 
+
+    fun setParentLiveDataItemClickListener( listner: ParentLiveDataItem){
+        this.liveParentDataItemClick=listner
+    }
+
+    override fun onLiveVideoItemClick(item: Data) {
+        liveParentDataItemClick.liveParentDataItemClick(data = item)
+    }
 
 }
 
