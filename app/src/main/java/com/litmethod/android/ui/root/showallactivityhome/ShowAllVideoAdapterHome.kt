@@ -34,7 +34,24 @@ class ShowAllVideoAdapterHome(
         holder.tv_sub_level.text = item.getLevelName
         Glide.with(context)
             .load(item.thumbnail)
-            .into(holder.iv_video);
+            .into(holder.iv_video)
+
+        holder.itemView.setOnClickListener {
+            showAllClickListener.onItemClickListener(position, item.id)
+        }
+    }
+
+    interface ShowAllClickListener {
+        fun onItemClickListener(position: Int,attribCode:String)
+    }
+    companion object{
+        lateinit var showAllClickListener: ShowAllClickListener
+
+        fun setAdapterListener(showAllClickListener: ShowAllClickListener) {
+            this.showAllClickListener = showAllClickListener
+        }
+
+
     }
 
     override fun getItemCount(): Int {

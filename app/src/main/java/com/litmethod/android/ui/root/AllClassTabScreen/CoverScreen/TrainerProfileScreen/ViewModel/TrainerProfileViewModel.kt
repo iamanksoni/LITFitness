@@ -3,6 +3,8 @@ package com.litmethod.android.ui.root.AllClassTabScreen.CoverScreen.TrainerProfi
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.litmethod.android.models.ClassDetails.ClassDetailsRequest
+import com.litmethod.android.models.ClassDetails.ClassDetailsResponse
 import com.litmethod.android.models.GetInstructorInfo.GetInstructorInfoRequest
 import com.litmethod.android.models.GetInstructorInfo.GetInstructorInfoResponse
 import com.litmethod.android.network.ClassesCoverActivityRepository
@@ -57,4 +59,46 @@ class TrainerProfileViewModel constructor(private val repository: TrainerProfile
             }
         }
     }
+
+    val classDetailsResponse = MutableLiveData<ClassDetailsResponse>()
+    val errorMessage6 = MutableLiveData<String>()
+
+    private fun getClassDetails(auth: String,classDetailsRequest: ClassDetailsRequest) {
+        val response = repository.getClassDetails(auth,classDetailsRequest)
+        response.enqueue(object : Callback<ClassDetailsResponse> {
+            override fun onResponse(
+                call: Call<ClassDetailsResponse>,
+                response: Response<ClassDetailsResponse>
+            ) {
+                if(response.code() == 200) {
+                    classDetailsResponse.postValue(response.body())
+                }else  if(response.code() == 403) {
+                    val jObjError = JSONObject(response.errorBody()!!.string())
+                    errorMessage6.postValue(jObjError.getJSONObject("serverResponse").getString("message"))
+                }
+            }
+            override fun onFailure(call: Call<ClassDetailsResponse>, t: Throwable) {
+                errorMessage6.postValue(t.message)
+            }
+        })
+    }
+
+    fun checkgetClassDetails(auth: String,classDetailsRequest: ClassDetailsRequest) {
+        when {
+            !NetworkHelper.instance.isNetworkAvailable(context) ->
+                DialogueBox.showMsg(
+                    context,
+                    "Sign in failed!",
+                    "Please check your internet connection."
+                )
+            else -> {
+                getClassDetails(
+                    auth ,
+                    classDetailsRequest
+
+                )
+            }
+        }
+    }
+
 }

@@ -45,6 +45,7 @@ import com.litmethod.android.ui.Dashboard.HomeTabScreen.PerformanceDetailsScreen
 import com.litmethod.android.ui.VideoPlayer.VideoPlayerActivity
 import com.litmethod.android.ui.root.AllClassTabScreen.ClassesFragmentScreen.Util.BaseResponseDataObject
 import com.litmethod.android.ui.root.AllClassTabScreen.ClassesFragmentScreen.Util.GetProgramsByIdToNextScreen
+import com.litmethod.android.ui.root.AllClassTabScreen.ClassesFragmentScreen.ViewModel.ClassesFragmentViewModel
 import com.litmethod.android.ui.root.AllClassTabScreen.CoverScreen.ClassesCoverScreen.ClassesCoverActivity
 import com.litmethod.android.ui.root.AllClassTabScreen.CoverScreen.ProgramsCoverScreen.ProgramsCoverActivity
 import com.litmethod.android.ui.root.HomeTabScreen.HomeViewModel
@@ -66,6 +67,7 @@ class HomeScreenFragment : BaseFragment(), AllTimeAdapter.AllTimeAdapterListener
     VideoGetStartedAdapter.VideoGetStartedAdapterListener {
     lateinit var binding: FragmentHomeBinding
     private var selectedPerformanceType: String = AppConstants.ALLTIME
+    lateinit var classesFragmentViewModel: ClassesFragmentViewModel
 
     val dataListVideo: ArrayList<Video> = ArrayList<Video>()
     private var layoutManagernewVideo: RecyclerView.LayoutManager? = null
@@ -335,6 +337,8 @@ class HomeScreenFragment : BaseFragment(), AllTimeAdapter.AllTimeAdapterListener
             ).get(
                 HomeViewModel::class.java
             )
+
+
         getHomeApiResponse()
         getUserAnalyticsResponse()
         getAchievementsListResponse()
@@ -387,7 +391,12 @@ class HomeScreenFragment : BaseFragment(), AllTimeAdapter.AllTimeAdapterListener
             getClassDetailsList = it.result!!.data
             BaseResponseDataObject.getClassDetailsResponse = getClassDetailsList
             binding.spLoading.visibility = View.GONE
-            val intent = Intent(requireActivity(), ClassesCoverActivity::class.java)
+            //TODO :: Working here
+            val intent =  Intent(requireActivity(), ClassesCoverActivity::class.java)
+            intent.putExtra("videoUrl", it.result!!.data.videoUrl)
+            intent.putExtra("muscleUrl", it.result!!.data.muscle_image)
+            intent.putExtra("videoTitle", it.result!!.data.title)
+
             intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP)
             startActivity(intent)
             requireActivity().overridePendingTransition(
@@ -1715,6 +1724,14 @@ class HomeScreenFragment : BaseFragment(), AllTimeAdapter.AllTimeAdapterListener
     }
 
     override fun onItemWorkOutClick(position: Int, attribCode: String) {
+        viewModel.checkgetClassDetails(
+            BaseResponseDataObject.accessToken,
+            ClassDetailsRequest("classDetails", attribCode)
+        )
+    }
+
+
+    private fun apiHitForClassDetail(attribCode: String) {
         viewModel.checkgetClassDetails(
             BaseResponseDataObject.accessToken,
             ClassDetailsRequest("classDetails", attribCode)

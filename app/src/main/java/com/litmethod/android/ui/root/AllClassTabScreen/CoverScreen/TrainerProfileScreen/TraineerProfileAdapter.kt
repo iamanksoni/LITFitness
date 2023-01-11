@@ -53,6 +53,23 @@ class TraineerProfileAdapter(
             }
 
         }
+
+        holder.itemView.setOnClickListener {
+            trainerProfileClickListener.onItemClickListener(position, result[position].id)
+        }
+    }
+
+    interface TrainerProfileClickListener {
+        fun onItemClickListener(position: Int,attribCode:String)
+    }
+    companion object{
+        lateinit var trainerProfileClickListener: TrainerProfileClickListener
+
+        fun setAdapterListener(trainerProfileClickListener: TrainerProfileClickListener) {
+            this.trainerProfileClickListener = trainerProfileClickListener
+        }
+
+
     }
 
     override fun getItemCount(): Int {

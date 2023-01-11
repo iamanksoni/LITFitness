@@ -108,8 +108,6 @@ class ClassesFragment : BaseFragment(), StackClassesAdapter.StackClassesAdapterL
     var activityCreated = true
     var isScrolling = false
     
-//    7168_bhHCWmI40Xn69SxqBgYfoeK58tMJydL17GQzpUsZuFiVjrPaOkv3DNE2TRlAcw
-//    7861_xCYNRc3Vdkg2WeUGvaqEMpbFOjrsAhl7BZXzPnou15ID6mwTHJ0i98yKtLfSQ4
     companion object {
         fun newInstance(): ClassesFragment {
             return ClassesFragment()
@@ -131,8 +129,6 @@ class ClassesFragment : BaseFragment(), StackClassesAdapter.StackClassesAdapterL
         viewModelSetup()
 
         getToken()
-        Log.d("getClassCatagoryData","the onViewCreated is calling")
-        Log.d("checkClling","on creaedView Called")
 //        setUpAdapter()
 
         clickListener()
@@ -294,7 +290,6 @@ class ClassesFragment : BaseFragment(), StackClassesAdapter.StackClassesAdapterL
 
                    val linearLayoutManager =binding.rvVideoClass.layoutManager as LinearLayoutManager?
 
-//            Log.d("theItem"," the lis is $getClassCatagoryByIdResponseList")
                    val visibleItemCount = linearLayoutManager?.childCount
                    val totalItemCount = linearLayoutManager?.itemCount
                    val firstVisibleItemPosition = linearLayoutManager?.findFirstVisibleItemPosition()
@@ -307,9 +302,6 @@ class ClassesFragment : BaseFragment(), StackClassesAdapter.StackClassesAdapterL
 //                           isLoading = true
                            isScrolling = true
                            binding.spLoading.visibility = View.VISIBLE
-                           Log.d("getAllAcrray", "the array data is page no$pageNoFilter and code rv$codeNextRecylerView")
-                           Log.d("viewModelcallawithdata","Flter Data Adapter Adpater pageno is$pageNoFilter code id ${BaseResponseDataObject.termId}")
-                           Log.d("viewModelcallawithdata","filter array size is ${getClassCatagoryByIdResponseListFilter.size}")
                            viewModel.checkGetClassCatagoryById(
                                accessToken,
                                GetClassCatagoryByIDRequest(
@@ -327,7 +319,6 @@ class ClassesFragment : BaseFragment(), StackClassesAdapter.StackClassesAdapterL
                                )
 
                            )
-                           Log.d("theItem", " the network is called")
                        }
                    }
 
@@ -567,8 +558,6 @@ class ClassesFragment : BaseFragment(), StackClassesAdapter.StackClassesAdapterL
 
 
 
-
-
     private fun setClassVideoListAdpater(){
         dataListVideo.clear()
 
@@ -591,13 +580,9 @@ class ClassesFragment : BaseFragment(), StackClassesAdapter.StackClassesAdapterL
 
                 val linearLayoutManager =binding.rvVideoClass.layoutManager as LinearLayoutManager?
 
-//            Log.d("theItem"," the lis is $getClassCatagoryByIdResponseList")
                 val visibleItemCount = linearLayoutManager?.childCount
                 val totalItemCount = linearLayoutManager?.itemCount
                 val firstVisibleItemPosition = linearLayoutManager?.findFirstVisibleItemPosition()
-
-//                Log.d("getAllAcrray", "rv array and visible item postion and successresp $isresponseSuccess $firstVisibleItemPosition sixe is ${getClassCatagoryByIdResponseList.size }")
-
 
                 if (firstVisibleItemPosition == getClassCatagoryByIdResponseList.size - 3) {
 
@@ -610,8 +595,6 @@ class ClassesFragment : BaseFragment(), StackClassesAdapter.StackClassesAdapterL
                             isLoading = true
                             isScrolling = true
                             binding.spLoading.visibility = View.VISIBLE
-                            Log.d("getAllAcrray", "Networ called the array data is page no$pageNo and code rv$codeNextRecylerView")
-                            Log.d("viewModelcallawithdata","normal Adpater pageno is$pageNo code id $codeNextRecylerView")
                             viewModel.checkGetClassCatagoryById(
                                 accessToken,
                                 GetClassCatagoryByIDRequest(
@@ -706,10 +689,7 @@ class ClassesFragment : BaseFragment(), StackClassesAdapter.StackClassesAdapterL
         pageNo =1
         BaseResponseDataObject.termId = code
 
-        Log.d("checkClling","view model on item clicked cllaed")
         if (BaseResponseDataObject.isFilter ==true){
-            Log.d("checkClling","view model on item clicked cllaed")
-
             viewModel.checkGetClassCatagoryById(accessToken,
                 GetClassCatagoryByIDRequest(AppConstants.actionTypegetClassCatagoryById,1,"$code",
                     typeEquipment=BaseResponseDataObject.equipMent,

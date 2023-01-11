@@ -1,5 +1,6 @@
 package com.litmethod.android.ui.root.AllClassTabScreen.CoverScreen.TrainerProfileScreen
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -11,19 +12,24 @@ import carbon.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.litmethod.android.R
 import com.litmethod.android.databinding.ActivityTrainerProfileScreenBinding
+import com.litmethod.android.models.ClassDetails.ClassDetailsRequest
+import com.litmethod.android.models.ClassDetails.Data6
 import com.litmethod.android.models.GetInstructorInfo.GetInstructorInfoRequest
 import com.litmethod.android.models.GetInstructorInfo.Video
 import com.litmethod.android.network.RetrofitDataSourceService
 import com.litmethod.android.network.TrainerProfileScreenRepository
 import com.litmethod.android.shared.BaseActivity
 import com.litmethod.android.ui.root.AllClassTabScreen.ClassesFragmentScreen.Util.BaseResponseDataObject
+import com.litmethod.android.ui.root.AllClassTabScreen.CoverScreen.ClassesCoverScreen.ClassesCoverActivity
 import com.litmethod.android.ui.root.AllClassTabScreen.CoverScreen.TrainerProfileScreen.ViewModel.TrainerProfileViewModel
 import com.litmethod.android.ui.root.AllClassTabScreen.CoverScreen.TrainerProfileScreen.ViewModel.TrainerProfileViewModelFactory
+import com.litmethod.android.ui.root.HomeTabScreen.HomeViewModel
 import com.litmethod.android.utlis.MarginItemDecoration
 
-class TrainerProfileScreenActivity : BaseActivity(), View.OnClickListener {
+class TrainerProfileScreenActivity : BaseActivity(), View.OnClickListener, TraineerProfileAdapter.TrainerProfileClickListener {
     lateinit var binding: ActivityTrainerProfileScreenBinding
     private var classesCoverDeviceVideoAdapter: TraineerProfileAdapter? = null
+    lateinit var getClassDetailsList: Data6
     private var pageNo = 1
     var getInstruutorVideo: ArrayList<Video> = ArrayList<Video>()
     lateinit var viewModel: TrainerProfileViewModel
@@ -72,6 +78,8 @@ class TrainerProfileScreenActivity : BaseActivity(), View.OnClickListener {
                 )
             )
         )
+
+        TraineerProfileAdapter?.setAdapterListener(this)
 
 
         binding.rvTrainerVideo.addOnScrollListener(object : androidx.recyclerview.widget.RecyclerView.OnScrollListener() {
@@ -130,7 +138,6 @@ class TrainerProfileScreenActivity : BaseActivity(), View.OnClickListener {
         loginResponse()
     }
 
-
     private  fun loginResponse(){
 
         viewModel.getInstructorInfoResponse.observe(this, Observer {
@@ -143,6 +150,30 @@ class TrainerProfileScreenActivity : BaseActivity(), View.OnClickListener {
         viewModel.errorMessage.observe(this, Observer {
 
         })
+
+        viewModel.classDetailsResponse.observe(this, Observer {
+            getClassDetailsList = it.result!!.data
+            BaseResponseDataObject.getClassDetailsResponse = getClassDetailsList
+            //TODO :: Working here
+            val intent =  Intent(this, ClassesCoverActivity::class.java)
+            intent.putExtra("videoUrl", it.result!!.data.videoUrl)
+            intent.putExtra("muscleUrl", it.result!!.data.muscle_image)
+            intent.putExtra("videoTitle", it.result!!.data.title)
+            intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            startActivity(intent)
+            this.overridePendingTransition(
+                R.anim.slide_from_right,
+                R.anim.slide_to_left
+            )
+        })
+
+    }
+
+    override fun onItemClickListener(position: Int, attribCode: String) {
+        viewModel.checkgetClassDetails(
+            BaseResponseDataObject.accessToken,
+            ClassDetailsRequest("classDetails", attribCode)
+        )
     }
 
 }
