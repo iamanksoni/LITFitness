@@ -132,6 +132,7 @@ class LiveScreenFragment : BaseFragment(),LiveScreenVideoAdapterParentAdapter.Pa
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun mapTheResponseData() {
+
         val liveClassScheduledDates = liveClassList.map {
             it.class_time_show
         }.map {
@@ -139,8 +140,6 @@ class LiveScreenFragment : BaseFragment(),LiveScreenVideoAdapterParentAdapter.Pa
         }.toSet().toList().map {
             convertDateStringToLocalDate(it)
         }.sorted()
-
-
 
 
         for (localDate in liveClassScheduledDates) {
