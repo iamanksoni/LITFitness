@@ -157,7 +157,7 @@ class PerformanceDetailsActivity : BaseActivity(), AllTimeDetailsAdapter.AllTime
             doubleBounce.color = colournew
             binding.spLoading.setIndeterminateDrawable(doubleBounce)
             binding.rlTopLayer.setBackgroundColor(colournew)
-            binding.tvRating.text =dataListRateKacl[selectedPosition].data.toString()
+            binding.tvRating.text = AppUtils.formatNumber(dataListRateKacl[selectedPosition].data.toString())
 
 
             Glide.with(this)
@@ -179,7 +179,7 @@ class PerformanceDetailsActivity : BaseActivity(), AllTimeDetailsAdapter.AllTime
             doubleBounce.color = colournew
             binding.spLoading.setIndeterminateDrawable(doubleBounce)
             binding.rlTopLayer.setBackgroundColor(colournew)
-            binding.tvRating.text = dataListRateKacl[selectedPosition].data.toString()
+            binding.tvRating.text = AppUtils.formatNumber(dataListRateKacl[selectedPosition].data.toString())
             Glide.with(this)
                 .load(getDrawable(R.drawable.ic_kcal_fill))
                 .into(binding.ivRatePic)
@@ -199,7 +199,7 @@ class PerformanceDetailsActivity : BaseActivity(), AllTimeDetailsAdapter.AllTime
             doubleBounce.color = colournew
             binding.spLoading.setIndeterminateDrawable(doubleBounce)
             binding.rlTopLayer.setBackgroundColor(colournew)
-            binding.tvRating.text = dataListRateKacl[selectedPosition].data.toString()
+            binding.tvRating.text = AppUtils.formatNumber(dataListRateKacl[selectedPosition].data.toString())
             Glide.with(this)
                 .load(getDrawable(R.drawable.ic_location_fill))
                 .into(binding.ivRatePic)
@@ -219,7 +219,7 @@ class PerformanceDetailsActivity : BaseActivity(), AllTimeDetailsAdapter.AllTime
             doubleBounce.color = colournew
             binding.spLoading.setIndeterminateDrawable(doubleBounce)
             binding.rlTopLayer.setBackgroundColor(colournew)
-            binding.tvRating.text = dataListRateKacl[selectedPosition].data.toString()
+            binding.tvRating.text = AppUtils.formatNumber(dataListRateKacl[selectedPosition].data.toString())
             Glide.with(this)
                 .load(getDrawable(R.drawable.ic_total_force_fill))
                 .into(binding.ivRatePic)
@@ -239,7 +239,7 @@ class PerformanceDetailsActivity : BaseActivity(), AllTimeDetailsAdapter.AllTime
             doubleBounce.color = colournew
             binding.spLoading.setIndeterminateDrawable(doubleBounce)
             binding.rlTopLayer.setBackgroundColor(colournew)
-            binding.tvRating.text = dataListRateKacl[selectedPosition].data.toString()
+            binding.tvRating.text = AppUtils.formatNumber(dataListRateKacl[selectedPosition].data.toString())
             Glide.with(this)
                 .load(getDrawable(R.drawable.ic_reps_fill))
                 .into(binding.ivRatePic)
@@ -320,7 +320,7 @@ class PerformanceDetailsActivity : BaseActivity(), AllTimeDetailsAdapter.AllTime
             doubleBounce.color = colournew
             binding.spLoading.setIndeterminateDrawable(doubleBounce)
             binding.rlTopLayer.setBackgroundColor(colournew)
-            binding.tvRating.text = dataListRateKacl[selectedPosition].data.toString()
+            binding.tvRating.text =AppUtils.formatNumber(dataListRateKacl[selectedPosition].data.toString())
             Glide.with(this)
                 .load(getDrawable(R.drawable.ic_heart_rate_fill))
                 .into(binding.ivRatePic)
@@ -341,7 +341,7 @@ class PerformanceDetailsActivity : BaseActivity(), AllTimeDetailsAdapter.AllTime
             doubleBounce.color = colournew
             binding.spLoading.setIndeterminateDrawable(doubleBounce)
             binding.rlTopLayer.setBackgroundColor(colournew)
-            binding.tvRating.text = dataListRateKacl[selectedPosition].data.toString()
+            binding.tvRating.text = AppUtils.formatNumber(dataListRateKacl[selectedPosition].data.toString())
             Glide.with(this)
                 .load(getDrawable(R.drawable.ic_kcal_fill))
                 .into(binding.ivRatePic)
@@ -361,7 +361,7 @@ class PerformanceDetailsActivity : BaseActivity(), AllTimeDetailsAdapter.AllTime
             doubleBounce.color = colournew
             binding.spLoading.setIndeterminateDrawable(doubleBounce)
             binding.rlTopLayer.setBackgroundColor(colournew)
-            binding.tvRating.text = dataListRateKacl[selectedPosition].data.toString()
+            binding.tvRating.text = AppUtils.formatNumber(dataListRateKacl[selectedPosition].data.toString())
             Glide.with(this)
                 .load(getDrawable(R.drawable.ic_location_fill))
                 .into(binding.ivRatePic)
@@ -381,7 +381,7 @@ class PerformanceDetailsActivity : BaseActivity(), AllTimeDetailsAdapter.AllTime
             doubleBounce.color = colournew
             binding.spLoading.setIndeterminateDrawable(doubleBounce)
             binding.rlTopLayer.setBackgroundColor(colournew)
-            binding.tvRating.text = dataListRateKacl[selectedPosition].data.toString()
+            binding.tvRating.text = AppUtils.formatNumber(dataListRateKacl[selectedPosition].data.toString())
             Glide.with(this)
                 .load(getDrawable(R.drawable.ic_total_force_fill))
                 .into(binding.ivRatePic)
@@ -401,7 +401,7 @@ class PerformanceDetailsActivity : BaseActivity(), AllTimeDetailsAdapter.AllTime
             doubleBounce.color = colournew
             binding.spLoading.setIndeterminateDrawable(doubleBounce)
             binding.rlTopLayer.setBackgroundColor(colournew)
-            binding.tvRating.text = dataListRateKacl[selectedPosition].data.toString()
+            binding.tvRating.text = AppUtils.formatNumber(dataListRateKacl[selectedPosition].data.toString())
             Glide.with(this)
                 .load(getDrawable(R.drawable.ic_reps_fill))
                 .into(binding.ivRatePic)

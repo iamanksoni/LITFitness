@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.litmethod.android.R
 import com.litmethod.android.models.ResultUserAnalytics
+import com.litmethod.android.utlis.AppUtils
 
 
 class PerformanceMetricsDetailsAdapter(
@@ -256,7 +257,7 @@ class PerformanceMetricsDetailsAdapter(
             if (setPosition==position){
                 viewChange?.setPerfmValue(list[position].data.toString())
             }
-            holder.tv_rate_value.text = list[position].data.toString()
+            holder.tv_rate_value.text = AppUtils.formatNumber(list[position].data.toString())
             holder.tv_rate_name.text = "BPM"
             if(selectedPosition == 0){
                 var colourNew = mContext.getColor(R.color.black)
@@ -286,7 +287,7 @@ class PerformanceMetricsDetailsAdapter(
             if (setPosition==position){
                 viewChange?.setPerfmValue(list[position].data.toString())
             }
-            holder.tv_rate_value.text = list[position].data.toString()
+            holder.tv_rate_value.text = AppUtils.formatNumber( list[position].data.toString())
             holder.tv_rate_name.text = "kcal"
             if(selectedPosition == 1){
                 var colourNew = mContext.getColor(R.color.black)
@@ -315,7 +316,7 @@ class PerformanceMetricsDetailsAdapter(
             if (setPosition==position){
                 viewChange?.setPerfmValue(list[position].data.toString())
             }
-            holder.tv_rate_value.text = list[position].data.toString()
+            holder.tv_rate_value.text =AppUtils.formatNumber( list[position].data.toString())
             holder.tv_rate_name.text = "  M "
             if(selectedPosition == 2){
                 var colourNew = mContext.getColor(R.color.black)
@@ -344,7 +345,7 @@ class PerformanceMetricsDetailsAdapter(
             if (setPosition==position){
                 viewChange?.setPerfmValue(list[position].data.toString())
             }
-            holder.tv_rate_value.text = list[position].data.toString()
+            holder.tv_rate_value.text =AppUtils.formatNumber( list[position].data.toString())
             holder.tv_rate_name.text = "lbs"
             if(selectedPosition == 3){
                 var colourNew = mContext.getColor(R.color.black)
@@ -373,7 +374,7 @@ class PerformanceMetricsDetailsAdapter(
             if (setPosition==position){
                 viewChange?.setPerfmValue(list[position].data.toString())
             }
-            holder.tv_rate_value.text = list[position].data.toString()
+            holder.tv_rate_value.text = AppUtils.formatNumber( list[position].data.toString())
             holder.tv_rate_name.text = "reps"
             if(selectedPosition == 4){
                 var colourNew = mContext.getColor(R.color.black)
