@@ -12,6 +12,7 @@ import com.bumptech.glide.Glide
 import com.litmethod.android.R
 import com.litmethod.android.models.ResultUserAnalytics
 import com.litmethod.android.utlis.AppConstants
+import com.litmethod.android.utlis.AppUtils
 
 class RateKaclAdapter(
     val result: MutableList<ResultUserAnalytics>,
@@ -39,7 +40,7 @@ class RateKaclAdapter(
     }
 
     override fun onBindViewHolder(holder: RateKaclAdapterViewHolder, position: Int) {
-        holder.tv_rate_value.text = result[position].data.toString()
+        holder.tv_rate_value.text = AppUtils.formatNumber(result[position].data.toString())
         if (result[position].key.equals("heart_rate")) {
             holder.tv_rate_name.text = AppConstants.heart_rate
             holder.tv_rate_name.setTextColor(context.getColor(R.color.red))

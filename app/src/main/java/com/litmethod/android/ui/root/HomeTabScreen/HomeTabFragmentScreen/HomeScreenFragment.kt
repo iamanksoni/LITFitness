@@ -51,6 +51,7 @@ import com.litmethod.android.ui.root.AllClassTabScreen.CoverScreen.ProgramsCover
 import com.litmethod.android.ui.root.HomeTabScreen.HomeViewModel
 import com.litmethod.android.ui.root.HomeTabScreen.HomeViewModelFactory
 import com.litmethod.android.utlis.AppConstants
+import com.litmethod.android.utlis.AppUtils
 import com.litmethod.android.utlis.DataPreferenceObject
 import com.litmethod.android.utlis.PeekingLinearLayoutManager
 import java.text.ParseException
@@ -1264,13 +1265,13 @@ class HomeScreenFragment : BaseFragment(), AllTimeAdapter.AllTimeAdapterListener
         if (trueSize > 0) {
             var idDefult = getAchievementsClassData[trueSize - 1].number
             if (idDefult.toInt() == 1) {
-                dataListAchievement[1] = AchivementsViewModel(idDefult, "Class", true)
+                dataListAchievement[1] = AchivementsViewModel(AppUtils.formatNumber(idDefult), "Class", true)
             } else {
                 if (idDefult.toInt() < 10) {
                     idDefult = "0$idDefult"
                 }
                 if (dataListAchievement.size > 0) {
-                    dataListAchievement[1] = AchivementsViewModel(idDefult, "Classes", true)
+                    dataListAchievement[1] = AchivementsViewModel(AppUtils.formatNumber(idDefult), "Classes", true)
                 }
             }
         } else {
@@ -1286,7 +1287,7 @@ class HomeScreenFragment : BaseFragment(), AllTimeAdapter.AllTimeAdapterListener
         if (trueSize > 0) {
             var idDefult = getAchievementsDayStreakData[trueSize - 1].number
             if (idDefult.toInt() == 1) {
-                dataListAchievement[2] = AchivementsViewModel("$idDefult Day", "Streak", true)
+                dataListAchievement[2] = AchivementsViewModel("${AppUtils.formatNumber(idDefult)} Day", "Streak", true)
             } else {
                 if (idDefult.toInt() < 10) {
                     idDefult = "0$idDefult"
@@ -1294,7 +1295,7 @@ class HomeScreenFragment : BaseFragment(), AllTimeAdapter.AllTimeAdapterListener
                 if (dataListAchievement.size > 0) {
                     dataListAchievement.add(
                         2,
-                        AchivementsViewModel("$idDefult Day", "Streak", true)
+                        AchivementsViewModel("${AppUtils.formatNumber(idDefult)} Day", "Streak", true)
                     )
 
                 }
@@ -1312,13 +1313,13 @@ class HomeScreenFragment : BaseFragment(), AllTimeAdapter.AllTimeAdapterListener
         if (trueSize > 0) {
             var idDefult = getAchievementsweeklyStreakData[trueSize - 1].number
             if (idDefult.toInt() == 1) {
-                dataListAchievement[3] = AchivementsViewModel("$idDefult Week", "Streak", true)
+                dataListAchievement[3] = AchivementsViewModel("${AppUtils.formatNumber(idDefult)} Week", "Streak", true)
             } else {
                 if (idDefult.toInt() < 10) {
                     idDefult = "0$idDefult"
                 }
                 if(dataListAchievement.size>0)
-                    dataListAchievement[3] = AchivementsViewModel("$idDefult Week", "Streak", true)
+                    dataListAchievement[3] = AchivementsViewModel("${AppUtils.formatNumber(idDefult)} Week", "Streak", true)
             }
         } else {
             dataListAchievement[3] = AchivementsViewModel("0 Week", "streak", false)
@@ -1334,13 +1335,13 @@ class HomeScreenFragment : BaseFragment(), AllTimeAdapter.AllTimeAdapterListener
         if (trueSize > 0) {
             var idDefult = getAchievementscaloriesachievementsData[trueSize - 1].number
             if (idDefult.toInt() == 1) {
-                dataListAchievement[4] = AchivementsViewModel("$idDefult", "KCAL", true)
+                dataListAchievement[4] = AchivementsViewModel("${AppUtils.formatNumber(idDefult)}", "KCAL", true)
             } else {
                 if (idDefult.toInt() < 10) {
                     idDefult = "0$idDefult"
                 }
                 if(dataListAchievement.size>0)
-                dataListAchievement[4] = AchivementsViewModel("$idDefult", "KCAL", true)
+                dataListAchievement[4] = AchivementsViewModel("${AppUtils.formatNumber(idDefult)}", "KCAL", true)
             }
         } else {
             dataListAchievement[4] = AchivementsViewModel("0", "KCAL", false)
@@ -1355,13 +1356,13 @@ class HomeScreenFragment : BaseFragment(), AllTimeAdapter.AllTimeAdapterListener
         if (trueSize > 0) {
             var idDefult = getAchievementsLbsData[trueSize - 1].number
             if (idDefult.toInt() == 1) {
-                dataListAchievement[5] = AchivementsViewModel("$idDefult", "LBS LIFTED", true)
+                dataListAchievement[5] = AchivementsViewModel("${AppUtils.formatNumber(idDefult)}", "LBS LIFTED", true)
             } else {
                 if (idDefult.toInt() < 10) {
                     idDefult = "0$idDefult"
                 }
                 if(dataListAchievement.size>0)
-                    dataListAchievement[5] = AchivementsViewModel("$idDefult", "LBS LIFTED", true)
+                    dataListAchievement[5] = AchivementsViewModel("${AppUtils.formatNumber(idDefult)}", "LBS LIFTED", true)
             }
         } else {
             dataListAchievement[5] = AchivementsViewModel("0", "LBS LIFTED", false)
