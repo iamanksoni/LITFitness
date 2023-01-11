@@ -401,20 +401,35 @@ class PerformanceMetricsDetailsAdapter(
 
         }
         else if (list[position].key.equals("time_under_tension")) {
-            var  minutes = (list[position].data.toString().toInt() % 3600) / 60;
-            var seconds = list[position].data.toString().toInt() % 60;
+//            var  minutes = (list[position].data.toString().toInt() % 3600) / 60;
+//            var seconds = list[position].data.toString().toInt() % 60;
+//
+//
+//            if(minutes==0 && seconds==0){
+//                holder.tv_rate_value.text = "0$minutes:0$seconds"
+//
+//                if (setPosition==position){
+//                    viewChange?.setPerfmValue("0$minutes:0$seconds")
+//                }
+//            }else{     if (setPosition==position){
+//                viewChange?.setPerfmValue("$minutes:$seconds")
+//            }
+//                holder.tv_rate_value.text = "$minutes:$seconds"
+//            }
 
+            val time = AppUtils.fetchTime(list[position].data.toString().toInt())
+            val hours = time!![0]
+            val minutesNew = time!![1]
+            val secondsNew = time!![2]
 
-            if(minutes==0 && seconds==0){
-                holder.tv_rate_value.text = "0$minutes:0$seconds"
-
-                if (setPosition==position){
-                    viewChange?.setPerfmValue("0$minutes:0$seconds")
-                }
-            }else{     if (setPosition==position){
-                viewChange?.setPerfmValue("$minutes:$seconds")
+            if(hours != 0 && minutesNew != 0 && secondsNew != 0){
+                holder.tv_rate_value.text = "$hours:$minutesNew:$secondsNew"
             }
-                holder.tv_rate_value.text = "$minutes:$seconds"
+            else if(hours == 0 && minutesNew != 0 && secondsNew != 0){
+                holder.tv_rate_value.text = "$minutesNew:$secondsNew"
+            }
+            else if(hours == 0 && minutesNew == 0 && secondsNew != 0){
+                holder.tv_rate_value.text = "0$minutesNew:$secondsNew"
             }
 
             holder.tv_rate_name.text = "TUT"
@@ -443,15 +458,35 @@ class PerformanceMetricsDetailsAdapter(
 
         }
         else if (list[position].key.equals("total_time")) {
-            var  minutes = (list[position].data.toString().toInt() % 3600) / 60;
-            var seconds = list[position].data.toString().toInt() % 60;
-            if (setPosition==position){
-                viewChange?.setPerfmValue("$minutes:$seconds")
-            }
-            holder.tv_rate_value.text = "$minutes:$seconds"
-
-
+//            var  minutes = (list[position].data.toString().toInt() % 3600) / 60;
+//            var seconds = list[position].data.toString().toInt() % 60;
+//            if (setPosition==position){
+//                viewChange?.setPerfmValue("$minutes:$seconds")
+//            }
+//            holder.tv_rate_value.text = "$minutes:$seconds"
+//
+//
             holder.tv_rate_name.text = "mins"
+
+
+            val time = AppUtils.fetchTime(list[position].data.toString().toInt())
+            val hours = time!![0]
+            val minutesNew = time!![1]
+            val secondsNew = time!![2]
+
+            if(hours != 0 && minutesNew != 0 && secondsNew != 0){
+                holder.tv_rate_value.text = "$hours:$minutesNew:$secondsNew"
+            }
+            else if(hours == 0 && minutesNew != 0 && secondsNew != 0){
+                holder.tv_rate_value.text = "$minutesNew:$secondsNew"
+            }
+            else if(hours == 0 && minutesNew == 0 && secondsNew != 0){
+                holder.tv_rate_value.text = "0$minutesNew:$secondsNew"
+            }
+
+
+
+
             if(selectedPosition == 6){
                 var colourNew = mContext.getColor(R.color.black)
                 holder.tv_rate_value.setTextColor(colourNew)

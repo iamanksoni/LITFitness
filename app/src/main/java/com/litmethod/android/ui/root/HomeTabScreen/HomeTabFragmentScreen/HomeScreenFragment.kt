@@ -166,7 +166,7 @@ class HomeScreenFragment : BaseFragment(), AllTimeAdapter.AllTimeAdapterListener
 
     private fun setClickListner() {
         binding.swipeRefreshLayout.setOnRefreshListener {
-            hitApiOfHome(selectedPerformanceType)
+            hitApiOfHomeOnRefresh(selectedPerformanceType)
         }
     }
 
@@ -260,6 +260,13 @@ class HomeScreenFragment : BaseFragment(), AllTimeAdapter.AllTimeAdapterListener
         viewModel.getHomeCheck(token)
         viewModel.getUserAnalyticsCheck(token, typeOfPerformance)
         viewModel.getAchievementsCheck(token)
+    }
+
+    private fun hitApiOfHomeOnRefresh(typeOfPerformance: String){
+        binding.spLoading.visibility = View.VISIBLE
+        viewModel.getHomeCheck(token)
+        viewModel.getUserAnalyticsCheck(token, typeOfPerformance)
+       // viewModel.getAchievementsCheck(token)
     }
 
     override fun onItemClickTime(position: Int) {

@@ -287,17 +287,29 @@ class PerformanceDetailsActivity : BaseActivity(), AllTimeDetailsAdapter.AllTime
             binding.spLoading.setIndeterminateDrawable(doubleBounce)
             binding.rlTopLayer.setBackgroundColor(resources.getColor(R.color.mono_grey_100))
             //     binding.tvRating.text = dataListRateKacl[selectedPosition].data.toString()
-            var  minutes = (dataListRateKacl[selectedPosition].data.toString().toInt()) / 60;
-            var seconds = dataListRateKacl[selectedPosition].data.toString().toInt() % 60;
+//            var  minutes = (dataListRateKacl[selectedPosition].data.toString().toInt()) / 60;
+//            var seconds = dataListRateKacl[selectedPosition].data.toString().toInt() % 60;
 
-//            val time = AppUtils.fetchTime(dataListRateKacl[selectedPosition].data.toString().toInt())
-//            val hours = time!![0]
-//            val minutesNew = time!![1]
-//            val secondsNew = time!![2]
 
-            if(minutes==0 && seconds==0){
-                binding.tvRating.text = "0$minutes:0$seconds"
-            }else binding.tvRating.text = "$minutes:$seconds"
+
+            val time = AppUtils.fetchTime(dataListRateKacl[selectedPosition].data.toString().toInt())
+            val hours = time!![0]
+            val minutesNew = time!![1]
+            val secondsNew = time!![2]
+
+            if(hours != 0 && minutesNew != 0 && secondsNew != 0){
+                binding.tvRating.text = "$hours:$minutesNew:$secondsNew"
+            }
+            else if(hours == 0 && minutesNew != 0 && secondsNew != 0){
+                binding.tvRating.text = "$minutesNew:$secondsNew"
+            }
+            else if(hours == 0 && minutesNew == 0 && secondsNew != 0){
+                binding.tvRating.text = "0$minutesNew:$secondsNew"
+            }
+
+//            if(minutes==0 && seconds==0){
+//                binding.tvRating.text = "0$minutes:0$seconds"
+//            }else binding.tvRating.text = "$minutes:$seconds"
 
 
 

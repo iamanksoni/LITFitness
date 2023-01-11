@@ -91,6 +91,20 @@ class RateKaclAdapter(
                 .into(holder.iv_heart_rate)
             val colorInt1 = context.resources.getColor(R.color.blue)
             holder.iv_heart_rate.imageTintList =ColorStateList.valueOf(colorInt1)
+            val time = AppUtils.fetchTime(result[position].data.toString().toInt())
+            val hours = time!![0]
+            val minutesNew = time!![1]
+            val secondsNew = time!![2]
+
+            if(hours != 0 && minutesNew != 0 && secondsNew != 0){
+                holder.tv_rate_value.text = "$hours:$minutesNew:$secondsNew"
+            }
+            else if(hours == 0 && minutesNew != 0 && secondsNew != 0){
+                holder.tv_rate_value.text = "$minutesNew:$secondsNew"
+            }
+            else if(hours == 0 && minutesNew == 0 && secondsNew != 0){
+                holder.tv_rate_value.text = "0$minutesNew:$secondsNew"
+            }
 
         } else if (result[position].key.equals("total_time")) {
             holder.tv_rate_name.text = AppConstants.total_time
@@ -100,6 +114,21 @@ class RateKaclAdapter(
                 .into(holder.iv_heart_rate)
             val colorInt1 = context.resources.getColor(R.color.mono_grey_100)
             holder.iv_heart_rate.imageTintList =ColorStateList.valueOf(colorInt1)
+
+            val time = AppUtils.fetchTime(result[position].data.toString().toInt())
+            val hours = time!![0]
+            val minutesNew = time!![1]
+            val secondsNew = time!![2]
+
+            if(hours != 0 && minutesNew != 0 && secondsNew != 0){
+                holder.tv_rate_value.text = "$hours:$minutesNew:$secondsNew"
+            }
+            else if(hours == 0 && minutesNew != 0 && secondsNew != 0){
+                holder.tv_rate_value.text = "$minutesNew:$secondsNew"
+            }
+            else if(hours == 0 && minutesNew == 0 && secondsNew != 0){
+                holder.tv_rate_value.text = "0$minutesNew:$secondsNew"
+            }
 
         }
         holder.itemView.setOnClickListener {
