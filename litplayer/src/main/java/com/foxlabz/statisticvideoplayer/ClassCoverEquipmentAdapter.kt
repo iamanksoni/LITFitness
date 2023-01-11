@@ -33,7 +33,16 @@ class ClassCoverEquipmentAdapter(
         var item = equipmentData[position]
 
         holder.tv_device_name.text=item.title
-        holder.iv_tap_connect.text = "Tap to connect..."
+        if(item.selectedItem!!) {
+            holder.iv_tap_connect.text = "CONNECTING"
+        }
+        else{
+            holder.iv_tap_connect.text = "Tap to connect..."
+        }
+
+        if(item.connectionStatus!!) {
+            holder.iv_tap_connect.text = "CONNECTED"
+        }
 
         holder.iv_tap_connect.setOnClickListener {
             yourEquipmentAdapterListener.onItemEquipClick(position, item.id)

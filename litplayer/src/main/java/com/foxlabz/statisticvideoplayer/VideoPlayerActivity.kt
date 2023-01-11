@@ -83,14 +83,14 @@ class VideoPlayerActivity : AppCompatActivity(), Caster.OnConnectChangeListener,
     private var durationSet: Boolean = false
     var player: ExoPlayer? = null
     var repsCount = 0;
+    var selectedDevicePosition = -1
     private var caster: Caster? = null
     private lateinit var feedAudioPlayer: FeedAudioPlayer
     private var feedFmPaused = false;
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
     private lateinit var centralManager: BluetoothCentralManager;
     private lateinit var field: Field
-    var averageRSSI: HashMap<String, Triple<Int, Int, BluetoothPeripheral>> =
-        HashMap()
+    var averageRSSI: HashMap<String, Triple<Int, Int, BluetoothPeripheral>> = HashMap()
     private lateinit var litAxisDevicePair: LitAxisDevicePair;
     private var yourEquipmentAdapter: ClassCoverEquipmentAdapter? = null
 
@@ -104,15 +104,14 @@ class VideoPlayerActivity : AppCompatActivity(), Caster.OnConnectChangeListener,
         LitDeviceConstants.mBleCentralManager = centralManager
         handleBLEConnectionObserver()
         yourEquipmentAdapter =
-            ClassCoverEquipmentAdapter( this@VideoPlayerActivity, LitVideoPlayerSDK.dataList)
+            ClassCoverEquipmentAdapter(this@VideoPlayerActivity, LitVideoPlayerSDK.dataList)
         caster = Caster.create(this);
         caster?.addMiniController()
         val mediaRouteButton =
             findViewById<MediaRouteButton>(R.id.media_route_button) as MediaRouteButton
         mediaRouteButton.setRemoteIndicatorDrawable(
             ContextCompat.getDrawable(
-                this,
-                R.drawable.ic_baseline_cast_24
+                this, R.drawable.ic_baseline_cast_24
             )
         )
         caster?.setupMediaRouteButton(mediaRouteButton, true)
@@ -120,13 +119,10 @@ class VideoPlayerActivity : AppCompatActivity(), Caster.OnConnectChangeListener,
             val mediaData = MediaData.Builder(LitVideoPlayerSDK.streamingUrl)
                 .setStreamType(MediaData.STREAM_TYPE_BUFFERED)
                 .setContentType("application/x-mpegURL") // Or "videos/mp4"... or any supported content type
-                .setMediaType(MediaData.MEDIA_TYPE_MOVIE)
-                .setTitle("Two birds, many stones.")
+                .setMediaType(MediaData.MEDIA_TYPE_MOVIE).setTitle("Two birds, many stones.")
                 .setDescription("Isaac searches for Rebekah to retrieve Arachnid's stolen XP.")
-                .setThumbnailUrl("...")
-                .setPlaybackRate(MediaData.PLAYBACK_RATE_NORMAL)
-                .setAutoPlay(true)
-                .build()
+                .setThumbnailUrl("...").setPlaybackRate(MediaData.PLAYBACK_RATE_NORMAL)
+                .setAutoPlay(true).build()
 
             caster!!.player.loadMediaAndPlay(mediaData)
         }
@@ -211,9 +207,10 @@ class VideoPlayerActivity : AppCompatActivity(), Caster.OnConnectChangeListener,
             val builder = AlertDialog.Builder(this, R.style.CustomAlertDialog).create()
             val view = layoutInflater.inflate(R.layout.custom_dialog_bluetooth, null)
             val cancelBtn = view.findViewById<TextView>(R.id.bt_cancel)
-            val recyclerView=view.findViewById<RecyclerView>(R.id.device_recycler_view)
-            recyclerView.adapter=yourEquipmentAdapter
-            recyclerView.layoutManager=LinearLayoutManager(this@VideoPlayerActivity)
+            val recyclerView = view.findViewById<RecyclerView>(R.id.device_recycler_view)
+            yourEquipmentAdapter?.setAdapterListener(this@VideoPlayerActivity)
+            recyclerView.adapter = yourEquipmentAdapter
+            recyclerView.layoutManager = LinearLayoutManager(this@VideoPlayerActivity)
 
             val lp = WindowManager.LayoutParams()
             lp.copyFrom(builder.getWindow()?.getAttributes())
@@ -241,8 +238,7 @@ class VideoPlayerActivity : AppCompatActivity(), Caster.OnConnectChangeListener,
         val soundButton = findViewById<ImageView>(R.id.soundButton)
         var audioManager = getSystemService(Context.AUDIO_SERVICE) as AudioManager
         soundButton.setOnClickListener {
-            val builder = AlertDialog.Builder(this, R.style.CustomAlertDialog)
-                .create()
+            val builder = AlertDialog.Builder(this, R.style.CustomAlertDialog).create()
             val view = layoutInflater.inflate(R.layout.custom_dialog_sound, null)
             val defaultMix = view.findViewById<TextView>(R.id.tv_originalMix)
             val doneBtn = view.findViewById<TextView>(R.id.tv_done)
@@ -328,8 +324,7 @@ class VideoPlayerActivity : AppCompatActivity(), Caster.OnConnectChangeListener,
 
         LitVideoPlayerSDK.weightObservable?.observe(this) {
             runOnUiThread {
-                findViewById<TextView>(R.id.tv_lbs_value).text =
-                    (it).toString()
+                findViewById<TextView>(R.id.tv_lbs_value).text = (it).toString()
             }
         }
 
@@ -385,10 +380,11 @@ class VideoPlayerActivity : AppCompatActivity(), Caster.OnConnectChangeListener,
                 player.setActiveStation(station, true)
                 player.play()
 
-                feedAudioPlayer.addPlayListener(object :PlayListener{
+                feedAudioPlayer.addPlayListener(object : PlayListener {
                     override fun onPlayStarted(play: Play?) {
-                        findViewById<TextView>(R.id.tv_singer).text=play?.audioFile?.artist?.name
-                        findViewById<TextView>(R.id.tv_tack_name).text=play?.audioFile?.release?.title
+                        findViewById<TextView>(R.id.tv_singer).text = play?.audioFile?.artist?.name
+                        findViewById<TextView>(R.id.tv_tack_name).text =
+                            play?.audioFile?.release?.title
                     }
 
                     override fun onProgressUpdate(play: Play, elapsedTime: Float, duration: Float) {
@@ -433,21 +429,22 @@ class VideoPlayerActivity : AppCompatActivity(), Caster.OnConnectChangeListener,
     }
 
 
-    fun seekbarFeature(){
-        findViewById<DefaultTimeBar>(com.google.android.exoplayer2.ui.R.id.exo_progress).addListener(object:TimeBar.OnScrubListener{
-            override fun onScrubStart(timeBar: TimeBar, position: Long) {
-                player!!.pause()
-            }
+    fun seekbarFeature() {
+        findViewById<DefaultTimeBar>(com.google.android.exoplayer2.ui.R.id.exo_progress).addListener(
+            object : TimeBar.OnScrubListener {
+                override fun onScrubStart(timeBar: TimeBar, position: Long) {
+                    player!!.pause()
+                }
 
-            override fun onScrubMove(timeBar: TimeBar, position: Long) {
-                player!!.seekTo(position)
-            }
+                override fun onScrubMove(timeBar: TimeBar, position: Long) {
+                    player!!.seekTo(position)
+                }
 
-            override fun onScrubStop(timeBar: TimeBar, position: Long, canceled: Boolean) {
-                player!!.play()
-            }
+                override fun onScrubStop(timeBar: TimeBar, position: Long, canceled: Boolean) {
+                    player!!.play()
+                }
 
-        })
+            })
     }
 
 
@@ -479,7 +476,6 @@ class VideoPlayerActivity : AppCompatActivity(), Caster.OnConnectChangeListener,
     }
 
 
-
     @RequiresApi(Build.VERSION_CODES.O)
     private fun updateTimer() {
         if (player!!.isPlaying) {
@@ -500,18 +496,18 @@ class VideoPlayerActivity : AppCompatActivity(), Caster.OnConnectChangeListener,
 
     override fun onBackPressed() {
         super.onBackPressed()
-        handler.removeCallbacks(updater)
+        try {
+            handler.removeCallbacks(updater)
+        } catch (e: java.lang.Exception) {
 
+        }
     }
 
     private fun slideView(
-        view: View,
-        currentHeight: Int,
-        newHeight: Int
+        view: View, currentHeight: Int, newHeight: Int
     ) {
 
-        var slideAnimator = ValueAnimator.ofInt(currentHeight, newHeight)
-            .setDuration(300);
+        var slideAnimator = ValueAnimator.ofInt(currentHeight, newHeight).setDuration(300);
 
         slideAnimator.addUpdateListener() {
             var value = it.animatedValue;
@@ -526,8 +522,7 @@ class VideoPlayerActivity : AppCompatActivity(), Caster.OnConnectChangeListener,
         animationSet.play(slideAnimator);
         animationSet.start()
 
-        var slideAnimator2 = ValueAnimator.ofInt(newHeight, 0)
-            .setDuration(300);
+        var slideAnimator2 = ValueAnimator.ofInt(newHeight, 0).setDuration(300);
 
         slideAnimator2.addUpdateListener() {
             var value = it.animatedValue;
@@ -563,17 +558,13 @@ class VideoPlayerActivity : AppCompatActivity(), Caster.OnConnectChangeListener,
 
     private fun observeLitData() {
 
-        var notificationLeftDevice =
-            mLitAxisDevicePair.leftLitAxisDevice?.getCharacteristic(
-                LIT_AXIS_WEIGHT_SCALE_SERVICE,
-                LIT_AXIS_WEIGHT_SCALE_CHARACHTERISTIC
-            )
+        var notificationLeftDevice = mLitAxisDevicePair.leftLitAxisDevice?.getCharacteristic(
+            LIT_AXIS_WEIGHT_SCALE_SERVICE, LIT_AXIS_WEIGHT_SCALE_CHARACHTERISTIC
+        )
 
-        var notificationRightDevice =
-            mLitAxisDevicePair.rightLitAxisDevice?.getCharacteristic(
-                LIT_AXIS_WEIGHT_SCALE_SERVICE,
-                LIT_AXIS_WEIGHT_SCALE_CHARACHTERISTIC
-            )
+        var notificationRightDevice = mLitAxisDevicePair.rightLitAxisDevice?.getCharacteristic(
+            LIT_AXIS_WEIGHT_SCALE_SERVICE, LIT_AXIS_WEIGHT_SCALE_CHARACHTERISTIC
+        )
 
         notificationLeftDevice?.let {
             scope.launch {
@@ -614,11 +605,9 @@ class VideoPlayerActivity : AppCompatActivity(), Caster.OnConnectChangeListener,
         if (mHeartRateMonitorPeripheral != null) {
             LitVideoPlayerSDK.heartRateObservable = MutableLiveData()
 
-            var notifyingCharacteristic =
-                mHeartRateMonitorPeripheral.getCharacteristic(
-                    LIT_HEART_RATE_SERVICE,
-                    HEART_RATE_CHARACTERISTIC_UUID
-                )
+            var notifyingCharacteristic = mHeartRateMonitorPeripheral.getCharacteristic(
+                LIT_HEART_RATE_SERVICE, HEART_RATE_CHARACTERISTIC_UUID
+            )
 
             notifyingCharacteristic?.let {
                 scope.launch {
@@ -649,9 +638,7 @@ class VideoPlayerActivity : AppCompatActivity(), Caster.OnConnectChangeListener,
                 if (!averageRSSI.contains(peripheral.address)) {
                     averageRSSI.put(
                         peripheral.name, Triple(
-                            1,
-                            scanResult.rssi,
-                            peripheral
+                            1, scanResult.rssi, peripheral
                         )
                     )
                 } else {
@@ -659,8 +646,7 @@ class VideoPlayerActivity : AppCompatActivity(), Caster.OnConnectChangeListener,
                     var rssi = dataPayload.second
                     var count = dataPayload.first
                     var average = (rssi * count + scanResult.rssi) / (count + 1)
-                    var updatedPacket =
-                        Triple(count + 1, average, peripheral)
+                    var updatedPacket = Triple(count + 1, average, peripheral)
                     averageRSSI.put(peripheral.address, updatedPacket)
 
                 }
@@ -701,11 +687,8 @@ class VideoPlayerActivity : AppCompatActivity(), Caster.OnConnectChangeListener,
 
                 Typeface.createFromAsset(assets, "futura_std_condensed.otf")
                 Toast.makeText(
-                    this,
-                    "Connected with Left Lit AXIS sensor",
-                    Toast.LENGTH_SHORT
-                )
-                    .show()
+                    this, "Connected with Left Lit AXIS sensor", Toast.LENGTH_SHORT
+                ).show()
             }
 
             litAxisDevicePair.setLeftLitAxis(peripheral)
@@ -724,11 +707,8 @@ class VideoPlayerActivity : AppCompatActivity(), Caster.OnConnectChangeListener,
                     if (it.address != peripheral.address) {
                         runOnUiThread() {
                             Toast.makeText(
-                                this,
-                                "Connected with Right Lit AXIS sensor",
-                                Toast.LENGTH_SHORT
-                            )
-                                .show()
+                                this, "Connected with Right Lit AXIS sensor", Toast.LENGTH_SHORT
+                            ).show()
                         }
                         litAxisDevicePair.setRightLitAxis(peripheral)
 
@@ -759,12 +739,15 @@ class VideoPlayerActivity : AppCompatActivity(), Caster.OnConnectChangeListener,
 
         }
         if (litAxisDevicePair.rightLitAxisDevice != null && litAxisDevicePair.leftLitAxisDevice != null) {
-//            mLitAxisDevicePair = litAxisDevicePair
             centralManager.stopScan()
             LIT_AXIS_CONNECTION_STATE = "CONNECTED"
             runOnUiThread() {
-//                dataList[positionClicked].connectionStatus = true
-//                yourEquipmentAdapter?.notifyItemChanged(positionClicked)
+                LitVideoPlayerSDK.dataList.get(
+                    selectedDevicePosition
+                ).connectionStatus = true
+                yourEquipmentAdapter?.notifyItemChanged(selectedDevicePosition)
+                observeLitData()
+
             }
         }
 
@@ -780,6 +763,7 @@ class VideoPlayerActivity : AppCompatActivity(), Caster.OnConnectChangeListener,
                     Toast.makeText(this, "Disconnected Left Lit Axis device", Toast.LENGTH_SHORT)
                         .show()
                 }
+
             }
             litAxisDevicePair.getRightLitAxis()?.address -> {
                 litAxisDevicePair.setRightLitAxis(null)
@@ -811,12 +795,15 @@ class VideoPlayerActivity : AppCompatActivity(), Caster.OnConnectChangeListener,
                     runOnUiThread() {
                         Toast.makeText(this, "Connected with heart rate sensor", Toast.LENGTH_SHORT)
                             .show()
+                        observeHrData()
+
                     }
 
 
                 } else if (peripheral.getService(LIT_AXIS_WEIGHT_SCALE_SERVICE) != null) {
 
                     handleLitAxisConnectionLogic(peripheral)
+
 
                 } else if (peripheral.getService(LIT_STRENGTH_MACHINE_SERVICE) != null) {
                     centralManager.stopScan()
@@ -873,9 +860,7 @@ class VideoPlayerActivity : AppCompatActivity(), Caster.OnConnectChangeListener,
                 if (!averageRSSI.contains(peripheral.address)) {
                     averageRSSI.put(
                         peripheral.name, Triple(
-                            1,
-                            scanResult.rssi,
-                            peripheral
+                            1, scanResult.rssi, peripheral
                         )
                     )
                 } else {
@@ -883,8 +868,7 @@ class VideoPlayerActivity : AppCompatActivity(), Caster.OnConnectChangeListener,
                     var rssi = dataPayload.second
                     var count = dataPayload.first
                     var average = (rssi * count + scanResult.rssi) / (count + 1)
-                    var updatedPacket =
-                        Triple(count + 1, average, peripheral)
+                    var updatedPacket = Triple(count + 1, average, peripheral)
                     averageRSSI.put(peripheral.address, updatedPacket)
 
                 }
@@ -1042,6 +1026,17 @@ class VideoPlayerActivity : AppCompatActivity(), Caster.OnConnectChangeListener,
     }
 
     override fun onItemEquipClick(position: Int, data: String) {
-        Log.d("Hello","Clicked Item")
+        Log.d("Hello", "Clicked Item")
+        LitVideoPlayerSDK.dataList[position].selectedItem =
+            !LitVideoPlayerSDK.dataList[position].selectedItem!!
+        yourEquipmentAdapter?.notifyItemChanged(position)
+        selectedDevicePosition = position;
+        LitVideoPlayerSDK.dataList.get(position)
+        if (LitVideoPlayerSDK.dataList.get(position).id == "0x180D") {
+            connectWithHrSensor(position)
+        }
+        if (LitVideoPlayerSDK.dataList.get(position).id == "0x181D") {
+            handleLitAxisConnection(position)
+        }
     }
 }
