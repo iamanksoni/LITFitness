@@ -22,6 +22,8 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.mediarouter.app.MediaRouteButton
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.foxlabz.statisticvideoplayer.LitVideoPlayerSDK.HEART_RATE_CHARACTERISTIC_UUID
 import com.foxlabz.statisticvideoplayer.LitVideoPlayerSDK.HR_CONNECTION_STATE
@@ -67,7 +69,8 @@ import java.util.*
 import kotlin.math.round
 
 
-class VideoPlayerActivity : AppCompatActivity(), Caster.OnConnectChangeListener {
+class VideoPlayerActivity : AppCompatActivity(), Caster.OnConnectChangeListener,
+    ClassCoverEquipmentAdapter.EquipmentAdapterClickListener {
     private var handler = Handler()
     private lateinit var updater: Runnable
     private var totalDurationInLong: Long = 0
@@ -89,6 +92,7 @@ class VideoPlayerActivity : AppCompatActivity(), Caster.OnConnectChangeListener 
     var averageRSSI: HashMap<String, Triple<Int, Int, BluetoothPeripheral>> =
         HashMap()
     private lateinit var litAxisDevicePair: LitAxisDevicePair;
+    private var yourEquipmentAdapter: ClassCoverEquipmentAdapter? = null
 
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -99,7 +103,8 @@ class VideoPlayerActivity : AppCompatActivity(), Caster.OnConnectChangeListener 
         centralManager = BluetoothCentralManager(applicationContext)
         LitDeviceConstants.mBleCentralManager = centralManager
         handleBLEConnectionObserver()
-
+        yourEquipmentAdapter =
+            ClassCoverEquipmentAdapter( this@VideoPlayerActivity, LitVideoPlayerSDK.dataList)
         caster = Caster.create(this);
         caster?.addMiniController()
         val mediaRouteButton =
@@ -206,6 +211,9 @@ class VideoPlayerActivity : AppCompatActivity(), Caster.OnConnectChangeListener 
             val builder = AlertDialog.Builder(this, R.style.CustomAlertDialog).create()
             val view = layoutInflater.inflate(R.layout.custom_dialog_bluetooth, null)
             val cancelBtn = view.findViewById<TextView>(R.id.bt_cancel)
+            val recyclerView=view.findViewById<RecyclerView>(R.id.device_recycler_view)
+            recyclerView.adapter=yourEquipmentAdapter
+            recyclerView.layoutManager=LinearLayoutManager(this@VideoPlayerActivity)
 
             val lp = WindowManager.LayoutParams()
             lp.copyFrom(builder.getWindow()?.getAttributes())
@@ -1031,5 +1039,9 @@ class VideoPlayerActivity : AppCompatActivity(), Caster.OnConnectChangeListener 
             TYPE_FLOAT_64 -> result = Common.readFloat64(fieldValue)
         }
         return result
+    }
+
+    override fun onItemEquipClick(position: Int, data: String) {
+        Log.d("Hello","Clicked Item")
     }
 }

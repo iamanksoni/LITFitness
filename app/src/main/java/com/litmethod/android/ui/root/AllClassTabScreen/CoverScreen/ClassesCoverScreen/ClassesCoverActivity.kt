@@ -20,6 +20,7 @@ import carbon.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.foxlabz.statisticvideoplayer.DeviceDataCalculated
 import com.foxlabz.statisticvideoplayer.LitVideoPlayerSDK
+import com.foxlabz.statisticvideoplayer.Parsing.DeviceData
 import com.foxlabz.statisticvideoplayer.VideoPlayerActivity
 import com.litmethod.android.BluetoothConnection.LitAxisDevicePair
 import com.litmethod.android.BluetoothConnection.LitDeviceConstants
@@ -35,6 +36,7 @@ import com.litmethod.android.R
 import com.litmethod.android.Webview.WebViewActivity
 import com.litmethod.android.databinding.ActivityClassesCoverBinding
 import com.litmethod.android.models.AcountScreenFragment.ClassBookmark.ClassBookmarkRequest
+import com.litmethod.android.models.ClassDetails.Device
 import com.litmethod.android.models.ClassDetails.EquipmentVideo
 import com.litmethod.android.models.ClassDetails.InstructorInfo
 import com.litmethod.android.models.GetEquipment.Data
@@ -68,12 +70,13 @@ class ClassesCoverActivity : BaseActivity(),
     ClassCoverEquipmentAdapter.EquipmentAdapterClickListener,
     View.OnClickListener {
     lateinit var binding: ActivityClassesCoverBinding
-    val dataList: ArrayList<YourEquipmentData> = ArrayList<YourEquipmentData>()
     private var yourEquipmentAdapter: ClassCoverEquipmentAdapter? = null
     val eqipLevel: ArrayList<Int> = ArrayList<Int>()
     val dataListDeviceVideo: ArrayList<String> = ArrayList<String>()
     private var classesCoverDeviceVideoAdapter: ClassesCoverDeviceVideoAdapter? = null
     var equipmentList: MutableList<Data> = ArrayList<Data>()
+    val dataList: ArrayList<YourEquipmentData> = ArrayList<YourEquipmentData>()
+
     var equipMentVideoList: ArrayList<EquipmentVideo> = ArrayList<EquipmentVideo>()
     var instructorInfoist: ArrayList<InstructorInfo> = ArrayList<InstructorInfo>()
     lateinit var viewModel: ClassCoverActvityViewModel
@@ -280,6 +283,19 @@ class ClassesCoverActivity : BaseActivity(),
         LitVideoPlayerSDK.HR_CONNECTION_STATE = HR_CONNECTION_STATE
         LitVideoPlayerSDK.LIT_AXIS_CONNECTION_STATE = LIT_AXIS_CONNECTION_STATE
         LitVideoPlayerSDK.ROWING_MACHINE_CONNECTION_STATE = ROWING_MACHINE_CONNECTION_STATE
+
+        var deviceData= ArrayList<DeviceData>()
+            equipmentList.map {
+                deviceData.add(DeviceData(
+                    it.description,
+                    it.hexcode,
+                    it.id,
+                    it.image,
+                    it.title
+                ))
+            }
+
+        LitVideoPlayerSDK.dataList=deviceData
     }
 
 
@@ -427,7 +443,6 @@ class ClassesCoverActivity : BaseActivity(),
     private fun connectWithHrSensor(position: Int) {
         var deviceMap = HashMap<String, BluetoothPeripheral>()
         centralManager.scanForPeripherals({ peripheral, scanResult ->
-
             if (scanResult.rssi > -60) {
                 Log.d("Device --->>>", peripheral.address + "   RSSI -->>>" + scanResult.rssi)
                 if (!averageRSSI.contains(peripheral.address)) {
