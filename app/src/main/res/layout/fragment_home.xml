@@ -114,7 +114,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/tv_header1"
                     android:layout_marginStart="@dimen/_15sdp"
-                    android:layout_marginTop="@dimen/_3sdp"
+                    android:layout_marginTop="-10dp"
                     android:layout_marginEnd="@dimen/_15sdp"
                     android:fontFamily="@font/futura_std_condensed_extra_bd"
                     android:lineSpacingExtra="4sp"
@@ -124,7 +124,8 @@
                     android:textColor="@color/white"
                     android:textSize="@dimen/_25ssp"
                     android:translationY="-2.2sp"
-                    android:visibility="visible" />
+                    android:visibility="visible"
+                    tools:ignore="HardcodedText" />
 
                 <View
                     android:id="@+id/vw_1"
