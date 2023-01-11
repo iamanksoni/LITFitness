@@ -54,6 +54,9 @@ class ShowAllVideoAdapter(
     }
 
     override fun getItemCount(): Int {
+        if(result.size > 30){
+            return 30
+        }
         return result.size
     }
 }
