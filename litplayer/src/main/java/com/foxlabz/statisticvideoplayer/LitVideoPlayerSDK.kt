@@ -1,6 +1,7 @@
 package com.foxlabz.statisticvideoplayer
 
 import androidx.lifecycle.MutableLiveData
+import com.foxlabz.statisticvideoplayer.Parsing.DeviceData
 import java.util.*
 
 object LitVideoPlayerSDK {
@@ -41,5 +42,5 @@ object LitVideoPlayerSDK {
     val LIT_AXIS_WEIGHT_SCALE_CHARACHTERISTIC =
         UUID.fromString("00002a98-0000-1000-8000-00805f9b34fb")
 
-
+    var dataList: ArrayList<DeviceData> = ArrayList<DeviceData>()
 }

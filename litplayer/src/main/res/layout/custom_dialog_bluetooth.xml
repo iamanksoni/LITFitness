@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@drawable/bluetooth_background"
     android:clipToOutline="true"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -61,100 +62,13 @@
                 android:textStyle="bold" />
 
 
-            <LinearLayout
+            <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"
-                android:layout_height="70dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/white_background_box"
-                android:gravity="center_vertical"
-                android:orientation="vertical"
-                android:padding="10dp"
-                android:paddingStart="20dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/futura_std_condensed_bold"
-                    android:text="LIT AXIS"
-                    android:textColor="@color/white"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:fontFamily="@font/futura_std_condensed"
-                    android:text="TAP TO CONNECT"
-                    android:textColor="#94DEFB"
-                    android:textSize="14sp" />
-
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="70dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/white_background_box"
-                android:gravity="center_vertical"
-                android:orientation="vertical"
-                android:padding="10dp"
-                android:paddingStart="20dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/futura_std_condensed_bold"
-                    android:text="LIT Heart Rate Sensor"
-                    android:textColor="@color/white"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:fontFamily="@font/futura_std_condensed"
-                    android:text="TAP TO CONNECT"
-                    android:textColor="@color/white"
-                    android:textSize="14sp" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="70dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/white_background_box"
-                android:gravity="center_vertical"
-                android:orientation="vertical"
-                android:padding="10dp"
-                android:paddingStart="20dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/futura_std_condensed_bold"
-                    android:text="LIT Rowing Machine"
-                    android:textColor="@color/white"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:fontFamily="@font/futura_std_condensed"
-                    android:text="TAP TO CONNECT"
-                    android:textColor="@color/white"
-                    android:textSize="14sp" />
-
-            </LinearLayout>
-
+                android:layout_height="wrap_content"
+                tools:itemCount="2"
+                tools:listitem="@layout/item_bluetooth_item"
+                android:id="@+id/device_recycler_view"
+                />
 
         </LinearLayout>
 
