@@ -83,6 +83,7 @@ class VideoPlayerActivity : AppCompatActivity(), Caster.OnConnectChangeListener,
     private var durationSet: Boolean = false
     var player: ExoPlayer? = null
     var repsCount = 0;
+    var selectedDevicePosition = -1
     private var caster: Caster? = null
     private lateinit var feedAudioPlayer: FeedAudioPlayer
     private var feedFmPaused = false;
@@ -212,6 +213,7 @@ class VideoPlayerActivity : AppCompatActivity(), Caster.OnConnectChangeListener,
             val view = layoutInflater.inflate(R.layout.custom_dialog_bluetooth, null)
             val cancelBtn = view.findViewById<TextView>(R.id.bt_cancel)
             val recyclerView=view.findViewById<RecyclerView>(R.id.device_recycler_view)
+            yourEquipmentAdapter?.setAdapterListener(this@VideoPlayerActivity)
             recyclerView.adapter=yourEquipmentAdapter
             recyclerView.layoutManager=LinearLayoutManager(this@VideoPlayerActivity)
 
@@ -759,12 +761,15 @@ class VideoPlayerActivity : AppCompatActivity(), Caster.OnConnectChangeListener,
 
         }
         if (litAxisDevicePair.rightLitAxisDevice != null && litAxisDevicePair.leftLitAxisDevice != null) {
-//            mLitAxisDevicePair = litAxisDevicePair
             centralManager.stopScan()
             LIT_AXIS_CONNECTION_STATE = "CONNECTED"
             runOnUiThread() {
-//                dataList[positionClicked].connectionStatus = true
-//                yourEquipmentAdapter?.notifyItemChanged(positionClicked)
+                LitVideoPlayerSDK.dataList.get(
+                    selectedDevicePosition
+                ).connectionStatus=true
+                yourEquipmentAdapter?.notifyItemChanged(selectedDevicePosition)
+                observeLitData()
+
             }
         }
 
@@ -780,6 +785,7 @@ class VideoPlayerActivity : AppCompatActivity(), Caster.OnConnectChangeListener,
                     Toast.makeText(this, "Disconnected Left Lit Axis device", Toast.LENGTH_SHORT)
                         .show()
                 }
+
             }
             litAxisDevicePair.getRightLitAxis()?.address -> {
                 litAxisDevicePair.setRightLitAxis(null)
@@ -811,12 +817,15 @@ class VideoPlayerActivity : AppCompatActivity(), Caster.OnConnectChangeListener,
                     runOnUiThread() {
                         Toast.makeText(this, "Connected with heart rate sensor", Toast.LENGTH_SHORT)
                             .show()
+                        observeHrData()
+
                     }
 
 
                 } else if (peripheral.getService(LIT_AXIS_WEIGHT_SCALE_SERVICE) != null) {
 
                     handleLitAxisConnectionLogic(peripheral)
+
 
                 } else if (peripheral.getService(LIT_STRENGTH_MACHINE_SERVICE) != null) {
                     centralManager.stopScan()
@@ -1042,6 +1051,17 @@ class VideoPlayerActivity : AppCompatActivity(), Caster.OnConnectChangeListener,
     }
 
     override fun onItemEquipClick(position: Int, data: String) {
-        Log.d("Hello","Clicked Item")
+        Log.d("Hello", "Clicked Item")
+        LitVideoPlayerSDK.dataList[position].selectedItem =
+            !LitVideoPlayerSDK.dataList[position].selectedItem!!
+        yourEquipmentAdapter?.notifyItemChanged(position)
+        selectedDevicePosition = position;
+        LitVideoPlayerSDK.dataList.get(position)
+        if (LitVideoPlayerSDK.dataList.get(position).id == "0x180D") {
+            connectWithHrSensor(position)
+        }
+        if (LitVideoPlayerSDK.dataList.get(position).id == "0x181D") {
+            handleLitAxisConnection(position)
+        }
     }
 }

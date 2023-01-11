@@ -20,6 +20,7 @@
             android:fontFamily="@font/futura_std_condensed_bold"
             android:text="LIT AXIS"
             android:id="@+id/device_name"
+            android:textAllCaps="true"
             android:textColor="@color/white"
             android:textSize="16sp"
             android:textStyle="bold" />
@@ -32,6 +33,7 @@
             android:fontFamily="@font/futura_std_condensed"
             android:text="TAP TO CONNECT"
             android:textColor="#94DEFB"
+            android:textAllCaps="true"
             android:textSize="14sp" />
 
     </LinearLayout>

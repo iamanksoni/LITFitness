@@ -79,7 +79,6 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:clipToOutline="true"
-
         android:layout_alignParentBottom="true"
         android:padding="5dp"
         android:background="@drawable/bluetooth_bottom_background">
