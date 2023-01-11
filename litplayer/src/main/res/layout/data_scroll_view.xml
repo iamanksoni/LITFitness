@@ -34,7 +34,7 @@
                 android:layout_weight="1"
                 android:fontFamily="@font/futura_std_condensed"
                 android:gravity="center"
-                android:text="- -"
+                android:text="0:00"
                 android:textColor="@color/white"
                 android:textSize="14sp"
                 android:textStyle="bold" />

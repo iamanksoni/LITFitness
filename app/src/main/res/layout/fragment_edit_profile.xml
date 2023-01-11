@@ -183,7 +183,7 @@
                             android:background="@color/mono_slate_10"
                             android:focusable="false"
                             android:fontFamily="@font/futura_std_condensed"
-                            android:hint="DATE OF BIRTH"
+                            android:hint="BIRTHDATE"
                             android:inputType="date"
                             android:lineSpacingExtra="4sp"
                             android:maxLines="1"

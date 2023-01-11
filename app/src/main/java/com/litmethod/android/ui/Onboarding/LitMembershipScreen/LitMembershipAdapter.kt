@@ -70,7 +70,7 @@ class LitMembershipAdapter(
         }
 
         if(position == 0){
-            holder.tv_header1.text = "Monthly"
+            holder.tv_header1.text = "Free Trail"
             holder.tv_subheader.text = "30 Days Free Trial"
             holder.tv_amount.text = "$0"
         }else{

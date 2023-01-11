@@ -9,13 +9,13 @@
     <string name="back_button">back_button</string>
     <string name="sign_up_for_list_heading">Sign up for LIT</string>
     <string name="sign_up_below_heading_message">Create your LIT account and join us to a fitter, healthier, stronger you.</string>
-    <string name="email_address_hint">EMAIL ADDRESS…</string>
+    <string name="email_address_hint">EMAIL</string>
     <string name="error_email_message">Enter the valid email address</string>
     <string name="password_hint">YOUR PASSWORD</string>
     <string name="password_error_message">Password cannot be empty</string>
     <string name="sign_up_checkbox_message">Sign up for email updates from LIT Method, news, promos and member benefits.</string>
     <string name="join_us">Join us</string>
-    <string name="privacy_policy_tnc_message">By creating an account, you agree to our Privacy Policy and Terms of Use</string>
+    <string name="privacy_policy_tnc_message">By creating an account, you agree to our <u>Privacy Policy</u> and <u>Terms of Use</u></string>
     <string name="password_icon_content_description">password_icon</string>
     <string name="let_s_get_you_lit_message">Let’s get you LIT</string>
     <string name="username_or_email_address_hint">USERNAME OR EMAIL ADDRESS…</string>
